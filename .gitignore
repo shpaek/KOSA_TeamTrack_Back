@@ -129,8 +129,8 @@ local.properties
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
-*.jar
+# Package Files
+!libs/*.jar
 *.war
 *.nar
 *.ear
