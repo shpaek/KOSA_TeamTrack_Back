@@ -46,7 +46,10 @@ public class empDAOImpl implements empDAO {
 			session = sqlSessionFactory.openSession();
 			// selectOne의 인자를 mapper의 namespace 부분과
 			// select id를 넣음
+			System.out.println("id : " + id);
 			Emp c = (Emp)session.selectOne("com.my.member.EmpMapper.select", id);
+			
+			System.out.println("Emp c : " + c);
 			
 			if(c != null) {
 				return c;
@@ -75,13 +78,12 @@ public class empDAOImpl implements empDAO {
 
 	    try {
 
-	        Integer targetId = 1;
+	        Integer targetId = 2;
 
 	        Emp emp = empDao.select(targetId);
 
 	        // 조회 결과 출력
 	        if (emp != null) {
-	            System.out.println("사용자 정보: ");
 	            System.out.println("사용자 ID: " + emp.getEmp_id());
 	            System.out.println("사용자 이름: " + emp.getEmp_name());
 
@@ -93,9 +95,9 @@ public class empDAOImpl implements empDAO {
 
 	        System.err.println("사용자 조회 오류: " + e.getMessage());
 	        e.printStackTrace();
-	    }
-	}
+	    }// try-catch
+	} // main
 	
-}
+} // end class
 
 

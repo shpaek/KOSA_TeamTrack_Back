@@ -9,7 +9,7 @@ public class Emp {
 	
 	Integer emp_id;
 	String emp_name;
-	String emp_gender;
+	String gender;
 	Integer age;
 	Date hire_date;
 	String etc;

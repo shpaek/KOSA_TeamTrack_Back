@@ -7,7 +7,7 @@
 
   <select id="select" resultType="Emp">
 
-	SELECT * 
+	SELECT *
 	FROM emp_table
 	where emp_id=#{id}
 	
