@@ -8,16 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class TaskInfo {
+public class TaskGrade {
 
-	Integer taskNo;
 	Integer teamMemberNo;
-	Date dueDate1;
-	Date dueDate2;
-	String title;
-	String type;
-	Date regDate;
-	String endDate;
-	Double avgReviewScore;
+	Integer taskNo;
+	int hwScore;
+	int reviewScore;
+	Date submitDate;
 	
 }

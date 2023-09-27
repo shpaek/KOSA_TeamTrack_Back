@@ -1,6 +1,7 @@
 package com.my.team.board.task.dto;
 
-import java.util.Date;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,16 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class TaskInfo {
+public class TaskAnswer {
 
+	Integer questionNo;
 	Integer taskNo;
-	Integer teamMemberNo;
-	Date dueDate1;
-	Date dueDate2;
-	String title;
-	String type;
-	Date regDate;
-	String endDate;
-	Double avgReviewScore;
+	List<Integer> answerList;
 	
 }
