@@ -1,4 +1,4 @@
-package com.my.member.dto;
+package com.my.customer.dto;
 
 import java.sql.Date;
 

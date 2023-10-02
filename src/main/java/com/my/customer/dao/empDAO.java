@@ -1,7 +1,7 @@
-package com.my.member.dao;
+package com.my.customer.dao;
 
+import com.my.customer.dto.Emp;
 import com.my.exception.FindException;
-import com.my.member.dto.Emp;
 
 public interface empDAO {
 	
