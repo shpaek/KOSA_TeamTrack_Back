@@ -1,4 +1,4 @@
-package com.my.member.dto;
+package com.my.rank.dto;
 
 import java.sql.Date;
 
