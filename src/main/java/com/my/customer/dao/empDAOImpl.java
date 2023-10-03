@@ -1,4 +1,4 @@
-package com.my.member.dao;
+package com.my.customer.dao;
 
 import java.io.InputStream;
 
@@ -7,8 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.my.customer.dto.Emp;
 import com.my.exception.FindException;
-import com.my.member.dto.Emp;
 
 public class empDAOImpl implements empDAO {
 	
