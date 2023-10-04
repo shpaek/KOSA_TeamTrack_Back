@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDTO {
-	
+
 	String id;				// 유저 아이디
 	String pwd;				// 유저 비밀번호
 	String nickname;		// 유저 닉네임
