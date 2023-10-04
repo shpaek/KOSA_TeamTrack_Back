@@ -2,14 +2,20 @@ package com.my.task.dao;
 
 import java.util.List;
 
-import com.my.exception.AddException;
 import com.my.exception.FindException;
-import com.my.exception.ModifyException;
-import com.my.exception.RemoveException;
-import com.my.task.dto.MemberTask;
-import com.my.task.dto.Task;
+import com.my.task.dto.MemberTaskDTO;
+import com.my.task.dto.TaskDTO;
 
 public interface TaskDAO {
+	
+	/**
+	 * 과제생성순으로 정렬된 메인 과제들을 검색한다.
+	 * @param teamNo 팀 번호
+	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
+	 * @return 과제 리스트
+	 * @throws FindException
+	 */
+	List<TaskDTO> selectMainTaskList(Integer teamNo, boolean desc) throws FindException;
 
 	/**
 	 * 과제생성순으로 정렬된 전체 과제들 중 시작행부터 끝행까지의 과제들을 검색한다.
@@ -20,7 +26,7 @@ public interface TaskDAO {
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
-	List<Task> selectAllTaskList(Integer teamNo, int startRow, int endRow, boolean desc) throws FindException;
+	List<TaskDTO> selectAllTaskList(Integer teamNo, int startRow, int endRow, boolean desc) throws FindException;
 	
 	/**
 	 * 전체 과제 수를 검색한다.
@@ -41,7 +47,7 @@ public interface TaskDAO {
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
-	List<MemberTask> selectCompleteTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException;
+	List<MemberTaskDTO> selectCompleteTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException;
 	
 	/**
 	 * 완료한 과제 수를 검색한다.
@@ -62,7 +68,7 @@ public interface TaskDAO {
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
-	List<Task> selectMyTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException;
+	List<TaskDTO> selectMyTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException;
 	
 	/**
 	 * 출제한 과제 수를 검색한다.
@@ -72,6 +78,44 @@ public interface TaskDAO {
 	 * @throws FindException
 	 */
 	int selectMyTaskCount(Integer teamNo, String id) throws FindException;
+	
+	/**
+	 * 과제 번호에 해당하는 과제를 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 과제
+	 * @throws FindException
+	 */
+	TaskDTO selectTaskInfo(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제 번호에 해당하는 과제의 답안을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 답 리스트
+	 * @throws FindException
+	 */
+	List<Integer> selectQuizAnswer(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제 번호에 해당하는 과제의 팀원 답안을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 답 리스트
+	 * @throws FindException
+	 */
+	List<Integer> selectMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException;
+	
+	/**
+	 * 팀원이 제출한 과제의 점수를 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 팀원의 과제 정보
+	 * @throws FindException
+	 */
+	int selectMemberScore(Integer teamNo, Integer taskNo, String id) throws FindException;
 	
 //	
 //	
