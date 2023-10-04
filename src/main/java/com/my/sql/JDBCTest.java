@@ -2,15 +2,12 @@ package com.my.sql;
 
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 public class JDBCTest {
 
 	public static void selectTest() {

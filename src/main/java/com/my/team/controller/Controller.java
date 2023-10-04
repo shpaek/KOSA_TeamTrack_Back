@@ -1,4 +1,4 @@
-package com.my.customer.controller;
+package com.my.team.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
