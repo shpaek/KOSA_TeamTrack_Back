@@ -4,12 +4,12 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-//import javax.servlet.http.HttpServletRequest;
-//
-//import org.apache.tomcat.util.http.fileupload.FileItem;
-//import org.apache.tomcat.util.http.fileupload.FileUploadException;
-//import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-//import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class Attach {
 	
