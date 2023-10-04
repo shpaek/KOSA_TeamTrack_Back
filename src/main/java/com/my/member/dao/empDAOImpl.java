@@ -84,8 +84,8 @@ public class empDAOImpl implements empDAO {
 
 	        // 조회 결과 출력
 	        if (emp != null) {
-	            System.out.println("사용자 ID: " + emp.getEmp_id());
-	            System.out.println("사용자 이름: " + emp.getEmp_name());
+//	            System.out.println("사용자 ID: " + emp.getEmp_id());
+//	            System.out.println("사용자 이름: " + emp.getEmp_name());
 
 	        } else {
 	            System.out.println("사용자가 존재하지 않습니다.");

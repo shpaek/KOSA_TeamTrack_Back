@@ -28,56 +28,56 @@ public interface RankDAO {
 	
 	
 	//랭킹 점수 계산 
-	/**
-	 * 출석률 계산을 위해 id별, 월별 출석일수와 월 총 일수를 추출한다
-	 * @param teamNo 팀 번호
-	 * @param attendanceDate 출석일자 
-	 * @return AttendanceDTO 객체
-	 * @throws FindException DB와 연결이 실패하는 경우 예외 발생
-	 */
-	List<AttendanceDTO> selectAttendanceDay(Integer teamNo, Date attendanceDate) throws FindException;
-	
-	/**
-	 * 각 Task의 상세 정보를 조회한다 
-	 * @param taskDto task 객체 
-	 * @throws FindException DB와 연결이 실패하는 경우 예외 발생 
-	 */
-	void selectAllTask(TaskDTO taskDto) throws FindException;
-
-	/**
-	 * 과제 점수를 계산하기 위해 월별 총 과제 갯수를 조회한다
-	 * @param teamNo 팀 번호
-	 * @param endDate 과제 제출 마감 일자 
-	 * @return TaskDTO 객체 
-	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 과제가 없는 경우 예외 발생  
-	 */
-	List<TaskDTO> countMonthlyTask(Integer teamNo, Date endDate) throws FindException;
-	
-	/**
-	 * 과제 점수를 계산하기 위해 id별 월별 과제점수 총합을 조회한다
-	 * @param teamNo 팀 번호
-	 * @param submitDate id별 과제 제출 일자 
-	 * @return MemberScoreDTO 객체 
-	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 과제 점수가 없는 경우 예외 발생
-	 */
-	List<MemberScoreDTO> selectTaskScore(Integer teamNo, Date submitDate) throws FindException;
-	
-	/**
-	 * 출제 점수를 계산하기 위해 과제별 리뷰 점수 평균을 조회한다
-	 * @param teamNo 팀 번호 
-	 * @param endDate 과제 제출 마감 일자 
-	 * @return TaskDTO 객체 
-	 * @throws FindException DB와 연결이 실패하거나 조회한 과제의 별점 평균 점수가 없는 경우 예외 발생
-	 */
-	List<TaskDTO> selectReviewScore(Integer teamNo, Date endDate) throws FindException;
-	
-	/**
-	 * QnA 답변 채택 점수를 계산하기 위해 월별 picked 채택 횟수를 조회한다 
-	 * @param teamNo 팀 번호 
-	 * @param pickedDate 답변 채택된 일자 
-	 * @return QnACommentDTO 객체 
-	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 picked된 댓글이 없는 경우 예외 발생
-	 */
-	List<QnACommentDTO> selectQnAScore(Integer teamNo, Date pickedDate) throws FindException;
+//	/**
+//	 * 출석률 계산을 위해 id별, 월별 출석일수와 월 총 일수를 추출한다
+//	 * @param teamNo 팀 번호
+//	 * @param attendanceDate 출석일자 
+//	 * @return AttendanceDTO 객체
+//	 * @throws FindException DB와 연결이 실패하는 경우 예외 발생
+//	 */
+//	List<AttendanceDTO> selectAttendanceDay(Integer teamNo, Date attendanceDate) throws FindException;
+//	
+//	/**
+//	 * 각 Task의 상세 정보를 조회한다 
+//	 * @param taskDto task 객체 
+//	 * @throws FindException DB와 연결이 실패하는 경우 예외 발생 
+//	 */
+////	void selectAllTask(TaskDTO taskDto) throws FindException;
+//
+//	/**
+//	 * 과제 점수를 계산하기 위해 월별 총 과제 갯수를 조회한다
+//	 * @param teamNo 팀 번호
+//	 * @param endDate 과제 제출 마감 일자 
+//	 * @return TaskDTO 객체 
+//	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 과제가 없는 경우 예외 발생  
+//	 */
+//	List<TaskDTO> countMonthlyTask(Integer teamNo, Date endDate) throws FindException;
+//	
+//	/**
+//	 * 과제 점수를 계산하기 위해 id별 월별 과제점수 총합을 조회한다
+//	 * @param teamNo 팀 번호
+//	 * @param submitDate id별 과제 제출 일자 
+//	 * @return MemberScoreDTO 객체 
+//	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 과제 점수가 없는 경우 예외 발생
+//	 */
+//	List<MemberScoreDTO> selectTaskScore(Integer teamNo, Date submitDate) throws FindException;
+//	
+//	/**
+//	 * 출제 점수를 계산하기 위해 과제별 리뷰 점수 평균을 조회한다
+//	 * @param teamNo 팀 번호 
+//	 * @param endDate 과제 제출 마감 일자 
+//	 * @return TaskDTO 객체 
+//	 * @throws FindException DB와 연결이 실패하거나 조회한 과제의 별점 평균 점수가 없는 경우 예외 발생
+//	 */
+//	List<TaskDTO> selectReviewScore(Integer teamNo, Date endDate) throws FindException;
+//	
+//	/**
+//	 * QnA 답변 채택 점수를 계산하기 위해 월별 picked 채택 횟수를 조회한다 
+//	 * @param teamNo 팀 번호 
+//	 * @param pickedDate 답변 채택된 일자 
+//	 * @return QnACommentDTO 객체 
+//	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 picked된 댓글이 없는 경우 예외 발생
+//	 */
+//	List<QnACommentDTO> selectQnAScore(Integer teamNo, Date pickedDate) throws FindException;
 	
 }

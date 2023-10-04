@@ -97,12 +97,7 @@ public class RankDAOImpl implements RankDAO {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//
-//	@Override
-//	public void selectAllTask(TaskDTO taskDto) throws FindException {
-//		// TODO Auto-generated method stub
-//		
-//	}
+
 	
 	public static void main(String[] args) {
 		RankDAOImpl dao = new RankDAOImpl();
@@ -121,5 +116,6 @@ public class RankDAOImpl implements RankDAO {
 		}
 		
 	}
+
 
 }
