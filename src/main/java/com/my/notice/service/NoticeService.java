@@ -13,4 +13,6 @@ public interface NoticeService {
 	 * @throws FindException DB 연결 실패할 시 예외 발생한다
 	 */
 	PageGroup<NoticeDTO> findNoticeAll(int currentPage, Integer teamNo) throws FindException;
+	
+	NoticeDTO findByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
 }

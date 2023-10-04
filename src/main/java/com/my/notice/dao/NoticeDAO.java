@@ -23,4 +23,6 @@ public interface NoticeDAO {
 	 * @throws FindException 게시글이 없거나 DB와의 연결이 실패하면 예외 발생한다
 	 */
 	int selectNoticeCount(Integer teamNo) throws FindException;
+	
+	NoticeDTO selectByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
 }
