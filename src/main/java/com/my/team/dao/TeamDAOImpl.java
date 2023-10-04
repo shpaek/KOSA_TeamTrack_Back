@@ -1,5 +1,6 @@
 package com.my.team.dao;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.ibatis.io.Resources;
@@ -13,7 +14,29 @@ import com.my.exception.RemoveException;
 import com.my.team.dto.TeamDTO;
 
 public class TeamDAOImpl implements TeamDAO {
+	
 	private SqlSessionFactory sqlSessionFactory;
+
+	public TeamDAOImpl() {
+		
+		String resource = "com/my/sql/mybatis-config.xml";
+		InputStream inputStream;
+		
+		try {
+
+			inputStream = Resources.getResourceAsStream(resource);
+
+			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} // try-catch
+
+	} // constructor
+	
+//	---------------------------------------------------------------------------------
+
+	// 서현웅니
 
 	public TeamDAOImpl() {
 		String resource = "com/my/sql/mybatis-config.xml";
@@ -88,4 +111,9 @@ public class TeamDAOImpl implements TeamDAO {
 
 	}
 
-}
+//	---------------------------------------------------------------------------------
+
+	// 셍나
+
+
+} // end class

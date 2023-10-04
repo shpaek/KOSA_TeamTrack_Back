@@ -7,6 +7,9 @@ import com.my.exception.RemoveException;
 import com.my.team.dto.TeamDTO;
 
 public interface TeamDAO {
+	
+	// 서현 웅니
+	
 	/**
 	 * 서비스에 등록된 전체 팀을 조회한다
 	 * @return 팀객체
@@ -78,4 +81,8 @@ public interface TeamDAO {
 	 */
 	void delete(int teamNo) throws RemoveException;
 	
-}
+// ------------------------------------------------------------------------
+	
+	// 셍나
+	
+} // end interface

@@ -9,13 +9,20 @@ import com.my.team.dto.TeamDTO;
 public class TeamServiceImpl implements TeamService {
 
 	private TeamDAO teamDAO;
+	
 	private static TeamServiceImpl service = new TeamServiceImpl();
+	
 	private TeamServiceImpl() {
 		teamDAO = new TeamDAOImpl();
 	}
+	
 	public static TeamServiceImpl getInstance() {
 		return service;
 	}
+	
+// ------------------------------------------------------------------------
+	
+	// 서현 웅니
 	
 	@Override
 	public void createTeam(TeamDTO t) throws AddException {
@@ -27,5 +34,9 @@ public class TeamServiceImpl implements TeamService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+// ------------------------------------------------------------------------
+	
+	// 셍나
 
-}
+} // end class
