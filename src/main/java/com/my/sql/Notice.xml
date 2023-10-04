@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.my.notice.NoticeMapper">
+  <select id="selectNoticeAll" resultType="Notice" parameterType = "hashmap">
+	SELECT * FROM (SELECT rownum rn, a.*
+     FROM (SELECT *
+       FROM ${tableName}
+         ORDER BY notice_no DESC
+         ) a
+      )
+  WHERE rn BETWEEN #{start} AND #{end}
+  </select>
+  <select id="selectNoticeCount" resultType="Integer" parameterType = "String">
+	SELECT COUNT(*)
+	FROM ${tableName}
+  </select>
+</mapper>

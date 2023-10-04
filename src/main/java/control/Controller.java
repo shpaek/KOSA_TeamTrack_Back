@@ -8,6 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface Controller {
 	
-	String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException;
+	String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 } // end interface
