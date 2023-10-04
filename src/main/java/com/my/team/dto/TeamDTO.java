@@ -23,16 +23,22 @@ public class TeamDTO {
 	private String teamInfo;
 	
 	// 팀원 테이블
-	private String id;
-	private String nickname;
-	private Date joinDate;
-	private Integer attendence;
-	private Integer rankSum;
-	private Integer bestRank;
-	private Integer status;
+	private String id;					// 회원 아이디
+	private String nickname;			// 닉네임
+	private Date joinDate;				// 팀가입일
+	private Integer attendence;			// 출석수
+	private Integer rankSum;			// 개인랭킹 누적합
+	private Integer bestRank;			// 개인랭킹 최고순위
+	private Integer status;				// 회원 상태
 	
 	// 출석부 테이블
-	private Date attendanceDate; // 출석부 테이블의 출석일자
-	private String attendenceId; // 출석부 테이블의 팀원 아이디
+	private Date attendanceDate; 		// 출석일자
+	private String attendenceId; 		// 회원 아이디
 	
-} // end interface
+	// 가입한 팀 테이블
+	private Integer signupTeamNo; 		// 팀 번호
+	private String signupId;			// 회원 아이디
+	private Integer signupStatus;		// 가입 상태
+	private String introduction;		// 팀 가입 자기소개
+	
+} // end class
