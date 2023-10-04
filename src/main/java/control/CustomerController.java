@@ -1,4 +1,4 @@
-package com.my.customer.controller;
+package control;
 
 import com.my.customer.service.CustomerService;
 import com.my.customer.service.CustomerServiceImpl;
