@@ -3,33 +3,105 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.team.TeamMapper">
-	<select id="selectAll" resultType="com.my.team.dto.Team">
+	<select id="selectAll" resultType="TeamDTO"
+		parameterType="java.util.HashMap">
 		SELECT * FROM TEAM
 	</select>
-	<select id="selectByTeamNo" resultType="com.my.team.dto.Team">
-		SELECT *, (S)
+	<!-- 확인 필요 -->
+	<select id="selectByTeamNo" resultType="TeamDTO">
+		SELECT team_name,
+		study_type, onoffline, max_member,
+		startdate, enddate,
+		brief_info,
+		team_info,
+		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
+		where
+		b.team_no =
+		a.team_no)
+		AS hashtags
+		FROM TEAM a
+		WHERE
+		team_no = #{aaa}
 	</select>
-	<select id="selectByTeamName" resultType="com.my.team.dto.Team">
-		SELECT team_name, brief_info, viewcnt
+	<select id="selectByTeamName" resultType="TeamDTO">
+		SELECT team_name,
+		brief_info, viewcnt
 		FROM TEAM
-		WHERE team_name = #{aaa};
+		WHERE team_name = #{aaa}
 	</select>
 	<!-- 확인 필요 -->
-	<select id="selectByHashtag" resultType="com.my.team.dto.Team">
-		SELECT team_name, study_type, onoffline, join_member, max_member,
-		startdate, enddate, brief_info,
-		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b where b.team_no =
+	<select id="selectByHashtag" resultType="TeamDTO">
+		SELECT team_name,
+		study_type, onoffline, join_member, max_member,
+		startdate, enddate,
+		brief_info,
+		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
+		where b.team_no =
 		a.team_no)
 		AS hashtags, viewcnt
 		FROM TEAM a
-		WHERE team_no IN
+		WHERE
+		team_no IN
 		(SELECT team_no FROM TEAM_HASHTAG
-		WHERE hashtag_name LIKE '%#{aaa}%');
+		WHERE hashtag_name LIKE
+		'%#{aaa}%');
 	</select>
-
-
-	<insert id="insert" parameterType="Team">
-		INSERT INTO customer(id, pwd, name)
-		VALUES (#{id}, #{pwd}, #{name})
+	<select id="selectByNewTeam" resultType="TeamDTO">
+		SELECT team_name,
+		study_type, onoffline, join_member, max_member,
+		startdate, enddate,
+		brief_info,
+		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
+		where b.team_no =
+		a.team_no)
+		AS hashtags, viewcnt
+		FROM TEAM a
+		WHERE
+		TO_DATE(enddate, 'YYYY-MM-DD') > sysdate
+		ORDER BY createdate DESC;
+	</select>
+	<select id="selectByViewCnt" resultType="TeamDTO">
+		SELECT team_name,
+		study_type, onoffline, join_member, max_member,
+		startdate, enddate,
+		brief_info,
+		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
+		where b.team_no =
+		a.team_no)
+		AS hashtags, viewcnt
+		FROM TEAM a
+		WHERE
+		TO_DATE(enddate, 'YYYY-MM-DD') > sysdate
+		ORDER BY viewcnt DESC;
+	</select>
+	<select id="selectByStudyDate" resultType="TeamDTO">
+		SELECT team_name,
+		study_type, onoffline, join_member, max_member,
+		startdate, enddate,
+		brief_info,
+		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
+		where b.team_no =
+		a.team_no)
+		AS hashtags, viewcnt
+		FROM TEAM a
+		WHERE
+		(TO_DATE(startdate, 'YYYY-MM-DD') > TO_DATE('2023-09-01',
+		'YYYY-MM-DD')) AND (TO_DATE(enddate, 'YYYY-MM-DD') <![CDATA[ < ]]>
+		TO_DATE('2024-01-01', 'YYYY-MM-DD'))
+	</select>
+	<insert id="update" parameterType="TeamDTO">
+		UPDATE TEAM
+		SET team_name =
+		#{teamName},
+		study_type = #{studyType},
+		onoffline = #{onOffLine},
+		max_member = #{maxMember},
+		startdate = #{startDate},
+		enddate =
+		#{endDate},
+		brief_info = #{briefInfo},
+		team_info = #{teamInfo}
+		WHERE
+		team_no = #{teamNo}
 	</insert>
 </mapper>

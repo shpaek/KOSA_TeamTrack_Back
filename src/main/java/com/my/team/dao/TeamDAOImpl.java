@@ -38,19 +38,6 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 서현웅니
 
-	public TeamDAOImpl() {
-		String resource = "com/my/sql/mybatis-config.xml";
-		InputStream inputStream;
-
-		try {
-			inputStream = Resources.getResourceAsStream(resource);
-			sqlSessionFactory =
-					new SqlSessionFactoryBuilder().build(inputStream);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	@Override
 	public TeamDTO selectAll() {
 		// TODO Auto-generated method stub
