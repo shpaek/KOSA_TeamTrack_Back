@@ -7,7 +7,6 @@ import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
 
-@Log4j2
 @ToString
 @Getter
 public class PageGroup <T> {
@@ -55,9 +54,9 @@ public class PageGroup <T> {
 		
 		PageGroup pg = new PageGroup(null, cp, tc);
 		
-		log.info("pg.getTotalPage(): " + pg.getTotalPage());
-		log.info("pg.getStartPage(): " + pg.getStartPage());
-		log.info("pg.getEndPage(): " + pg.getEndPage());
+		//log.info("pg.getTotalPage(): " + pg.getTotalPage());
+		//log.info("pg.getStartPage(): " + pg.getStartPage());
+		//log.info("pg.getEndPage(): " + pg.getEndPage());
 		
 	} // end main
 	

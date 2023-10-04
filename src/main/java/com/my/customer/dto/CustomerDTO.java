@@ -1,8 +1,10 @@
 package com.my.customer.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class CustomerDTO {
 	
 	String id;				// 유저 아이디
@@ -13,5 +15,5 @@ public class CustomerDTO {
 	String phone;			// 유저 번호
 	String email;			// 유저 이메일
 	Integer status;			// 유저 상태 -> 탈퇴: 0, 가입중: 1
-
+	
 } // end class

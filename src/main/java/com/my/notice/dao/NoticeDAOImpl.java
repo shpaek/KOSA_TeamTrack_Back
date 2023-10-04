@@ -40,7 +40,7 @@ private SqlSessionFactory sqlSessionFactory;
 			Map map = new HashMap<>();
 			map.put("start", startRow);
 			map.put("end", endRow);
-			map.put("noticeboard", tableName);
+			map.put("tableName", tableName);
 			noticeList = session.selectList("com.my.notice.NoticeMapper.selectNoticeAll", map);
 			return noticeList;
 		}catch(Exception e) {
