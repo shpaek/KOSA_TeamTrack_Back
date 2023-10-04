@@ -156,19 +156,71 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 	
-	public TaskDTO selectByTaskNo(Integer teamNo, String id, Integer taskNo) throws FindException {
+	public TaskDTO selectTaskInfo(Integer teamNo, Integer taskNo) throws FindException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "task_"+teamNo);
+			map.put("taskNo", taskNo);
+			TaskDTO task=session.selectOne("com.my.task.TaskMapper.selectTaskInfo", map);
+			return task;
+		} catch(Exception e) {
+			throw new FindException("과제 정보 조회 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	public List<Integer> selectQuizAnswer(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
 		try {
 			session=sqlSessionFactory.openSession();
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "quizanswer_"+teamNo);
-			map.put("id", id);
 			map.put("taskNo", taskNo);
-			TaskDTO task=session.selectOne("com.my.task.TaskMapper.selectByTaskNo", map);
-			return task;
+			List<Integer> answer=session.selectList("com.my.task.TaskMapper.selectQuizAnswer", map);
+			return answer;
 		} catch(Exception e) {
-			throw new FindException("과제 조회 실패");
+			throw new FindException("과제 답안 조회 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	public List<Integer> selectMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "memberanswer_"+teamNo);
+			map.put("taskNo", taskNo);
+			map.put("id", id);
+			List<Integer> answer=session.selectList("com.my.task.TaskMapper.selectMemberAnswer", map);
+			return answer;
+		} catch(Exception e) {
+			throw new FindException("팀원 답안 조회 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	public int selectMemberScore(Integer teamNo, Integer taskNo, String id) throws FindException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "memberscore_"+teamNo);
+			map.put("taskNo", taskNo);
+			map.put("id", id);
+			int score=session.selectOne("com.my.task.TaskMapper.selectMemberScore", map);
+			return score;
+		} catch(Exception e) {
+			throw new FindException("과제 점수 조회 실패");
 		} finally {
 			if(session!=null) session.close();
 		}
@@ -176,7 +228,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 
 	// main test
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FindException {
 		TaskDAOImpl t=new TaskDAOImpl();
 		try {
 			System.out.println("======================\n메인과제리스트");
@@ -213,9 +265,18 @@ public class TaskDAOImpl implements TaskDAO {
 				System.out.print("과제 타이틀 : "+list3.get(i).getTitle()+" | ");
 				System.out.println("평점 : "+list3.get(i).getAvgReviewscore());
 			}
+			System.out.println("======================\n선택한 과제");
+			TaskDTO task=t.selectTaskInfo(9999, 1);
+			List<Integer> qa=t.selectQuizAnswer(9999, 1);
+			List<Integer> ma=t.selectMemberAnswer(9999, 1, "nwh2023");
+			System.out.println(task.getTitle()+"	출제자 : "+task.getId()+" | 과제생성일 : "+task.getRegDate());
+			for(int i=0;i<qa.size();i++) {
+				System.out.println("과제 답 : "+qa.get(i)+" / 팀원 답 : "+ma.get(i));
+			}
+			int score=t.selectMemberScore(9999, 1, "nwh2023");
+			System.out.println("점수 : "+score); //풀지 않았을 경우 예외처리
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new FindException("답안이 존재하지 않습니다.");
 		}
 	}
 

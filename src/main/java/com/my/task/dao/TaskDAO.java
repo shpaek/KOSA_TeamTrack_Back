@@ -82,12 +82,40 @@ public interface TaskDAO {
 	/**
 	 * 과제 번호에 해당하는 과제를 불러온다.
 	 * @param teamNo 팀 번호
-	 * @param id 아이디
 	 * @param taskNo 과제 번호
 	 * @return 과제
 	 * @throws FindException
 	 */
-	TaskDTO selectByTaskNo(Integer teamNo, String id, Integer taskNo) throws FindException;
+	TaskDTO selectTaskInfo(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제 번호에 해당하는 과제의 답안을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 답 리스트
+	 * @throws FindException
+	 */
+	List<Integer> selectQuizAnswer(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제 번호에 해당하는 과제의 팀원 답안을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 답 리스트
+	 * @throws FindException
+	 */
+	List<Integer> selectMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException;
+	
+	/**
+	 * 팀원이 제출한 과제의 점수를 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 팀원의 과제 정보
+	 * @throws FindException
+	 */
+	int selectMemberScore(Integer teamNo, Integer taskNo, String id) throws FindException;
 	
 //	
 //	

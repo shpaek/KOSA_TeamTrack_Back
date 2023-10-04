@@ -9,7 +9,8 @@
 	<select id="selectMainTaskList" resultType="TaskDTO"
 		parameterType="java.util.HashMap">
 		SELECT task_no, title, id, regdate, enddate
-		FROM ${tableName}
+		FROM
+		${tableName}
 		WHERE enddate-SYSDATE&gt;=0
 	</select>
 
@@ -22,7 +23,8 @@
 		SELECT *
 		FROM ${tableName}
 		WHERE enddate-SYSDATE&lt;0
-		ORDER BY regdate
+		ORDER BY
+		regdate
 		<if test="desc">DESC</if>
 		) a
 		) t
@@ -42,10 +44,12 @@
 		FROM ( SELECT rownum rn, a.*
 		FROM ( SELECT m.task_no,
 		m.hwscore, t.id, t.title, m.submitdate
-		FROM ${tableName1} m JOIN ${tableName2} t ON
+		FROM ${tableName1} m JOIN
+		${tableName2} t ON
 		(m.task_no=t.task_no)
 		WHERE m.id=#{id}
-		ORDER BY submitdate
+		ORDER BY
+		submitdate
 		<if test="desc">DESC</if>
 		) a
 		) t
@@ -77,6 +81,40 @@
 	<select id="selectMyTaskCount" resultType="Integer"
 		parameterType="java.util.HashMap">
 		SELECT COUNT(*) FROM ${tableName} WHERE id=#{id}
+	</select>
+
+	<!-- 과제 정보 가져오기 -->
+	<select id="selectTaskInfo" resultType="TaskDTO"
+		parameterType="java.util.HashMap">
+		SELECT task_no, title, id, regdate
+		FROM ${tableName}
+		WHERE task_no=#{taskNo}
+	</select>
+
+	<!-- 과제 답안 가져오기 -->
+	<select id="selectQuizAnswer" resultType="Integer"
+		parameterType="java.util.HashMap">
+		SELECT answer
+		FROM ${tableName}
+		WHERE task_no=#{taskNo}
+		ORDER BY question_no
+	</select>
+
+	<!-- 팀원 답안 가져오기 -->
+	<select id="selectMemberAnswer" resultType="Integer"
+		parameterType="java.util.HashMap">
+		SELECT answer
+		FROM ${tableName}
+		WHERE task_no=#{taskNo}
+		AND id=#{id}
+		ORDER BY question_no
+	</select>
+
+	<!-- 과제 점수 가져오기 -->
+	<select id="selectMemberScore" resultType="Integer"
+		parameterType="java.util.HashMap">
+		SELECT hwscore FROM ${tableName}
+		WHERE task_no=#{taskNo} AND id=#{id}
 	</select>
 
 </mapper>
