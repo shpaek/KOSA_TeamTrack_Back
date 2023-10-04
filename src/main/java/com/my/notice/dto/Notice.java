@@ -12,6 +12,6 @@ public class Notice {
 	Integer noticeNo;
 	String noticeTitle;
 	String noticeContent;
-	Date regdate;
+	Date regDate;
 	Integer mainStatus;
 }

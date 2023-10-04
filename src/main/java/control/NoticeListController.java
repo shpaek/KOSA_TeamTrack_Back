@@ -18,11 +18,12 @@ public class NoticeListController extends NoticeController{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		PrintWriter out = response.getWriter();
 		
-		Integer teamNo = 9999; //Integer.parseInt(request.getParameter("teamNo"));
-		String currentPage = "1"; //request.getParameter("currentPage");
+		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+		String currentPage = request.getParameter("currentPage");
 		int cp = 1;
 		if (currentPage != null && !currentPage.equals("")) {
 			cp = Integer.parseInt(currentPage);
@@ -32,6 +33,7 @@ public class NoticeListController extends NoticeController{
 			PageGroup<Notice> pg = service.findNoticeAll(cp, teamNo);
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
+			System.out.println(pg.getList().get(0).getNoticeNo());
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
