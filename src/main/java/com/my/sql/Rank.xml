@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.my.rank.RankMapper">
+
+  <select id="selectByMonth" resultType="Rank" parameterType="java.util.HashMap">
+
+	SELECT * 
+	FROM MEMBER_RANK_#{team_no}
+	WHERE rank_date BETWEEN TO_DATE('#{date}', 'YYYY-MM-DD') AND
+	LAST_DAY(TO_DATE('#{date}', 'YYYY-MM-DD'))
+	ORDER BY RANK
+	
+  </select>
+  
+</mapper>
