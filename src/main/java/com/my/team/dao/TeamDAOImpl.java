@@ -6,7 +6,37 @@ import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.team.dto.Team;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
 public class TeamDAOImpl implements TeamDAO {
+	
+	private SqlSessionFactory sqlSessionFactory;
+
+	public TeamDAOImpl() {
+		
+		String resource = "com/my/sql/mybatis-config.xml";
+		InputStream inputStream;
+		
+		try {
+
+			inputStream = Resources.getResourceAsStream(resource);
+
+			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} // try-catch
+
+	} // constructor
+	
+//	---------------------------------------------------------------------------------
+
+	// 서현웅니
 
 	@Override
 	public Team selectAll() {
@@ -68,4 +98,9 @@ public class TeamDAOImpl implements TeamDAO {
 
 	}
 
-}
+//	---------------------------------------------------------------------------------
+
+	// 셍나
+
+
+} // end class
