@@ -11,10 +11,11 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class MemberTask {
 
-	private Task task;
 	private int hwScore;
+	private String id;
 	private int reviewScore;
 	private Date submitDate;
-	private List<Integer> memberAnswerList;
+	//private List<Integer> memberAnswerList;
+	private String title;
 	
 }

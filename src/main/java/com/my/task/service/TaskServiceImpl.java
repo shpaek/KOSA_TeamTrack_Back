@@ -15,7 +15,7 @@ public class TaskServiceImpl implements TaskService {
 		taskDAO=new TaskDAOImpl();
 	}
 
-	public PageGroup<Task> findAllTaskList(Integer teamNo, int currentPage) throws FindException {		
+	public PageGroup<Task> findAllTaskList(Integer teamNo, int currentPage, boolean desc) throws FindException {		
 		if(currentPage<1) currentPage=1;
 		int cntPerPage=10;
 
@@ -25,7 +25,7 @@ public class TaskServiceImpl implements TaskService {
 		startRow=(currentPage-1)*cntPerPage+1;
 
 
-		List<Task> list = taskDAO.selectAllTaskList(teamNo, startRow, endRow);
+		List<Task> list = taskDAO.selectAllTaskList(teamNo, startRow, endRow, desc);
 		int totalCnt=taskDAO.selectAllTaskCount(teamNo);
 		PageGroup<Task> pg=new PageGroup<>(list, currentPage, totalCnt);
 		return pg;

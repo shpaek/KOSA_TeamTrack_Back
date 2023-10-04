@@ -12,14 +12,20 @@ import lombok.Setter;
 public class Task {
 
 	private Integer taskNo;
-	private String taskId;
-	private Date dueDate1;
-	private Date dueDate2;
+	private String id;
+	//private Date dueDate1;
+	//private Date dueDate2;
 	private String title;
-	private String type;
-	private Date regDate;
-	private String endDate;
-	private Double avgReviewScore;
-	private List<Integer> answerList;
+	//private String type;
+	//private Date regDate;
+	//private String endDate;
+	private double avgReviewscore;
+	//private List<Integer> answerList;
+	
+//	public Task(Integer taskNo, String id, String title) {
+//		this.taskNo=taskNo;
+//		this.id=id;
+//		this.title=title;
+//	}
 	
 }

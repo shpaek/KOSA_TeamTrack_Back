@@ -13,6 +13,6 @@ public interface TaskService {
 	 * @return
 	 * @throws FindException
 	 */
-	PageGroup<Task> findAllTaskList(Integer teamNo, int currentPage) throws FindException;
+	PageGroup<Task> findAllTaskList(Integer teamNo, int currentPage, boolean desc) throws FindException;
 	
 }

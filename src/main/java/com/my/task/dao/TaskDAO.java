@@ -13,13 +13,14 @@ public interface TaskDAO {
 
 	/**
 	 * 과제생성순으로 정렬된 전체 과제들 중 시작행부터 끝행까지의 과제들을 검색한다.
-	 * @param teamNo  번호
+	 * @param teamNo 팀 번호
 	 * @param startRow 시작행
 	 * @param endRow 끝행
+	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
-	List<Task> selectAllTaskList(Integer teamNo, int startRow, int endRow) throws FindException;
+	List<Task> selectAllTaskList(Integer teamNo, int startRow, int endRow, boolean desc) throws FindException;
 	
 	/**
 	 * 전체 과제 수를 검색한다.
@@ -28,6 +29,50 @@ public interface TaskDAO {
 	 * @throws FindException
 	 */
 	int selectAllTaskCount(Integer teamNo) throws FindException;
+	
+	
+	/**
+	 * 과제생성순으로 정렬된 완료한 과제들 중 시작행부터 끝행까지의 과제들을 검색한다.
+	 * @param teamNo 팀 번호
+	 * @param id 아이디
+	 * @param startRow 시작행
+	 * @param endRow 끝행
+	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
+	 * @return 과제 리스트
+	 * @throws FindException
+	 */
+	List<MemberTask> selectCompleteTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException;
+	
+	/**
+	 * 완료한 과제 수를 검색한다.
+	 * @param teamNo 팀 번호
+	 * @param id 아이디
+	 * @return 푼 과제 수
+	 * @throws FindException
+	 */
+	int selectCompleteTaskCount(Integer teamNo, String id) throws FindException;
+	
+	/**
+	 * 과제생성순으로 정렬된 출제한 과제들 중 시작행부터 끝행까지의 과제들을 검색한다.
+	 * @param teamNo 팀 번호
+	 * @param id 아이디
+	 * @param startRow 시작행
+	 * @param endRow 끝행
+	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
+	 * @return 과제 리스트
+	 * @throws FindException
+	 */
+	List<Task> selectMyTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException;
+	
+	/**
+	 * 출제한 과제 수를 검색한다.
+	 * @param teamNo 팀 번호
+	 * @param id 아이디
+	 * @return 과제 리스트
+	 * @throws FindException
+	 */
+	int selectMyTaskCount(Integer teamNo, String id) throws FindException;
+	
 //	
 //	
 //	
