@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter @Getter @NoArgsConstructor @AllArgsConstructor
-public class Notice {
+public class NoticeDTO {
 	Integer noticeNo;
 	String noticeTitle;
 	String noticeContent;

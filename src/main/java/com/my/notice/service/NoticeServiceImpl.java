@@ -5,7 +5,7 @@ import java.util.List;
 import com.my.exception.FindException;
 import com.my.notice.dao.NoticeDAO;
 import com.my.notice.dao.NoticeDAOImpl;
-import com.my.notice.dto.Notice;
+import com.my.notice.dto.NoticeDTO;
 import com.my.util.PageGroup;
 
 public class NoticeServiceImpl implements NoticeService {
@@ -19,7 +19,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override
-	public PageGroup<Notice> findNoticeAll(int currentPage, Integer teamNo) throws FindException{
+	public PageGroup<NoticeDTO> findNoticeAll(int currentPage, Integer teamNo) throws FindException{
 		if(currentPage <1) {
 			currentPage = 1;
 		}
@@ -31,11 +31,11 @@ public class NoticeServiceImpl implements NoticeService {
 		startRow = (currentPage -1)*cntPerPage +1;
 		endRow = currentPage*cntPerPage;
 		
-		List<Notice> noticeList = noticeDao.selectNoticeAll(startRow, endRow, teamNo);
+		List<NoticeDTO> noticeList = noticeDao.selectNoticeAll(startRow, endRow, teamNo);
 		
 		int totalCnt = noticeDao.selectNoticeCount(teamNo);
 		
-		PageGroup<Notice> pg = new PageGroup<>(noticeList, currentPage, totalCnt); 
+		PageGroup<NoticeDTO> pg = new PageGroup<>(noticeList, currentPage, totalCnt); 
 		return pg;
 	}
 }
