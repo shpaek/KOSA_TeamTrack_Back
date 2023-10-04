@@ -8,7 +8,7 @@
   </settings>
   <typeAliases>
 	<typeAlias type="com.my.member.dto.Emp" alias="Emp"/>
-	<typeAlias type="com.my.rank.dto.RankDTO" alias="Rank"/>
+	<typeAlias type="com.my.rank.dto.Rank" alias="Rank"/>
   </typeAliases>
   <environments default="development">
     <environment id="development">

@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter @Setter @Data
 @AllArgsConstructor @NoArgsConstructor
-public class RankDTO {
+public class Rank {
 	
 	//Rank 기본 변수 
 	Integer rankNo;

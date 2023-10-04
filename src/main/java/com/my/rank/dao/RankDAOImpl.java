@@ -17,7 +17,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
-import com.my.rank.dto.RankDTO;
+import com.my.rank.dto.Rank;
 
 public class RankDAOImpl implements RankDAO {
 	
@@ -35,14 +35,14 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public List<RankDTO> selectByMonth(Integer teamNo, Date rankDate) throws FindException {
+	public List<Rank> selectByMonth(Integer teamNo, Date rankDate) throws FindException {
 		SqlSession session = null;
-		List<RankDTO> list = new ArrayList<>(); 
+		List<Rank> list = new ArrayList<>(); 
 		
 		try {
 			session = sqlSessionFactory.openSession();
 			Map<String, Object> map = new HashMap<>();
-			map.put("teamno", teamNo);
+			map.put("team_no", teamNo);
 			map.put("date", rankDate);
 			list = session.selectList("com.my.rank.RankMapper.selectByMonth", map);
 			return list;
@@ -57,7 +57,7 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public void insert(Integer teamNo, RankDTO rankDto) throws AddException {
+	public void insert(Integer teamNo, Rank rank) throws AddException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -105,7 +105,6 @@ public class RankDAOImpl implements RankDAO {
 //	}
 	
 	public static void main(String[] args) {
-		
 		RankDAOImpl dao = new RankDAOImpl();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -115,7 +114,7 @@ public class RankDAOImpl implements RankDAO {
 			String date = "2023-10-01";
 			Date rankDate = formatter.parse(date);
 			
-			List<RankDTO> list = dao.selectByMonth(teamNo, rankDate);
+			List<Rank> list = dao.selectByMonth(teamNo, rankDate);
 			System.out.println(list);
 		} catch (ParseException e) {
 			e.printStackTrace();
