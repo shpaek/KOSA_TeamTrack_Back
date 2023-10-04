@@ -23,6 +23,7 @@ public class NoticeServiceImpl implements NoticeService {
 		if(currentPage <1) {
 			currentPage = 1;
 		}
+		
 		int cntPerPage = 10; //한페이지당 보여줄 목록 수
 		
 		int startRow = 0;

@@ -28,12 +28,12 @@ public class NoticeListController extends NoticeController{
 		if (currentPage != null && !currentPage.equals("")) {
 			cp = Integer.parseInt(currentPage);
 		}
+
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			PageGroup<NoticeDTO> pg = service.findNoticeAll(cp, teamNo);
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
-			System.out.println(pg.getList().get(0).getNoticeNo());
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
