@@ -1,4 +1,4 @@
-package com.my.customer.controller;
+package control;
 
 public class MemberController {
 

@@ -8,7 +8,9 @@
 	<!-- 회원가입 -->
   <insert id="create" parameterType="CustomerDTO">
 	INSERT INTO customer(id, pwd, nickname, name, birthday, phone, email)
-	VALUES(#{id}, #{pwd}, #{nickname}, #{name}, #{birthday}, #{phone}, #{email})
+	VALUES(#{id, jdbcType=VARCHAR}, #{pwd, jdbcType=VARCHAR}, #{nickname, jdbcType=VARCHAR},
+	 #{name, jdbcType=VARCHAR}, #{birthday, jdbcType=VARCHAR},
+	  #{phone, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR})
   </insert>
   
   	<!-- 회원조회, 아이디 중복확인 -->

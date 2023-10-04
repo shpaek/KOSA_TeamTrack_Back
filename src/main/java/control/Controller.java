@@ -1,4 +1,4 @@
-package com.my.customer.controller;
+package control;
 
 import java.io.IOException;
 

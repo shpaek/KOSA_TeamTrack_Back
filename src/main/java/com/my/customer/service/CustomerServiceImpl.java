@@ -10,7 +10,7 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	private CustomerDAO customerDAO;
 	
-	private static CustomerService service = new CustomerServiceImpl();
+	private static CustomerServiceImpl  service = new CustomerServiceImpl();
 	
 	private CustomerServiceImpl() {
 		customerDAO = new CustomerDAOImpl();
