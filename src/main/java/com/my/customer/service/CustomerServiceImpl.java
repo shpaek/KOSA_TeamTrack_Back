@@ -10,8 +10,14 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	private CustomerDAO customerDAO;
 	
+	private static CustomerService service = new CustomerServiceImpl();
+	
 	private CustomerServiceImpl() {
 		customerDAO = new CustomerDAOImpl();
+	}
+	
+	public static CustomerService getInstance() {
+		return service;
 	}
 
 	@Override
