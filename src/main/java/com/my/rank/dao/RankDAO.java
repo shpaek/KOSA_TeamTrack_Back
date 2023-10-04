@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.my.exception.AddException;
-import com.my.rank.dto.Rank;
+import com.my.rank.dto.RankDTO;
 
 public interface RankDAO {
 
@@ -16,7 +16,7 @@ public interface RankDAO {
 	 * @return rank객체 리스트
 	 * @throws FindException date에 해당하는 rank 정보가 없거나 DB와 연결이 실패하면 예외발생
 	 */
-	List<Rank> selectByMonth(Integer teamNo, Date rankDate) throws FindException;
+	List<RankDTO> selectByMonth(Integer teamNo, Date rankDate) throws FindException;
 
 	/**
 	 * 팀별 Rank 정보를 저장한다
@@ -24,7 +24,7 @@ public interface RankDAO {
 	 * @param rankDto rank 객체 
 	 * @throws AddException DB와 연결이 실패하거나 제약조건위배일 경우 예외 발생
 	 */
-	void insert(Integer teamNo, Rank rankDto) throws AddException;
+	void insert(Integer teamNo, RankDTO rankDto) throws AddException;
 	
 	
 	//랭킹 점수 계산 

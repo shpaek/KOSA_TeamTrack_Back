@@ -17,7 +17,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
-import com.my.rank.dto.Rank;
+import com.my.rank.dto.RankDTO;
 
 public class RankDAOImpl implements RankDAO {
 	
@@ -35,9 +35,9 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public List<Rank> selectByMonth(Integer teamNo, Date rankDate) throws FindException {
+	public List<RankDTO> selectByMonth(Integer teamNo, Date rankDate) throws FindException {
 		SqlSession session = null;
-		List<Rank> list = new ArrayList<>(); 
+		List<RankDTO> list = new ArrayList<>(); 
 		
 		try {
 			session = sqlSessionFactory.openSession();
@@ -57,7 +57,7 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public void insert(Integer teamNo, Rank rank) throws AddException {
+	public void insert(Integer teamNo, RankDTO rank) throws AddException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -108,8 +108,9 @@ public class RankDAOImpl implements RankDAO {
 			Integer teamNo = 9999;
 			String date = "2023-10-01";
 			Date rankDate = formatter.parse(date);
+			System.out.println(rankDate);
 			
-			List<Rank> list = dao.selectByMonth(teamNo, rankDate);
+			List<RankDTO> list = dao.selectByMonth(teamNo, rankDate);
 			System.out.println(list);
 		} catch (ParseException e) {
 			e.printStackTrace();
