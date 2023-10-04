@@ -16,7 +16,6 @@ public class RankServiceImpl implements RankService {
 	public static RankServiceImpl getInstance() {
 		return service;
 	}
-
 	
 	
 	

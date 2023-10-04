@@ -2,6 +2,9 @@ package com.my.rank.dao;
 
 import java.io.InputStream;
 import java.lang.module.FindException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +40,7 @@ public class RankDAOImpl implements RankDAO {
 		List<RankDTO> list = new ArrayList<>(); 
 		
 		try {
-			session = SqlSessionFactory.openSession();
+			session = sqlSessionFactory.openSession();
 			Map<String, Object> map = new HashMap<>();
 			map.put("teamno", teamNo);
 			map.put("date", rankDate);
@@ -59,45 +62,64 @@ public class RankDAOImpl implements RankDAO {
 		
 	}
 
-	@Override
-	public List<AttendanceDTO> selectAttendanceDay(Integer teamNo, Date attendanceDate) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void selectAllTask(TaskDTO taskDto) throws FindException {
-		// TODO Auto-generated method stub
+//	@Override
+//	public List<AttendanceDTO> selectAttendanceDay(Integer teamNo, Date attendanceDate) throws FindException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void selectAllTask(TaskDTO taskDto) throws FindException {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public List<TaskDTO> countMonthlyTask(Integer teamNo, Date endDate) throws FindException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<MemberScoreDTO> selectTaskScore(Integer teamNo, Date submitDate) throws FindException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<TaskDTO> selectReviewScore(Integer teamNo, Date endDate) throws FindException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<QnACommentDTO> selectQnAScore(Integer teamNo, Date pickedDate) throws FindException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void selectAllTask(TaskDTO taskDto) throws FindException {
+//		// TODO Auto-generated method stub
+//		
+//	}
+	
+	public static void main(String[] args) {
 		
-	}
-
-	@Override
-	public List<TaskDTO> countMonthlyTask(Integer teamNo, Date endDate) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<MemberScoreDTO> selectTaskScore(Integer teamNo, Date submitDate) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TaskDTO> selectReviewScore(Integer teamNo, Date endDate) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<QnACommentDTO> selectQnAScore(Integer teamNo, Date pickedDate) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void selectAllTask(TaskDTO taskDto) throws FindException {
-		// TODO Auto-generated method stub
+		RankDAOImpl dao = new RankDAOImpl();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+		//rank list 가져오기 
+		try {
+			Integer teamNo = 9999;
+			String date = "2023-10-01";
+			Date rankDate = formatter.parse(date);
+			
+			List<RankDTO> list = dao.selectByMonth(teamNo, rankDate);
+			System.out.println(list);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

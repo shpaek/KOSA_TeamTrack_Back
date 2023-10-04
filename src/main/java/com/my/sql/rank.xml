@@ -5,12 +5,12 @@
   
 <mapper namespace="com.my.rank.RankMapper">
 
-  <select id="selectByMonth" resultType="RankDTO" parameterType="java.util.HashMap">
+  <select id="selectByMonth" resultType="Rank" parameterType="java.util.HashMap">
 
 	SELECT * 
 	FROM MEMBER_RANK_#{teamno}
-	WHERE rank_date BETWEEN TO_DATE('#{date}', 'yyyy-MM-dd HH:mm:ss') AND
-	LAST_DAY(TO_DATE('#{date}', 'yyyy-MM-dd HH:mm:ss'))
+	WHERE rank_date BETWEEN TO_DATE('#{date}', 'yyyy-MM-dd') AND
+	LAST_DAY(TO_DATE('#{date}', 'yyyy-MM-dd'))
 	ORDER BY RANK;
 	
   </select>

@@ -20,9 +20,9 @@ public class RankDTO {
 	String id;
 	
 	//Rank 계산을 위한 변수
-	private AttendanceDTO AttendanceDto;
-	private TaskDTO TaskDto;
-	private MemberScoreDTO MemberScoreDto;
-	private QnACommentDTO QnACommentDto;
+//	private AttendanceDTO AttendanceDto;
+//	private TaskDTO TaskDto;
+//	private MemberScoreDTO MemberScoreDto;
+//	private QnACommentDTO QnACommentDto;
 
 }
