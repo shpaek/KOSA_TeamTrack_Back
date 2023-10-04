@@ -9,4 +9,5 @@ public abstract class TeamController implements Controller {
 	public TeamController() {
 		service = TeamServiceImpl.getInstance();
 	}
-}
+
+} // end class

@@ -4,14 +4,17 @@ import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
-import com.my.team.dto.Team;
+import com.my.team.dto.TeamDTO;
 
 public interface TeamDAO {
+	
+	// 서현 웅니
+	
 	/**
 	 * 서비스에 등록된 전체 팀을 조회한다
 	 * @return 팀객체
 	 */
-	Team selectAll();
+	TeamDTO selectAll();
 	
 	/**
 	 * 팀번호에 해당하는 팀정보를 검색한다
@@ -19,7 +22,7 @@ public interface TeamDAO {
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	Team selectByTeamNo(int teamNo) throws FindException;
+	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 	
 	/**
 	 * 팀이름에 해당하는 팀정보를 검색한다
@@ -27,7 +30,7 @@ public interface TeamDAO {
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	Team selectByTeamName(String teamName) throws FindException;
+	TeamDTO selectByTeamName(String teamName) throws FindException;
 	
 	/**
 	 * 해시태그에 해당하는 팀을 검색한다
@@ -35,19 +38,19 @@ public interface TeamDAO {
 	 * @return 팀객체
 	 * @throws FindException
 	 */
-	Team selectByHashtag(String hashtag) throws FindException;
+	TeamDTO selectByHashtag(String hashtag) throws FindException;
 	
 	/**
 	 * 최신순으로 팀을 조회한다
 	 * @return 팀객체
 	 */
-	Team selectByNewTeam();
+	TeamDTO selectByNewTeam();
 	
 	/**
 	 * 조회수순으로 팀을 조회한다
 	 * @return 팀객체
 	 */
-	Team selectByViewCnt();
+	TeamDTO selectByViewCnt();
 	
 	/**
 	 * 스터디날짜에 해당하는 팀을 조회한다
@@ -55,14 +58,14 @@ public interface TeamDAO {
 	 * @param endDate 스터디 종료일자
 	 * @return 팀객체
 	 */
-	Team selectByStudyDate(String startDate, String endDate);
+	TeamDTO selectByStudyDate(String startDate, String endDate);
 	
 	/**
 	 * 팀을 추가한다
 	 * @param c 팀객체
 	 * @throws AddException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	void create(Team t) throws AddException;
+	void create(TeamDTO t) throws AddException;
 	
 	/**
 	 * 팀정보를 수정한다
@@ -78,4 +81,8 @@ public interface TeamDAO {
 	 */
 	void delete(int teamNo) throws RemoveException;
 	
-}
+// ------------------------------------------------------------------------
+	
+	// 셍나
+	
+} // end interface
