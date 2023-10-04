@@ -1,4 +1,4 @@
-package com.my.customer.controller;
+package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,8 +19,8 @@ public class SignupController extends CustomerController {
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
 		// CORS 문제 해결
-//		res.setHeader("Access-Control-Allow-Origin", "http://10.155.253.8:5500");
-		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
+		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+//		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		res.setContentType("application/json;charset=utf-8");
@@ -33,7 +33,7 @@ public class SignupController extends CustomerController {
 		
 		// map에 넣을 
 		Map<String, Object> map = new HashMap<>(); 
-		
+				
 		// 요청 전달데이터 얻기
 		String id = req.getParameter("id");
 		String pwd = req.getParameter("pwd");
@@ -43,24 +43,27 @@ public class SignupController extends CustomerController {
 		String phone = req.getParameter("phone");
 		String email = req.getParameter("email");
 		
-		// 요청전달 데이터 담을 dto 객체 생성
-		CustomerDTO dto = new CustomerDTO();
-		
 		try {
+			
+			// 요청전달 데이터 담을 dto 객체 생성
+			CustomerDTO dto = new CustomerDTO(id, pwd, nickname, name, birthday, phone, email, null);
 			
 			service.singup(dto);
 			
+//			System.out.println("dto 데이터 받아올까 " + dto);
+			
 			map.put("status", 1);
-			map.put("msg", "회원가입 성공");
+			map.put("msg", name +"회원님 환영합니다");
 			
 		} catch (AddException e) {
-			
+			e.printStackTrace();
 			map.put("status", 0);
-			map.put("msg", e.getMessage());
+			map.put("msg", "회원가입 실패");
 		} // try-catch
 		
 		// JSON문자열 응답
-		out.print(mapper.writeValueAsString(dto));
+		String jsonStr = mapper.writeValueAsString(map);
+		out.print(jsonStr);
 		
 		return null;
 		
