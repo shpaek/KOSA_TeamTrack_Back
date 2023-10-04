@@ -7,7 +7,7 @@
     <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
   <typeAliases>
-	<typeAlias type="com.my.member.dto.Emp" alias="Emp"/>
+	<typeAlias type="com.my.notice.dto.Notice" alias="Notice"/>
   </typeAliases>
   <environments default="development">
     <environment id="development">
@@ -22,6 +22,6 @@
   </environments>
   
   <mappers>
-	<mapper resource="com/my/sql/emp.xml"/>
+	<mapper resource="com/my/sql/Notice.xml"/>
   </mappers>
 </configuration>
