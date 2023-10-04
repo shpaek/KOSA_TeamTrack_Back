@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class MemberTask {
+public class MemberTaskDTO {
 
 	private int hwScore;
 	private String id;
 	private int reviewScore;
-	private Date submitDate;
+	private String submitDate;
 	//private List<Integer> memberAnswerList;
 	private String title;
 	
