@@ -2,13 +2,10 @@ package com.my.sql;
 
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import lombok.extern.log4j.Log4j2;
 
 public class JDBCTest {
 
@@ -21,7 +18,7 @@ public class JDBCTest {
 
 		//		-------------------------------------
 
-		// 2. 드라이버 클래스들 JVM에 로드 
+		// 2. 드라이버 클래스들 JVM에 로드
 		// (프로젝트 우클릭 후 BuildPath - add external 어쩌구 설정해서 jar 추가해주기)
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
@@ -56,7 +53,7 @@ public class JDBCTest {
 
 		// 바인드 변수 사용할 경우, 컬럼이나 테이블 명에는 사용할 수 없음!
 		// 무조건 값에만 사용이 가능!
-		String selectSQL = 
+		String selectSQL =
 				"SELECT * "
 						+ "FROM emp_table";
 
@@ -68,7 +65,7 @@ public class JDBCTest {
 			// 출력
 			while(rs.next()) {
 				int age =
-						rs.getInt("age"); 
+						rs.getInt("age");
 
 				System.out.println(age);
 
@@ -80,7 +77,7 @@ public class JDBCTest {
 
 			// 연결 끊기!!! 중요!!
 			if(rs != null) {
-				try { rs.close(); } catch (SQLException e) {} // try-catch			
+				try { rs.close(); } catch (SQLException e) {} // try-catch
 			} // if
 
 			if(pstmt != null) {
@@ -136,7 +133,7 @@ public class JDBCTest {
 //			pstmt.setString(3, "seng");
 //
 //			int rowcnt =
-//					pstmt.executeUpdate(); 
+//					pstmt.executeUpdate();
 //			// INSERT문 사용할 경우 executeUpdate() 사용!
 //			// executeUpdate() = 처리된 행 수를 반환함
 //

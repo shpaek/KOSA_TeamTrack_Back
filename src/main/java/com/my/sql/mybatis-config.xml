@@ -10,6 +10,7 @@
 	<typeAlias type="com.my.notice.dto.Notice" alias="Notice"/>
 	<typeAlias type="com.my.customer.dto.Emp" alias="Emp"/>
 	<typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
+	<typeAlias type="com.my.customer.dto.TeamDTO" alias="TeamDTO"/>
   </typeAliases>
   <environments default="development">
     <environment id="development">
@@ -27,5 +28,6 @@
 	<mapper resource="com/my/sql/Notice.xml"/>
 	<mapper resource="com/my/sql/emp.xml"/>
 	<mapper resource="com/my/sql/Customer.xml"/>
+	<mapper resource="com/my/sql/Team.xml"/>
   </mappers>
 </configuration>
