@@ -4,7 +4,7 @@ import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
-import com.my.team.dto.Team;
+import com.my.team.dto.TeamDTO;
 
 public class TeamServiceImpl implements TeamService {
 
@@ -18,7 +18,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public void createTeam(Team t) throws AddException {
+	public void createTeam(TeamDTO t) throws AddException {
 		// TODO Auto-generated method stub
 
 	}
