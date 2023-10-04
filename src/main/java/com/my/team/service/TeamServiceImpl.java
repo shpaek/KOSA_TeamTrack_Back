@@ -39,6 +39,16 @@ public class TeamServiceImpl implements TeamService {
 // ------------------------------------------------------------------------
 	
 	// 셍나
+	
+	@Override
+	public void showInfo() throws FindException {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void showTeamInfo(TeamDTO teamDTO) throws FindException {
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public void joinTeam(TeamDTO teamDTO) throws AddException {

@@ -17,17 +17,27 @@ public interface TeamService {
 	
 	// 셍나
 	
+	/**
+	 * 팀 메인 페이지 - 공지사항 보여주기
+	 * @throws FindException
+	 */
 	void showInfo() throws FindException;
 	
 	/**
-	 * 팀에 가입하기
+	 * 팀 메인 페이지 - 팀 소개 보여주기
+	 * @throws FindException
+	 */
+	void showTeamInfo(TeamDTO teamDTO) throws FindException;
+	
+	/**
+	 * 팀 메인 페이지 - 팀에 가입하기
 	 * @param teamDTO
 	 * @throws AddException
 	 */
 	void joinTeam(TeamDTO teamDTO) throws AddException;
 	
 	/**
-	 * 팀에서 나가기
+	 * 팀 메인 페이지 - 팀에서 나가기
 	 * @param teamDTO
 	 * @throws ModifyException
 	 */
