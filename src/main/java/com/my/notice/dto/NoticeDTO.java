@@ -9,9 +9,9 @@ import lombok.Setter;
 
 @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class NoticeDTO {
-	Integer noticeNo;
-	String noticeTitle;
-	String noticeContent;
-	Date regDate;
-	Integer mainStatus;
+	private Integer noticeNo;
+	private String noticeTitle;
+	private String noticeContent;
+	private Date regDate;
+	private Integer mainStatus;
 }
