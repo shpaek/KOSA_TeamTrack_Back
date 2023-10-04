@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.my.customer.CustomerMapper">
+
+	<!-- 회원가입 -->
+  <insert id="create" parameterType="CustomerDTO">
+	INSERT INTO customer(id, pwd, nickname, name, birthday, phone, email)
+	VALUES(#{id}, #{pwd}, #{nickname}, #{name}, #{birthday}, #{phone}, #{email})
+  </insert>
+  
+  	<!-- 회원조회, 아이디 중복확인 -->
+  <select id="selectById" resultType="CustomerDTO">
+  	SELECT *
+  	FROM customer
+  	WHERE id=#{id}
+  </select>
+  
+</mapper>
