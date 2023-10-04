@@ -7,9 +7,8 @@
     <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
   <typeAliases>
-	<typeAlias type="com.my.customer.dto.Emp" alias="Emp"/>
 	<typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
-	<typeAlias type="com.my.customer.dto.TeamDTO" alias="TeamDTO"/>
+	<typeAlias type="com.my.team.dto.TeamDTO" alias="TeamDTO"/>
   </typeAliases>
   <environments default="development">
     <environment id="development">
@@ -24,7 +23,6 @@
   </environments>
   
   <mappers>
-	<mapper resource="com/my/sql/emp.xml"/>
 	<mapper resource="com/my/sql/Customer.xml"/>
 	<mapper resource="com/my/sql/Team.xml"/>
   </mappers>
