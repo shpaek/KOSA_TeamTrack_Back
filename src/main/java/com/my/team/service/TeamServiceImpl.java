@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
+import com.my.notice.dto.Notice;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.TeamDTO;
@@ -59,8 +61,34 @@ public class TeamServiceImpl implements TeamService {
 		return pg;
 	}
 	
+
 // ------------------------------------------------------------------------
 	
 	// 셍나
+	
+	@Override
+	public void showTeamInfo(TeamDTO teamDTO) throws FindException {
+		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void showInfo(Notice notice) throws FindException {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void joinTeam(TeamDTO teamDTO) throws AddException {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void leaveTeam(TeamDTO teamDTO) throws ModifyException {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addViewCnt(TeamDTO teamDTO) throws AddException {
+		// TODO Auto-generated method stub
+	}
+	
 } // end class
