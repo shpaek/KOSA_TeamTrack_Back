@@ -13,7 +13,7 @@ import lombok.ToString;
 public class AttendenceDTO {
 
 	// 출석부 테이블
-	private Date attendanceDate; 		// 출석일자
+	private Date attendenceDate; 		// 출석일자
 	private String attendenceId; 		// 회원 아이디
 	
 } // end class
