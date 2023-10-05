@@ -11,14 +11,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CustomerDTO {
 
-	String id;				// 유저 아이디
-	String pwd;				// 유저 비밀번호
-	String nickname;		// 유저 닉네임
-	String name;			// 유저 이름
-	String birthday;		// 유저 생년월일
-	String phone;			// 유저 번호
-	String email;			// 유저 이메일
-	Integer status;			// 유저 상태 -> 탈퇴: 0, 가입중: 1
+	private String id;				// 유저 아이디
+	private String pwd;				// 유저 비밀번호
+	private String nickname;		// 유저 닉네임
+	private String name;			// 유저 이름
+	private String birthday;		// 유저 생년월일
+	private String phone;			// 유저 번호
+	private String email;			// 유저 이메일
+	private Integer status;			// 유저 상태 -> 탈퇴: 0, 가입중: 1
 	
 	// 비상비상
 
