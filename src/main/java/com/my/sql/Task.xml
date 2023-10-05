@@ -67,7 +67,7 @@
 		parameterType="java.util.HashMap">
 		SELECT *
 		FROM ( SELECT rownum rn, a.*
-		FROM ( SELECT task_no, title,
+		FROM ( SELECT task_no, title, regdate,
 		avg_reviewscore FROM ${tableName}
 		WHERE id=#{id}
 		ORDER BY regdate
