@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Task {
+public class TaskDTO {
 
 	private Integer taskNo;
 	private String id;
-	//private Date dueDate1;
-	//private Date dueDate2;
+	private Date dueDate1;
+	private Date dueDate2;
 	private String title;
 	//private String type;
-	//private Date regDate;
-	//private String endDate;
+	private String regDate;
+	private String endDate;
 	private double avgReviewscore;
 	//private List<Integer> answerList;
 	

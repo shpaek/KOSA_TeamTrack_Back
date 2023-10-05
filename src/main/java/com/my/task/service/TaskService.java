@@ -1,7 +1,7 @@
 package com.my.task.service;
 
 import com.my.exception.FindException;
-import com.my.task.dto.Task;
+import com.my.task.dto.TaskDTO;
 import com.my.util.PageGroup;
 
 public interface TaskService {
@@ -13,6 +13,6 @@ public interface TaskService {
 	 * @return
 	 * @throws FindException
 	 */
-	PageGroup<Task> findAllTaskList(Integer teamNo, int currentPage, boolean desc) throws FindException;
+	PageGroup<TaskDTO> findAllTaskList(Integer teamNo, int currentPage, boolean desc) throws FindException;
 	
 }
