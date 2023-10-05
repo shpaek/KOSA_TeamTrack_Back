@@ -35,7 +35,7 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public List<RankDTO> selectByMonth(Integer teamNo, Date rankDate) throws FindException {
+	public List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException {
 		SqlSession session = null;
 		List<RankDTO> list = new ArrayList<>(); 
 		
@@ -107,12 +107,10 @@ public class RankDAOImpl implements RankDAO {
 		try {
 			Integer teamNo = 9999;
 			String date = "2023-10-01";
-			Date rankDate = formatter.parse(date);
-			System.out.println(rankDate);
 			
-			List<RankDTO> list = dao.selectByMonth(teamNo, rankDate);
+			List<RankDTO> list = dao.selectByMonth(teamNo, date);
 			System.out.println(list);
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

@@ -16,7 +16,7 @@ public interface RankDAO {
 	 * @return rank객체 리스트
 	 * @throws FindException date에 해당하는 rank 정보가 없거나 DB와 연결이 실패하면 예외발생
 	 */
-	List<RankDTO> selectByMonth(Integer teamNo, Date rankDate) throws FindException;
+	List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException;
 
 	/**
 	 * 팀별 Rank 정보를 저장한다

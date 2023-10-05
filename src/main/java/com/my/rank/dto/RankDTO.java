@@ -14,7 +14,7 @@ public class RankDTO {
 	
 	//Rank 기본 변수 
 	Integer rankNo;
-	Date rankDate;
+	String rankDate;
 	Integer rank;
 	Double totalScore;
 	String id;

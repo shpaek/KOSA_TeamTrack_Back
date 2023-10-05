@@ -5,14 +5,15 @@
   
 <mapper namespace="com.my.rank.RankMapper">
 
-  <select id="selectByMonth" resultType="Rank" parameterType="java.util.HashMap">
+  <select id="selectByMonth" resultType="RankDTO" parameterType="java.util.HashMap">
 
 	SELECT * 
-	FROM MEMBER_RANK_#{team_no}
-	WHERE rank_date BETWEEN TO_DATE('#{date}', 'YYYY-MM-DD') AND
-	LAST_DAY(TO_DATE('#{date}', 'YYYY-MM-DD'))
+	FROM MEMBER_RANK_${team_no}
+	WHERE rank_date BETWEEN TO_DATE(#{date}, 'yyyy-MM-dd') AND
+	LAST_DAY(TO_DATE(#{date}, 'yyyy-MM-dd'))
 	ORDER BY RANK
 	
+	<!-- 닉네임과 프로필까지 받아오기! -->
   </select>
   
 </mapper>
