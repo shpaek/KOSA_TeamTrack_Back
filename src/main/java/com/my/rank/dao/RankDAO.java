@@ -42,11 +42,10 @@ public interface RankDAO {
 	List<AttendanceDTO> selectAttendanceDay(Integer teamNo, String attendanceDate, Integer month) throws FindException;
 	
 	/**
-	 * 각 Task의 상세 정보를 조회한다 
-	 * @param taskDto task 객체 
+	 * 각 Task의 마감기한 확인을 위해 상세 정보를 조회한다 
 	 * @throws FindException DB와 연결이 실패하는 경우 예외 발생 
 	 */
-	void selectAllTask(TaskDTO taskDto) throws FindException;
+	List<TaskDTO> selectAllTask() throws FindException;
 
 	/**
 	 * 과제 점수를 계산하기 위해 월별 총 과제 갯수를 조회한다

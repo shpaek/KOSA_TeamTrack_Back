@@ -23,9 +23,9 @@ public class TaskDTO {
 	//private List<Integer> answerList;
 	
 	// rank 산정에 필요한 변수
-	private Double totalReviewscore;
-	private Integer monthlyTaskNum;
-	private Integer month;
+	private Double totalReviewscore;	//리뷰 점수 총점
+	private Integer monthlyTaskNum;		//월별 과제 개수
+	private Integer month;				//월
 	
 	
 //	public Task(Integer taskNo, String id, String title) {

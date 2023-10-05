@@ -90,9 +90,22 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public void selectAllTask(TaskDTO taskDto) throws FindException {
-		// TODO Auto-generated method stub
+	public List<TaskDTO> selectAllTask() throws FindException {
+		SqlSession session = null;
+		List<TaskDTO> list = new ArrayList<>(); 
 		
+		try {
+			session = sqlSessionFactory.openSession();	
+			list = session.selectList("com.my.rank.RankMapper.selectAllTask");
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 
 	@Override
@@ -228,6 +241,11 @@ public class RankDAOImpl implements RankDAO {
 			System.out.println("-------------------------------------");
 		} catch (FindException e) {
 			e.printStackTrace();
+		}
+		
+		List<TaskDTO> list = dao.selectAllTask();
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEndDate());				
 		}
 		
 	}
