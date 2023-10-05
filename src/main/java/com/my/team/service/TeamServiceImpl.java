@@ -3,7 +3,7 @@ package com.my.team.service;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
-import com.my.notice.dto.Notice;
+import com.my.notice.dto.NoticeDTO;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.TeamDTO;
@@ -47,7 +47,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void showInfo(Notice notice) throws FindException {
+	public void showInfo(NoticeDTO noticeDTO) throws FindException {
 		// TODO Auto-generated method stub
 	}
 	

@@ -7,7 +7,7 @@
   <settings>
     <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
-  
+
   <typeAliases>
 	<typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>
 	<typeAlias type="com.my.notice.dto.Notice" alias="Notice"/>
@@ -16,8 +16,10 @@
 	<typeAlias type="com.my.team.dto.AttendenceDTO" alias="AttendenceDTO"/>
 	<typeAlias type="com.my.team.dto.SignupTeamDTO" alias="SignupTeamDTO"/>
 	<typeAlias type="com.my.team.dto.TeamMemberDTO" alias="TeamMemberDTO"/>
+	<typeAlias type="com.my.task.dto.TaskDTO" alias="TaskDTO"/>
+	<typeAlias type="com.my.task.dto.MemberTaskDTO" alias="MemberTaskDTO"/>
   </typeAliases>
-  
+
   <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>
@@ -29,12 +31,13 @@
       </dataSource>
     </environment>
   </environments>
-  
+
   <mappers>
 	<mapper resource="com/my/sql/Rank.xml"/>
 	<mapper resource="com/my/sql/Notice.xml"/>
 	<mapper resource="com/my/sql/Customer.xml"/>
 	<mapper resource="com/my/sql/Team.xml"/>
+	<mapper resource="com/my/sql/Task.xml"/>
   </mappers>
-  
+
 </configuration>
