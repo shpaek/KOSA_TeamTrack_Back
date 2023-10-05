@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
-import com.my.notice.dto.Notice;
+import com.my.notice.dto.NoticeDTO;
 import com.my.util.PageGroup;
 
 public class NoticeListController extends NoticeController{
@@ -28,12 +28,12 @@ public class NoticeListController extends NoticeController{
 		if (currentPage != null && !currentPage.equals("")) {
 			cp = Integer.parseInt(currentPage);
 		}
+
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			PageGroup<Notice> pg = service.findNoticeAll(cp, teamNo);
+			PageGroup<NoticeDTO> pg = service.findNoticeAll(cp, teamNo);
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
-			System.out.println(pg.getList().get(0).getNoticeNo());
 		} catch (FindException e) {
 			e.printStackTrace();
 		}

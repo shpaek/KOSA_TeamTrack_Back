@@ -10,8 +10,8 @@ import lombok.ToString;
 public class PageGroup <T> {
 
 	// 상수는 주로 대문자로 표기함
-	public static final int CNT_PER_PAGE = 3;
-	public static final int CNT_PER_PAGEGROUP = 2;
+	public static final int CNT_PER_PAGE = 10;
+	public static final int CNT_PER_PAGEGROUP = 5;
 
 	private List<T> list; // 상품 목록들
 	private int totalCnt; // 카운트 함수로 전체 행수 얻어온거 14
@@ -30,7 +30,7 @@ public class PageGroup <T> {
 		// TODO 총 페이지 수 계산
 		this.totalPage = (int) Math.ceil((float) totalCnt / CNT_PER_PAGE);
 
-		if(currentPage < totalPage) {
+		if(currentPage <= totalPage) {
 			// TODO 시작, 끝 페이지 수 계산
 		    this.startPage = (currentPage - 1) / CNT_PER_PAGEGROUP * CNT_PER_PAGEGROUP + 1;
 		    this.endPage = startPage + CNT_PER_PAGEGROUP - 1;

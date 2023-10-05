@@ -13,10 +13,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.FindException;
-import com.my.notice.dto.Notice;
+import com.my.notice.dto.NoticeDTO;
 
 public class NoticeDAOImpl implements NoticeDAO{
-private SqlSessionFactory sqlSessionFactory;
+	private SqlSessionFactory sqlSessionFactory;
 	
 	public NoticeDAOImpl() {
 		String resource = "com/my/sql/mybatis-config.xml";
@@ -30,9 +30,9 @@ private SqlSessionFactory sqlSessionFactory;
 	}
 	
 	@Override
-	public List<Notice> selectNoticeAll(int startRow, int endRow, Integer teamNo) throws FindException{
+	public List<NoticeDTO> selectNoticeAll(int startRow, int endRow, Integer teamNo) throws FindException{
 		SqlSession session = null;
-		List<Notice> noticeList = new ArrayList<>();
+		List<NoticeDTO> noticeList = new ArrayList<>();
 		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
 		
 		try{
