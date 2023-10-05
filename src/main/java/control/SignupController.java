@@ -64,8 +64,8 @@ public class SignupController extends CustomerController {
 			service.singup(dto);
 
 			try {
-				String originProfileFileName = attach.getFile("profile").get(0).getName();			
-				attach.upload("profile", id+"_profile_" + originProfileFileName);
+				String originProfileFileName = attach.getFile("file1").get(0).getName();			
+				attach.upload("file1", id + "_profile_" + originProfileFileName);
 			}catch(Exception e) {
 				
 			} // try-catch
