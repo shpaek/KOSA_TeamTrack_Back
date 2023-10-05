@@ -22,4 +22,8 @@
 	FROM ${tableName}
 	WHERE notice_no = #{noticeNo}
   </select>
+  <insert id="insertNotice" parameterType = "hashmap">
+	INSERT INTO ${tableName} (notice_no, notice_title, notice_content, regdate, main_status)
+	VALUES (NOTICE_NO_SEQ.NEXTVAL, #{noticeTitle}, #{noticeContent}, #{regDate}, #{mainStatus})
+  </insert>
 </mapper>

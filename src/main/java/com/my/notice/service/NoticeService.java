@@ -1,5 +1,6 @@
 package com.my.notice.service;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.PageGroup;
@@ -22,4 +23,6 @@ public interface NoticeService {
 	 * @throws FindException DB연결 실패할 시 예외 발생한다
 	 */
 	NoticeDTO findByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
+	
+	void writeNotice(Integer team_no, NoticeDTO notice) throws AddException;
 }

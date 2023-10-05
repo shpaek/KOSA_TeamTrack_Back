@@ -2,6 +2,7 @@ package com.my.notice.dao;
 
 import java.util.List;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.notice.dto.NoticeDTO;
 
@@ -32,4 +33,6 @@ public interface NoticeDAO {
 	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
 	 */
 	NoticeDTO selectByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
+	
+	void insertNotice(Integer teamNo, NoticeDTO notice) throws AddException;
 }
