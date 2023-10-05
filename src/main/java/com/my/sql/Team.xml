@@ -3,6 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.team.TeamMapper">
+
+	<!-- 서현웅니 -->
+	
 	<select id="selectAll" resultType="TeamDTO"
 		parameterType="java.util.HashMap">
 		SELECT * FROM TEAM
@@ -104,4 +107,30 @@
 		WHERE
 		team_no = #{teamNo}
 	</insert>
+	
+	<!-- ###################################################################################################################### -->
+	<!-- 셍나 -->
+	
+	<!-- 공지 게시판 글 가져오기 -->
+	<select id="selectByNoticeNo" parameterType="NoticeDTO">
+		SELECT notice_no, notice_title, notice_content, regdate
+		FROM (
+		    SELECT notice_no, notice_title, notice_content, regdate
+		    FROM ${tableName}
+		    ORDER BY main_status DESC, regdate DESC
+		) WHERE ROWNUM <![CDATA[ <= ]]> 3;
+	</select>
+	
+	<!-- 팀 소개글 가져오기 -->
+	<select id="selectBy" parameterType="TeamDTO">
+		SELECT team_info
+		FROM TEAM
+		WHERE team_no = ${teamNo};
+	</select>
+	
+	<!--  -->
+	
+	
+	
+	
 </mapper>
