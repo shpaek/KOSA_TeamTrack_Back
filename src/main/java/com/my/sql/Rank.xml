@@ -6,19 +6,65 @@
 <mapper namespace="com.my.rank.RankMapper">
 
   <select id="selectByMonth" resultType="RankDTO" parameterType="java.util.HashMap">
-
-	SELECT mr.RANK_NO, mr.ID, mr.RANK_DATE, mr.RANK, mr.TOTALSCORE, c.NICKNAME 
+	SELECT mr.RANK_NO RANK_NO, mr.ID ID, mr.RANK_DATE RANK_DATE, mr.RANK RANK, mr.TOTALSCORE TOTALSCORE, c.NICKNAME NICKNAME 
 	FROM MEMBER_RANK_${team_no} mr JOIN CUSTOMER c ON (mr.ID = c.ID)
 	WHERE mr.RANK_DATE BETWEEN TRUNC(TO_DATE(#{date}, 'yyyy-MM-dd'),'MM') 
 		AND LAST_DAY(#{date})
 	ORDER BY mr.RANK
-	
-	<!--SELECT * 
-	FROM MEMBER_RANK_${team_no}
-	WHERE rank_date BETWEEN TO_DATE(#{date}, 'yyyy-MM-dd') AND
-	LAST_DAY(TO_DATE(#{date}, 'yyyy-MM-dd'))
-	ORDER BY RANK-->
-	
   </select>
   
+  
+  <select id="selectAttendanceDay" resultType="AttendanceDTO" parameterType="java.util.HashMap">
+  	SELECT COUNT(attendance_date) as attendanceday
+             , (LAST_DAY(#{date})-TRUNC(TO_DATE(#{date}, 'yyyy-MM-DD'), 'MM')+1) as monthday
+             , extract (month from attendance_date) as month
+             , id as attendanceid
+	FROM ATTENDANCE_${team_no}
+	WHERE extract (month from attendance_date)=#{month}
+	GROUP BY id, extract (month from attendance_date)
+	ORDER BY attendanceday DESC
+  </select>
+  
+   
+  <select id="selectAllTask" resultType="TaskDTO">
+  	SELECT * FROM TASK_9999
+  </select>
+  
+  
+  <select id="countMonthlyTask" resultType="TaskDTO" parameterType="java.util.HashMap">
+	SELECT COUNT(task_no) AS monthlytasknum, extract (month from enddate) AS month
+	FROM TASK_${team_no}
+	GROUP BY extract (month from enddate)
+	HAVING extract (month from enddate)=#{month}
+  </select>
+  
+  
+  <select id="selectTaskScore" resultType="MemberTaskDTO" parameterType="java.util.HashMap">
+	SELECT ms.id as id
+	  , SUM(ms.hwscore) as totalscore
+	  , COUNT(ms.task_no) as tasknum
+	  , extract (month from t.enddate) as month
+	FROM MEMBERSCORE_${team_no} ms JOIN TASK_${team_no} t ON (ms.task_no = t.task_no)
+	WHERE extract (month from t.enddate) = #{month}
+	GROUP BY ms.id, extract (month from t.enddate)
+  </select>
+  
+  
+  <select id="selectReviewScore" resultType="TaskDTO" parameterType="java.util.HashMap">	
+	SELECT id, sum(avg_reviewscore) as totalreviewscore, extract (month from enddate) as month
+	FROM TASK_${team_no}
+	WHERE extract (month from enddate)=#{month}
+	GROUP BY id, extract (month from enddate)
+  </select>
+  
+  <!--
+  <select id="selectQnAScore">
+	SELECT teammember_id
+		, extract (month from regdate) as month
+		, (SELECT COUNT(pickeddate) FROM QNACOMMENT_${team_no} where pickeddate IS NOT NULL) as pickednumber
+	FROM QNACOMMENT_${team_no}
+	WHERE extract (month from regdate)=#{month}
+	GROUP BY teammember_id, extract (month from regdate)
+  </select>
+  -->
 </mapper>

@@ -10,10 +10,15 @@ import lombok.ToString;
 
 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") // 일단 보류
 @Getter @Setter @ToString
-public class AttendenceDTO {
+public class AttendanceDTO {
 
 	// 출석부 테이블
-	private Date attendanceDate; 		// 출석일자
-	private String attendenceId; 		// 회원 아이디
+	private String attendanceDate; 		// 출석일자
+	private String attendanceId; 		// 회원 아이디
+	
+	// rank 산정에 필요한 변수
+	private Integer attendanceday;
+	private Integer monthday;
+	private Integer month;
 	
 } // end class

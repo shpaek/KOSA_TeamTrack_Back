@@ -18,4 +18,9 @@ public class MemberTaskDTO {
 	//private List<Integer> memberAnswerList;
 	private String title;
 	
+	// rank 산정에 필요한 변수
+	private Double totalScore;
+	private Integer taskNum;
+	private Integer month;
+	
 }
