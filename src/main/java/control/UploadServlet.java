@@ -17,7 +17,7 @@ public class UploadServlet extends HttpServlet {
 		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
-		String tempDir = 
+		//String tempDir = 
 		
 	} // doPost
 
