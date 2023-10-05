@@ -16,6 +16,8 @@
 	<typeAlias type="com.my.team.dto.AttendenceDTO" alias="AttendenceDTO"/>
 	<typeAlias type="com.my.team.dto.SignupTeamDTO" alias="SignupTeamDTO"/>
 	<typeAlias type="com.my.team.dto.TeamMemberDTO" alias="TeamMemberDTO"/>
+	<typeAlias type="com.my.task.dto.TaskDTO" alias="TaskDTO"/>
+	<typeAlias type="com.my.task.dto.MemberTaskDTO" alias="MemberTaskDTO"/>
   </typeAliases>
 
   <environments default="development">
@@ -35,6 +37,7 @@
 	<mapper resource="com/my/sql/Notice.xml"/>
 	<mapper resource="com/my/sql/Customer.xml"/>
 	<mapper resource="com/my/sql/Team.xml"/>
+	<mapper resource="com/my/sql/Task.xml"/>
   </mappers>
 
 </configuration>
