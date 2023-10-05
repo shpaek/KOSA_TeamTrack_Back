@@ -43,28 +43,7 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 서현웅니
 
-	@Override
-	public List<TeamDTO> selectAll(int startRow, int endRow) throws FindException {
-		SqlSession session = null;
-		List<TeamDTO> list = new ArrayList<>();	
-		try {
-			session = sqlSessionFactory.openSession();
-			//session.selectOne();
-			Map<String, Integer> map = new HashMap<>();
-			map.put("start", startRow);
-			map.put("end", endRow);
-			list = session.selectList("com.my.team.TeamMapper.selectAll", map);
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		} finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-	}
-
+	
 	@Override
 	public int selectCount() throws FindException{
 
@@ -85,26 +64,34 @@ public class TeamDAOImpl implements TeamDAO {
 
 	@Override
 	public TeamDTO selectByTeamNo(int teamNo) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			TeamDTO team = session.selectOne("com.my.team.TeamMapper.selectByTeamNo", teamNo);
+			if(team != null) {
+				return team;
+			}else {
+				throw new FindException("해당하는 팀이 없습니다");
+			}
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}		
 	}
 
 	@Override
 	public TeamDTO selectByTeamName(String teamName) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TeamDTO> selectByHashtag(String hashtag) throws FindException {
 		SqlSession session = null;
 
 		try {
-			List<TeamDTO> list = new ArrayList<>();
 			session = sqlSessionFactory.openSession(); //Connection
-			list = session.selectList("com.my.team.TeamMapper.selectByHashtag");
-			if(list != null) {
-				return list;
+			TeamDTO team = session.selectOne("com.my.team.TeamMapper.selectByTeamName", teamName);
+			if(team != null) {
+				return team;
 			}else {
 				throw new FindException("해당하는 팀이 없습니다");
 			}
@@ -114,66 +101,22 @@ public class TeamDAOImpl implements TeamDAO {
 			if(session != null) {
 				session.close();
 			}
-		}
+		}	
 	}
 
 	@Override
-	public List<TeamDTO> selectByNewTeam() throws FindException {
+	public List<TeamDTO> selectByHashtag(String hashtag, int startRow, int endRow) throws FindException {
 		SqlSession session = null;
+		List<TeamDTO> list = new ArrayList<>();
 
 		try {
-			List<TeamDTO> list = new ArrayList<>();
 			session = sqlSessionFactory.openSession(); //Connection
-			list = session.selectList("com.my.team.TeamMapper.selectByNewTeam");
-			if(list != null) {
-				return list;
-			}else {
-				throw new FindException("해당하는 팀이 없습니다");
-			}
-		}catch(Exception e) {
-			throw new FindException(e.getMessage());
-		}finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-	}
-
-	@Override
-	public List<TeamDTO> selectByViewCnt(int startRow, int endRow) throws FindException {
-		SqlSession session = null;
-		List<TeamDTO> list = new ArrayList<>();	
-		try {
-			session = sqlSessionFactory.openSession();
-			//session.selectOne();
-			Map<String, Integer> map = new HashMap<>();
+			Map<String, Object> map = new HashMap<>();
+			map.put("hashtag", hashtag);
 			map.put("start", startRow);
 			map.put("end", endRow);
-			list = session.selectList("com.my.product.ProductMapper.selectByViewCnt", map);
+			list = session.selectList("com.my.team.TeamMapper.selectByHashtag", map);
 			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		} finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-	}
-
-	@Override
-	public List<TeamDTO> selectByStudyDate(String startDate, String endDate) throws FindException {
-		SqlSession session = null;
-
-		try {
-			List<TeamDTO> list = new ArrayList<>();
-			session = sqlSessionFactory.openSession(); //Connection
-			list = session.selectList("com.my.team.TeamMapper.selectByStudyDate");
-			if(list != null) {
-				return list;
-			}else {
-				throw new FindException("해당하는 팀이 없습니다");
-			}
 		}catch(Exception e) {
 			throw new FindException(e.getMessage());
 		}finally {
@@ -184,17 +127,39 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public void create(TeamDTO t) throws AddException {
+	public List<TeamDTO> selectByCondition(String column, int startRow, int endRow) throws FindException {
+		SqlSession session = null;
+		List<TeamDTO> list = new ArrayList<>();
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("column", column);
+			map.put("start", startRow);
+			map.put("end", endRow);
+			list = session.selectList("com.my.team.TeamMapper.selectByCondition", map);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public void createTeam(TeamDTO t) throws AddException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(int teamNo) throws ModifyException {
+	public void updateTeam(TeamDTO t) throws ModifyException {
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession();
-			session.update("com.my.team.TeamMapper.update", teamNo);
+			session.update("com.my.team.TeamMapper.updateTeam", t);
 			session.commit();
 		} catch(Exception e){
 			session.rollback();
@@ -207,10 +172,48 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public void delete(int teamNo) throws RemoveException {
+	public void deleteTeam(int teamNo) throws RemoveException {
 		// TODO Auto-generated method stub
 
 	}
+
+
+	@Override
+	public void deleteHashtag(String hashtag) throws RemoveException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession();
+			session.delete("com.my.team.TeamMapper.deleteHashtag", hashtag);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void updateHashtag(String hashtag) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession();
+			session.insert("com.my.team.TeamMapper.insertHashtag", hashtag);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+
+
 
 	//	---------------------------------------------------------------------------------
 

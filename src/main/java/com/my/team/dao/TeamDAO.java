@@ -11,18 +11,11 @@ import com.my.team.dto.TeamDTO;
 public interface TeamDAO {
 
 	// 서현 웅니
-
-	/**
-	 * 서비스에 등록된 전체 팀을 조회한다
-	 * @return 팀객체
-	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
-	 */
-	List<TeamDTO> selectAll(int startRow, int endRow) throws FindException;
-
+	
 	/**
 	 * 
 	 * @return
-	 * @throws FindException
+	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	int selectCount() throws FindException;
 	
@@ -48,51 +41,49 @@ public interface TeamDAO {
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	List<TeamDTO> selectByHashtag(String hashtag) throws FindException;
+	List<TeamDTO> selectByHashtag(String hashtag, int startRow, int endRow) throws FindException;
 
 	/**
-	 * 최신순으로 팀을 조회한다
+	 * 조건에 맞는 팀을 조회한다
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	List<TeamDTO> selectByNewTeam() throws FindException;
-
-	/**
-	 * 조회수순으로 팀을 조회한다
-	 * @return 팀객체
-	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
-	 */
-	List<TeamDTO> selectByViewCnt(int startRow, int endRow) throws FindException;
-
-	/**
-	 * 스터디날짜에 해당하는 팀을 조회한다
-	 * @param startDate 스터디 시작일자
-	 * @param endDate 스터디 종료일자
-	 * @return 팀객체
-	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
-	 */
-	List<TeamDTO> selectByStudyDate(String startDate, String endDate) throws FindException;
+	List<TeamDTO> selectByCondition(String column, int startRow, int endRow) throws FindException;
 
 	/**
 	 * 팀을 추가한다
 	 * @param c 팀객체
 	 * @throws AddException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	void create(TeamDTO t) throws AddException;
+	void createTeam(TeamDTO t) throws AddException;
 
 	/**
 	 * 팀정보를 수정한다
 	 * @param teamNo 팀번호
 	 * @throws ModifyException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	void update(int teamNo) throws ModifyException;
+	void updateTeam(TeamDTO t) throws ModifyException;
 
+	/**
+	 * 
+	 * @param hashtag
+	 * @throws RemoveException
+	 */
+	void deleteHashtag(String hashtag) throws RemoveException;
+	
+	/**
+	 * 
+	 * @param hashtag
+	 * @throws ModifyException
+	 */
+	void updateHashtag(String hashtag) throws ModifyException;
+	
 	/**
 	 * 팀을 삭제한다
 	 * @param teamNo 팀번호
 	 * @throws RemoveException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	void delete(int teamNo) throws RemoveException;
+	void deleteTeam(int teamNo) throws RemoveException;
 
 	// ------------------------------------------------------------------------
 
