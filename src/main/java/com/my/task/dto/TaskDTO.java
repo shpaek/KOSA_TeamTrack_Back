@@ -19,4 +19,16 @@ public class TaskDTO {
 	private double avgReviewscore;
 	//private List<Integer> answerList;
 	
+	// rank 산정에 필요한 변수
+	private Double totalReviewscore;	//리뷰 점수 총점
+	private Integer monthlyTaskNum;		//월별 과제 개수
+	private Integer month;				//월
+	
+	
+//	public Task(Integer taskNo, String id, String title) {
+//		this.taskNo=taskNo;
+//		this.id=id;
+//		this.title=title;
+//	}
+	
 }
