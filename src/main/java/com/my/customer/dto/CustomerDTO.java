@@ -19,5 +19,7 @@ public class CustomerDTO {
 	String phone;			// 유저 번호
 	String email;			// 유저 이메일
 	Integer status;			// 유저 상태 -> 탈퇴: 0, 가입중: 1
+	
+	// 비상비상
 
 } // end class

@@ -17,4 +17,9 @@
 	SELECT COUNT(*)
 	FROM ${tableName}
   </select>
+  <select id="selectByNoticeNo" resultType="NoticeDTO" parameterType = "hashmap">
+	SELECT *
+	FROM ${tableName}
+	WHERE notice_no = #{noticeNo}
+  </select>
 </mapper>
