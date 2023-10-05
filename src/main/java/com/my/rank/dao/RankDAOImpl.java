@@ -101,7 +101,6 @@ public class RankDAOImpl implements RankDAO {
 	
 	public static void main(String[] args) {
 		RankDAOImpl dao = new RankDAOImpl();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
 		//rank list 가져오기 
 		try {

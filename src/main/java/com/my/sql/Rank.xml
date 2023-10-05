@@ -7,13 +7,18 @@
 
   <select id="selectByMonth" resultType="RankDTO" parameterType="java.util.HashMap">
 
-	SELECT * 
+	SELECT mr.RANK_NO, mr.ID, mr.RANK_DATE, mr.RANK, mr.TOTALSCORE, c.NICKNAME 
+	FROM MEMBER_RANK_${team_no} mr JOIN CUSTOMER c ON (mr.ID = c.ID)
+	WHERE mr.RANK_DATE BETWEEN TRUNC(TO_DATE(#{date}, 'yyyy-MM-dd'),'MM') 
+		AND LAST_DAY(#{date})
+	ORDER BY mr.RANK
+	
+	<!--SELECT * 
 	FROM MEMBER_RANK_${team_no}
 	WHERE rank_date BETWEEN TO_DATE(#{date}, 'yyyy-MM-dd') AND
 	LAST_DAY(TO_DATE(#{date}, 'yyyy-MM-dd'))
-	ORDER BY RANK
+	ORDER BY RANK-->
 	
-	<!-- 닉네임과 프로필까지 받아오기! -->
   </select>
   
 </mapper>
