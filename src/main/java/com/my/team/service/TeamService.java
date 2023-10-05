@@ -3,7 +3,7 @@ package com.my.team.service;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
-import com.my.notice.dto.Notice;
+import com.my.notice.dto.NoticeDTO;
 import com.my.team.dto.TeamDTO;
 
 public interface TeamService {
@@ -28,7 +28,7 @@ public interface TeamService {
 	 * 팀 메인 페이지 - 공지사항 보여주기
 	 * @throws FindException
 	 */
-	void showInfo(Notice notice) throws FindException;
+	void showInfo(NoticeDTO noticeDTO) throws FindException;
 	
 	/**
 	 * 팀 메인 페이지 - 팀에 가입하기
