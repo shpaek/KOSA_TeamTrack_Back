@@ -9,9 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileUploadException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
+import com.my.util.Attach;
 
 public class SignupController extends CustomerController {
 
@@ -34,28 +37,43 @@ public class SignupController extends CustomerController {
 		// map에 넣을 
 		Map<String, Object> map = new HashMap<>(); 
 				
-		// 요청 전달데이터 얻기
-		String id = req.getParameter("id");
-		String pwd = req.getParameter("pwd");
-		String nickname = req.getParameter("nickname");
-		String name = req.getParameter("name");
-		String birthday = req.getParameter("birthday");
-		String phone = req.getParameter("phone");
-		String email = req.getParameter("email");
+//		// 요청 전달데이터 얻기
+//		String id = req.getParameter("id");
+//		String pwd = req.getParameter("pwd");
+//		String nickname = req.getParameter("nickname");
+//		String name = req.getParameter("name");
+//		String birthday = req.getParameter("birthday");
+//		String phone = req.getParameter("phone");
+//		String email = req.getParameter("email");
 		
 		try {
+			
+			Attach attach = new Attach(req);
+			
+			String id = attach.getParameter("id");
+			String pwd = attach.getParameter("pwd");
+			String nickname = attach.getParameter("nickname");
+			String name = attach.getParameter("name");
+			String birthday = attach.getParameter("birthday");
+			String phone = attach.getParameter("phone");
+			String email = attach.getParameter("email");
 			
 			// 요청전달 데이터 담을 dto 객체 생성
 			CustomerDTO dto = new CustomerDTO(id, pwd, nickname, name, birthday, phone, email, null);
 			
 			service.singup(dto);
-			
-//			System.out.println("dto 데이터 받아올까 " + dto);
+
+			try {
+				String originProfileFileName = attach.getFile("profile").get(0).getName();			
+				attach.upload("profile", id+"_profile_" + originProfileFileName);
+			}catch(Exception e) {
+				
+			} // try-catch
 			
 			map.put("status", 1);
 			map.put("msg", name +"회원님 환영합니다");
 			
-		} catch (AddException e) {
+		} catch (AddException | FileUploadException e) {
 			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", "회원가입 실패");
