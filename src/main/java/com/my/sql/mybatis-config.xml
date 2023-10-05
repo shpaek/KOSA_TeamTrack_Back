@@ -8,7 +8,7 @@
     <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
 
-  <typeAliases>
+  <typeAliases> 
 	<typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>
 	<typeAlias type="com.my.notice.dto.NoticeDTO" alias="NoticeDTO"/>
 	<typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
@@ -25,7 +25,11 @@
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
         <property name="driver" value="oracle.jdbc.OracleDriver"/>
+        <!-- window -->
         <property name="url" value="jdbc:oracle:thin:@STUDYPROJECT_medium?TNS_ADMIN=C://opt//OracleCloudWallet//VFX"/>
+        <!-- mac경로임
+        <property name="url" value="jdbc:oracle:thin:@STUDYPROJECT_medium?TNS_ADMIN=/Users/opt/OracleCloudWallet/VFX"/>
+        -->
         <property name="username" value="admin"/>
         <property name="password" value="Kosaproject2023"/>
       </dataSource>

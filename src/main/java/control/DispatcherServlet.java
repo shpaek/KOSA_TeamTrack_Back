@@ -32,7 +32,8 @@ public class DispatcherServlet extends HttpServlet {
 		env = new Properties(); // Properties객체 생성
 		//servletContext 객체 찾기
 		ServletContext sc = this.getServletContext();
-		String realPath = sc.getRealPath("WEB-INF\\classes\\com\\my\\env\\" + envFileName);
+		//String realPath = sc.getRealPath("WEB-INF\\classes\\com\\my\\env\\" + envFileName); //window
+		String realPath = sc.getRealPath("WEB-INF/classes/com/my/env/" + envFileName); //mac
 		System.out.println("in DispathcerServlet의 init:() realPath = " + realPath);
 		// control.properties파일의 내용을 Properties객체에 넣기
 		try {
