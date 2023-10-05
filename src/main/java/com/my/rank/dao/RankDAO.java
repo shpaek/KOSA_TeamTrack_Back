@@ -27,7 +27,7 @@ public interface RankDAO {
 	void insert(Integer teamNo, RankDTO rankDto) throws AddException;
 	
 	
-	//랭킹 점수 계산 
+	////랭킹 점수 계산 
 //	/**
 //	 * 출석률 계산을 위해 id별, 월별 출석일수와 월 총 일수를 추출한다
 //	 * @param teamNo 팀 번호
