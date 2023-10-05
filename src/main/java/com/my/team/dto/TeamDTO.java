@@ -22,6 +22,13 @@ public class TeamDTO {
 	private String briefInfo;
 	private String teamInfo;
 	
+	// 팀 해시태그 테이블
+	private String hashtagName1;
+	private String hashtagName2;
+	private String hashtagName3;
+	private String hashtagName4;
+	private String hashtagName5;
+	
 	// 팀원 테이블
 	private String id;					// 회원 아이디
 	private String nickname;			// 닉네임

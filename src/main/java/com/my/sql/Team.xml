@@ -7,6 +7,9 @@
 		parameterType="java.util.HashMap">
 		SELECT * FROM TEAM
 	</select>
+	<select id="selectCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM TEAM
+	</select>
 	<!-- 확인 필요 -->
 	<select id="selectByTeamNo" resultType="TeamDTO">
 		SELECT team_name,
@@ -60,7 +63,7 @@
 		TO_DATE(enddate, 'YYYY-MM-DD') > sysdate
 		ORDER BY createdate DESC;
 	</select>
-	<select id="selectByViewCnt" resultType="TeamDTO">
+	<select id="selectByViewCnt" resultType="TeamDTO" parameterType="java.util.HashMap">
 		SELECT team_name,
 		study_type, onoffline, join_member, max_member,
 		startdate, enddate,
@@ -79,17 +82,19 @@
 		study_type, onoffline, join_member, max_member,
 		startdate, enddate,
 		brief_info,
-		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
+		(select LISTAGG(hashtag_name, ',') from
+		TEAM_HASHTAG b
 		where b.team_no =
 		a.team_no)
 		AS hashtags, viewcnt
-		FROM TEAM a
+		FROM TEAM
+		a
 		WHERE
 		(TO_DATE(startdate, 'YYYY-MM-DD') > TO_DATE('2023-09-01',
 		'YYYY-MM-DD')) AND (TO_DATE(enddate, 'YYYY-MM-DD') <![CDATA[ < ]]>
 		TO_DATE('2024-01-01', 'YYYY-MM-DD'))
 	</select>
-	<insert id="update" parameterType="TeamDTO">
+	<update id="update" parameterType="TeamDTO">
 		UPDATE TEAM
 		SET team_name =
 		#{teamName},
@@ -103,5 +108,5 @@
 		team_info = #{teamInfo}
 		WHERE
 		team_no = #{teamNo}
-	</insert>
+	</update>
 </mapper>
