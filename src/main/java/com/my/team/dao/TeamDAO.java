@@ -85,4 +85,5 @@ public interface TeamDAO {
 	
 	// 셍나
 	
+	
 } // end interface
