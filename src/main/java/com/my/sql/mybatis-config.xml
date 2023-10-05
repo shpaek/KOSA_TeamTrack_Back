@@ -9,11 +9,11 @@
   </settings>
 
   <typeAliases>
-	<typeAlias type="com.my.rank.dto.RankDTO" alias="Rank"/>
+	<typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>
 	<typeAlias type="com.my.notice.dto.NoticeDTO" alias="NoticeDTO"/>
 	<typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
 	<typeAlias type="com.my.team.dto.TeamDTO" alias="TeamDTO"/>
-	<typeAlias type="com.my.team.dto.AttendenceDTO" alias="AttendenceDTO"/>
+	<typeAlias type="com.my.team.dto.AttendanceDTO" alias="AttendanceDTO"/>
 	<typeAlias type="com.my.team.dto.SignupTeamDTO" alias="SignupTeamDTO"/>
 	<typeAlias type="com.my.team.dto.TeamMemberDTO" alias="TeamMemberDTO"/>
 	<typeAlias type="com.my.task.dto.TaskDTO" alias="TaskDTO"/>
