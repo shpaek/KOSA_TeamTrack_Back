@@ -14,5 +14,12 @@ public interface NoticeService {
 	 */
 	PageGroup<NoticeDTO> findNoticeAll(int currentPage, Integer teamNo) throws FindException;
 	
+	/**
+	 * 팀 공지 테이블의 게시글 번호에 해당되는 공지 게시글 한개를 반환한다
+	 * @param teamNo 팀번호
+	 * @param noticeNo 공지게시글 번호
+	 * @return 게시글
+	 * @throws FindException DB연결 실패할 시 예외 발생한다
+	 */
 	NoticeDTO findByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
 }

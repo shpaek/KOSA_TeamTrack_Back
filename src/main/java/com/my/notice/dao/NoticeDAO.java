@@ -12,7 +12,7 @@ public interface NoticeDAO {
 	 * @param endRow 마지막행
 	 * @param teamNo 팀번호
 	 * @return 게시글들
-	 * @throws FindException DB와의 연결 실패 시 예외 발생
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
 	 */
 	List<NoticeDTO> selectNoticeAll(int startRow, int endRow, Integer teamNo) throws FindException;
 	
@@ -24,5 +24,12 @@ public interface NoticeDAO {
 	 */
 	int selectNoticeCount(Integer teamNo) throws FindException;
 	
+	/**
+	 * 팀 테이블의 게시글 번호에 해당되는 게시글을 조회한다
+	 * @param teamNo 팀번호
+	 * @param noticeNo 게시글번호
+	 * @return 게시글
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
 	NoticeDTO selectByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
 }

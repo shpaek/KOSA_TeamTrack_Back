@@ -20,9 +20,8 @@ public class NoticeDetailController extends NoticeController{
 		
 		PrintWriter out = response.getWriter();
 		
-		Integer teamNo = 9999;//Integer.parseInt(request.getParameter("teamNo"));
-		Integer noticeNo = 9999;//Integer.parseInt(request.getParameter("noticeNo"));
-		String currentPage = request.getParameter("currentPage");
+		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+		Integer noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
