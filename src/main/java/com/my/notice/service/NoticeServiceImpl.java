@@ -9,10 +9,10 @@ import com.my.notice.dto.NoticeDTO;
 import com.my.util.PageGroup;
 
 public class NoticeServiceImpl implements NoticeService {
-	private NoticeDAO noticeDao;
+	private NoticeDAO notice;
 	private static NoticeServiceImpl service = new NoticeServiceImpl();
 	public NoticeServiceImpl() {
-		noticeDao = new NoticeDAOImpl();
+		notice = new NoticeDAOImpl();
 	}
 	public static NoticeServiceImpl getInstance() {
 		return service;
@@ -32,11 +32,16 @@ public class NoticeServiceImpl implements NoticeService {
 		startRow = (currentPage -1)*cntPerPage +1;
 		endRow = currentPage*cntPerPage;
 		
-		List<NoticeDTO> noticeList = noticeDao.selectNoticeAll(startRow, endRow, teamNo);
+		List<NoticeDTO> noticeList = notice.selectNoticeAll(startRow, endRow, teamNo);
 		
-		int totalCnt = noticeDao.selectNoticeCount(teamNo);
+		int totalCnt = notice.selectNoticeCount(teamNo);
 		
 		PageGroup<NoticeDTO> pg = new PageGroup<>(noticeList, currentPage, totalCnt); 
 		return pg;
+	}
+	
+	@Override
+	public NoticeDTO findByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException{
+		return notice.selectByNoticeNo(teamNo, noticeNo);
 	}
 }

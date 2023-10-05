@@ -70,4 +70,27 @@ public class NoticeDAOImpl implements NoticeDAO{
 			}
 		}		
 	}
+	
+	@Override
+	public NoticeDTO selectByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException{
+		SqlSession session = null;
+		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
+		Map map = new HashMap<>();
+		NoticeDTO notice = new NoticeDTO();
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("tableName",tableName);
+			map.put("noticeNo", noticeNo);
+			notice = session.selectOne("com.my.notice.NoticeMapper.selectByNoticeNo", map);
+			return notice;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		}		
+	}
 }

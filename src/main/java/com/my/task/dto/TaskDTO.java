@@ -1,8 +1,5 @@
 package com.my.task.dto;
 
-import java.util.Date;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +10,8 @@ public class TaskDTO {
 
 	private Integer taskNo;
 	private String id;
-	private Date dueDate1;
-	private Date dueDate2;
+	private String dueDate1;
+	private String dueDate2;
 	private String title;
 	//private String type;
 	private String regDate;
