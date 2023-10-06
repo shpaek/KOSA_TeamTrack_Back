@@ -14,6 +14,7 @@ public class TaskDTO {
 
 	private Integer taskNo;
 	private String id;
+	private String nickname;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date dueDate1;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
