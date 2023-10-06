@@ -14,6 +14,7 @@ public class MemberTaskDTO {
 
 	private int hwScore;
 	private String id;
+	private String nickname;
 	private int reviewScore;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date submitDate;
