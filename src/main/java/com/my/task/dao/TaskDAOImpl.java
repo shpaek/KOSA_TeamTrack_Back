@@ -10,7 +10,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
+import com.my.exception.RemoveException;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 
@@ -226,10 +229,89 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
+	
+	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "task_"+teamNo);
+			map.put("title", title);
+			map.put("enddate", enddate);
+			map.put("taskNo", taskNo);
+			session.update("com.my.task.TaskMapper.updateTask", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new ModifyException("과제 업데이트 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	public void insertQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "quizanswer_"+teamNo);
+			map.put("questionNo", questionNo);
+			map.put("taskNo", taskNo);
+			map.put("answer", answer);
+			session.insert("com.my.task.TaskMapper.insertQuizAnswer", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new AddException("답안 생성 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	public void updateQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "quizanswer_"+teamNo);
+			map.put("questionNo", questionNo);
+			map.put("taskNo", taskNo);
+			map.put("answer", answer);
+			session.update("com.my.task.TaskMapper.updateQuizAnswer", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new ModifyException("답안 수정 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	public void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "quizanswer_"+teamNo);
+			map.put("questionNo", questionNo);
+			map.put("taskNo", taskNo);
+			session.delete("com.my.task.TaskMapper.deleteQuizAnswer", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new RemoveException("답안 삭제 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
 
 
-	// main test
-//	public static void main(String[] args) throws FindException {
+//	// main test
+//	public static void main(String[] args) throws FindException, AddException {
 //		TaskDAOImpl t=new TaskDAOImpl();
 //		try {
 //			System.out.println("======================\n메인과제리스트");
@@ -276,9 +358,17 @@ public class TaskDAOImpl implements TaskDAO {
 //			}
 //			int score=t.selectMemberScore(9999, 1, "nwh2023");
 //			System.out.println("점수 : "+score); //풀지 않았을 경우 예외처리
-//		} catch (FindException e) {
+//			System.out.println("======================\\n과제 업데이트");
+//			t.updateTask(9999, "test exam1", "2023-10-20", 10);
+//			System.out.println("======================\\n답안 생성");
+//			//t.insertQuizAnswer(9999, 1, 10, 4);
+//			System.out.println("======================\\n답안 수정");
+//			//t.updateQuizAnswer(9999, 1, 10, 1);
+//			System.out.println("======================\\n답안 삭제");
+//			t.deleteQuizAnswer(9999, 1, 10);
+//		} catch (Exception e) {
 //			//e.printStackTrace();
-//			throw new FindException("답안이 존재하지 않습니다.");
+//			System.out.println(e.getMessage());
 //		}
 //	}
 
