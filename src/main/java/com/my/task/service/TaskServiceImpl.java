@@ -2,14 +2,17 @@ package com.my.task.service;
 
 import java.util.List;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
+import com.my.exception.RemoveException;
 import com.my.task.dao.TaskDAO;
 import com.my.task.dao.TaskDAOImpl;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.util.PageGroup;
 
-public class TaskServiceImpl {
+public class TaskServiceImpl implements TaskService {
 
 	private TaskDAO taskDAO;
 	private static TaskServiceImpl service=new TaskServiceImpl();
@@ -73,6 +76,27 @@ public class TaskServiceImpl {
 		int totalCnt=taskDAO.selectMyTaskCount(teamNo, id);
 		PageGroup<TaskDTO> pg=new PageGroup<>(list, currentPage, totalCnt);
 		return pg;
+	}
+
+	@Override
+	public void ModifyTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
+		taskDAO.updateTask(teamNo, title, enddate, taskNo);
+	}
+
+	@Override
+	public void AddQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
+		taskDAO.insertQuizAnswer(teamNo, questionNo, taskNo, answer);
+	}
+
+	@Override
+	public void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer)
+			throws ModifyException {
+		taskDAO.updateQuizAnswer(teamNo, questionNo, taskNo, answer);	
+	}
+
+	@Override
+	public void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
+		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
 	}
 	
 //	public static void main(String[] args) throws FindException {
