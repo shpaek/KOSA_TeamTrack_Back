@@ -30,4 +30,9 @@
   	DELETE FROM ${tableName}
 	WHERE notice_no = #{noticeNo}
   </delete>
+  <update id="updateNotice" parameterType = "hashmap">
+  	UPDATE ${tableName}
+	SET notice_title = #{notice.noticeTitle}, notice_content = #{notice.noticeContent}, main_status = #{notice.mainStatus}
+	WHERE notice_no = #{notice.noticeNo}
+  </update>
 </mapper>

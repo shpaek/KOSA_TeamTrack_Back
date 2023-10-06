@@ -2,6 +2,7 @@ package com.my.notice.service;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.PageGroup;
@@ -39,5 +40,7 @@ public interface NoticeService {
 	 * @param notice_no 게시글번호
 	 * @throws RemoveException DB연결 실패할 시 예외 발생한다
 	 */
-	void removeNotice(Integer teamNo, Integer notice_no) throws RemoveException;
+	void removeNotice(Integer teamNo, Integer noticeNo) throws RemoveException;
+	
+	void modifyNotice(Integer teamNo, NoticeDTO notice) throws ModifyException;
 }

@@ -14,6 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
 
@@ -133,6 +134,28 @@ public class NoticeDAOImpl implements NoticeDAO{
 		}catch(Exception e) {
 			session.rollback();
 			throw new RemoveException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void updateNotice(Integer teamNo, NoticeDTO notice) throws ModifyException{
+		SqlSession session = null;
+		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
+		Map map = new HashMap<>();
+		
+		try{
+			session = sqlSessionFactory.openSession();
+			map.put("tableName", tableName);
+			map.put("notice", notice);
+			session.update("com.my.notice.NoticeMapper.updateNotice", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
 		}finally {
 			if(session!=null) {
 				session.close();
