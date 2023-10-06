@@ -21,9 +21,9 @@ public class TaskDTO {
 	private String title;
 	//private String type;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date regDate;
+	private Date regdate;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date endDate;
+	private Date enddate;
 	private double avgReviewscore;
 	//private List<Integer> answerList;
 	

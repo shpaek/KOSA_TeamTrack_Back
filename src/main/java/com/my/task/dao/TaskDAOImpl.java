@@ -310,7 +310,7 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 
-//	// main test
+	// main test
 //	public static void main(String[] args) throws FindException, AddException {
 //		TaskDAOImpl t=new TaskDAOImpl();
 //		try {
@@ -319,8 +319,8 @@ public class TaskDAOImpl implements TaskDAO {
 //			for(int i=0;i<list4.size();i++) {
 //				System.out.print("과제 타이틀 : "+list4.get(i).getTitle()+" | ");
 //				System.out.print("출제자 : "+list4.get(i).getId()+" | ");
-//				System.out.print("과제 생성일 : "+list4.get(i).getRegDate()+" | ");
-//				System.out.println("과제 마감일 : "+list4.get(i).getEndDate());
+//				System.out.print("과제 생성일 : "+list4.get(i).getRegdate()+" | ");
+//				System.out.println("과제 마감일 : "+list4.get(i).getEnddate());
 //			}
 //			System.out.print("======================\n전체과제리스트 - ");
 //			int cnt=t.selectAllTaskCount(9999);
@@ -329,7 +329,7 @@ public class TaskDAOImpl implements TaskDAO {
 //			for(int i=0;i<list.size();i++) {
 //				System.out.print("과제 타이틀 : "+list.get(i).getTitle()+" | ");
 //				System.out.print("출제자 : "+list.get(i).getId()+" | ");
-//				System.out.println("과제 생성일 : "+list.get(i).getRegDate());
+//				System.out.println("과제 생성일 : "+list.get(i).getRegdate());
 //			}
 //			System.out.print("======================\n완료과제리스트 - ");
 //			int cnt2=t.selectCompleteTaskCount(9999, "nwh2023");
@@ -352,7 +352,7 @@ public class TaskDAOImpl implements TaskDAO {
 //			TaskDTO task=t.selectTaskInfo(9999, 1);
 //			List<Integer> qa=t.selectQuizAnswer(9999, 1);
 //			List<Integer> ma=t.selectMemberAnswer(9999, 1, "nwh2023");
-//			System.out.println(task.getTitle()+"	출제자 : "+task.getId()+" | 과제생성일 : "+task.getRegDate());
+//			System.out.println(task.getTitle()+"	출제자 : "+task.getId()+" | 과제생성일 : "+task.getRegdate());
 //			for(int i=0;i<qa.size();i++) {
 //				System.out.println("과제 답 : "+qa.get(i)+" / 팀원 답 : "+ma.get(i));
 //			}
@@ -365,7 +365,7 @@ public class TaskDAOImpl implements TaskDAO {
 //			System.out.println("======================\\n답안 수정");
 //			//t.updateQuizAnswer(9999, 1, 10, 1);
 //			System.out.println("======================\\n답안 삭제");
-//			t.deleteQuizAnswer(9999, 1, 10);
+//			//t.deleteQuizAnswer(9999, 1, 10);
 //		} catch (Exception e) {
 //			//e.printStackTrace();
 //			System.out.println(e.getMessage());
