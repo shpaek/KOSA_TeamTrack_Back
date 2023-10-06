@@ -1,18 +1,74 @@
 package com.my.team.service;
 
+import java.util.List;
+
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
-import com.my.notice.dto.Notice;
+import com.my.exception.RemoveException;
+import com.my.notice.dto.NoticeDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.util.PageGroup;
 
 public interface TeamService {
 	
 	// 서현 웅니
-	
+	/**
+	 * 
+	 * @param t
+	 * @throws AddException
+	 */
 	void createTeam(TeamDTO t) throws AddException;
 	
+	/**
+	 * 
+	 * @param teamName
+	 * @throws FindException
+	 */
 	void teamNameDupChk(String teamName) throws FindException;
+	
+	/**
+	 * 
+	 * @param t
+	 * @throws ModifyException
+	 */
+	void updateTeam(TeamDTO t) throws ModifyException;
+	
+	/**
+	 * 
+	 */
+	void updateHashtag(String hashtag) throws ModifyException, RemoveException;
+	/**
+	 * 
+	 * @param teamNo
+	 * @throws RemoveException
+	 */
+	void deleteTeam(int teamNo) throws RemoveException;
+	
+	/**
+	 * 
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectTopThreeTeams() throws FindException;
+	
+	/**
+	 * 
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectByCondition(String column) throws FindException;
+		
+	TeamDTO selectByTeamName(String teamName) throws FindException;
+	List<TeamDTO> selectByHashtag(String hashtag) throws FindException;
+	TeamDTO selectByTeamNo(int teamNo) throws FindException;
+	
+	
+	/**
+	 * 
+	 * @param currentPage
+	 * @return
+	 * @throws FindException
+	 */
+	PageGroup<TeamDTO> findAll(int currentPage) throws FindException;
 
 // ------------------------------------------------------------------------
 	
@@ -28,7 +84,7 @@ public interface TeamService {
 	 * 팀 메인 페이지 - 공지사항 보여주기
 	 * @throws FindException
 	 */
-	void showInfo(Notice notice) throws FindException;
+	void showInfo(NoticeDTO noticeDTO) throws FindException;
 	
 	/**
 	 * 팀 메인 페이지 - 팀에 가입하기

@@ -68,9 +68,11 @@
 		SELECT *
 		FROM ( SELECT rownum rn, a.*
 		FROM ( SELECT task_no, title,
+		regdate,
 		avg_reviewscore FROM ${tableName}
 		WHERE id=#{id}
-		ORDER BY regdate
+		ORDER BY
+		regdate
 		<if test="desc">DESC</if>
 		) a
 		) t
@@ -114,7 +116,30 @@
 	<select id="selectMemberScore" resultType="Integer"
 		parameterType="java.util.HashMap">
 		SELECT hwscore FROM ${tableName}
-		WHERE task_no=#{taskNo} AND id=#{id}
+		WHERE task_no=#{taskNo}
+		AND id=#{id}
 	</select>
+
+	<!-- 과제 정보 업데이트하기 -->
+	<update id="updateTask" parameterType="java.util.HashMap">
+		UPDATE ${tableName}
+		SET regdate=SYSDATE, enddate=TO_DATE(#{enddate}, 'yyyy-MM-dd'), title=#{title}
+		WHERE task_no=#{taskNo}
+	</update>
+	
+	<!-- 과제 답안 생성하기 -->
+	<insert id="insertQuizAnswer" parameterType="java.util.HashMap">
+		INSERT INTO ${tableName} (question_no, task_no, answer) VALUES (#{questionNo}, #{taskNo}, #{answer})
+	</insert>
+	
+	<!-- 과제 답안 수정하기 -->
+	<update id="updateQuizAnswer" parameterType="java.util.HashMap">
+		UPDATE ${tableName} SET answer=#{answer} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
+	</update>
+	
+	<!-- 과제 답안 삭제하기 -->
+	<delete id="deleteQuizAnswer" parameterType="java.util.HashMap">
+		DELETE ${tableName} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
+	</delete>
 
 </mapper>

@@ -14,8 +14,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class Attach {
 	
-	private String tempDir = "C:\\kosa\\temp"; //임시파일 저장경로
-	private String attachesDir = "C:\\kosa\\files"; //첨부경로
+	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로
+	private String attachesDir = "C:\\KOSA202307\\attaches"; //첨부경로
 	
 	private ServletFileUpload fileUpload;	
 	private Map<String, List<FileItem>> requestMap;
@@ -39,7 +39,6 @@ public class Attach {
 		fileItemFactory.setRepository(repository); //업로드경로설정
 		fileItemFactory.setSizeThreshold(10*1024); //10*1024byte이상인 경우 임시파일이 만들어짐
 		fileUpload = new ServletFileUpload(fileItemFactory);
-		fileUpload.setHeaderEncoding("UTF-8");
 		requestMap =  fileUpload.parseParameterMap(request);
 	}
 	
@@ -58,7 +57,6 @@ public class Attach {
 //		return requestMap.get(name).get(0).getString();
 		// 위아래 동일 코드
 		List<FileItem> items = requestMap.get(name);
-		
 		if(items == null ) {
 			return null;
 		} // if

@@ -1,7 +1,8 @@
 package com.my.task.dto;
 
 import java.util.Date;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,19 +14,22 @@ public class TaskDTO {
 
 	private Integer taskNo;
 	private String id;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date dueDate1;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date dueDate2;
 	private String title;
 	//private String type;
-	private String regDate;
-	private String endDate;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	private Date regDate;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	private Date endDate;
 	private double avgReviewscore;
 	//private List<Integer> answerList;
 	
-//	public Task(Integer taskNo, String id, String title) {
-//		this.taskNo=taskNo;
-//		this.id=id;
-//		this.title=title;
-//	}
-	
+	// rank 산정에 필요한 변수
+	private Double totalReviewscore;	//리뷰 점수 총점
+	private Integer monthlyTaskNum;		//월별 과제 개수
+	private Integer month;				//월
+
 }

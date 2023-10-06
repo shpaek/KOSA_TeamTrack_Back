@@ -1,7 +1,5 @@
 package com.my.rank.dto;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -13,16 +11,14 @@ import lombok.Setter;
 public class RankDTO {
 	
 	//Rank 기본 변수 
-	Integer rankNo;
-	Date rankDate;
-	Integer rank;
-	Double totalScore;
-	String id;
+	private Integer rankNo;		//랭킹 번호
+	private String rankDate;	//랭킹 일자
+	private Integer rank;		//실제 랭킹
+	private Double totalScore;	//랭킹 총 점수
+	private String id;			//멤버 아이디
 	
-	//Rank 계산을 위한 변수
-//	private AttendanceDTO AttendanceDto;
-//	private TaskDTO TaskDto;
-//	private MemberScoreDTO MemberScoreDto;
-//	private QnACommentDTO QnACommentDto;
+	//랭킹 리스트에 필요한 회원 정보
+	private String nickname;	//회원 닉네임
+	private String profile;		//회원 프로필
 
 }
