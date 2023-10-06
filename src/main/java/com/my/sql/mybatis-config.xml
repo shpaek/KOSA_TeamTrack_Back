@@ -6,10 +6,11 @@
 
   <settings>
     <setting name="mapUnderscoreToCamelCase" value="true"/>
+    <setting name="logImpl" value="STDOUT_LOGGING"/>
   </settings>
 
   <typeAliases>
-	<typeAlias type="com.my.rank.dto.RankDTO" alias="Rank"/>
+	<typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>
 	<typeAlias type="com.my.notice.dto.NoticeDTO" alias="NoticeDTO"/>
 	<typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
 	<typeAlias type="com.my.team.dto.TeamDTO" alias="TeamDTO"/>

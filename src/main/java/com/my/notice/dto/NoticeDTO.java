@@ -22,5 +22,6 @@ public class NoticeDTO {
 		this.noticeTitle = noticeTitle;
 		this.noticeContent = noticeContent;
 		this.regDate = regDate;
+		this.mainStatus = mainStatus;
 	}
 }

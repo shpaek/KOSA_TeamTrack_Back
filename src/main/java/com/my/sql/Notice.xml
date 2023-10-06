@@ -24,6 +24,10 @@
   </select>
   <insert id="insertNotice" parameterType = "hashmap">
 	INSERT INTO ${tableName} (notice_no, notice_title, notice_content, regdate, main_status)
-	VALUES (NOTICE_NO_SEQ.NEXTVAL, #{noticeTitle}, #{noticeContent}, #{regDate}, #{mainStatus})
+	VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice.noticeTitle}, #{notice.noticeContent}, #{notice.regDate}, #{notice.mainStatus})
   </insert>
+  <delete id="deleteNotice" parameterType = "hashmap">
+  	DELETE FROM ${tableName}
+	WHERE notice_no = #{noticeNo}
+  </delete>
 </mapper>

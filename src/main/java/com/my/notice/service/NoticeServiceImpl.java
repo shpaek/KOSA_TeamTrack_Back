@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.RemoveException;
 import com.my.notice.dao.NoticeDAO;
 import com.my.notice.dao.NoticeDAOImpl;
 import com.my.notice.dto.NoticeDTO;
@@ -49,5 +50,10 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void writeNotice(Integer teamNo, NoticeDTO notice) throws AddException{
 		noticeDAO.insertNotice(teamNo, notice);
+	}
+	
+	@Override
+	public void removeNotice(Integer teamNo, Integer noticeNo) throws RemoveException{
+		noticeDAO.deleteNotice(teamNo, noticeNo);
 	}
 }
