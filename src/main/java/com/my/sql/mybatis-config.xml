@@ -18,6 +18,7 @@
 	<typeAlias type="com.my.team.dto.TeamMemberDTO" alias="TeamMemberDTO"/>
 	<typeAlias type="com.my.task.dto.TaskDTO" alias="TaskDTO"/>
 	<typeAlias type="com.my.task.dto.MemberTaskDTO" alias="MemberTaskDTO"/>
+	<typeAlias type="com.my.qna.dto.QnaBoardDTO" alias="QnaBoardDTO"/>
   </typeAliases>
 
   <environments default="development">
@@ -42,6 +43,7 @@
 	<mapper resource="com/my/sql/Customer.xml"/>
 	<mapper resource="com/my/sql/Team.xml"/>
 	<mapper resource="com/my/sql/Task.xml"/>
+	<mapper resource="com/my/sql/Qna.xml"/>
   </mappers>
 
 </configuration>
