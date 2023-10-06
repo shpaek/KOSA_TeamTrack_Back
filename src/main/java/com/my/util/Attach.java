@@ -1,6 +1,7 @@
 package com.my.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,14 @@ public class Attach {
 			return null;
 		} // if
 		FileItem item = items.get(0);
-		String value = item.getString();
+		
+		String value = "";
+		try {
+			value = item.getString("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return value;
 	}
 	
@@ -76,7 +84,11 @@ public class Attach {
 		String[] arr = new String[list.size()];
 		int i=0;
 		for(FileItem item: requestMap.get(name)) {
-			arr[i] = item.getString();
+			try {
+				arr[i] = item.getString("UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			i++;
 		}		
 		return arr;
