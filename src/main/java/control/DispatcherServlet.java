@@ -48,6 +48,8 @@ public class DispatcherServlet extends HttpServlet {
 		// 헤더 설정
 		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
+		res.setContentType("application/json;charset=utf-8");
+		req.setCharacterEncoding("UTF-8");
 
 		System.out.println("req.getServletPath() = " + req.getServletPath());
 
