@@ -99,7 +99,7 @@ public class TaskServiceImpl implements TaskService {
 		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
 	}
 	
-//	public static void main(String[] args) throws FindException {
+//	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");
 //		List<TaskDTO> list=t.findMainTaskList(9999, true);
@@ -133,6 +133,17 @@ public class TaskServiceImpl implements TaskService {
 //			System.out.print("평점 : "+pg3.getList().get(i).getAvgReviewscore()+" | ");
 //			System.out.println("과제 생성일 : "+pg3.getList().get(i).getRegDate());
 //		}
+//		
+//		System.out.println("======================\n과제출제-과제정보업뎃");
+//		t.ModifyTask(9999, "내가만든과제란다", "2023-10-09", 9);
+//		System.out.println("======================\n과제출제-답생성");
+////		t.AddQuizAnswer(9999, 1, 9, 2);
+////		t.AddQuizAnswer(9999, 2, 9, 1);
+////		t.AddQuizAnswer(9999, 3, 9, 2);
+//		System.out.println("======================\n과제출제-답수정");
+////		t.ModifyQuizAnswer(9999, 2, 9, 3);
+//		System.out.println("======================\n과제출제-답삭제");
+////		t.removeQuizAnswer(9999, 3, 9);
 //	}
 
 }
