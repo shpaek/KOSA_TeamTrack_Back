@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.my.customer.CustomerMapper">
+
+	<insert id="create" parameterType="QnaBoardDTO">
+		INSERT INTO qnaboard(id, title, content)
+		values (#{id}, #{title}, #{content})
+	</insert>
+	
+	<select id="selectAll" resultType="QnaBoardDTO">
+			SELECT *
+			FROM qnaboard
+			WHERE qna_no=#{qna_no}
+	</select>
+	
+	<update id="update" parameterType="QnaBoardDTO">
+			update qnaboard
+			set title = #{title}, content{content}, updatedate = sysdate
+			where qna_no=#{qna_no}
+	</update>
+	
+	<delete id="delete" parameterType="QnaBoardDTO">
+			delete qnaboard
+			where qna_no=#{qna_no}
+	</delete>
+  
+</mapper>
