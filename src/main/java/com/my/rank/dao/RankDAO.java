@@ -9,6 +9,7 @@ import com.my.rank.dto.RankDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public interface RankDAO {
 
@@ -20,6 +21,14 @@ public interface RankDAO {
 	 * @throws FindException date에 해당하는 rank 정보가 없거나 DB와 연결이 실패하면 예외발생
 	 */
 	List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException;
+
+	/**
+	 * 팀별 팀 멤버들의 id를 조회한다
+	 * @param teamNo 팀 번호
+	 * @return
+	 * @throws FindException 팀 번호에 해당하는 멤버 아이디가 없거나 DB와 연결이 실패하면 예외발생
+	 */
+	List<TeamMemberDTO> selectAll(Integer teamNo) throws FindException;
 
 	/**
 	 * 팀별 Rank 정보를 저장한다
