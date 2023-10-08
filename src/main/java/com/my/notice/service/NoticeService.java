@@ -1,6 +1,8 @@
 package com.my.notice.service;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.PageGroup;
 
@@ -22,4 +24,20 @@ public interface NoticeService {
 	 * @throws FindException DB연결 실패할 시 예외 발생한다
 	 */
 	NoticeDTO findByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
+	
+	/**
+	 * 작성한 게시글 정보를 추가한다
+	 * @param teamNo 팀번호
+	 * @param notice 게시글번호
+	 * @throws AddException DB연결 실패할 시 예외 발생한다
+	 */
+	void writeNotice(Integer teamNo, NoticeDTO notice) throws AddException;
+	
+	/**
+	 * 해당되는 게시글을 삭제한다
+	 * @param teamNo 팀번호
+	 * @param notice_no 게시글번호
+	 * @throws RemoveException DB연결 실패할 시 예외 발생한다
+	 */
+	void removeNotice(Integer teamNo, Integer notice_no) throws RemoveException;
 }

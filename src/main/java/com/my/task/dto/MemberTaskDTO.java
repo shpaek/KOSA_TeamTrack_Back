@@ -1,5 +1,9 @@
 package com.my.task.dto;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +14,10 @@ public class MemberTaskDTO {
 
 	private int hwScore;
 	private String id;
+	private String nickname;
 	private int reviewScore;
-	private String submitDate;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	private Date submitDate;
 	//private List<Integer> memberAnswerList;
 	private String title;
 	

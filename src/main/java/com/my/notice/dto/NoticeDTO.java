@@ -17,4 +17,11 @@ public class NoticeDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date regDate;
 	private Integer mainStatus;
+	
+	public NoticeDTO(String noticeTitle, Date regDate, String noticeContent, Integer mainStatus){
+		this.noticeTitle = noticeTitle;
+		this.noticeContent = noticeContent;
+		this.regDate = regDate;
+		this.mainStatus = mainStatus;
+	}
 }

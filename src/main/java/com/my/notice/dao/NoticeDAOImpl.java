@@ -12,7 +12,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
 
 public class NoticeDAOImpl implements NoticeDAO{
@@ -92,5 +94,49 @@ public class NoticeDAOImpl implements NoticeDAO{
 				session.close();
 			}
 		}		
+	}
+	
+	@Override
+	public void insertNotice(Integer teamNo, NoticeDTO notice) throws AddException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("tableName", tableName);
+			map.put("notice", notice);
+			session.insert("com.my.notice.NoticeMapper.insertNotice", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new AddException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void deleteNotice(Integer teamNo, Integer noticeNo) throws RemoveException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("tableName", tableName);
+			map.put("noticeNo", noticeNo);
+			session.delete("com.my.notice.NoticeMapper.deleteNotice", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
 	}
 }

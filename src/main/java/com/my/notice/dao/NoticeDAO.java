@@ -2,7 +2,9 @@ package com.my.notice.dao;
 
 import java.util.List;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
 
 public interface NoticeDAO {
@@ -32,4 +34,20 @@ public interface NoticeDAO {
 	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
 	 */
 	NoticeDTO selectByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
+	
+	/**
+	 * 작성한 게시글 정보를 DB에 추가한다
+	 * @param teamNo 팀번호
+	 * @param notice 게시글정보
+	 * @throws AddException DB와의 연결 실패 시 예외 발생한다
+	 */
+	void insertNotice(Integer teamNo, NoticeDTO notice) throws AddException;
+	
+	/**
+	 * 해당되는 게시글을 DB에서 삭제한다
+	 * @param teamNo 팀번호
+	 * @param noticeNo 게시글번호
+	 * @throws RemoveException DB와의 연결 실패 시 예외 발생한다
+	 */
+	void deleteNotice(Integer teamNo, Integer noticeNo) throws RemoveException;
 }
