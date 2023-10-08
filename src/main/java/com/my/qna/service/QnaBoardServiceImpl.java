@@ -73,5 +73,34 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
 		return null;
 	} // delete
+	
+	// ------------ 테스트 -------------
+	
+	 public static void main(String[] args) {
+		 
+	        QnaBoardServiceImpl service = new QnaBoardServiceImpl();
+
+	        try {
+	            Integer teamNo = 9999; // 팀 번호를 지정하세요.
+	            int currentPage = 1; // 현재 페이지를 지정하세요.
+
+	            PageGroup<QnaBoardDTO> result = service.selectAll(teamNo, currentPage);
+
+	            List<QnaBoardDTO> list = result.getList();
+	            for (QnaBoardDTO dto : list) {
+	            	
+	                System.out.println(dto);
+	                
+	            }
+
+	            // 페이지 정보 출력
+	            System.out.println("Total Pages: " + result.getTotalPage());
+	            System.out.println("Current Page: " + result.getCurrentPage());
+	            System.out.println("Total Count: " + result.getTotalCnt());
+
+	        } catch (FindException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
 } // end class
