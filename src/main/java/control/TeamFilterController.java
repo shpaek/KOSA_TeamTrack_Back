@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
 import com.my.team.dto.TeamDTO;
 
-public class TeamByConditionController extends TeamController {
+public class TeamFilterController extends TeamController {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -28,16 +28,28 @@ public class TeamByConditionController extends TeamController {
 		String column = request.getParameter("column");
 
 		Map<String, Object> map = new HashMap<>();
-
+		String gubun = request.getParameter("gubun");
+		if(gubun == "top3") {
 			try {
-				List<TeamDTO> list = service.selectByCondition(column);
+				List<TeamDTO> list = service.selectTopThreeTeams();
 				map.put("status", 1);
 				map.put("list", list);
-			} catch (FindException e) {
+			}catch (FindException e) {
 				e.printStackTrace();
 				map.put("status", 0);
 				map.put("msg", e.getMessage());
 			}
+		}else {
+			try {
+				List<TeamDTO> list = service.selectByCondition(column);
+				map.put("status", 1);
+				map.put("list", list);
+			}catch (FindException e) {
+				e.printStackTrace();
+				map.put("status", 0);
+				map.put("msg", e.getMessage());
+			}
+		}
 		
 		out.print(mapper.writeValueAsString(map));
 		return null;
