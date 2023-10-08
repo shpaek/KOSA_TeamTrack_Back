@@ -35,4 +35,14 @@
 	SET notice_title = #{notice.noticeTitle}, notice_content = #{notice.noticeContent}, main_status = #{notice.mainStatus}
 	WHERE notice_no = #{notice.noticeNo}
   </update>
+  <select id="selectMainNotice" resultType="NoticeDTO" parameterType = "String">
+	SELECT *
+	FROM ${tableName}
+	WHERE main_status = 1
+  </select>
+  <update id="updateMainStatus" parameterType = "hashmap">
+  	UPDATE ${tableName}
+	SET main_status = #{mainStatus}
+	WHERE notice_no = #{noticeNo}
+  </update>
 </mapper>

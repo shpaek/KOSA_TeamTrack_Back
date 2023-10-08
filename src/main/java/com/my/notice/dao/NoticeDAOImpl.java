@@ -162,4 +162,48 @@ public class NoticeDAOImpl implements NoticeDAO{
 			}
 		}
 	}
+	
+	@Override
+	public NoticeDTO selectMainNotice(Integer teamNo) throws FindException{
+		SqlSession session = null;
+		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
+		Map map = new HashMap<>();
+		NoticeDTO notice = new NoticeDTO();
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			notice = session.selectOne("com.my.notice.NoticeMapper.selectMainNotice", tableName);
+			return notice;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void updateMainStatus(Integer teamNo, Integer noticeNo, Integer mainStatus) throws ModifyException{
+		SqlSession session = null;
+		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
+		Map map = new HashMap<>();
+		
+		try{
+			session = sqlSessionFactory.openSession();
+			map.put("tableName", tableName);
+			map.put("noticeNo", noticeNo);
+			map.put("mainStatus", mainStatus);
+			session.update("com.my.notice.NoticeMapper.updateMainStatus", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
 }

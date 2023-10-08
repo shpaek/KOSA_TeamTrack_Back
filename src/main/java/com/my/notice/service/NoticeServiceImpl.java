@@ -62,4 +62,14 @@ public class NoticeServiceImpl implements NoticeService {
 	public void modifyNotice(Integer teamNo, NoticeDTO notice) throws ModifyException{
 		noticeDAO.updateNotice(teamNo, notice);
 	}
+	
+	@Override
+	public NoticeDTO findMainNotice(Integer teamNo) throws FindException{
+		return noticeDAO.selectMainNotice(teamNo);
+	}
+	
+	@Override
+	public void setMainNotice(Integer teamNo, Integer noticeNo, Integer mainStatus) throws ModifyException{
+		noticeDAO.updateMainStatus(teamNo, noticeNo, mainStatus);
+	}
 }
