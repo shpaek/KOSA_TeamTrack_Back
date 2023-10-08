@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.notice.dao.NoticeDAO;
 import com.my.notice.dao.NoticeDAOImpl;
@@ -55,5 +56,20 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void removeNotice(Integer teamNo, Integer noticeNo) throws RemoveException{
 		noticeDAO.deleteNotice(teamNo, noticeNo);
+	}
+	
+	@Override
+	public void modifyNotice(Integer teamNo, NoticeDTO notice) throws ModifyException{
+		noticeDAO.updateNotice(teamNo, notice);
+	}
+	
+	@Override
+	public NoticeDTO findMainNotice(Integer teamNo) throws FindException{
+		return noticeDAO.selectMainNotice(teamNo);
+	}
+	
+	@Override
+	public void setMainNotice(Integer teamNo, Integer noticeNo, Integer mainStatus) throws ModifyException{
+		noticeDAO.updateMainStatus(teamNo, noticeNo, mainStatus);
 	}
 }
