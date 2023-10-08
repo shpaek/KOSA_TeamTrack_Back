@@ -3,27 +3,43 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.my.customer.CustomerMapper">
+<mapper namespace="com.my.customer.QnaBoardMapper">
 
+	<!-- qna 게시글 등록 -->
+	<!-- INSERT INTO qnaboard_${teamNo}(id, title, content) -->
 	<insert id="create" parameterType="QnaBoardDTO">
-		INSERT INTO qnaboard(id, title, content)
-		values (#{id}, #{title}, #{content})
+		INSERT INTO qnaboard_9999(qna_no, id, title, content, regdate)
+		values ("ADMIN"."QNA_NO_SEQ".NEXTVAL, #{id}, #{title}, #{content}, sysdate)
 	</insert>
 	
+	<!-- 전체 게시글 조회 -->
 	<select id="selectAll" resultType="QnaBoardDTO">
-			SELECT *
-			FROM qnaboard
-			WHERE qna_no=#{qna_no}
+			SELECT * 
+			FROM (SELECT rownum rn, a.* 
+			     FROM (SELECT *
+			           FROM ${tableName}
+			           ORDER BY qna_no DESC
+			          ) a
+			      )
+			 WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
+	<!-- 전체 게시글 개수 가져오기 -->
+	<select id="selectAllCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM ${tableName} 
+	</select>
+	
+	<!-- 게시글 업데이트 -->
 	<update id="update" parameterType="QnaBoardDTO">
-			update qnaboard
-			set title = #{title}, content{content}, updatedate = sysdate
-			where qna_no=#{qna_no}
+			UPDATE qnaboard_9999
+			SET title = #{title}, content = #{content}, updatedate = sysdate
+			WHERE qna_no = #{qna_no}
 	</update>
 	
+	<!-- 게시글 삭제 -->
 	<delete id="delete" parameterType="QnaBoardDTO">
-			delete qnaboard
+			delete qnaboard_9999
 			where qna_no=#{qna_no}
 	</delete>
   
