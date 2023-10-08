@@ -43,7 +43,7 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 서현웅니
 
-	
+
 	@Override
 	public int selectCount() throws FindException{
 
@@ -149,17 +149,30 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public void createTeam(TeamDTO t) throws AddException {
-		// TODO Auto-generated method stub
+	public void createTeam(Map<String, Object> params) throws AddException {
 
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			session.selectOne("com.my.team.TeamMapper.createTeam", params);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new AddException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
 	}
 
 	@Override
-	public void updateTeam(TeamDTO t) throws ModifyException {
+	public void updateTeam(TeamDTO team) throws ModifyException {
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession();
-			session.update("com.my.team.TeamMapper.updateTeam", t);
+			session.update("com.my.team.TeamMapper.updateTeam", team);
 			session.commit();
 		} catch(Exception e){
 			session.rollback();
@@ -173,17 +186,30 @@ public class TeamDAOImpl implements TeamDAO {
 
 	@Override
 	public void deleteTeam(int teamNo) throws RemoveException {
-		// TODO Auto-generated method stub
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			session.delete("com.my.team.TeamMapper.deleteTeam", teamNo);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
 
 	}
 
 
 	@Override
-	public void deleteHashtag(String hashtag) throws RemoveException {
+	public void deleteHashtag(int teamNo) throws RemoveException {
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession();
-			session.delete("com.my.team.TeamMapper.deleteHashtag", hashtag);
+			session.delete("com.my.team.TeamMapper.deleteHashtag", teamNo);
 			session.commit();
 		} catch(Exception e){
 			session.rollback();
@@ -194,30 +220,48 @@ public class TeamDAOImpl implements TeamDAO {
 			}
 		}
 	}
-	
+
 	@Override
-	public void updateHashtag(String hashtag) throws ModifyException {
+	public void updateHashtag(Map<String, Object> params) throws ModifyException {
 		SqlSession session = null;
+
 		try {
-			session = sqlSessionFactory.openSession();
-			session.insert("com.my.team.TeamMapper.insertHashtag", hashtag);
+			session = sqlSessionFactory.openSession(); //Connection
+			session.update("com.my.team.TeamMapper.insertHashtag", params);
 			session.commit();
-		} catch(Exception e){
+		}catch(Exception e) {
 			session.rollback();
 			throw new ModifyException(e.getMessage());
-		} finally {
+		}finally {
 			if(session != null) {
 				session.close();
 			}
 		}
 	}
 
+	@Override
+	public void updateViewCnt(int teamNo) throws ModifyException {
+		SqlSession session = null;
 
-
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			session.update("com.my.team.TeamMapper.updateViewCnt", teamNo);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+		
+		
 
 	//	---------------------------------------------------------------------------------
 
 	// 셍나
-	
+
 
 } // end class
