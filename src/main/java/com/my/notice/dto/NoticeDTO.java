@@ -24,4 +24,11 @@ public class NoticeDTO {
 		this.regDate = regDate;
 		this.mainStatus = mainStatus;
 	}
+	
+	public NoticeDTO(Integer noticeNo, String noticeTitle, String noticeContent, Integer mainStatus){
+		this.noticeNo = noticeNo;
+		this.noticeTitle = noticeTitle;
+		this.noticeContent = noticeContent;
+		this.mainStatus = mainStatus;
+	}
 }

@@ -21,7 +21,7 @@
 		AS hashtags
 		FROM TEAM a
 		WHERE
-		team_no = #{teamNo}
+		team_no = ${teamNo}
 	</select>
 	<select id="selectByTeamName" resultType="TeamDTO">
 		SELECT team_name,
@@ -44,8 +44,8 @@
 		team_no IN
 		(SELECT team_no FROM TEAM_HASHTAG
 		WHERE hashtag_name LIKE
-		'%#{hashtag}%')) c)
-		WHERE rn BETWEEN #{start}AND #{end}
+		'%${hashtag, jdbcType=VARCHAR}%')) c)
+		WHERE rn BETWEEN #{start, jdbcType=INTEGER}AND #{end, jdbcType=INTEGER}
 	</select>
 	<select id="selectByCondition" resultType="TeamDTO" parameterType="java.util.HashMap">
 		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_name,
@@ -62,6 +62,25 @@
 		ORDER BY ${column} DESC) c)
 		WHERE rn BETWEEN #{start}AND #{end}
 	</select>
+	<select id="createTeam" statementType="CALLABLE" parameterType="hashMap">
+    {call CREATE_TEAM(
+            #{I_TEAM_NAME, mode=IN, jdbcType=VARCHAR},
+            #{I_LEADER_ID, mode=IN, jdbcType=VARCHAR},
+            #{I_STUDY_TYPE, mode=IN, jdbcType=VARCHAR},
+            #{I_ONOFFLINE, mode=IN, jdbcType=VARCHAR},
+            #{I_MAX_MEMBER, mode=IN, jdbcType=INTEGER},
+            #{I_STARTDATE, mode=IN, jdbcType=VARCHAR},
+            #{I_ENDDATE, mode=IN, jdbcType=VARCHAR},
+			#{I_BRIEF_INFO, mode=IN, jdbcType=VARCHAR},
+			#{I_TEAM_INFO, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME1, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME2, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME3, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME4, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME5, mode=IN, jdbcType=VARCHAR}
+        )
+    }
+	</select>
 	<update id="updateTeam" parameterType="TeamDTO">
 		UPDATE TEAM
 		SET team_name =
@@ -73,17 +92,29 @@
 		enddate = #{endDate},
 		brief_info = #{briefInfo},
 		team_info = #{teamInfo}
-		WHERE team_no = #{teamNo};
+		WHERE team_no = #{teamNo}
 	</update>
+	<delete id="deleteTeam" statementType="CALLABLE" parameterType="int">
+	    {call DELETE_TEAM(
+            #{I_TEAM_NO, mode=IN, jdbcType=INTEGER}
+        )
+    }
+	</delete>
 	<delete id="deleteHashtag" parameterType="int">
 		DELETE FROM TEAM_HASHTAG
-		WHERE team_no = #{teamNo};
+		WHERE team_no = ${teamNo}
 	</delete>
-	<insert id="insertHashtag" parameterType="string">
-    	INSERT INTO TEAM_HASHTAG(hashtag_name, team_no)
-    	VALUES(#{hashtag}, #{teamNo});
-	</insert>
-	
+	<update id="insertHashtag" parameterType="java.util.Map">
+        <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+            INTO TEAM_HASHTAG(hashtag_name, team_no)
+    		VALUES (#{item.hashtag}, ${item.teamNo})
+        </foreach>
+ 	</update>
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE TEAM
+		SET viewcnt = viewcnt + 1
+		WHERE team_no = ${teamNo}
+	</update>	
 	<!-- ###################################################################################################################### -->
 	<!-- 셍나 -->
 	

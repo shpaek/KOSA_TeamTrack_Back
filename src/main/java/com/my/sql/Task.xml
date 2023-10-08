@@ -8,25 +8,25 @@
 	<!-- 메인 과제 리스트 가져오기 -->
 	<select id="selectMainTaskList" resultType="TaskDTO"
 		parameterType="java.util.HashMap">
-		SELECT task_no, title, id, regdate, enddate
-		FROM
-		${tableName}
-		WHERE enddate-SYSDATE&gt;=0
+		SELECT t.task_no, t.title, t.enddate, c.nickname
+		FROM ${tableName} t JOIN customer c ON (t.id=c.id)
+		WHERE t.enddate-SYSDATE>=0
+		ORDER BY t.enddate
 	</select>
 
 	<!-- 전체 과제 리스트 가져오기 -->
 	<select id="selectAllTaskList" resultType="TaskDTO"
 		parameterType="java.util.HashMap">
-		SELECT t.task_no, t.id, t.title, t.regdate
-		FROM ( SELECT rownum rn, a.*
-		FROM (
 		SELECT *
-		FROM ${tableName}
-		WHERE enddate-SYSDATE&lt;0
-		ORDER BY
-		regdate
-		<if test="desc">DESC</if>
-		) a
+		FROM (
+			SELECT rownum rn, a.*
+			FROM (
+				SELECT t.task_no, t.title, c.nickname
+				FROM ${tableName} t JOIN customer c ON (t.id=c.id)
+				WHERE t.enddate-SYSDATE&lt;0
+				ORDER BY t.regdate
+				<if test="desc">DESC</if>
+			) a
 		) t
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
@@ -41,18 +41,18 @@
 	<select id="selectCompleteTaskList" resultType="MemberTaskDTO"
 		parameterType="java.util.HashMap">
 		SELECT *
-		FROM ( SELECT rownum rn, a.*
-		FROM ( SELECT m.task_no,
-		m.hwscore, t.id, t.title, m.submitdate
-		FROM ${tableName1} m JOIN
-		${tableName2} t ON
-		(m.task_no=t.task_no)
-		WHERE m.id=#{id}
-		ORDER BY
-		submitdate
-		<if test="desc">DESC</if>
-		) a
-		) t
+		FROM ( 
+			SELECT rownum rn, a.*
+				FROM ( SELECT j.*, c.nickname
+					FROM ( SELECT m.task_no, m.hwscore, t.id, t.title, m.submitdate
+			   			FROM ${tableName1} m JOIN
+			   			${tableName2} t ON (m.task_no=t.task_no)
+			   			WHERE m.id=#{id}
+					) j JOIN customer c ON (j.id=c.id)
+					ORDER BY j.submitdate
+					<if test="desc">DESC</if>
+				) a
+			) t
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 
@@ -70,7 +70,7 @@
 		FROM ( SELECT task_no, title,
 		regdate,
 		avg_reviewscore FROM ${tableName}
-		WHERE id=#{id}
+		WHERE id=#{id} AND enddate-SYSDATE&lt;0
 		ORDER BY
 		regdate
 		<if test="desc">DESC</if>

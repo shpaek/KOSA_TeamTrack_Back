@@ -1,5 +1,6 @@
 package com.my.team.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.my.exception.AddException;
@@ -18,7 +19,7 @@ public interface TeamService {
 	 * @param t
 	 * @throws AddException
 	 */
-	void createTeam(TeamDTO t) throws AddException;
+	void createTeam(HashMap<String, Object> params) throws AddException;
 	
 	/**
 	 * 
@@ -37,7 +38,9 @@ public interface TeamService {
 	/**
 	 * 
 	 */
-	void updateHashtag(String hashtag) throws ModifyException, RemoveException;
+	void updateHashtag(HashMap<String, Object> params) throws ModifyException;
+	
+	void deleteHashtag(int teamNo) throws RemoveException;
 	/**
 	 * 
 	 * @param teamNo
@@ -60,6 +63,7 @@ public interface TeamService {
 	TeamDTO selectByTeamName(String teamName) throws FindException;
 	List<TeamDTO> selectByHashtag(String hashtag) throws FindException;
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
+	void updateViewCnt(int teamNo) throws ModifyException;
 	
 	
 	/**
