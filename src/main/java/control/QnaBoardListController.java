@@ -32,6 +32,8 @@ public class QnaBoardListController extends QnaController {
 		// 요청 전달데이터 얻기
 		String currentPage = req.getParameter("currentPage");
 		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
+
+		System.out.println("teamNo ===================> " + teamNo);
 		
 		int cp = 1;
 		

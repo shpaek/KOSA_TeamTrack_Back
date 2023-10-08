@@ -76,6 +76,9 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		List<QnaBoardDTO> qnaList = new ArrayList<>();
 		
 		String tableName = "QNABOARD_"+ String.valueOf(teamNo);
+//		String tableName = "QNABOARD_"+ teamNo;
+		
+		System.out.println("dao tableName ================> " + tableName);
 		
 		try{
 			session = sqlSessionFactory.openSession();
@@ -106,7 +109,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		
 		try {
 			session=sqlSessionFactory.openSession();
-			String tableName="task_"+teamNo;
+			String tableName="QNABOARD_" + teamNo;
 			int count=session.selectOne("com.my.qna.QnaBoardMapper.selectAllCount", tableName);
 			return count;
 		} catch(Exception e) {

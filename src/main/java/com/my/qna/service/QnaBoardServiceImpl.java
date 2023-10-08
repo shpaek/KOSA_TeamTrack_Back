@@ -49,7 +49,9 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		startRow = (currentPage -1)*cntPerPage +1;
 		endRow = currentPage*cntPerPage;
 		
-		List<QnaBoardDTO> list = qnaBoardDAO.selectAll(startRow, endRow, teamNo);
+		System.out.println("service teamNO ============> " + teamNo);
+		
+		List<QnaBoardDTO> list = qnaBoardDAO.selectAll(teamNo, startRow, endRow);
 		
 		int totalCnt = qnaBoardDAO.selectAllCount(teamNo);
 		
