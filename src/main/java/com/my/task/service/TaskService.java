@@ -15,12 +15,12 @@ public interface TaskService {
 	/**
 	 * 메인 과제 리스트를 불러온다.
 	 * @param teamNo 팀 번호
-	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
+	 * @param id 아이디
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
-	List<TaskDTO> findMainTaskList(Integer teamNo, boolean desc) throws FindException;
-
+	List<TaskDTO> findMainTaskList(Integer teamNo, String id) throws FindException;
+	
 	/**
 	 * 전체 과제 리스트를 페이징 처리하여 불러온다.
 	 * @param teamNo 팀 번호

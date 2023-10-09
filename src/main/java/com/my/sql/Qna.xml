@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.my.customer.QnaBoardMapper">
+<mapper namespace="com.my.qna.QnaBoardMapper">
 
 	<!-- qna 게시글 등록 -->
 	<!-- INSERT INTO qnaboard_${teamNo}(id, title, content) -->
@@ -12,8 +12,9 @@
 		values ("ADMIN"."QNA_NO_SEQ".NEXTVAL, #{id}, #{title}, #{content}, sysdate)
 	</insert>
 	
+	<!-- FROM ${tableName} -->
 	<!-- 전체 게시글 조회 -->
-	<select id="selectAll" resultType="QnaBoardDTO">
+	<select id="selectAll" resultType="QnaBoardDTO" parameterType = "hashmap">
 			SELECT * 
 			FROM (SELECT rownum rn, a.* 
 			     FROM (SELECT *
@@ -28,6 +29,13 @@
 	<select id="selectAllCount" resultType="Integer">
 		SELECT COUNT(*)
 		FROM ${tableName} 
+	</select>
+	
+	<!-- 게시글 상세페이지 가져오기 -->
+	<select id="selectByQnaNo" resultType="QnaBoardDTO">
+		SELECT *
+		FROM ${tableName}
+		WHERE qna_no = #{qnaNo}
 	</select>
 	
 	<!-- 게시글 업데이트 -->

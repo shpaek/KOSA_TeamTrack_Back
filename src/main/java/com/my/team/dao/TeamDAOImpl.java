@@ -503,5 +503,26 @@ public class TeamDAOImpl implements TeamDAO {
 	} //selectAttendanceById()
 	
 	//	---------------------------
+	
+	//	---------------------------------------------------------------------------------
+	
+	//워니 침입
+	
+	@Override
+	public String selectLeaderId(Integer teamNo) throws FindException{
+		SqlSession session = null;
 
+		try {
+			session = sqlSessionFactory.openSession();
+			String leaderId = session.selectOne("com.my.team.TeamMapper.selectLeaderId", teamNo);
+			return leaderId;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		}		
+	}
 } // end class

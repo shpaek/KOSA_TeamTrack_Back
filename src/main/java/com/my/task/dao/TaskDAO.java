@@ -14,11 +14,11 @@ public interface TaskDAO {
 	/**
 	 * 과제생성순으로 정렬된 메인 과제들을 검색한다.
 	 * @param teamNo 팀 번호
-	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
+	 * @param id 아이디
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
-	List<TaskDTO> selectMainTaskList(Integer teamNo, boolean desc) throws FindException;
+	List<TaskDTO> selectMainTaskList(Integer teamNo, String id) throws FindException;
 
 	/**
 	 * 과제생성순으로 정렬된 전체 과제들 중 시작행부터 끝행까지의 과제들을 검색한다.

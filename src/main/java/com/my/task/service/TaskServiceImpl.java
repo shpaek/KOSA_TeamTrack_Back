@@ -24,10 +24,9 @@ public class TaskServiceImpl implements TaskService {
 	public static TaskServiceImpl getInstance() {
 		return service;
 	}
-
-	@Override
-	public List<TaskDTO> findMainTaskList(Integer teamNo, boolean desc) throws FindException {
-		List<TaskDTO> list=taskDAO.selectMainTaskList(teamNo, desc);
+	
+	public List<TaskDTO> findMainTaskList(Integer teamNo, String id) throws FindException {
+		List<TaskDTO> list=taskDAO.selectMainTaskList(teamNo, id);
 		return list;
 	}
 

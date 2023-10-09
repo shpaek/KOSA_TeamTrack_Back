@@ -172,4 +172,14 @@ public interface TeamDAO {
 
 
 
+	
+	//워니 침입
+	/**
+	 * 팀장 아이디를 조회한다
+	 * @author 나원희
+	 * @param teamNo 팀번호
+	 * @return 팀장 아이디
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	String selectLeaderId(Integer teamNo) throws FindException;
 } // end interface

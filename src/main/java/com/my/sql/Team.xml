@@ -217,12 +217,19 @@
 	    INSERT INTO ATTENDENCE_${teamNo} (ATTENDENCE_DATE, ID)
 	    VALUES (SYSDATE, #{id})
 	</insert>
-	
+
 	<!-- 출석부 조회 -->
 	<select id="selectAttendanceById" resultType="AttendanceDTO" parameterType="java.util.Map">
 	    SELECT ATTENDENCE_DATE, ID
 	    FROM ATTENDENCE_${teamNo}
 	    WHERE ID = #{id}
+	</select>
+
+	<!-- 워니 침입 -->
+		<select id="selectLeaderId" resultType = "String" parameterType="Integer">
+		SELECT leader_id
+		FROM TEAM
+		WHERE team_no = #{teamNo}
 	</select>
 
 </mapper>

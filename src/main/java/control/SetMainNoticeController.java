@@ -34,7 +34,12 @@ public class SetMainNoticeController extends NoticeController {
 		try {
 			if(mainStatus==1) {
 				NoticeDTO notice = service.findMainNotice(teamNo);
-				if(notice.getNoticeNo()==noticeNo) {
+				if(notice==null) {
+					service.setMainNotice(teamNo, noticeNo, mainStatus);
+					map.put("status", 1);
+					map.put("msg", "메인공지가 변경되었습니다");
+				}
+				else if(notice.getNoticeNo()==noticeNo) {
 					map.put("status", 0);
 					map.put("msg", "이미 메인공지로 등록된 게시글입니다");
 				}else {
@@ -44,9 +49,6 @@ public class SetMainNoticeController extends NoticeController {
 				out.print(mapper.writeValueAsString(map));
 				return null;
 			}
-			service.setMainNotice(teamNo, noticeNo, mainStatus);
-			map.put("status", 1);
-			map.put("msg", "메인공지가 변경되었습니다");
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("status", 0);

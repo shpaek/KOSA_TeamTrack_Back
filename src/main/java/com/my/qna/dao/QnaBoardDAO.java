@@ -34,6 +34,15 @@ public interface QnaBoardDAO {
 	 * @throws FindException 게시글이 없거나 DB와의 연결이 실패하면 예외 발생한다
 	 */
 	public Integer selectAllCount(Integer teamNo) throws FindException;
+	
+	/**
+	 * 게시글 번호로 게시글을 조회한다
+	 * @param teamNo 팀번호
+	 * @param QnaNo 게시글 번호
+	 * @return 게시글
+	 * @throws FindException
+	 */
+	public QnaBoardDTO selectByQnaNo(Integer teamNo, Integer QnaNo) throws FindException;
 
 	/**
 	 * qna게시판의 게시글을 수정한다
