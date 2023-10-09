@@ -28,7 +28,7 @@ public interface RankDAO {
 	 * @return
 	 * @throws FindException 팀 번호에 해당하는 멤버 아이디가 없거나 DB와 연결이 실패하면 예외발생
 	 */
-	List<TeamMemberDTO> selectAll(Integer teamNo) throws FindException;
+	List<TeamMemberDTO> selectMemberId(Integer teamNo) throws FindException;
 
 	/**
 	 * 팀별 Rank 정보를 저장한다

@@ -61,7 +61,7 @@ public class RankDAOImpl implements RankDAO {
 	}
 	
 	@Override
-	public List<TeamMemberDTO> selectAll(Integer teamNo) throws FindException {
+	public List<TeamMemberDTO> selectMemberId(Integer teamNo) throws FindException {
 		SqlSession session = null;
 		List<TeamMemberDTO> list = new ArrayList<>(); 
 		
@@ -69,7 +69,7 @@ public class RankDAOImpl implements RankDAO {
 			session = sqlSessionFactory.openSession();
 			Map<String, Object> map = new HashMap<>();
 			map.put("team_no", teamNo);
-			list = session.selectList("com.my.rank.RankMapper.selectById", map);
+			list = session.selectList("com.my.rank.RankMapper.selectMemberId", map);
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -23,5 +23,5 @@ public class RankDTO {
 	private String nickname;	//회원 닉네임
 	private String profile;		//회원 프로필
 	RankDetailDTO scoredetail;
-
+	
 }

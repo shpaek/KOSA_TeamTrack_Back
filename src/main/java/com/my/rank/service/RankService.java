@@ -1,9 +1,11 @@
 package com.my.rank.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.my.exception.FindException;
 import com.my.rank.dto.RankDTO;
+import com.my.rank.dto.RankDetailDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
@@ -26,7 +28,7 @@ public interface RankService {
 	 * @return
 	 * @throws FindException
 	 */
-	public List<RankDTO> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException;
+	public Map<String, Object> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException;
 	
 //	/**
 //	 * 출석률을 계산한다. 출석인증일수 / 월별 총 일수 * 100  출석일이 존재하지 않으면 FindException 발생한다 

@@ -28,64 +28,89 @@ public class RankServiceImpl implements RankService {
 	
 	@Override
 	public List<RankDTO> findByMonth(Integer teamNo, String rankDate) throws FindException {
-//		List<RankDTO> ranklist = rankDao.selectByMonth(teamNo, rankDate);
-//		List<TeamMemberDTO> tmlist = rankDao.selectAll(teamNo);
-//		List<AttendanceDTO> attlist = rankDao.selectAttendanceDay(teamNo, rankDate, month);
-//		List<TaskDTO> tasknumlist = rankDao.countMonthlyTask(teamNo, month);
-//		List<MemberTaskDTO> mtlist = rankDao.selectTaskScore(teamNo, month);
-//		List<TaskDTO> rslist = rankDao.selectReviewScore(teamNo, month);
-//		List<QnACommentDTO> qnalist = rankDao.selectQnAScore(teamNo, month);
-//		
-//		//teammemberdto에서 id를 다 불러오고,
-//		//rankdetaildto 정보를 채우고 나머지 정보들을 채운다
-//	
-//		//list 
-//		//[id, attendancerate, avgtaskscore, totalreviewscore, qnapickedscore]
-//		//map
-//		//id:(list1~4까지 더해서 totalscore로 만들기 totalscore += list[i])
-//		
-//		Map<String, Object> map = new HashMap<>();
-//		List<RankDetailDTO> list = new ArrayList<>();
-//		List ranklistbyid = new ArrayList<>();
-//		
-//		for (int i = 0; i < tmlist.size(); i++) {
-//			String id = tmlist.get(i).getId();
-//			ranklistbyid.set(i, id);
-//			System.out.println(ranklistbyid);
-//
-//			// 출석률 = 출석인증일수 / 월별 총 일수 * 100
-//			Integer attendanceday = attlist.get(i).getAttendanceday();
-//			Integer monthday = attlist.get(i).getMonthday();
-//			Double attendancerate = ((double)attendanceday/monthday)*100;
-//			
-//			// 과제점수평균 = 과제 점수 총합/월에 출제된 과제 총 개수
-//			Double totaltaskscore = mtlist.get(i).getTotalScore();
-//			Integer monthlytasknum = tasknumlist.get(i).getMonthlyTaskNum();
-//			Double avgtaskscore = totaltaskscore/monthlytasknum;
-//			
-//			// 출제한 과제 평균 리뷰점수 누적합
-//			Double totalreviewscore = rslist.get(i).getTotalReviewscore();
-//			
-//			// 큐엔에이 채택 점수 누적합
-////			Double qnapickedscore = qnalist.get(i).getPickedNum();
-//			
-//			//랭크 계산을 위한 총 점수
-//			//총 점수 = 출석률*0.1 + 과제점수평균 + 리뷰점수 + 큐엔에이 채택점수
-//			Double totalscore = attendancerate*0.1 + avgtaskscore + totalreviewscore;
-//		}
+		List<RankDTO> ranklist = rankDao.selectByMonth(teamNo, rankDate);
 		
 		return rankDao.selectByMonth(teamNo, rankDate);
 	}
 
 	@Override
-	public List<RankDTO> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException {
-		// 총 점수 = 출석률*0.1 + 과제점수평균 + 리뷰점수 + 큐엔에이 채택점수
+	public Map<String, Object> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException {
+		List<TeamMemberDTO> tmlist = rankDao.selectMemberId(teamNo);
 		List<AttendanceDTO> attlist = rankDao.selectAttendanceDay(teamNo, attendanceDate, month);
 		List<TaskDTO> tasknumlist = rankDao.countMonthlyTask(teamNo, month);
-		List<TaskDTO> rslist = rankDao.selectReviewScore(teamNo, month);
 		List<MemberTaskDTO> mtlist = rankDao.selectTaskScore(teamNo, month);
+		List<TaskDTO> rslist = rankDao.selectReviewScore(teamNo, month);
+//		List<QnACommentDTO> qnalist = rankDao.selectQnAScore(teamNo, month);
 		
-		return null;
+		//teammemberdto에서 id를 다 불러오고,
+		//rankdetaildto 정보를 채우고 나머지 정보들을 채운다
+	
+		//list 
+		//[id, attendancerate, avgtaskscore, totalreviewscore, qnapickedscore]
+		//map
+		//id:(list1~4까지 더해서 totalscore로 만들기 totalscore += list[i])
+		
+		// id별 total score를 담을 맵 
+		Map<String, Object> totalScoreMap = new HashMap();
+		
+		//id별 출석률 계산 
+		Map<String, Double> attmap = new HashMap<>();
+		for (AttendanceDTO attdto : attlist) {
+			String id = attdto.getAttendanceId();
+			
+			// 출석률 = 출석인증일수 / 월별 총 일수 * 100
+			Integer attendanceday = attdto.getAttendanceday();
+			Integer monthday = attdto.getMonthday();
+			Double attendancerate = ((double)attendanceday/monthday)*100;
+			attmap.put(id, attendancerate);
+		}
+		
+		//id별 평균 task score 계산 
+		Map<String, Double> tsmap = new HashMap<>();
+		Integer monthlytasknum = tasknumlist.get(0).getMonthlyTaskNum();
+		for (MemberTaskDTO mtdto : mtlist) {
+			String id = mtdto.getId();
+			
+			// 과제점수평균 = 과제 점수 총합/월에 출제된 과제 총 개수
+			Double totaltaskscore = mtlist.getTotalScore();
+			Double avgtaskscore = totaltaskscore/monthlytasknum;
+			tsmap.put(id, avgtaskscore);
+		}
+		
+		//id별 평균 리뷰점수 누적합 계산 
+		Map<String, Double> rsmap = new HashMap<>();
+		for (TaskDTO tsdto : rslist) {	
+			String id = tsdto.getId();
+			
+			// 출제한 과제 평균 리뷰점수 누적합
+			Double totalreviewscore = rslist.getTotalReviewscore();	
+			rsmap.put(id, totalreviewscore);
+		}
+
+		//id별 큐엔에이 채택 점수 누적합 계산 
+//		Map<String, Double> qnamap = new HashMap<>();
+//		for (QnACommentDTO qnadto : qnalist) {
+//			String id = qnadto.getId();
+//			
+//			// 큐엔에이 채택 점수 누적합
+//			Double qnapickedscore = qnalist.getPickedNum();	
+//			qnamap.put(id, qnapickedscore);
+//		}
+		
+		//id별 Total Score 계산 
+		//총 점수 = 출석률*0.1 + 과제점수평균 + 리뷰점수 + 큐엔에이 채택점수
+		for (String id : attmap.keySet()) {
+			Double attendancerate = attmap.getOrDefault(id, 0.0);
+			Double avgtaskscore = tsmap.getOrDefault(id, 0.0);
+			Double totalreviewscore = rsmap.getOrDefault(id, 0.0);
+//			Double qnapickedscore = qnamap.getOrDefault(id, 0.0);
+			
+			//총점 계산 
+			Double totalscore = (attendancerate*0.1) + avgtaskscore + totalreviewscore + qnapickedscore;
+			totalScoreMap.put(id, totalscore);
+		}
+		
+		return totalScoreMap;
 	}
 	
 //	@Override

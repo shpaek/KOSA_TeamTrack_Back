@@ -15,18 +15,21 @@
 	ORDER BY mr.RANK
   </select>
   
-  <select id="selectAll" resultType="TeamMemberDTO" parameterType="java.util.HashMap">
-	SELECT * FROM teammember_${team_no}
+  
+  <select id="selectMemberId" resultType="TeamMemberDTO">
+	SELECT id FROM teammember_${team_no}
   </select>
   
+  
   <select id="selectAttendanceDay" resultType="AttendanceDTO" parameterType="java.util.HashMap">
-  	SELECT COUNT(attendance_date) as attendanceday
-             , (LAST_DAY(#{date})-TRUNC(TO_DATE(#{date}, 'yyyy-MM-DD'), 'MM')+1) as monthday
-             , extract (month from attendance_date) as month
-             , id as attendanceid
-	FROM ATTENDANCE_${team_no}
-	WHERE extract (month from attendance_date)=#{month}
-	GROUP BY id, extract (month from attendance_date)
+	SELECT count(a.ATTENDANCE_DATE) as attendanceday
+     , (LAST_DAY(#{date})-TRUNC(TO_DATE(#{date}, 'yyyy-MM-DD'), 'MM')+1) as monthday
+     , (CASE WHEN extract (month from a.attendance_date) IS NULL THEN #{month}
+     	ELSE extract (month from a.attendance_date) END) as MONTH
+     , t.id as attendanceid
+	FROM ATTENDANCE_${team_no} a RIGHT JOIN TEAMMEMBER_${team_no} t ON a.ID = t.ID
+	WHERE extract (month from a.attendance_date)=#{month} OR extract (month from a.attendance_date) IS NULL 
+	GROUP BY t.id, extract (month from a.attendance_date)
 	ORDER BY attendanceday DESC
   </select>
   
