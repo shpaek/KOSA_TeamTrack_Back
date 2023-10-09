@@ -73,20 +73,30 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 
 		SqlSession session = null;
 		
+		// 조회한 게시물 저장할 변수 생성 
 		List<QnaBoardDTO> qnaList = new ArrayList<>();
 		
+		// 조회할 게시물 테이블 이름 저장할 변수 생성
 		String tableName = "QNABOARD_"+ String.valueOf(teamNo);
 //		String tableName = "QNABOARD_"+ teamNo;
 		
 		System.out.println("dao tableName ================> " + tableName);
 		
 		try{
+			
 			session = sqlSessionFactory.openSession();
+			
+			// sql 쿼리에 전달할 매개변수를 담을 map 객체를 생성
 			Map map = new HashMap<>();
+			// map 객체에 startrow, endrow, tableName 저장
 			map.put("start", startRow);
 			map.put("end", endRow);
+			
+			// tableName을 맵객체에 담는 이유는 sql문에 tableNmae에 맞는 팀을 검색하기 위함
 			map.put("tableName", tableName);
+			
 			qnaList = session.selectList("com.my.qna.QnaBoardMapper.selectAll", map);
+			
 			return qnaList;
 			
 		}catch(Exception e) {
@@ -108,10 +118,15 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		SqlSession session = null;
 		
 		try {
+			
 			session=sqlSessionFactory.openSession();
+			
 			String tableName="QNABOARD_" + teamNo;
-			int count=session.selectOne("com.my.qna.QnaBoardMapper.selectAllCount", tableName);
+			
+			int count = session.selectOne("com.my.qna.QnaBoardMapper.selectAllCount", tableName);
+			
 			return count;
+			
 		} catch(Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
@@ -120,7 +135,38 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			}
 		} // try-catch-finally
 
-	}
+	} // selectAllCount
+	
+	@Override
+	public QnaBoardDTO selectByQnaNo(Integer teamNo, Integer QnaNo) throws FindException {
+		SqlSession session = null;
+		
+		Map map = new HashMap<>();
+	
+		QnaBoardDTO dto = new QnaBoardDTO();
+		
+		try {
+
+			session=sqlSessionFactory.openSession();
+			
+			String tableName="QNABOARD_" + teamNo;
+			
+			map.put("tableName",tableName);
+			map.put("noticeNo", QnaNo);
+			dto = session.selectOne("com.my.notice.NoticeMapper.selectByNoticeNo", map);
+			
+			return dto;
+			
+		} catch (Exception e ) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();				
+			} // if
+		} // try-catch-finally	
+		
+	} // selectByQnaNo
 
 
 	@Override
@@ -142,7 +188,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		} finally {
 			if(session!=null) {
 				session.close();
-			}
+			} // if
 		} // try-catch-finally
 
 		return null;

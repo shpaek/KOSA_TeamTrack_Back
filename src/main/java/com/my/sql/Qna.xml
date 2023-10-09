@@ -31,6 +31,13 @@
 		FROM ${tableName} 
 	</select>
 	
+	<!-- 게시글 상세페이지 가져오기 -->
+	<select id="selectByQnaNo" resultType="Integer">
+		SELECT *
+		FROM ${tableName}
+		WHERE notice_no = #{noticeNo}
+	</select>
+	
 	<!-- 게시글 업데이트 -->
 	<update id="update" parameterType="QnaBoardDTO">
 			UPDATE qnaboard_9999

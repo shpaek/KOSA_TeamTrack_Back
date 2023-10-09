@@ -58,7 +58,18 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		PageGroup<QnaBoardDTO> pg = new PageGroup<>(list, currentPage, totalCnt); 
 		return pg;
 
-	} // selectAll
+	} // selectAll4
+	
+	
+
+	@Override
+	public QnaBoardDTO selectByQnaNo(Integer teamNo, Integer QnaNo) throws FindException {
+		
+		
+		
+		return null;
+		
+	} // selectByQnaNo
 
 	@Override
 	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException {

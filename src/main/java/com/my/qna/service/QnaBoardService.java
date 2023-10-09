@@ -25,6 +25,16 @@ public interface QnaBoardService {
 	 * @throws FindException
 	 */
 	public PageGroup<QnaBoardDTO> selectAll(Integer teamNo, int currentPage) throws FindException;
+	
+	/**
+	 * 
+	 * @param teamNo
+	 * @param QnaNo
+	 * @return
+	 * @throws FindException
+	 */
+	public QnaBoardDTO selectByQnaNo(Integer teamNo, Integer QnaNo) throws FindException;
+	
 
 	/**
 	 * qna게시판의 게시글을 수정한다
