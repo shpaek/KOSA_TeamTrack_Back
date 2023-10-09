@@ -52,7 +52,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		try {
 			
 			session = sqlSessionFactory.openSession();
-			session.insert("com.my.customer.QnaBoardMapper.create", qnaBoardDTO);
+			session.insert("com.my.qna.QnaBoardMapper.create", qnaBoardDTO);
 			
 			session.commit();
 			
@@ -76,6 +76,9 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		List<QnaBoardDTO> qnaList = new ArrayList<>();
 		
 		String tableName = "QNABOARD_"+ String.valueOf(teamNo);
+//		String tableName = "QNABOARD_"+ teamNo;
+		
+		System.out.println("dao tableName ================> " + tableName);
 		
 		try{
 			session = sqlSessionFactory.openSession();
@@ -83,7 +86,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			map.put("start", startRow);
 			map.put("end", endRow);
 			map.put("tableName", tableName);
-			qnaList = session.selectList("com.my.notice.QnaBoardMapper.selectAll", map);
+			qnaList = session.selectList("com.my.qna.QnaBoardMapper.selectAll", map);
 			return qnaList;
 			
 		}catch(Exception e) {
@@ -106,7 +109,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		
 		try {
 			session=sqlSessionFactory.openSession();
-			String tableName="task_"+teamNo;
+			String tableName="QNABOARD_" + teamNo;
 			int count=session.selectOne("com.my.qna.QnaBoardMapper.selectAllCount", tableName);
 			return count;
 		} catch(Exception e) {
@@ -128,7 +131,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		try {
 			
 			session = sqlSessionFactory.openSession();
-			session.update("com.my.customer.QnaBoardMapper.update", qnaBoardDTO);
+			session.update("com.my.qna.QnaBoardMapper.update", qnaBoardDTO);
 			
 			session.commit();
 			
@@ -153,7 +156,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		try {
 			
 			session = sqlSessionFactory.openSession();
-			session.delete("com.my.customer.QnaBoardMapper.delete", qna_no);
+			session.delete("com.my.qna.QnaBoardMapper.delete", qna_no);
 			
 			session.commit();
 			
@@ -175,21 +178,21 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		
 		// ================== create 메서드 =====================
 		
-		QnaBoardDAOImpl impl = new QnaBoardDAOImpl();
-		
-		QnaBoardDTO dto = new QnaBoardDTO();
-
-		dto.setId("게시판test6");
-		dto.setTitle("tset입니다6");
-		dto.setContent("test입니다6");
-		
-		try {
-			impl.create(dto);
-			System.out.println("게시물 등록 완료");
-		} catch (AddException e) {
-			 System.out.println("게시물 등록 실패");
-			e.printStackTrace();
-		}
+//		QnaBoardDAOImpl impl = new QnaBoardDAOImpl();
+//		
+//		QnaBoardDTO dto = new QnaBoardDTO();
+//
+//		dto.setId("게시판test8");
+//		dto.setTitle("tset입니다8");
+//		dto.setContent("test입니다8");
+//		
+//		try {
+//			impl.create(dto);
+//			System.out.println("게시물 등록 완료");
+//		} catch (AddException e) {
+//			 System.out.println("게시물 등록 실패");
+//			e.printStackTrace();
+//		}
 		
 		// ================== update 메서드 =====================
 		
@@ -224,6 +227,28 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 //			System.out.println("게시물 삭제 실패");
 //			e.printStackTrace();
 //		} // try-catch
+		
+		// =============== selectAll 메서드 테스트 ======================
+		
+	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
+
+	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
+	    int currentPage = 2; // 가져올 페이지 번호 (1페이지)
+
+	    try {
+	        // selectAll 메서드 호출
+	        List<QnaBoardDTO> qnaList = dao.selectAll(teamNo, currentPage, currentPage);
+
+	        // 결과 출력
+	        for (QnaBoardDTO qna : qnaList) {
+	            System.out.println("게시글 번호: " + qna.getQna_no());
+	            System.out.println("게시글 제목: " + qna.getTitle());
+	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
+	        }
+	    } catch (FindException e) {
+	        System.out.println("게시글 조회 실패");
+	        e.printStackTrace();
+	    }
 		
 	} // main(test)
 	
