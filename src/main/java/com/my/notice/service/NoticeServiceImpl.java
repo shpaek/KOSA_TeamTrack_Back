@@ -2,17 +2,20 @@ package com.my.notice.service;
 
 import java.util.List;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
+import com.my.exception.RemoveException;
 import com.my.notice.dao.NoticeDAO;
 import com.my.notice.dao.NoticeDAOImpl;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.PageGroup;
 
 public class NoticeServiceImpl implements NoticeService {
-	private NoticeDAO notice;
+	private NoticeDAO noticeDAO;
 	private static NoticeServiceImpl service = new NoticeServiceImpl();
 	public NoticeServiceImpl() {
-		notice = new NoticeDAOImpl();
+		noticeDAO = new NoticeDAOImpl();
 	}
 	public static NoticeServiceImpl getInstance() {
 		return service;
@@ -32,9 +35,9 @@ public class NoticeServiceImpl implements NoticeService {
 		startRow = (currentPage -1)*cntPerPage +1;
 		endRow = currentPage*cntPerPage;
 		
-		List<NoticeDTO> noticeList = notice.selectNoticeAll(startRow, endRow, teamNo);
+		List<NoticeDTO> noticeList = noticeDAO.selectNoticeAll(startRow, endRow, teamNo);
 		
-		int totalCnt = notice.selectNoticeCount(teamNo);
+		int totalCnt = noticeDAO.selectNoticeCount(teamNo);
 		
 		PageGroup<NoticeDTO> pg = new PageGroup<>(noticeList, currentPage, totalCnt); 
 		return pg;
@@ -42,6 +45,31 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Override
 	public NoticeDTO findByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException{
-		return notice.selectByNoticeNo(teamNo, noticeNo);
+		return noticeDAO.selectByNoticeNo(teamNo, noticeNo);
+	}
+	
+	@Override
+	public void writeNotice(Integer teamNo, NoticeDTO notice) throws AddException{
+		noticeDAO.insertNotice(teamNo, notice);
+	}
+	
+	@Override
+	public void removeNotice(Integer teamNo, Integer noticeNo) throws RemoveException{
+		noticeDAO.deleteNotice(teamNo, noticeNo);
+	}
+	
+	@Override
+	public void modifyNotice(Integer teamNo, NoticeDTO notice) throws ModifyException{
+		noticeDAO.updateNotice(teamNo, notice);
+	}
+	
+	@Override
+	public NoticeDTO findMainNotice(Integer teamNo) throws FindException{
+		return noticeDAO.selectMainNotice(teamNo);
+	}
+	
+	@Override
+	public void setMainNotice(Integer teamNo, Integer noticeNo, Integer mainStatus) throws ModifyException{
+		noticeDAO.updateMainStatus(teamNo, noticeNo, mainStatus);
 	}
 }

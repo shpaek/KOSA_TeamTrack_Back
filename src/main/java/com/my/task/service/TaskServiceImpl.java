@@ -2,14 +2,17 @@ package com.my.task.service;
 
 import java.util.List;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
+import com.my.exception.RemoveException;
 import com.my.task.dao.TaskDAO;
 import com.my.task.dao.TaskDAOImpl;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.util.PageGroup;
 
-public class TaskServiceImpl {
+public class TaskServiceImpl implements TaskService {
 
 	private TaskDAO taskDAO;
 	private static TaskServiceImpl service=new TaskServiceImpl();
@@ -74,8 +77,29 @@ public class TaskServiceImpl {
 		PageGroup<TaskDTO> pg=new PageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}
+
+	@Override
+	public void ModifyTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
+		taskDAO.updateTask(teamNo, title, enddate, taskNo);
+	}
+
+	@Override
+	public void AddQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
+		taskDAO.insertQuizAnswer(teamNo, questionNo, taskNo, answer);
+	}
+
+	@Override
+	public void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer)
+			throws ModifyException {
+		taskDAO.updateQuizAnswer(teamNo, questionNo, taskNo, answer);	
+	}
+
+	@Override
+	public void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
+		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
+	}
 	
-//	public static void main(String[] args) throws FindException {
+//	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");
 //		List<TaskDTO> list=t.findMainTaskList(9999, true);
@@ -109,6 +133,17 @@ public class TaskServiceImpl {
 //			System.out.print("평점 : "+pg3.getList().get(i).getAvgReviewscore()+" | ");
 //			System.out.println("과제 생성일 : "+pg3.getList().get(i).getRegDate());
 //		}
+//		
+//		System.out.println("======================\n과제출제-과제정보업뎃");
+//		t.ModifyTask(9999, "내가만든과제란다", "2023-10-09", 9);
+//		System.out.println("======================\n과제출제-답생성");
+////		t.AddQuizAnswer(9999, 1, 9, 2);
+////		t.AddQuizAnswer(9999, 2, 9, 1);
+////		t.AddQuizAnswer(9999, 3, 9, 2);
+//		System.out.println("======================\n과제출제-답수정");
+////		t.ModifyQuizAnswer(9999, 2, 9, 3);
+//		System.out.println("======================\n과제출제-답삭제");
+////		t.removeQuizAnswer(9999, 3, 9);
 //	}
 
 }

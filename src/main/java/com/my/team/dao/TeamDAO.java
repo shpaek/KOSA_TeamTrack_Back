@@ -1,6 +1,8 @@
 package com.my.team.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
@@ -55,28 +57,28 @@ public interface TeamDAO {
 	 * @param c 팀객체
 	 * @throws AddException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	void createTeam(TeamDTO t) throws AddException;
+	void createTeam(Map<String, Object> params) throws AddException;
 
 	/**
 	 * 팀정보를 수정한다
 	 * @param teamNo 팀번호
 	 * @throws ModifyException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	void updateTeam(TeamDTO t) throws ModifyException;
+	void updateTeam(TeamDTO team) throws ModifyException;
 
 	/**
 	 * 
 	 * @param hashtag
 	 * @throws RemoveException
 	 */
-	void deleteHashtag(String hashtag) throws RemoveException;
+	void deleteHashtag(int teamNo) throws RemoveException;
 	
 	/**
 	 * 
 	 * @param hashtag
 	 * @throws ModifyException
 	 */
-	void updateHashtag(String hashtag) throws ModifyException;
+	void updateHashtag(Map<String, Object> params) throws ModifyException;
 	
 	/**
 	 * 팀을 삭제한다
@@ -85,6 +87,7 @@ public interface TeamDAO {
 	 */
 	void deleteTeam(int teamNo) throws RemoveException;
 
+	void updateViewCnt(int teamNo) throws ModifyException;
 	// ------------------------------------------------------------------------
 
 	// 셍나

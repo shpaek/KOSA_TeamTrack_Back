@@ -21,6 +21,7 @@ import com.my.rank.dto.RankDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public class RankDAOImpl implements RankDAO {
 	
@@ -48,6 +49,27 @@ public class RankDAOImpl implements RankDAO {
 			map.put("team_no", teamNo);
 			map.put("date", rankDate);
 			list = session.selectList("com.my.rank.RankMapper.selectByMonth", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public List<TeamMemberDTO> selectAll(Integer teamNo) throws FindException {
+		SqlSession session = null;
+		List<TeamMemberDTO> list = new ArrayList<>(); 
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			list = session.selectList("com.my.rank.RankMapper.selectById", map);
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();

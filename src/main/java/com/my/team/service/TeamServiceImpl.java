@@ -1,12 +1,17 @@
 package com.my.team.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
+import com.my.notice.dao.NoticeDAO;
+import com.my.notice.dao.NoticeDAOImpl;
 import com.my.notice.dto.NoticeDTO;
+import com.my.task.dao.TaskDAO;
+import com.my.task.dao.TaskDAOImpl;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.TeamDTO;
@@ -15,11 +20,15 @@ import com.my.util.PageGroup;
 public class TeamServiceImpl implements TeamService {
 
 	private TeamDAO teamDAO;
+	private NoticeDAO noticeDAO;
+	private TaskDAO taskDAO;
 	
 	private static TeamServiceImpl service = new TeamServiceImpl();
 	
 	private TeamServiceImpl() {
 		teamDAO = new TeamDAOImpl();
+		noticeDAO = new NoticeDAOImpl();
+		taskDAO = new TaskDAOImpl();
 	}
 	
 	public static TeamServiceImpl getInstance() {
@@ -56,8 +65,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public void createTeam(TeamDTO t) throws AddException {
-		teamDAO.createTeam(t);
+	public void createTeam(HashMap<String, Object> params) throws AddException {
+		teamDAO.createTeam(params);
 	}
 	@Override
 	public void teamNameDupChk(String teamName) throws FindException {
@@ -70,16 +79,26 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public void updateHashtag(String hashtag) throws ModifyException, RemoveException{
-		if(hashtag != null) {
-			teamDAO.deleteHashtag(hashtag);
-			teamDAO.updateHashtag(hashtag);
-		}
+	public void updateHashtag(HashMap<String, Object> params) throws ModifyException{
+		teamDAO.updateHashtag(params);
+	}
+	
+	@Override
+	public void deleteHashtag(int teamNo) throws RemoveException{
+		teamDAO.deleteHashtag(teamNo);
 	}
 
 	@Override
 	public void deleteTeam(int teamNo) throws RemoveException {
-		teamDAO.deleteTeam(teamNo);		
+		try {
+			int noticeCnt = noticeDAO.selectNoticeCount(teamNo);
+			int taskCnt = taskDAO.selectAllTaskCount(teamNo);
+			if(noticeCnt == 0 & taskCnt ==0) {
+				teamDAO.deleteTeam(teamNo);
+			}
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -102,6 +121,10 @@ public class TeamServiceImpl implements TeamService {
 		return teamDAO.selectByHashtag(hashtag, 1, 10);			
 	}
 	
+	@Override
+	public void updateViewCnt(int teamNo) throws ModifyException {
+		teamDAO.updateViewCnt(teamNo);
+	}
 
 	
 
@@ -133,6 +156,8 @@ public class TeamServiceImpl implements TeamService {
 	public void addViewCnt(TeamDTO teamDTO) throws AddException {
 		// TODO Auto-generated method stub
 	}
+
+
 
 
 
