@@ -16,6 +16,7 @@ import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
+import com.my.notice.dto.NoticeDTO;
 import com.my.team.dto.TeamDTO;
 
 public class TeamDAOImpl implements TeamDAO {
@@ -263,5 +264,26 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 셍나
 
+	
+	//	---------------------------------------------------------------------------------
+	
+	//워니 침입
+	
+	@Override
+	public String selectLeaderId(Integer teamNo) throws FindException{
+		SqlSession session = null;
 
+		try {
+			session = sqlSessionFactory.openSession();
+			String leaderId = session.selectOne("com.my.team.TeamMapper.selectLeaderId", teamNo);
+			return leaderId;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		}		
+	}
 } // end class

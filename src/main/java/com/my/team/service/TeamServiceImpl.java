@@ -159,8 +159,19 @@ public class TeamServiceImpl implements TeamService {
 
 
 
-
-
+	// ------------------------------------------------------------------------
+	
+	//워니 침입
+	
+	@Override
+	public Integer leaderChk(String id, Integer teamNo) throws FindException{
+		String leaderId = teamDAO.selectLeaderId(teamNo);
+		Integer memStatus = 0;
+		if(id.equals(leaderId)) {
+			memStatus = 1;
+		}
+		return memStatus;
+	}
 
 
 } // end class
