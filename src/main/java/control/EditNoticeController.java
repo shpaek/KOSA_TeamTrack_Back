@@ -2,8 +2,6 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.Instant;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.exception.FindException;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.Attach;
 
@@ -23,15 +20,15 @@ public class EditNoticeController extends NoticeController{
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		
+
 		HttpSession session = request.getSession();
 		String loginedId = (String)session.getAttribute("loginedId");
-		
+
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
-		Map<String, Object> map = new HashMap<>();; 
-		
+
+		Map<String, Object> map = new HashMap<>();
+
 		try {
 			Attach attach=new Attach(request);
 			Integer teamNo = Integer.parseInt(attach.getParameter("teamNo"));
@@ -48,7 +45,7 @@ public class EditNoticeController extends NoticeController{
 				String originFileName=attach.getFile("f1").get(0).getName();
 				attach.upload("f1", loginedId+"_notice_"+originFileName);
 			} catch(Exception e) {
-			
+
 			}
 			map.put("status", 1);
 			map.put("msg", "게시글이 수정되었습니다");
@@ -57,7 +54,7 @@ public class EditNoticeController extends NoticeController{
 			map.put("status", 0);
 			map.put("msg", e.getMessage());
 		}
-		
+
 		out.print(mapper.writeValueAsString(map));
 
 		return null;

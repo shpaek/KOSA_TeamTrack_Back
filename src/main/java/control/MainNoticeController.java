@@ -16,11 +16,11 @@ public class MainNoticeController extends NoticeController{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		
+
 		PrintWriter out = response.getWriter();
-		
+
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			NoticeDTO notice = service.findMainNotice(teamNo);

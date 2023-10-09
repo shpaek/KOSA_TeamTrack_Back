@@ -32,7 +32,8 @@ public class TaskDAOImpl implements TaskDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
+	@Override
 	public List<TaskDTO> selectMainTaskList(Integer teamNo, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -51,6 +52,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public List<TaskDTO> selectAllTaskList(Integer teamNo, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -70,6 +72,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public int selectAllTaskCount(Integer teamNo) throws FindException {
 		SqlSession session=null;
 
@@ -85,6 +88,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public List<MemberTaskDTO> selectCompleteTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -106,6 +110,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public int selectCompleteTaskCount(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -122,7 +127,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<TaskDTO> selectMyTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -142,7 +148,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public int selectMyTaskCount(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -159,7 +166,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public TaskDTO selectTaskInfo(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
@@ -176,7 +184,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<Integer> selectQuizAnswer(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
@@ -193,7 +202,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<Integer> selectMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -211,7 +221,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public int selectMemberScore(Integer teamNo, Integer taskNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -229,7 +240,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
 		SqlSession session=null;
 
@@ -249,7 +261,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void insertQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
 		SqlSession session=null;
 
@@ -269,7 +282,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void updateQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException {
 		SqlSession session=null;
 
@@ -289,7 +303,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
 		SqlSession session=null;
 
@@ -316,37 +331,37 @@ public class TaskDAOImpl implements TaskDAO {
 		try {
 			System.out.println("======================\n메인과제리스트");
 			List<TaskDTO> list4=t.selectMainTaskList(9999, true);
-			for(int i=0;i<list4.size();i++) {
-				System.out.print("과제 타이틀 : "+list4.get(i).getTitle()+" | ");
-				System.out.print("출제자 : "+list4.get(i).getId()+" | ");
-				System.out.print("과제 생성일 : "+list4.get(i).getRegdate()+" | ");
-				System.out.println("과제 마감일 : "+list4.get(i).getEnddate());
+			for (TaskDTO element : list4) {
+				System.out.print("과제 타이틀 : "+element.getTitle()+" | ");
+				System.out.print("출제자 : "+element.getId()+" | ");
+				System.out.print("과제 생성일 : "+element.getRegdate()+" | ");
+				System.out.println("과제 마감일 : "+element.getEnddate());
 			}
 			System.out.print("======================\n전체과제리스트 - ");
 			int cnt=t.selectAllTaskCount(9999);
 			System.out.println(cnt);
 			List<TaskDTO> list=t.selectAllTaskList(9999, 1, 4, true);
-			for(int i=0;i<list.size();i++) {
-				System.out.print("과제 타이틀 : "+list.get(i).getTitle()+" | ");
-				System.out.print("출제자 : "+list.get(i).getId()+" | ");
-				System.out.println("과제 생성일 : "+list.get(i).getRegdate());
+			for (TaskDTO element : list) {
+				System.out.print("과제 타이틀 : "+element.getTitle()+" | ");
+				System.out.print("출제자 : "+element.getId()+" | ");
+				System.out.println("과제 생성일 : "+element.getRegdate());
 			}
 			System.out.print("======================\n완료과제리스트 - ");
 			int cnt2=t.selectCompleteTaskCount(9999, "nwh2023");
 			System.out.println(cnt2);
 			List<MemberTaskDTO> list2=t.selectCompleteTaskList(9999, "nwh2023", 1, 2, true);
-			for(int i=0;i<list2.size();i++) {
-				System.out.print("과제 타이틀 : "+list2.get(i).getTitle()+" | ");
-				System.out.print("출제자 : "+list2.get(i).getId()+" | ");
-				System.out.println("과제 제출일 : "+list2.get(i).getSubmitDate());
+			for (MemberTaskDTO element : list2) {
+				System.out.print("과제 타이틀 : "+element.getTitle()+" | ");
+				System.out.print("출제자 : "+element.getId()+" | ");
+				System.out.println("과제 제출일 : "+element.getSubmitDate());
 			}
 			System.out.print("======================\n출제과제리스트 - ");
 			int cnt3=t.selectMyTaskCount(9999, "khb2023");
 			System.out.println(cnt3);
 			List<TaskDTO> list3=t.selectMyTaskList(9999, "khb2023", 1, 2, true);
-			for(int i=0;i<list3.size();i++) {
-				System.out.print("과제 타이틀 : "+list3.get(i).getTitle()+" | ");
-				System.out.println("평점 : "+list3.get(i).getAvgReviewscore());
+			for (TaskDTO element : list3) {
+				System.out.print("과제 타이틀 : "+element.getTitle()+" | ");
+				System.out.println("평점 : "+element.getAvgReviewscore());
 			}
 			System.out.println("======================\n선택한 과제");
 			TaskDTO task=t.selectTaskInfo(9999, 1);

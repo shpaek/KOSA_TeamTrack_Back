@@ -22,15 +22,15 @@ public class MainTaskListController extends TaskController {
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 //		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String option=request.getParameter("option");
 //		boolean desc=true;
 //		if(!option.equals("최신순")) desc=false;
-		
+
 		Integer teamNo=9999;
 		boolean desc=true;
-		
+
 		try {
 			List<TaskDTO> list=service.findMainTaskList(teamNo, desc);
 			String jsonStr = mapper.writeValueAsString(list);
@@ -38,7 +38,7 @@ public class MainTaskListController extends TaskController {
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 

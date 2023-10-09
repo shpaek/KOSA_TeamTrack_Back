@@ -19,5 +19,5 @@ public class QnaBoardDTO {
 	private String content;		// 게시글 내용
 	private Date regdate;		// 작성 날짜
 	private Date updatedate;	// 수정 날짜
-	
+
 } // end class

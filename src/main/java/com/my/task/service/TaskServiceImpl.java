@@ -16,21 +16,23 @@ public class TaskServiceImpl implements TaskService {
 
 	private TaskDAO taskDAO;
 	private static TaskServiceImpl service=new TaskServiceImpl();
-	
+
 	private TaskServiceImpl() {
 		taskDAO=new TaskDAOImpl();
 	}
-	
+
 	public static TaskServiceImpl getInstance() {
 		return service;
 	}
-	
+
+	@Override
 	public List<TaskDTO> findMainTaskList(Integer teamNo, boolean desc) throws FindException {
 		List<TaskDTO> list=taskDAO.selectMainTaskList(teamNo, desc);
 		return list;
 	}
 
-	public PageGroup<TaskDTO> findAllTaskList(Integer teamNo, int currentPage, boolean desc) throws FindException {		
+	@Override
+	public PageGroup<TaskDTO> findAllTaskList(Integer teamNo, int currentPage, boolean desc) throws FindException {
 		if(currentPage<1) currentPage=1;
 		int cntPerPage=10;
 
@@ -45,7 +47,8 @@ public class TaskServiceImpl implements TaskService {
 		PageGroup<TaskDTO> pg=new PageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}
-	
+
+	@Override
 	public PageGroup<MemberTaskDTO> findCompleteTaskList(Integer teamNo, String id, int currentPage, boolean desc) throws FindException {
 		if(currentPage<1) currentPage=1;
 		int cntPerPage=10;
@@ -61,7 +64,8 @@ public class TaskServiceImpl implements TaskService {
 		PageGroup<MemberTaskDTO> pg=new PageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}
-	
+
+	@Override
 	public PageGroup<TaskDTO> findMyTaskList(Integer teamNo, String id, int currentPage, boolean desc) throws FindException {
 		if(currentPage<1) currentPage=1;
 		int cntPerPage=10;
@@ -91,14 +95,14 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer)
 			throws ModifyException {
-		taskDAO.updateQuizAnswer(teamNo, questionNo, taskNo, answer);	
+		taskDAO.updateQuizAnswer(teamNo, questionNo, taskNo, answer);
 	}
 
 	@Override
 	public void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
 		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
 	}
-	
+
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");
@@ -109,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
 //			System.out.print("과제 생성일 : "+list.get(i).getRegDate()+" | ");
 //			System.out.println("과제 마감일 : "+list.get(i).getEndDate());
 //		}
-//		
+//
 //		System.out.println("======================\n전체과제리스트");
 //		PageGroup<TaskDTO> pg=t.findAllTaskList(9999, 1, true);
 //		for(int i=0;i<pg.getList().size();i++) {
@@ -117,7 +121,7 @@ public class TaskServiceImpl implements TaskService {
 //			System.out.print("출제자 : "+pg.getList().get(i).getId()+" | ");
 //			System.out.println("과제 생성일 : "+pg.getList().get(i).getRegDate());
 //		}
-//		
+//
 //		System.out.println("======================\n완료과제리스트");
 //		PageGroup<MemberTaskDTO> pg2=t.findCompleteTaskList(9999, "nwh2023", 1, true);
 //		for(int i=0;i<pg2.getList().size();i++) {
@@ -125,7 +129,7 @@ public class TaskServiceImpl implements TaskService {
 //			System.out.print("출제자 : "+pg2.getList().get(i).getId()+" | ");
 //			System.out.println("과제 제출일 : "+pg2.getList().get(i).getSubmitDate());
 //		}
-//		
+//
 //		System.out.println("======================\n출제과제리스트");
 //		PageGroup<TaskDTO> pg3=t.findMyTaskList(9999, "khb2023", 1, true);
 //		for(int i=0;i<pg3.getList().size();i++) {
@@ -133,7 +137,7 @@ public class TaskServiceImpl implements TaskService {
 //			System.out.print("평점 : "+pg3.getList().get(i).getAvgReviewscore()+" | ");
 //			System.out.println("과제 생성일 : "+pg3.getList().get(i).getRegDate());
 //		}
-//		
+//
 //		System.out.println("======================\n과제출제-과제정보업뎃");
 //		t.ModifyTask(9999, "내가만든과제란다", "2023-10-09", 9);
 //		System.out.println("======================\n과제출제-답생성");
