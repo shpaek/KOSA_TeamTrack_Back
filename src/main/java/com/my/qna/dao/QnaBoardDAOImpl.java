@@ -96,6 +96,10 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			map.put("tableName", tableName);
 			
 			qnaList = session.selectList("com.my.qna.QnaBoardMapper.selectAll", map);
+	
+			QnaBoardDTO item = qnaList.get(0);
+			int qnaNo = item.getQnaNo();
+			System.out.println("qna_No값 확인하기 ============> " + qnaNo);
 			
 			return qnaList;
 			
@@ -138,10 +142,10 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 	} // selectAllCount
 	
 	@Override
-	public QnaBoardDTO selectByQnaNo(Integer teamNo, Integer QnaNo) throws FindException {
+	public QnaBoardDTO selectByQnaNo(Integer teamNo, Integer qnaNo) throws FindException {
 		SqlSession session = null;
 		
-		Map map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 	
 		QnaBoardDTO dto = new QnaBoardDTO();
 		
@@ -152,8 +156,8 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			String tableName="QNABOARD_" + teamNo;
 			
 			map.put("tableName",tableName);
-			map.put("noticeNo", QnaNo);
-			dto = session.selectOne("com.my.notice.NoticeMapper.selectByNoticeNo", map);
+			map.put("qnaNo", qnaNo);
+			dto = session.selectOne("com.my.qna.QnaBoardMapper.selectByQnaNo", map);
 			
 			return dto;
 			
@@ -276,25 +280,41 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		
 		// =============== selectAll 메서드 테스트 ======================
 		
+//	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
+//
+//	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
+//	    int currentPage = 2; // 가져올 페이지 번호 (1페이지)
+//
+//	    try {
+//	        // selectAll 메서드 호출
+//	        List<QnaBoardDTO> qnaList = dao.selectAll(teamNo, currentPage, currentPage);
+//
+//	        // 결과 출력
+//	        for (QnaBoardDTO qna : qnaList) {
+////	            System.out.println("게시글 번호: " + qna.getQna_no());
+//	            System.out.println("게시글 제목: " + qna.getTitle());
+//	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
+//	        }
+//	    } catch (FindException e) {
+//	        System.out.println("게시글 조회 실패");
+//	        e.printStackTrace();
+//	    }
+		
+		// =============== selectByQnaNo 메서드 테스트 ======================
+        // 테스트를 위한 팀 번호와 게시글 번호 설정
+		
 	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
-
-	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
-	    int currentPage = 2; // 가져올 페이지 번호 (1페이지)
-
-	    try {
-	        // selectAll 메서드 호출
-	        List<QnaBoardDTO> qnaList = dao.selectAll(teamNo, currentPage, currentPage);
-
-	        // 결과 출력
-	        for (QnaBoardDTO qna : qnaList) {
-	            System.out.println("게시글 번호: " + qna.getQna_no());
-	            System.out.println("게시글 제목: " + qna.getTitle());
-	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
-	        }
-	    } catch (FindException e) {
-	        System.out.println("게시글 조회 실패");
-	        e.printStackTrace();
-	    }
+		
+        Integer teamNo = 9999;
+        Integer qnaNo = 33; // 테스트할 게시글 번호
+        
+        try {
+			QnaBoardDTO dto = dao.selectByQnaNo(teamNo, qnaNo);
+			
+			System.out.println("dto : " + dto);
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 		
 	} // main(test)
 	

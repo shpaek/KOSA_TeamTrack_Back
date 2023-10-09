@@ -32,10 +32,10 @@
 	</select>
 	
 	<!-- 게시글 상세페이지 가져오기 -->
-	<select id="selectByQnaNo" resultType="Integer">
+	<select id="selectByQnaNo" resultType="QnaBoardDTO">
 		SELECT *
 		FROM ${tableName}
-		WHERE notice_no = #{noticeNo}
+		WHERE qna_no = #{qnaNo}
 	</select>
 	
 	<!-- 게시글 업데이트 -->

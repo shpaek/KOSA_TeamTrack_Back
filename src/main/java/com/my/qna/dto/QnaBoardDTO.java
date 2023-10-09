@@ -15,7 +15,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QnaBoardDTO {
 
-	private Integer qna_no;		// 게시글 번호
+//	private Integer qna_no;		// 게시글 번호
+	private Integer qnaNo;		// 게시글 번호
 	private String id;			// 작성자 아이디
 	private String title;		// 게시글 제목
 	private String content;		// 게시글 내용

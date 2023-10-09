@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my.exception.FindException;
+import com.my.qna.dto.QnaBoardDTO;
 
 public class QnaBoardDetailController extends QnaController {
 
@@ -25,9 +27,50 @@ public class QnaBoardDetailController extends QnaController {
 		
 		// jackson 라이브러리에서 제공하는 ObjectMapper 클래스 사용하기
 		ObjectMapper mapper = new ObjectMapper(); // JSON 문자열 만드는 API
+
+		Integer teamNo = null;
+		Integer qnaNo = null;
+
+		// teamNo 파라미터 처리
+		String teamNoStr = req.getParameter("teamNo");
+		if (teamNoStr != null && !teamNoStr.isEmpty()) {
+			try {
+				teamNo = Integer.parseInt(teamNoStr);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+
+				return null;
+			}
+		}
+
+		// qnaNo 파라미터 처리
+		String qnaNoStr = req.getParameter("qnaNo");
+		if (qnaNoStr != null && !qnaNoStr.isEmpty()) {
+			try {
+				qnaNo = Integer.parseInt(qnaNoStr);
+			} catch (NumberFormatException e) {
+
+				e.printStackTrace();
+
+				return null; 
+			}
+		}
+
+		System.out.println("detail teamNo ====================== >>>>> "  + teamNo);
+		System.out.println("detail qnaNo ====================== >>>>> " + qnaNo);
 		
-		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
-		Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
+		try {
+			
+			QnaBoardDTO dto = service.selectByQnaNo(teamNo, qnaNo);
+			
+			String jsonStr = mapper.writeValueAsString(dto);
+			out.print(jsonStr);
+			
+		} catch (FindException e) {
+			
+			e.printStackTrace();
+			
+		} // try-catch
 		
 		return null;
 	} // execute
