@@ -55,10 +55,23 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		
 		int totalCnt = qnaBoardDAO.selectAllCount(teamNo);
 		
+//	    for (QnaBoardDTO dto : list) {
+//	        System.out.println("qna_no: " + dto.getQna_no());
+//	    }
+		
 		PageGroup<QnaBoardDTO> pg = new PageGroup<>(list, currentPage, totalCnt); 
 		return pg;
 
-	} // selectAll
+	} // selectAll4
+	
+	
+
+	@Override
+	public QnaBoardDTO selectByQnaNo(Integer teamNo, Integer QnaNo) throws FindException {
+		
+		return qnaBoardDAO.selectByQnaNo(teamNo, QnaNo);
+		
+	} // selectByQnaNo
 
 	@Override
 	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException {
