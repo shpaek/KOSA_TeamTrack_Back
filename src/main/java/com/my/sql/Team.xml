@@ -138,6 +138,10 @@
 	<!--  -->
 	
 	
-	
+	<select id="selectLeaderId" resultType = "String" parameterType="Integer">
+		SELECT leader_id
+		FROM TEAM
+		WHERE team_no = #{teamNo}
+	</select>
 	
 </mapper>

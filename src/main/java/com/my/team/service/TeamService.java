@@ -111,4 +111,16 @@ public interface TeamService {
 	 */
 	void addViewCnt(TeamDTO teamDTO) throws AddException;
 	
+	// ------------------------------------------------------------------------
+	
+		// 워니 침입
+	/**
+	 * 팀장 여부를 확인한다
+	 * @author 나원희
+	 * @param id 로그인된 아이디
+	 * @param teamNo 팀번호
+	 * @return 팀장 여부
+	 * @throws FindException DB 연결 실패 시 예외 발생한다
+	 */
+	Integer leaderChk(String id, Integer teamNo) throws FindException;
 } // end interface

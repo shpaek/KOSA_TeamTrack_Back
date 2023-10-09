@@ -14,7 +14,7 @@ import com.my.util.PageGroup;
 public class NoticeServiceImpl implements NoticeService {
 	private NoticeDAO noticeDAO;
 	private static NoticeServiceImpl service = new NoticeServiceImpl();
-	public NoticeServiceImpl() {
+	private NoticeServiceImpl() {
 		noticeDAO = new NoticeDAOImpl();
 	}
 	public static NoticeServiceImpl getInstance() {
