@@ -19,30 +19,30 @@ import com.my.exception.RemoveException;
 import com.my.qna.dto.QnaBoardDTO;
 
 public class QnaBoardDAOImpl implements QnaBoardDAO {
-	
+
 	// Mybatis에서 db와 연결하고 sql문을 실행 할 SqlSessionFactory 인터페이스 선언
 	private SqlSessionFactory sqlSessionFactory;
 
 	public QnaBoardDAOImpl() {
-		
+
 		// Mybatis 설정파일 로드
 		String resource = "com/my/sql/mybatis-config.xml";
 		InputStream inputStream;
-		
+
 		try {
-			
+
 			// 리소스 경로에 파일 읽어들이는 클래스(Resources)
 			inputStream = Resources.getResourceAsStream(resource);
-			
+
 			// sqlSessionFactory를 멤버변수로 만듦
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} // try-catch
-		
+
 	} // constructor
-	
+
 
 	@Override
 	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException {
@@ -68,7 +68,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			session.insert("com.my.qna.QnaBoardMapper.create", map);
 			
 			session.commit();
-			
+
 		} catch(Exception e) {
 			session.rollback();
 			e.printStackTrace();
@@ -115,12 +115,12 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			System.out.println("qna_No값 확인하기 ============> " + qnaNo);
 			
 			return qnaList;
-			
+
 		}catch(Exception e) {
-			
+
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
-			
+
 		}finally {
 			if(session!=null) {
 				session.close();
@@ -133,7 +133,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 	public Integer selectAllCount(Integer teamNo) throws FindException {
 
 		SqlSession session = null;
-		
+
 		try {
 			
 			session=sqlSessionFactory.openSession();
@@ -148,7 +148,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			throw new FindException(e.getMessage());
 		} finally {
 			if(session!=null) {
-				session.close();				
+				session.close();
 			}
 		} // try-catch-finally
 
@@ -188,16 +188,16 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 
 	@Override
 	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException {
-		
+
 		SqlSession session = null;
-		
+
 		try {
-			
+
 			session = sqlSessionFactory.openSession();
 			session.update("com.my.qna.QnaBoardMapper.update", qnaBoardDTO);
 			
 			session.commit();
-			
+
 		} catch(Exception e) {
 			session.rollback();
 			e.printStackTrace();
@@ -213,16 +213,16 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 
 	@Override
 	public Integer delete(Integer qna_no) throws RemoveException {
-		
+
 		SqlSession session = null;
-		
+
 		try {
-			
+
 			session = sqlSessionFactory.openSession();
 			session.delete("com.my.qna.QnaBoardMapper.delete", qna_no);
 			
 			session.commit();
-			
+
 		} catch(Exception e) {
 			session.rollback();
 			e.printStackTrace();
@@ -232,13 +232,13 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 				session.close();
 			}
 		} // try-catch-finally
-		
+
 		return null;
 	} // delete
-	
+
 	// ===================  메서드 테스트 =======================
 	public static void main(String[] args) {
-		
+
 		// ================== create 메서드 =====================
 		
 //		QnaBoardDAOImpl impl = new QnaBoardDAOImpl();
@@ -258,15 +258,15 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 //		}
 		
 		// ================== update 메서드 =====================
-		
+
 //		QnaBoardDAOImpl impl = new QnaBoardDAOImpl();
-//		
+//
 //		QnaBoardDTO dto = new QnaBoardDTO();
-//		
+//
 //		dto.setTitle("수정");
 //		dto.setContent("수정");
 //		dto.setQna_no(31);
-//		
+//
 //		try {
 //			impl.update(dto);
 //			System.out.println("게시물 수정 성공");
@@ -274,15 +274,15 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 //			System.out.println("게시물 수정 실패");
 //			e.printStackTrace();
 //		} // try-catch
-		
+
 		// ================== delete 메서드 =====================
-		
+
 //		QnaBoardDAOImpl impl = new QnaBoardDAOImpl();
-//		
+//
 //		QnaBoardDTO dto = new QnaBoardDTO();
 //
 //		int qna_no = 31;
-//		
+//
 //		try {
 //			impl.delete(qna_no);
 //			System.out.println("게시물 삭제 성공");
@@ -330,5 +330,5 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		}
 		
 	} // main(test)
-	
+
 } // end class

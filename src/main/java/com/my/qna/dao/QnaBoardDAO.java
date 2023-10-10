@@ -26,7 +26,7 @@ public interface QnaBoardDAO {
 	 * @throws FindException DB와의 연결 실패 또는 게시글 없으면 예외 발생
 	 */
 	public List<QnaBoardDTO> selectAll(Integer teamNo, int startRow, int endRow) throws FindException;
-	
+
 	/**
 	 * 전체 게시글 수를 조회한다
 	 * @param teamNo 팀번호
@@ -59,5 +59,5 @@ public interface QnaBoardDAO {
 	 * @throws RemoveException DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
 	 */
 	public Integer delete(Integer qna_no) throws RemoveException;
-	
+
 } // end class

@@ -32,5 +32,5 @@ public class QnaBoardDTO {
 		this.content = content;
 	
 	} // constructor	
-	
+
 } // end class
