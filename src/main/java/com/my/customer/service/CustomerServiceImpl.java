@@ -56,11 +56,6 @@ public class CustomerServiceImpl implements CustomerService {
 	} // idDbuCheck
 	
 	
-	@Override
-	public CustomerDTO findById(String id) throws FindException{
-		return customerDAO.selectById(id);
-	}
-	
 	// ===========================  db와 연결 테스트 ========================
 
 //	public static void main(String[] args) {
@@ -77,6 +72,13 @@ public class CustomerServiceImpl implements CustomerService {
 //		} // try-catch
 //
 //	} // main(test)
+	
+	// ---- 원희 ----
+	
+	@Override
+	public CustomerDTO findById(String id) throws FindException{
+		return customerDAO.selectById(id);
+	}
 	
 	@Override
 	public void nicknameDupChk(String nickname) throws FindException{
