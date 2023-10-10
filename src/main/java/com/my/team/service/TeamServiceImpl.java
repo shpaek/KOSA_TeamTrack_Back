@@ -2,6 +2,7 @@ package com.my.team.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
@@ -198,6 +199,44 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
 		return teamDAO.selectAttendanceById(teamNo, id);
+	}
+	
+	//	---------------------------
+
+	@Override
+	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateTeamMemberStatus(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateRequestInfoApprove(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRequestInfoReject(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertExaminer(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 
