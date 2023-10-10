@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class QnaBoardCommentsDTO {
+public class QnaBoardCommentDTO {
 
 	Integer commentNo;			// 댓글번호
 	Integer qnaNo;				// 게시글 번호
