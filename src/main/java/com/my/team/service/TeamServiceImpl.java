@@ -133,6 +133,20 @@ public class TeamServiceImpl implements TeamService {
 
 
 	// ------------------------------------------------------------------------
+	
+	//워니 침입
+	
+	@Override
+	public Integer leaderChk(String id, Integer teamNo) throws FindException{
+		String leaderId = teamDAO.selectLeaderId(teamNo);
+		Integer memStatus = 0;
+		if(id.equals(leaderId)) {
+			memStatus = 1;
+		}
+		return memStatus;
+	}
+	
+	// ------------------------------------------------------------------------
 
 	// 셍나
 
@@ -184,20 +198,6 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
 		return teamDAO.selectAttendanceById(teamNo, id);
-	}
-
-	// ------------------------------------------------------------------------
-	
-	//워니 침입
-	
-	@Override
-	public Integer leaderChk(String id, Integer teamNo) throws FindException{
-		String leaderId = teamDAO.selectLeaderId(teamNo);
-		Integer memStatus = 0;
-		if(id.equals(leaderId)) {
-			memStatus = 1;
-		}
-		return memStatus;
 	}
 
 

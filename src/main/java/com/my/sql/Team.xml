@@ -138,6 +138,15 @@
 	</update>
 	 -->
 	<!-- ###################################################################################################################### -->
+	
+	<!-- 워니 침입 -->
+		<select id="selectLeaderId" resultType = "String" parameterType="Integer">
+		SELECT leader_id
+		FROM TEAM
+		WHERE team_no = #{teamNo}
+	</select>
+	
+	<!-- ###################################################################################################################### -->
 
 	<!-- 셍나 -->
 
@@ -223,13 +232,6 @@
 	    SELECT ATTENDENCE_DATE, ID
 	    FROM ATTENDENCE_${teamNo}
 	    WHERE ID = #{id}
-	</select>
-
-	<!-- 워니 침입 -->
-		<select id="selectLeaderId" resultType = "String" parameterType="Integer">
-		SELECT leader_id
-		FROM TEAM
-		WHERE team_no = #{teamNo}
 	</select>
 
 </mapper>
