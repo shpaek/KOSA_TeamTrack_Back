@@ -5,17 +5,16 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.qna.dto.QnaBoardDTO;
-import com.my.task.dto.TaskDTO;
 import com.my.util.PageGroup;
 
 public interface QnaBoardService {
-	
+
 	/**
 	 * qna게시판에 게시글을 생성한다
 	 * @param qnaBoardDTO 게시글 정보
 	 * @throws AddException DB와의 연결 실패 또는 제약조건에 위반시 예외 발생
 	 */
-	public void create(QnaBoardDTO qnaBoardDTO) throws AddException;
+	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException;
 	
 	/**
 	 * 전체 게시글을 페이징 처리하여 불러온다.
@@ -42,8 +41,8 @@ public interface QnaBoardService {
 	 * @return
 	 * @throws ModifyException DB와의 연결 실패 또는 게시글 수정 실패시 예외 발생
 	 */
-	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException;
-	
+	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException;
+
 	/**
 	 * qna게시판의 게시글을 삭제한다
 	 * @param qna_no 게시글 번호
@@ -51,5 +50,5 @@ public interface QnaBoardService {
 	 * @throws RemoveException DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
 	 */
 	public Integer delete(Integer qna_no) throws RemoveException;
-	
+
 } // end interface

@@ -16,20 +16,20 @@ public class RemoveTaskAnswerController extends TaskController {
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		
+
 		//Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer questionNo=Integer.parseInt(request.getParameter("questionNo"));
 		//Integer taskNo=Integer.parseInt(request.getParameter("teamNo"));
-		
+
 		Integer teamNo=9999;
 		Integer taskNo=11;
-		
+
 		try {
 			service.removeQuizAnswer(teamNo, questionNo, taskNo);
 		} catch (RemoveException e) {
 			out.print(e.getMessage());
 		}
-		
+
 		return null;
 	}
 
