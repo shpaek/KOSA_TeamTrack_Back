@@ -2,6 +2,8 @@ package com.my.customer.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
@@ -103,42 +106,106 @@ public class CustomerDAOImpl implements CustomerDAO {
 		CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
 
 		// ================ create 메서드 테스트 =========================
-//		CustomerDTO dto = new CustomerDTO();
-//
-//		dto.setId("test01");
-//		dto.setPwd("test01");
-//		dto.setNickname("test01");
-//		dto.setName("test01");
-//		dto.setBirthday("1993-05-04");
-//		dto.setPhone("01011112222");
-//		dto.setEmail("dd@naver.com");
-////		dto.setStatus(1);
-//
-//		try {
-//			customerDAOImpl.create(dto);
-//
-//			System.out.println("회원가입 완료 ^ㅡ^b");
-//		} catch (AddException e) {
-//			e.printStackTrace();
-//		}
+		CustomerDTO dto = new CustomerDTO();
+
+		dto.setId("test99");
+		dto.setPwd("test99");
+		dto.setNickname("test99");
+		dto.setName("test99");
+		dto.setBirthday("1993-05-04");
+		dto.setPhone("01011112222");
+		dto.setEmail("dd@naver.com");
+//		dto.setStatus(1);
+
+		try {
+			customerDAOImpl.create(dto);
+
+			System.out.println("회원가입 완료 ^ㅡ^b");
+		} catch (AddException e) {
+			e.printStackTrace();
+		}
 		// ==================================================================
 
 		// ================= selectById 메서드 테서트 =======================
-
-		String id = "test01";
-
-
-		try {
-			CustomerDTO dto = customerDAOImpl.selectById(id);
-			// 출력
-			System.out.println("id : " +  dto.getId());
-			System.out.println("nickname : " + dto.getName());
-		} catch(Exception e) {
-			e.printStackTrace();
-			System.out.println(" 해당 회원이 없습니다 ");
-		}
+//
+//		String id = "test01";
+//
+//
+//		try {
+//			CustomerDTO dto = customerDAOImpl.selectById(id);
+//			// 출력
+//			System.out.println("id : " +  dto.getId());
+//			System.out.println("nickname : " + dto.getName());
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			System.out.println(" 해당 회원이 없습니다 ");
+//		}
 	} // main(test)
-
-
+	
+	@Override
+	public CustomerDTO selectByNickname(String nickname) throws FindException{
+		SqlSession session = null;
+		
+		try {
+			
+			session = sqlSessionFactory.openSession();
+			CustomerDTO customer = session.selectOne("com.my.customer.CustomerMapper.selectByNickname", nickname);
+			if(customer != null) { 
+				return customer;
+			}else {
+				throw new FindException("고객이 없습니다"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} 
+		} 
+	}
+	
+	@Override
+	public void updateNickname(String id, String nickname) throws ModifyException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+		
+		try{
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("nickname", nickname);
+			session.update("com.my.customer.CustomerMapper.updateNickname", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void updateCustomerAll(String id, CustomerDTO customer) throws ModifyException{
+		SqlSession session = null;
+		
+		Map map = new HashMap<>();
+		
+		try{
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("customer", customer);
+			session.update("com.my.customer.CustomerMapper.updateCustomerAll", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
 } // end class
 

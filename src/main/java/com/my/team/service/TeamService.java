@@ -2,6 +2,7 @@ package com.my.team.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
@@ -156,6 +157,52 @@ public interface TeamService {
 	 * @throws FindException
 	 */
 	List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException;
+	
+	//	---------------------------
+	
+	/**
+	 * 
+	 * @param teamNo
+	 * @return
+	 * @throws Exception
+	 */
+    List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception;
+    
+    /**
+     * 
+     * @param map
+     * @throws Exception
+     */
+    void updateTeamMemberStatus(Map<String, Object> map) throws Exception;
+    
+    /**
+     * 
+     * @param teamNo
+     * @return
+     * @throws Exception
+     */
+    List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception;
+    
+    /**
+     * 
+     * @param map
+     * @throws Exception
+     */
+    void updateRequestInfoApprove(Map<String, Object> map) throws Exception;
+    
+    /**
+     * 
+     * @param map
+     * @throws Exception
+     */
+    void updateRequestInfoReject(Map<String, Object> map) throws Exception;
+    
+    /**
+     * 
+     * @param map
+     * @throws Exception
+     */
+    void insertExaminer(Map<String, Object> map) throws Exception;
 	
 	
 

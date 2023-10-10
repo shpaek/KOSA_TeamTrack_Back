@@ -7,11 +7,11 @@
 
 	<!-- qna 게시글 등록 -->
 	<!-- INSERT INTO qnaboard_${teamNo}(id, title, content) -->
-	<insert id="create" parameterType="QnaBoardDTO">
-		INSERT INTO qnaboard_9999(qna_no, id, title, content, regdate)
-		values ("ADMIN"."QNA_NO_SEQ".NEXTVAL, #{id}, #{title}, #{content}, sysdate)
+	<insert id="create" parameterType = "hashmap">
+		INSERT INTO ${tableName}(qna_no, id, title, content, regdate)
+		VALUES (ADMIN.QNA_NO_SEQ.NEXTVAL, #{id, jdbcType=VARCHAR}, #{title, jdbcType=VARCHAR}, #{content, jdbcType=VARCHAR}, sysdate)
 	</insert>
-	
+
 	<!-- FROM ${tableName} -->
 	<!-- 전체 게시글 조회 -->
 	<select id="selectAll" resultType="QnaBoardDTO" parameterType = "hashmap">
@@ -40,9 +40,9 @@
 	
 	<!-- 게시글 업데이트 -->
 	<update id="update" parameterType="QnaBoardDTO">
-			UPDATE qnaboard_9999
-			SET title = #{title}, content = #{content}, updatedate = sysdate
-			WHERE qna_no = #{qna_no}
+			UPDATE ${tableName}
+			SET title = #{title, jdbcType=VARCHAR}, content = #{content, jdbcType=VARCHAR}, updatedate = sysdate
+			WHERE qna_no = #{qnaNo}
 	</update>
 	
 	<!-- 게시글 삭제 -->
