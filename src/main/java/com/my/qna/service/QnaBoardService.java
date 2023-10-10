@@ -14,8 +14,8 @@ public interface QnaBoardService {
 	 * @param qnaBoardDTO 게시글 정보
 	 * @throws AddException DB와의 연결 실패 또는 제약조건에 위반시 예외 발생
 	 */
-	public void create(QnaBoardDTO qnaBoardDTO) throws AddException;
-
+	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException;
+	
 	/**
 	 * 전체 게시글을 페이징 처리하여 불러온다.
 	 * @param teamNo 팀 번호

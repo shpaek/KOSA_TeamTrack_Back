@@ -26,9 +26,13 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	public void create(QnaBoardDTO qnaBoardDTO) throws AddException {
-
-		qnaBoardDAO.create(qnaBoardDTO);
+	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException {
+		
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getId());
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getTitle());
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getContent());
+		
+		qnaBoardDAO.create(teamNo, qnaBoardDTO);
 
 	} // create
 

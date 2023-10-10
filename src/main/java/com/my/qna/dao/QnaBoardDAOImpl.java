@@ -45,14 +45,27 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 
 
 	@Override
-	public void create(QnaBoardDTO qnaBoardDTO) throws AddException {
-
+	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException {
+		
 		SqlSession session = null;
-
+		
+		System.out.println( " =================== dao ==================== " + qnaBoardDTO.getId());
+		System.out.println( " =================== dao ==================== " + qnaBoardDTO.getTitle());
+		System.out.println( " =================== dao ==================== " + qnaBoardDTO.getContent());
+		
 		try {
+			
+			Map<String, Object> map = new HashMap<>();
+			
+			String tableName = "QNABOARD_"+ String.valueOf(teamNo);
+			
+			map.put("tableName", tableName);
+			map.put("id", qnaBoardDTO.getId());
+			map.put("title", qnaBoardDTO.getTitle());
+			map.put("content", qnaBoardDTO.getContent());
 
 			session = sqlSessionFactory.openSession();
-			session.insert("com.my.qna.QnaBoardMapper.create", qnaBoardDTO);
+			session.insert("com.my.qna.QnaBoardMapper.create", map);
 			
 			session.commit();
 
