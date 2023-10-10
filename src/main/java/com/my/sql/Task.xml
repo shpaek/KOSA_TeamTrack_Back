@@ -28,7 +28,7 @@
 		FROM (
 			SELECT rownum rn, a.*
 			FROM (
-				SELECT t.task_no, t.title, c.nickname
+				SELECT t.task_no, t.title, t.regdate, c.nickname
 				FROM ${tableName} t JOIN customer c ON (t.id=c.id)
 				WHERE t.enddate-SYSDATE&lt;0
 				ORDER BY t.regdate
