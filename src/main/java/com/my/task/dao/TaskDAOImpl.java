@@ -323,6 +323,21 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
+	
+	public List<String> selectTaskId(Integer teamNo) throws FindException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			List<String> list=session.selectList("com.my.task.TaskMapper.selectTaskId", "task_"+teamNo);
+			return list;
+		} catch(Exception e) {
+			//e.printStackTrace();
+			throw new FindException("아이디 조회 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
 
 
 	// main test
@@ -381,6 +396,9 @@ public class TaskDAOImpl implements TaskDAO {
 ////			//t.updateQuizAnswer(9999, 1, 10, 1);
 ////			System.out.println("======================\\n답안 삭제");
 ////			//t.deleteQuizAnswer(9999, 1, 10);
+//			System.out.println("======================\n출제자 아이디");
+//			List<String> id=t.selectTaskId(9999);
+//			for(int i=0;i<id.size();i++) System.out.print(id.get(i)+" ");
 //		} catch (Exception e) {
 //			//e.printStackTrace();
 //			System.out.println(e.getMessage());

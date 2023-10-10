@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class MemberTaskDTO {
 
+	private Integer taskNo;
 	private int hwScore;
 	private String id;
 	private String nickname;
