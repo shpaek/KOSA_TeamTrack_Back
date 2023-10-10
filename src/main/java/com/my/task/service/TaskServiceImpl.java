@@ -113,6 +113,24 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
+	@Override
+	public TaskDTO findTaskInfo(Integer teamNo, Integer taskNo) throws FindException {
+		TaskDTO task=taskDAO.selectTaskInfo(teamNo, taskNo);
+		return task;
+	}
+
+	@Override
+	public List<Integer> findQuizAnswer(Integer teamNo, Integer taskNo) throws FindException {
+		List<Integer> list=taskDAO.selectQuizAnswer(teamNo, taskNo);
+		return list;
+	}
+
+	@Override
+	public List<Integer> findMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException {
+		List<Integer> list=taskDAO.selectMemberAnswer(teamNo, taskNo, id);
+		return list;
+	}
+
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");

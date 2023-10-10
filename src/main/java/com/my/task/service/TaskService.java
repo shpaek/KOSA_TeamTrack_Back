@@ -53,8 +53,33 @@ public interface TaskService {
 	 */
 	PageGroup<TaskDTO> findMyTaskList(Integer teamNo, String id, int currentPage, boolean desc) throws FindException;
 
-//	TaskDTO findTaskInfo() throws FindException;
-//	List<Integer> findMemberAnswer() throws FindException;
+	/**
+	 * 과제 정보를 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 과제 정보
+	 * @throws FindException
+	 */
+	TaskDTO findTaskInfo(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제 답을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 과제 답
+	 * @throws FindException
+	 */
+	List<Integer> findQuizAnswer(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제에 대한 팀원 답을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 회원 답
+	 * @throws FindException
+	 */
+	List<Integer> findMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException;
 
 	/**
 	 * 과제 출제 : 과제 정보를 업데이트한다.
