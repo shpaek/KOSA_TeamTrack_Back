@@ -207,5 +207,25 @@ public class CustomerDAOImpl implements CustomerDAO {
 			}
 		}
 	}
+	
+	@Override
+	public void updateCustomerStatus(String id) throws ModifyException{
+		SqlSession session = null;
+		
+		Map map = new HashMap<>();
+		
+		try{
+			session = sqlSessionFactory.openSession();
+			session.update("com.my.customer.CustomerMapper.updateCustomerStatus", id);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
 } // end class
 
