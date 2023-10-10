@@ -26,9 +26,13 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	public void create(QnaBoardDTO qnaBoardDTO) throws AddException {
-
-		qnaBoardDAO.create(qnaBoardDTO);
+	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException {
+		
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getId());
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getTitle());
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getContent());
+		
+		qnaBoardDAO.create(teamNo, qnaBoardDTO);
 
 	} // create
 
@@ -72,9 +76,12 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	} // selectByQnaNo
 
 	@Override
-	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException {
+	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException {
 
-		qnaBoardDAO.update(qnaBoardDTO);
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getTitle());
+		System.out.println( " =================== service ==================== " + qnaBoardDTO.getContent());
+
+		qnaBoardDAO.update(teamNo, qnaBoardDTO);
 
 		return null;
 	} // update

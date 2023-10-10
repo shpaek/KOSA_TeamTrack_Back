@@ -15,7 +15,7 @@ public interface QnaBoardDAO {
 	 * @param qnaBoardDTO 게시글 정보
 	 * @throws AddException DB와의 연결 실패 또는 제약조건에 위반시 예외 발생
 	 */
-	public void create(QnaBoardDTO qnaBoardDTO) throws AddException;
+	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException;
 
 	/**
 	 * qna게시판의 게시글 목록을 조회한다
@@ -50,7 +50,7 @@ public interface QnaBoardDAO {
 	 * @return
 	 * @throws ModifyException DB와의 연결 실패 또는 게시글 수정 실패시 예외 발생
 	 */
-	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException;
+	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException;
 
 	/**
 	 * qna게시판의 게시글을 삭제한다
