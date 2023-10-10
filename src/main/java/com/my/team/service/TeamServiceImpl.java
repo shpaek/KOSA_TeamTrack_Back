@@ -10,11 +10,15 @@ import com.my.exception.RemoveException;
 import com.my.notice.dao.NoticeDAO;
 import com.my.notice.dao.NoticeDAOImpl;
 import com.my.notice.dto.NoticeDTO;
+import com.my.qna.dao.QnaBoardDAO;
+import com.my.qna.dao.QnaBoardDAOImpl;
 import com.my.task.dao.TaskDAO;
 import com.my.task.dao.TaskDAOImpl;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
+import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
 public class TeamServiceImpl implements TeamService {
@@ -22,6 +26,7 @@ public class TeamServiceImpl implements TeamService {
 	private TeamDAO teamDAO;
 	private NoticeDAO noticeDAO;
 	private TaskDAO taskDAO;
+	private QnaBoardDAO qnaDAO;
 	
 	private static TeamServiceImpl service = new TeamServiceImpl();
 	
@@ -29,6 +34,7 @@ public class TeamServiceImpl implements TeamService {
 		teamDAO = new TeamDAOImpl();
 		noticeDAO = new NoticeDAOImpl();
 		taskDAO = new TaskDAOImpl();
+		qnaDAO = new QnaBoardDAOImpl();
 	}
 	
 	public static TeamServiceImpl getInstance() {
@@ -38,12 +44,12 @@ public class TeamServiceImpl implements TeamService {
 // ------------------------------------------------------------------------
 	
 	// 서현 웅니
-	public PageGroup<TeamDTO> findAll(int currentPage) throws FindException{
+	public MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException{
 		if(currentPage < 1) {
 			currentPage = 1;
 		}
 		
-		int cntPerPage = 10; //한페이지당 보여줄 목록 수 
+		int cntPerPage = 9; //한페이지당 보여줄 목록 수 
 		                    
 		//currentPage        //1  2  3  4
 		int startRow;        //1  4  7  10
@@ -53,9 +59,53 @@ public class TeamServiceImpl implements TeamService {
 		startRow = ( currentPage -1 ) *cntPerPage + 1;
 		//return repository.selectAll(startRow, endRow);
 		
-		List<TeamDTO> list = teamDAO.selectByCondition("createdate", startRow, endRow);		
+		List<TeamDTO> list = teamDAO.selectByCondition(column, startRow, endRow);
 		int totalCnt = teamDAO.selectCount();		
-		PageGroup<TeamDTO> pg = new PageGroup<>(list, currentPage, totalCnt);
+		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
+		return pg;
+	}
+	
+	@Override
+	public MainPageGroup<TeamDTO> selectByData(int currentPage, String table, String column, String data) throws FindException{
+		if(currentPage < 1) {
+			currentPage = 1;
+		}
+		
+		int cntPerPage = 9; //한페이지당 보여줄 목록 수 
+		                    
+		//currentPage        //1  2  3  4
+		int startRow;        //1  4  7  10
+		int endRow;          //3  6  9  12 
+		//TODO
+		endRow = currentPage * cntPerPage;
+		startRow = ( currentPage -1 ) *cntPerPage + 1;
+		//return repository.selectAll(startRow, endRow);
+		
+		List<TeamDTO> list = teamDAO.selectByData(table, column, data, startRow, endRow);
+		int totalCnt = list.size();		
+		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
+		return pg;
+	}
+	
+	@Override
+	public MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException{
+		if(currentPage < 1) {
+			currentPage = 1;
+		}
+		
+		int cntPerPage = 9; //한페이지당 보여줄 목록 수 
+		                    
+		//currentPage        //1  2  3  4
+		int startRow;        //1  4  7  10
+		int endRow;          //3  6  9  12 
+		//TODO
+		endRow = currentPage * cntPerPage;
+		startRow = ( currentPage -1 ) *cntPerPage + 1;
+		//return repository.selectAll(startRow, endRow);
+		
+		List<TeamDTO> list = teamDAO.selectByDate(column, startDate, endDate, startRow, endRow);
+		int totalCnt = list.size();		
+		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}
 	
@@ -79,6 +129,11 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
+	public List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException {
+		return teamDAO.selectTeamHashtag(teamNo);
+	}
+	
+	@Override
 	public void updateHashtag(HashMap<String, Object> params) throws ModifyException{
 		teamDAO.updateHashtag(params);
 	}
@@ -93,8 +148,11 @@ public class TeamServiceImpl implements TeamService {
 		try {
 			int noticeCnt = noticeDAO.selectNoticeCount(teamNo);
 			int taskCnt = taskDAO.selectAllTaskCount(teamNo);
-			if(noticeCnt == 0 & taskCnt ==0) {
+			int qnaCnt = qnaDAO.selectAllCount(teamNo);
+			if(noticeCnt == 0 & taskCnt == 0 & qnaCnt == 0) {
 				teamDAO.deleteTeam(teamNo);
+			}else {
+				throw new RemoveException("팀을 삭제할 수 없습니다.");
 			}
 		} catch (FindException e) {
 			e.printStackTrace();
@@ -103,12 +161,12 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public List<TeamDTO> selectTopThreeTeams() throws FindException {
-		return teamDAO.selectByCondition("view_cnt", 1, 3);
+		return teamDAO.selectByCondition("viewcnt", 1, 9);
 	}
 
 	@Override
 	public List<TeamDTO> selectByCondition(String column) throws FindException {
-		return teamDAO.selectByCondition(column, 1, 10);
+		return teamDAO.selectByCondition(column, 1, 9);
 	}
 
 	@Override
@@ -116,10 +174,7 @@ public class TeamServiceImpl implements TeamService {
 		return teamDAO.selectByTeamName(teamName);			
 	}
 
-	@Override
-	public List<TeamDTO> selectByHashtag(String hashtag) throws FindException {
-		return teamDAO.selectByHashtag(hashtag, 1, 10);			
-	}
+
 	
 	@Override
 	public void updateViewCnt(int teamNo) throws ModifyException {
@@ -156,6 +211,8 @@ public class TeamServiceImpl implements TeamService {
 	public void addViewCnt(TeamDTO teamDTO) throws AddException {
 		// TODO Auto-generated method stub
 	}
+
+
 
 
 

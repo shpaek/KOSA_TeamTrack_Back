@@ -30,35 +30,45 @@
 		WHERE team_name = #{teamName}
 	</select>
 	<!-- 확인 필요 -->
-	<select id="selectByHashtag" resultType="TeamDTO" parameterType="java.util.HashMap">
-		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_name,
+
+	<select id="selectByData" resultType="TeamDTO" parameterType="java.util.HashMap">
+		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
 		study_type, onoffline, join_member, max_member,
 		startdate, enddate,
-		brief_info,
-		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
-		where b.team_no =
+		brief_info, viewcnt, (select LISTAGG(hashtag_name, ',')  WITHIN GROUP (ORDER BY hashtag_name) from TEAM_HASHTAG b
+		where
+		b.team_no =
 		a.team_no)
-		AS hashtags, viewcnt
+		AS hashtags
 		FROM TEAM a
 		WHERE
 		team_no IN
-		(SELECT team_no FROM TEAM_HASHTAG
-		WHERE hashtag_name LIKE
-		'%${hashtag, jdbcType=VARCHAR}%')) c)
-		WHERE rn BETWEEN #{start, jdbcType=INTEGER}AND #{end, jdbcType=INTEGER}
+		(SELECT team_no FROM ${table}
+		WHERE ${column} LIKE
+		'%'||#{data}||'%')) c)
+		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	<select id="selectByCondition" resultType="TeamDTO" parameterType="java.util.HashMap">
-		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_name,
-		study_type, onoffline, join_member, max_member,
+		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
 		startdate, enddate,
 		brief_info,
-		(select LISTAGG(hashtag_name, ',') from TEAM_HASHTAG b
-		where b.team_no =
-		a.team_no)
-		AS hashtags, viewcnt
+		viewcnt
 		FROM TEAM a
 		WHERE
 		TO_DATE(enddate, 'YYYY-MM-DD') > sysdate
+		ORDER BY ${column} DESC) c)
+		WHERE rn BETWEEN #{start}AND #{end}
+	</select>
+	<select id="selectByDate" resultType="TeamDTO" parameterType="java.util.HashMap">
+		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info,
+		viewcnt
+		FROM TEAM a
+		WHERE
+		(TO_DATE(enddate, 'YYYY-MM-DD') <![CDATA[>=]]> TO_DATE(#{startDate}, 'YYYY-MM-DD')) AND (TO_DATE(enddate, 'YYYY-MM-DD') <![CDATA[<=]]> TO_DATE(#{endDate}, 'YYYY-MM-DD'))
 		ORDER BY ${column} DESC) c)
 		WHERE rn BETWEEN #{start}AND #{end}
 	</select>
@@ -100,6 +110,10 @@
         )
     }
 	</delete>
+	<select id="selectTeamHashtag" resultType="TeamHashtagDTO" parameterType="int">
+		SELECT * FROM TEAM_HASHTAG
+		WHERE team_no = ${teamNo}
+	</select>
 	<delete id="deleteHashtag" parameterType="int">
 		DELETE FROM TEAM_HASHTAG
 		WHERE team_no = ${teamNo}

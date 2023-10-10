@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
@@ -22,15 +21,16 @@ public class TeamManageController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		String gubun = request.getParameter("gubun");
-		response.setContentType("application/json;charset=UTF-8");
-		PrintWriter out = response.getWriter();
+
 		
 		if(gubun.equals("create")) {
-		
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
 			HashMap<String, Object> param = new HashMap<>();
 			param.put("I_TEAM_NAME", request.getParameter("teamName"));
-			param.put("I_LEADER_ID", request.getParameter("leaderId"));
+			param.put("I_LEADER_ID", request.getParameter("leaderId").trim());
 			param.put("I_STUDY_TYPE", request.getParameter("studyType"));
 			param.put("I_ONOFFLINE", request.getParameter("onOffLine"));
 			param.put("I_MAX_MEMBER", request.getParameter("maxMember"));
@@ -43,7 +43,7 @@ public class TeamManageController extends TeamController {
 			param.put("I_HASHTAG_NAME3", request.getParameter("hashtag3"));
 			param.put("I_HASHTAG_NAME4", request.getParameter("hashtag4"));
 			param.put("I_HASHTAG_NAME5", request.getParameter("hashtag5"));
-			
+			System.out.println(param);
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, Object> map = new HashMap<>();
 
@@ -60,7 +60,8 @@ public class TeamManageController extends TeamController {
 			out.print(jsonStr);
 			return null;
 		}else if(gubun.equals("update")) {
-			System.out.println("1");
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
 //			HttpSession session = request.getSession();
 			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
 			
@@ -146,6 +147,8 @@ public class TeamManageController extends TeamController {
 			return null;
 		
 		}else if(gubun.equals("delete")) {
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
 			ObjectMapper mapper = new ObjectMapper();
 			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
 			
@@ -165,7 +168,8 @@ public class TeamManageController extends TeamController {
 			
 		}else if(gubun.equals("select")) {
 			ObjectMapper mapper = new ObjectMapper();
-
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
 			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
 			Map<String, Integer> map = new HashMap<>();
 			try {
@@ -175,7 +179,6 @@ public class TeamManageController extends TeamController {
 				map.put("status", 0);
 			} catch (FindException e) {
 				//팀이 없는 경우
-				e.printStackTrace();
 				map.put("status", 1);
 			}
 			System.out.println(map);

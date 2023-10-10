@@ -9,6 +9,7 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
 
 public interface TeamDAO {
 
@@ -29,6 +30,7 @@ public interface TeamDAO {
 	 */
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 
+	
 	/**
 	 * 팀이름에 해당하는 팀정보를 검색한다
 	 * @param teamName 팀이름
@@ -36,14 +38,28 @@ public interface TeamDAO {
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	TeamDTO selectByTeamName(String teamName) throws FindException;
-
+	
+	
+	
+	
 	/**
 	 * 해시태그에 해당하는 팀을 검색한다
 	 * @param hashtag 해시태그
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	List<TeamDTO> selectByHashtag(String hashtag, int startRow, int endRow) throws FindException;
+	List<TeamDTO> selectByData(String table, String column, String data, int startRow, int endRow) throws FindException;
+	
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param startRow
+	 * @param endRow
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectByDate(String column, String startDate, String endDate, int startRow, int endRow) throws FindException;
 
 	/**
 	 * 조건에 맞는 팀을 조회한다
@@ -66,6 +82,14 @@ public interface TeamDAO {
 	 */
 	void updateTeam(TeamDTO team) throws ModifyException;
 
+	/**
+	 * 
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
+	
 	/**
 	 * 
 	 * @param hashtag

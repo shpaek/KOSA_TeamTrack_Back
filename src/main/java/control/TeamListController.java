@@ -11,35 +11,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
 import com.my.team.dto.TeamDTO;
 import com.my.team.dto.TeamHashtagDTO;
 import com.my.util.MainPageGroup;
 
-
-public class TeamSearchController extends TeamController {
+public class TeamListController extends TeamController {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-
 		response.setContentType("application/json;charset=UTF-8");
-
-		String table;
-		String column;
-		String currentPage = request.getParameter("currentPage");
-		String data = request.getParameter("data");
 		
-		if(data.contains("#")) {
-			table = "team_hashtag";
-			column = "hashtag_name";
-		}else {
-			table = "team";
-			column = "team_name";
-		}
+		String column = request.getParameter("column");
+		String currentPage = request.getParameter("currentPage");
 		int cp = 1;
 		if(currentPage != null && !currentPage.equals("")) {
 			cp = Integer.parseInt(currentPage);
@@ -49,7 +36,7 @@ public class TeamSearchController extends TeamController {
 		
 			PrintWriter out = response.getWriter();
 			try {
-				MainPageGroup<TeamDTO> pg = service.selectByData(cp, table, column, data);
+				MainPageGroup<TeamDTO> pg = service.findAll(cp, column);
 				List<TeamHashtagDTO> hashlist = new ArrayList<>();
 				for(TeamDTO team : pg.getList()){
 					hashlist.addAll(service.selectTeamHashtag(team.getTeamNo()));

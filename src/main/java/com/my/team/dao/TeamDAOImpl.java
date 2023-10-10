@@ -17,6 +17,7 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
 
 public class TeamDAOImpl implements TeamDAO {
 
@@ -101,21 +102,24 @@ public class TeamDAOImpl implements TeamDAO {
 			if(session != null) {
 				session.close();
 			}
-		}	
+		}
 	}
 
+	
 	@Override
-	public List<TeamDTO> selectByHashtag(String hashtag, int startRow, int endRow) throws FindException {
+	public List<TeamDTO> selectByData(String table, String column, String data, int startRow, int endRow) throws FindException {
 		SqlSession session = null;
 		List<TeamDTO> list = new ArrayList<>();
 
 		try {
 			session = sqlSessionFactory.openSession(); //Connection
 			Map<String, Object> map = new HashMap<>();
-			map.put("hashtag", hashtag);
+			map.put("table", table);
+			map.put("column", column);
+			map.put("data", data);
 			map.put("start", startRow);
 			map.put("end", endRow);
-			list = session.selectList("com.my.team.TeamMapper.selectByHashtag", map);
+			list = session.selectList("com.my.team.TeamMapper.selectByData", map);
 			return list;
 		}catch(Exception e) {
 			throw new FindException(e.getMessage());
@@ -148,6 +152,31 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 
+	public List<TeamDTO> selectByDate(String column, String startDate, String endDate, int startRow, int endRow) throws FindException{
+		SqlSession session = null;
+		List<TeamDTO> list = new ArrayList<>();
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("column", column);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+			map.put("start", startRow);
+			map.put("end", endRow);
+			list = session.selectList("com.my.team.TeamMapper.selectByDate", map);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}		
+
+	
+	
 	@Override
 	public void createTeam(Map<String, Object> params) throws AddException {
 
@@ -203,7 +232,26 @@ public class TeamDAOImpl implements TeamDAO {
 
 	}
 
+	@Override
+	public List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException {
+		SqlSession session = null;
+		List<TeamHashtagDTO> list = new ArrayList<>();
 
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			list = session.selectList("com.my.team.TeamMapper.selectTeamHashtag", teamNo);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+		
+	
+	
 	@Override
 	public void deleteHashtag(int teamNo) throws RemoveException {
 		SqlSession session = null;
@@ -256,7 +304,8 @@ public class TeamDAOImpl implements TeamDAO {
 			}
 		}
 	}
-		
+
+
 		
 
 	//	---------------------------------------------------------------------------------
