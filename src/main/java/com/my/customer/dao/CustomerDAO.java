@@ -5,14 +5,14 @@ import com.my.exception.AddException;
 import com.my.exception.FindException;
 
 public interface CustomerDAO {
-	
+
 	/**
 	 * 회원을 추가한다
 	 * @param customerDTO 고객객체
 	 * @throws AddException DB와의 연결 실패 또는 제약조건에 위반시 예외 발생
 	 */
 	void create(CustomerDTO customerDTO) throws AddException;
-	
+
 	/**
 	 * id에 해당하는 고객을 검색한다
 	 * @param id
