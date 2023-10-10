@@ -180,11 +180,11 @@
 	</insert>
 
 	<!-- 팀 메인) 팀 나가기#1 -->
-	<update id="updateTeamMemberStatus" parameterType="String">
+	<!-- <update id="updateTeamMemberStatus" parameterType="String">
 		UPDATE TEAMMEMBER_#{team_No}
 		SET STATUS = 1
 		WHERE ID = #{id}
-	</update>
+	</update>  -->
 
 	<!-- 팀 메인) 팀 나가기#2 -->
 	<delete id="deleteSignupTeam" parameterType="String">
