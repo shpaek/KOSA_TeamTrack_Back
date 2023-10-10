@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
@@ -25,9 +24,9 @@ public class TeamManageController extends TeamController {
 		String gubun = request.getParameter("gubun");
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		
+
 		if(gubun.equals("create")) {
-		
+
 			HashMap<String, Object> param = new HashMap<>();
 			param.put("I_TEAM_NAME", request.getParameter("teamName"));
 			param.put("I_LEADER_ID", request.getParameter("leaderId"));
@@ -43,7 +42,7 @@ public class TeamManageController extends TeamController {
 			param.put("I_HASHTAG_NAME3", request.getParameter("hashtag3"));
 			param.put("I_HASHTAG_NAME4", request.getParameter("hashtag4"));
 			param.put("I_HASHTAG_NAME5", request.getParameter("hashtag5"));
-			
+
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, Object> map = new HashMap<>();
 
@@ -54,7 +53,7 @@ public class TeamManageController extends TeamController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				map.put("status", 0);
-				map.put("msg", "팀생성 실패");			
+				map.put("msg", "팀생성 실패");
 			}
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
@@ -63,7 +62,7 @@ public class TeamManageController extends TeamController {
 			System.out.println("1");
 //			HttpSession session = request.getSession();
 			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-			
+
 			String teamName = request.getParameter("teamName");
 			String studyType = request.getParameter("studyType");
 			String onOffLine = request.getParameter("onOffLine");
@@ -77,9 +76,9 @@ public class TeamManageController extends TeamController {
 			String hashtag3 = request.getParameter("hashtag3");
 			String hashtag4 = request.getParameter("hashtag4");
 			String hashtag5 = request.getParameter("hashtag5");
-			
+
 			TeamDTO t = new TeamDTO();
-			
+
 			t.setTeamNo(teamNo);
 			t.setTeamName(teamName);
 			t.setStudyType(studyType);
@@ -94,33 +93,33 @@ public class TeamManageController extends TeamController {
 			Map<String, Object> map = new HashMap<>();
 
 			try {
-				List<Map> list = new ArrayList<Map>();
+				List<Map> list = new ArrayList<>();
 				if(hashtag1 != null) {
-					Map<String, Object> teamHashtag1 = new HashMap<String, Object>();	
+					Map<String, Object> teamHashtag1 = new HashMap<>();
 					teamHashtag1.put("teamNo", teamNo);
 					teamHashtag1.put("hashtag" , hashtag1);
 					list.add(teamHashtag1);
 				}
 				if(hashtag2 != null) {
-					Map<String, Object> teamHashtag2 = new HashMap<String, Object>();	
+					Map<String, Object> teamHashtag2 = new HashMap<>();
 					teamHashtag2.put("teamNo", teamNo);
 					teamHashtag2.put("hashtag" , hashtag2);
 					list.add(teamHashtag2);
 				}
 				if(hashtag3 != null) {
-					Map<String, Object> teamHashtag3 = new HashMap<String, Object>();	
+					Map<String, Object> teamHashtag3 = new HashMap<>();
 					teamHashtag3.put("teamNo", teamNo);
 					teamHashtag3.put("hashtag" , hashtag3);
 					list.add(teamHashtag3);
 				}
 				if(hashtag4 != null) {
-					Map<String, Object> teamHashtag4 = new HashMap<String, Object>();	
+					Map<String, Object> teamHashtag4 = new HashMap<>();
 					teamHashtag4.put("teamNo", teamNo);
 					teamHashtag4.put("hashtag" , hashtag4);
 					list.add(teamHashtag4);
 				}
 				if(hashtag5 != null) {
-					Map<String, Object> teamHashtag5 = new HashMap<String, Object>();	
+					Map<String, Object> teamHashtag5 = new HashMap<>();
 					teamHashtag5.put("teamNo", teamNo);
 					teamHashtag5.put("hashtag" , hashtag5);
 					list.add(teamHashtag5);
@@ -139,16 +138,16 @@ public class TeamManageController extends TeamController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				map.put("status", 0);
-				map.put("msg", "팀수정 실패");			
+				map.put("msg", "팀수정 실패");
 			}
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
 			return null;
-		
+
 		}else if(gubun.equals("delete")) {
 			ObjectMapper mapper = new ObjectMapper();
 			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-			
+
 			Map<String, Integer> map = new HashMap<>();
 			try {
 				service.deleteTeam(teamNo);
@@ -162,7 +161,7 @@ public class TeamManageController extends TeamController {
 			System.out.println(map);
 			out.print(mapper.writeValueAsString(map));
 			return null;
-			
+
 		}else if(gubun.equals("select")) {
 			ObjectMapper mapper = new ObjectMapper();
 
@@ -182,7 +181,7 @@ public class TeamManageController extends TeamController {
 			out.print(mapper.writeValueAsString(map));
 			return null;
 		}
-		
+
 		return null;
 	}
 

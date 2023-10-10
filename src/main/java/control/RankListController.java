@@ -1,5 +1,6 @@
 package control;
 
+/*
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -24,14 +25,14 @@ import com.my.exception.FindException;
 import com.my.rank.dto.RankDTO;
 
 public class RankListController extends RankController {
-	
+
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json; charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500"); //http://127.0.0.1:5500
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		
+
 		//응답 출력 스트림 얻기
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -76,3 +77,4 @@ public class RankListController extends RankController {
 		return null;
 	}
 }
+*/

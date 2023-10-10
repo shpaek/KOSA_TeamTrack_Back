@@ -1,6 +1,5 @@
 package com.my.team.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,19 +7,22 @@ import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
+import com.my.notice.dto.NoticeDTO;
+import com.my.team.dto.AttendanceDTO;
+import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
 
 public interface TeamDAO {
 
 	// 서현 웅니
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	int selectCount() throws FindException;
-	
+
 	/**
 	 * 팀번호에 해당하는 팀정보를 검색한다
 	 * @param teamNo 팀번호
@@ -67,19 +69,19 @@ public interface TeamDAO {
 	void updateTeam(TeamDTO team) throws ModifyException;
 
 	/**
-	 * 
+	 *
 	 * @param hashtag
 	 * @throws RemoveException
 	 */
 	void deleteHashtag(int teamNo) throws RemoveException;
-	
+
 	/**
-	 * 
+	 *
 	 * @param hashtag
 	 * @throws ModifyException
 	 */
 	void updateHashtag(Map<String, Object> params) throws ModifyException;
-	
+
 	/**
 	 * 팀을 삭제한다
 	 * @param teamNo 팀번호
@@ -87,10 +89,146 @@ public interface TeamDAO {
 	 */
 	void deleteTeam(int teamNo) throws RemoveException;
 
-	void updateViewCnt(int teamNo) throws ModifyException;
+	// void updateViewCnt(int teamNo) throws ModifyException;
+	
+	// ------------------------------------------------------------------------
+	
+	//워니 침입
+	/**
+	 * 팀장 아이디를 조회한다
+	 * @author 나원희
+	 * @param teamNo 팀번호
+	 * @return 팀장 아이디
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	String selectLeaderId(Integer teamNo) throws FindException;
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	/**
+	 * 팀 메인 페이지 - 팀 소개글 보여주기
+	 * @param teamNo
+	 * @return TeamDTO
+	 * @throws FindException
+	 */
+	String selectTeamInfoByTeamNo(int teamNo) throws FindException;
+
+	/**
+	 * 팀 메인 페이지 - 공지사항 보여주기
+	 * @param teamNo
+	 * @return List<NoticeDTO>
+	 * @throws FindException
+	 */
+	List<NoticeDTO> selectNoticeListByTeamNo(int teamNo) throws FindException;
+
+	/**
+	 * 팀 메인 페이지 - 팀에 가입하기
+	 * @param SignupTeamDTO
+	 * @throws AddException
+	 */
+	void insertSignUpTeam(SignupTeamDTO SignupTeamDTO) throws AddException;
+
+	/**
+	 * 팀 메인 페이지 - 팀에서 나가기 #1 (팀원 테이블에서 상태값 변경)
+	 * @param id
+	 * @throws ModifyException
+	 */
+	void updateTeamMemberStatus(String id) throws ModifyException;
+
+	/**
+	 * 팀 메인 페이지 - 팀에서 나가기 #2 (가입한 팀 테이블에서 삭제)
+	 * @param id
+	 * @throws RemoveException
+	 */
+	void deleteSignupTeam(String id) throws RemoveException;
+
+	/**
+	 * 팀 메인 페이지 - 팀 나가기(트랜잭션)
+	 * @param id 회원 아이디
+	 * @throws Exception
+	 */
+	void leaveTeam(String id) throws Exception;
+
+	/**
+	 * 팀 메인 페이지 - 팀 멤버 출력
+	 * @param teamNo
+	 * @throws FindException
+	 */
+	List<String> selectNicknameByTeamNo(int teamNo) throws FindException;
+
+	/**
+	 * 팀 메인 페이지 - 조회수 카운트
+	 * @param teamDTO
+	 * @throws AddException
+	 */
+	void updateViewCnt(int teamNo) throws ModifyException;
+
+//	---------------------------
+
+	/**
+	 * 팀 출석부 페이지 - 출석하기
+	 * @param teamNo
+	 * @param id
+	 * @throws AddException
+	 */
+	void insertAttendanceById(Integer teamNo, String id) throws AddException;
+
+	/**
+	 * 팀 출석부 페이지 - 조회하기
+	 * @param teamNo
+	 * @param id
+	 * @return
+	 * @throws FindException
+	 */
+	List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException;
 	
+//	---------------------------
 	
+	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 현재 팀원들 정보 확인 (아이디, 닉네임, 자기소개)
+	 * @param teamNo
+	 * @return
+	 * @throws Exception
+	 */
+	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
+	 * @param map
+	 * @throws Exception
+	 */
+	void updateTeamMemberStatus(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인
+	 * @param teamNo
+	 * @return
+	 * @throws Exception
+	 */
+	List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
+	 * @param map
+	 * @throws Exception
+	 */
+	void updateRequestInfoApprove(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
+	 * @param map
+	 * @throws Exception
+	 */
+	void updateRequestInfoReject(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(출제자 선정) - 출제자 선정
+	 * @param map
+	 * @throws Exception
+	 */
+	void insertExaminer(Map<String, Object> map) throws Exception;
+
+	// 출제자 취소
+
 } // end interface

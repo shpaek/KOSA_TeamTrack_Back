@@ -33,14 +33,15 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 	
-	public List<TaskDTO> selectMainTaskList(Integer teamNo, boolean desc) throws FindException {
+	public List<TaskDTO> selectMainTaskList(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
 		try {
 			session=sqlSessionFactory.openSession();
 			Map<String, Object> map=new HashMap<>();
-			map.put("tableName", "task_"+teamNo);
-			map.put("desc", desc);
+			map.put("tableName1", "task_"+teamNo);
+			map.put("tableName2", "memberscore_"+teamNo);
+			map.put("id", id);
 			List<TaskDTO> list=session.selectList("com.my.task.TaskMapper.selectMainTaskList", map);
 			return list;
 		} catch(Exception e) {
@@ -51,6 +52,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public List<TaskDTO> selectAllTaskList(Integer teamNo, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -70,6 +72,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public int selectAllTaskCount(Integer teamNo) throws FindException {
 		SqlSession session=null;
 
@@ -85,6 +88,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public List<MemberTaskDTO> selectCompleteTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -106,6 +110,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public int selectCompleteTaskCount(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -122,7 +127,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<TaskDTO> selectMyTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -142,7 +148,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public int selectMyTaskCount(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -159,7 +166,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public TaskDTO selectTaskInfo(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
@@ -176,7 +184,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<Integer> selectQuizAnswer(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
@@ -193,7 +202,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<Integer> selectMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -211,7 +221,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public int selectMemberScore(Integer teamNo, Integer taskNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -229,7 +240,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
 		SqlSession session=null;
 
@@ -249,7 +261,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void insertQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
 		SqlSession session=null;
 
@@ -269,7 +282,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void updateQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException {
 		SqlSession session=null;
 
@@ -289,7 +303,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
 		SqlSession session=null;
 
@@ -308,68 +323,86 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
+	
+	public List<String> selectTaskId(Integer teamNo) throws FindException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			List<String> list=session.selectList("com.my.task.TaskMapper.selectTaskId", "task_"+teamNo);
+			return list;
+		} catch(Exception e) {
+			//e.printStackTrace();
+			throw new FindException("아이디 조회 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
 
 
 	// main test
-	public static void main(String[] args) throws FindException, AddException {
-		TaskDAOImpl t=new TaskDAOImpl();
-		try {
-			System.out.println("======================\n메인과제리스트");
-			List<TaskDTO> list4=t.selectMainTaskList(9999, true);
-			for(int i=0;i<list4.size();i++) {
-				System.out.print("과제 타이틀 : "+list4.get(i).getTitle()+" | ");
-				System.out.print("출제자 : "+list4.get(i).getId()+" | ");
-				System.out.print("과제 생성일 : "+list4.get(i).getRegdate()+" | ");
-				System.out.println("과제 마감일 : "+list4.get(i).getEnddate());
-			}
-			System.out.print("======================\n전체과제리스트 - ");
-			int cnt=t.selectAllTaskCount(9999);
-			System.out.println(cnt);
-			List<TaskDTO> list=t.selectAllTaskList(9999, 1, 4, true);
-			for(int i=0;i<list.size();i++) {
-				System.out.print("과제 타이틀 : "+list.get(i).getTitle()+" | ");
-				System.out.print("출제자 : "+list.get(i).getId()+" | ");
-				System.out.println("과제 생성일 : "+list.get(i).getRegdate());
-			}
-			System.out.print("======================\n완료과제리스트 - ");
-			int cnt2=t.selectCompleteTaskCount(9999, "nwh2023");
-			System.out.println(cnt2);
-			List<MemberTaskDTO> list2=t.selectCompleteTaskList(9999, "nwh2023", 1, 2, true);
-			for(int i=0;i<list2.size();i++) {
-				System.out.print("과제 타이틀 : "+list2.get(i).getTitle()+" | ");
-				System.out.print("출제자 : "+list2.get(i).getId()+" | ");
-				System.out.println("과제 제출일 : "+list2.get(i).getSubmitDate());
-			}
-			System.out.print("======================\n출제과제리스트 - ");
-			int cnt3=t.selectMyTaskCount(9999, "khb2023");
-			System.out.println(cnt3);
-			List<TaskDTO> list3=t.selectMyTaskList(9999, "khb2023", 1, 2, true);
-			for(int i=0;i<list3.size();i++) {
-				System.out.print("과제 타이틀 : "+list3.get(i).getTitle()+" | ");
-				System.out.println("평점 : "+list3.get(i).getAvgReviewscore());
-			}
-			System.out.println("======================\n선택한 과제");
-			TaskDTO task=t.selectTaskInfo(9999, 1);
-			List<Integer> qa=t.selectQuizAnswer(9999, 1);
-			List<Integer> ma=t.selectMemberAnswer(9999, 1, "nwh2023");
-			System.out.println(task.getTitle()+"	출제자 : "+task.getId()+" | 과제생성일 : "+task.getRegdate());
-			for(int i=0;i<qa.size();i++) {
-				System.out.println("과제 답 : "+qa.get(i)+" / 팀원 답 : "+ma.get(i));
-			}
-			int score=t.selectMemberScore(9999, 1, "nwh2023");
-			System.out.println("점수 : "+score); //풀지 않았을 경우 예외처리
-//			System.out.println("======================\\n과제 업데이트");
-//			t.updateTask(9999, "test exam1", "2023-10-20", 10);
-//			System.out.println("======================\\n답안 생성");
-//			//t.insertQuizAnswer(9999, 1, 10, 4);
-//			System.out.println("======================\\n답안 수정");
-//			//t.updateQuizAnswer(9999, 1, 10, 1);
-//			System.out.println("======================\\n답안 삭제");
-//			//t.deleteQuizAnswer(9999, 1, 10);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-	}
+//	public static void main(String[] args) throws FindException, AddException {
+//		TaskDAOImpl t=new TaskDAOImpl();
+//		try {
+//			System.out.println("======================\n메인과제리스트");
+//			List<TaskDTO> list4=t.selectMainTaskList(9999, "");
+//			for(int i=0;i<list4.size();i++) {
+//				System.out.print("과제 타이틀 : "+list4.get(i).getTitle()+" | ");
+//				System.out.print("출제자 : "+list4.get(i).getId()+" | ");
+//				System.out.print("과제 생성일 : "+list4.get(i).getRegdate()+" | ");
+//				System.out.println("과제 마감일 : "+list4.get(i).getEnddate());
+//			}
+//			System.out.print("======================\n전체과제리스트 - ");
+//			int cnt=t.selectAllTaskCount(9999);
+//			System.out.println(cnt);
+//			List<TaskDTO> list=t.selectAllTaskList(9999, 1, 4, true);
+//			for(int i=0;i<list.size();i++) {
+//				System.out.print("과제 타이틀 : "+list.get(i).getTitle()+" | ");
+//				System.out.print("출제자 : "+list.get(i).getId()+" | ");
+//				System.out.println("과제 생성일 : "+list.get(i).getRegdate());
+//			}
+//			System.out.print("======================\n완료과제리스트 - ");
+//			int cnt2=t.selectCompleteTaskCount(9999, "nwh2023");
+//			System.out.println(cnt2);
+//			List<MemberTaskDTO> list2=t.selectCompleteTaskList(9999, "nwh2023", 1, 2, true);
+//			for(int i=0;i<list2.size();i++) {
+//				System.out.print("과제 타이틀 : "+list2.get(i).getTitle()+" | ");
+//				System.out.print("출제자 : "+list2.get(i).getId()+" | ");
+//				System.out.println("과제 제출일 : "+list2.get(i).getSubmitDate());
+//			}
+//			System.out.print("======================\n출제과제리스트 - ");
+//			int cnt3=t.selectMyTaskCount(9999, "khb2023");
+//			System.out.println(cnt3);
+//			List<TaskDTO> list3=t.selectMyTaskList(9999, "khb2023", 1, 2, true);
+//			for(int i=0;i<list3.size();i++) {
+//				System.out.print("과제 타이틀 : "+list3.get(i).getTitle()+" | ");
+//				System.out.println("평점 : "+list3.get(i).getAvgReviewscore());
+//			}
+//			System.out.println("======================\n선택한 과제");
+//			TaskDTO task=t.selectTaskInfo(9999, 1);
+//			List<Integer> qa=t.selectQuizAnswer(9999, 1);
+//			List<Integer> ma=t.selectMemberAnswer(9999, 1, "nwh2023");
+//			System.out.println(task.getTitle()+"	출제자 : "+task.getId()+" | 과제생성일 : "+task.getRegdate());
+//			for(int i=0;i<qa.size();i++) {
+//				System.out.println("과제 답 : "+qa.get(i)+" / 팀원 답 : "+ma.get(i));
+//			}
+//			int score=t.selectMemberScore(9999, 1, "nwh2023");
+//			System.out.println("점수 : "+score); //풀지 않았을 경우 예외처리
+////			System.out.println("======================\\n과제 업데이트");
+////			t.updateTask(9999, "test exam1", "2023-10-20", 10);
+////			System.out.println("======================\\n답안 생성");
+////			//t.insertQuizAnswer(9999, 1, 10, 4);
+////			System.out.println("======================\\n답안 수정");
+////			//t.updateQuizAnswer(9999, 1, 10, 1);
+////			System.out.println("======================\\n답안 삭제");
+////			//t.deleteQuizAnswer(9999, 1, 10);
+//			System.out.println("======================\n출제자 아이디");
+//			List<String> id=t.selectTaskId(9999);
+//			for(int i=0;i<id.size();i++) System.out.print(id.get(i)+" ");
+//		} catch (Exception e) {
+//			//e.printStackTrace();
+//			System.out.println(e.getMessage());
+//		}
+//	}
 
 }
