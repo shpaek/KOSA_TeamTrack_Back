@@ -27,7 +27,7 @@ public class TaskDTO {
 	private Date enddate;
 	private double avgReviewscore;
 	//private List<Integer> answerList;
-	
+
 	// rank 산정에 필요한 변수
 	private Double totalReviewscore;	//리뷰 점수 총점
 	private Integer monthlyTaskNum;		//월별 과제 개수

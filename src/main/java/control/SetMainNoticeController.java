@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.exception.FindException;
-import com.my.exception.ModifyException;
 import com.my.notice.dto.NoticeDTO;
-import com.my.util.Attach;
 
 public class SetMainNoticeController extends NoticeController {
 	@Override
@@ -22,18 +19,18 @@ public class SetMainNoticeController extends NoticeController {
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		
+
 		HttpSession session = request.getSession();
 		String loginedId = (String)session.getAttribute("loginedId");
-		
+
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 		Integer noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		Integer mainStatus = Integer.parseInt(request.getParameter("mainStatus"));
-		Map<String, Object> map = new HashMap<>();; 
-		
+		Map<String, Object> map = new HashMap<>();
+
 		try {
 			if(mainStatus==1) {
 				NoticeDTO notice = service.findMainNotice(teamNo);
@@ -57,7 +54,7 @@ public class SetMainNoticeController extends NoticeController {
 			map.put("status", 0);
 			map.put("msg", e.getMessage());
 		}
-		
+
 		out.print(mapper.writeValueAsString(map));
 
 		return null;

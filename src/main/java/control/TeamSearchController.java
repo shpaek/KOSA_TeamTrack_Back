@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
 
@@ -47,7 +46,7 @@ public class TeamSearchController extends TeamController {
 		}else if(gubun.equals("teamName")) {
 			System.out.println("ok");
 			response.setContentType("application/json;charset=utf-8");
-			
+
 			PrintWriter out = response.getWriter();
 			ObjectMapper mapper = new ObjectMapper();
 //			HttpSession session = request.getSession();
@@ -66,11 +65,11 @@ public class TeamSearchController extends TeamController {
 			System.out.println(map);
 			out.print(mapper.writeValueAsString(map));
 			return null;
-		
+
 		}
 		System.out.println("여기");
 		return null;
-		
+
 	}
 
 }

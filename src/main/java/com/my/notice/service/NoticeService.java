@@ -17,7 +17,7 @@ public interface NoticeService {
 	 * @throws FindException DB 연결 실패할 시 예외 발생한다
 	 */
 	PageGroup<NoticeDTO> findNoticeAll(int currentPage, Integer teamNo) throws FindException;
-	
+
 	/**
 	 * 팀 공지 테이블의 게시글 번호에 해당되는 공지 게시글 한개를 반환한다
 	 * @author 나원희
@@ -27,7 +27,7 @@ public interface NoticeService {
 	 * @throws FindException DB연결 실패할 시 예외 발생한다
 	 */
 	NoticeDTO findByNoticeNo(Integer teamNo, Integer noticeNo) throws FindException;
-	
+
 	/**
 	 * 작성한 게시글 정보를 추가한다
 	 * @author 나원희
@@ -36,7 +36,7 @@ public interface NoticeService {
 	 * @throws AddException DB연결 실패할 시 예외 발생한다
 	 */
 	void writeNotice(Integer teamNo, NoticeDTO notice) throws AddException;
-	
+
 	/**
 	 * 해당되는 게시글을 삭제한다
 	 * @author 나원희
@@ -45,7 +45,7 @@ public interface NoticeService {
 	 * @throws RemoveException DB연결 실패할 시 예외 발생한다
 	 */
 	void removeNotice(Integer teamNo, Integer noticeNo) throws RemoveException;
-	
+
 	/**
 	 * 게시글 정보를 수정한다
 	 * @author 나원희
@@ -54,7 +54,7 @@ public interface NoticeService {
 	 * @throws ModifyException DB연결 실패 시 예외 발생한다
 	 */
 	void modifyNotice(Integer teamNo, NoticeDTO notice) throws ModifyException;
-	
+
 	/**
 	 * 메인공지 여부를 통해 게시글을 조회한다
 	 * @author 나원희
@@ -63,7 +63,7 @@ public interface NoticeService {
 	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
 	 */
 	NoticeDTO findMainNotice(Integer teamNo) throws FindException;
-	
+
 	/**
 	 * 메인공지 여부를 변경한다
 	 * @param teamNo 팀번호
@@ -71,5 +71,5 @@ public interface NoticeService {
 	 * @param mainStatus 메인공지 여부
 	 * @throws ModifyException DB와의 연결 실패 시 예외 발생한다
 	 */
-	void setMainNotice(Integer teamNo, Integer noticeNo, Integer mainStatus) throws ModifyException, FindException; 
+	void setMainNotice(Integer teamNo, Integer noticeNo, Integer mainStatus) throws ModifyException, FindException;
 }
