@@ -22,6 +22,6 @@ public class RankDTO {
 	//랭킹 리스트에 필요한 회원 정보
 	private String nickname;	//회원 닉네임
 	private String profile;		//회원 프로필
-	RankDetailDTO scoredetail;
+//	RankDetailDTO scoredetail;
 	
 }

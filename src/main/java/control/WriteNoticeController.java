@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileUploadException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.AddException;
 import com.my.notice.dto.NoticeDTO;

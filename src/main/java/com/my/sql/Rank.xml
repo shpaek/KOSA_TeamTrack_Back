@@ -59,7 +59,7 @@
   
   
   <select id="selectReviewScore" resultType="TaskDTO" parameterType="java.util.HashMap">	
-	SELECT id, sum(avg_reviewscore) as totalreviewscore, extract (month from enddate) as month
+	SELECT id, NVL(sum(avg_reviewscore), 0) as totalreviewscore, extract (month from enddate) as month
 	FROM TASK_${team_no}
 	WHERE extract (month from enddate)=#{month}
 	GROUP BY id, extract (month from enddate)

@@ -1,6 +1,5 @@
 package com.my.rank.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import com.my.exception.FindException;
 import com.my.rank.dao.RankDAO;
 import com.my.rank.dao.RankDAOImpl;
 import com.my.rank.dto.RankDTO;
-import com.my.rank.dto.RankDetailDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
@@ -29,26 +27,22 @@ public class RankServiceImpl implements RankService {
 	@Override
 	public List<RankDTO> findByMonth(Integer teamNo, String rankDate) throws FindException {
 		List<RankDTO> ranklist = rankDao.selectByMonth(teamNo, rankDate);
-		
-		return rankDao.selectByMonth(teamNo, rankDate);
+		return ranklist;
 	}
 
 	@Override
-	public Map<String, Object> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException {
+	public Map<String, Object> calculateTotalScore(Integer teamNo, String rankDate, Integer month) throws FindException {
 		List<TeamMemberDTO> tmlist = rankDao.selectMemberId(teamNo);
-		List<AttendanceDTO> attlist = rankDao.selectAttendanceDay(teamNo, attendanceDate, month);
+		List<AttendanceDTO> attlist = rankDao.selectAttendanceDay(teamNo, rankDate, month);
 		List<TaskDTO> tasknumlist = rankDao.countMonthlyTask(teamNo, month);
 		List<MemberTaskDTO> mtlist = rankDao.selectTaskScore(teamNo, month);
 		List<TaskDTO> rslist = rankDao.selectReviewScore(teamNo, month);
 //		List<QnACommentDTO> qnalist = rankDao.selectQnAScore(teamNo, month);
 		
-		//teammemberdto에서 id를 다 불러오고,
-		//rankdetaildto 정보를 채우고 나머지 정보들을 채운다
-	
-		//list 
-		//[id, attendancerate, avgtaskscore, totalreviewscore, qnapickedscore]
-		//map
-		//id:(list1~4까지 더해서 totalscore로 만들기 totalscore += list[i])
+		//id 출력하기
+		for (TeamMemberDTO tmdto : tmlist) {
+			String id = tmdto.getId();
+		}
 		
 		// id별 total score를 담을 맵 
 		Map<String, Object> totalScoreMap = new HashMap();
@@ -72,8 +66,8 @@ public class RankServiceImpl implements RankService {
 			String id = mtdto.getId();
 			
 			// 과제점수평균 = 과제 점수 총합/월에 출제된 과제 총 개수
-			Double totaltaskscore = mtlist.getTotalScore();
-			Double avgtaskscore = totaltaskscore/monthlytasknum;
+			Double totaltaskscore = mtdto.getTotalScore();
+			Double avgtaskscore = (double)(totaltaskscore/monthlytasknum);
 			tsmap.put(id, avgtaskscore);
 		}
 		
@@ -83,7 +77,7 @@ public class RankServiceImpl implements RankService {
 			String id = tsdto.getId();
 			
 			// 출제한 과제 평균 리뷰점수 누적합
-			Double totalreviewscore = rslist.getTotalReviewscore();	
+			Double totalreviewscore = tsdto.getTotalReviewscore();
 			rsmap.put(id, totalreviewscore);
 		}
 
@@ -93,7 +87,7 @@ public class RankServiceImpl implements RankService {
 //			String id = qnadto.getId();
 //			
 //			// 큐엔에이 채택 점수 누적합
-//			Double qnapickedscore = qnalist.getPickedNum();	
+//			Double qnapickedscore = qnadto.getPickedNum();	
 //			qnamap.put(id, qnapickedscore);
 //		}
 		
@@ -106,11 +100,20 @@ public class RankServiceImpl implements RankService {
 //			Double qnapickedscore = qnamap.getOrDefault(id, 0.0);
 			
 			//총점 계산 
-			Double totalscore = (attendancerate*0.1) + avgtaskscore + totalreviewscore + qnapickedscore;
+			Double totalscore = Math.round(((attendancerate*0.1) + avgtaskscore + totalreviewscore)*100)/100.0; //+ qnapickedscore;
 			totalScoreMap.put(id, totalscore);
 		}
-		
 		return totalScoreMap;
+	}
+	
+	public static void main(String[] args) {
+		RankServiceImpl service = new RankServiceImpl();
+		try {
+			System.out.println(service.findByMonth(9999, "2023-10-01"));
+			System.out.println(service.calculateTotalScore(9999, "2023-10-01", 10));
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 	}
 	
 //	@Override

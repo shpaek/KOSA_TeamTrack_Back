@@ -25,7 +25,7 @@ public class TaskDTO {
 	private Date regdate;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date enddate;
-	private double avgReviewscore;
+	private Double avgReviewscore;
 	//private List<Integer> answerList;
 	
 	// rank 산정에 필요한 변수
