@@ -1,5 +1,7 @@
 package com.my.customer.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +23,12 @@ public class CustomerDTO {
 	private Integer status;			// 유저 상태 -> 탈퇴: 0, 가입중: 1
 
 	// 비상비상
+	
+	public CustomerDTO(String name, String birthday, String phone, String email){
+		this.name = name;
+		this.birthday = birthday;
+		this.phone = phone;
+		this.email = email;
+	}
 
 } // end class

@@ -182,6 +182,53 @@ public interface TeamDAO {
 	 * @throws FindException
 	 */
 	List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException;
+	
+//	---------------------------
+	
+	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 현재 팀원들 정보 확인 (아이디, 닉네임, 자기소개)
+	 * @param teamNo
+	 * @return
+	 * @throws Exception
+	 */
+	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
+	 * @param map
+	 * @throws Exception
+	 */
+	void updateTeamMemberStatus(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인
+	 * @param teamNo
+	 * @return
+	 * @throws Exception
+	 */
+	List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
+	 * @param map
+	 * @throws Exception
+	 */
+	void updateRequestInfoApprove(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
+	 * @param map
+	 * @throws Exception
+	 */
+	void updateRequestInfoReject(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(출제자 선정) - 출제자 선정
+	 * @param map
+	 * @throws Exception
+	 */
+	void insertExaminer(Map<String, Object> map) throws Exception;
 
+	// 출제자 취소
 
 } // end interface
