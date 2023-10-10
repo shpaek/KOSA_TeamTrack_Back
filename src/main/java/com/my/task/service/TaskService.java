@@ -94,4 +94,13 @@ public interface TaskService {
 	 * @throws RemoveException
 	 */
 	void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException;
+	
+	/**
+	 * 출제자 아이디를 가져온다.
+	 * @param teamNo 팀 번호
+	 * @param id 아이디
+	 * @return 아이디가 리스트에 존재하면 true 반환, 리스트가 null이거나 아이디가 존재하지 않으면 false 반환
+	 * @throws FindException
+	 */
+	boolean findTaskId(Integer teamNo, String id) throws FindException;
 }

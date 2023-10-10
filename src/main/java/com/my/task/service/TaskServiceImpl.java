@@ -101,6 +101,17 @@ public class TaskServiceImpl implements TaskService {
 	public void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
 		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
 	}
+	
+	public boolean findTaskId(Integer teamNo, String id) throws FindException {
+		List<String> list=taskDAO.selectTaskId(teamNo);
+		if(list==null) return false;
+		else {
+			for(int i=0;i<list.size();i++) {
+				if(id.equals(list.get(i))) return true;
+			}
+			return false;
+		}
+	}
 
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
