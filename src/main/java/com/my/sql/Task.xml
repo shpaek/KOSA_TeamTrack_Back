@@ -12,11 +12,11 @@
 		FROM (
 			SELECT t.task_no, t.title, t.regdate, t.enddate, t.id
 			FROM ${tableName1} t
-			WHERE t.enddate-SYSDATE>0 AND t.id!=#{id}
+			WHERE t.enddate-SYSDATE>0 AND t.id!=#{id} AND regdate IS NOT NULL
 			MINUS
 			SELECT t.task_no, t.title, t.regdate, t.enddate, t.id
 			FROM ${tableName1} t JOIN ${tableName2} m ON(t.task_no=m.task_no)
-			WHERE t.enddate-SYSDATE>0 AND m.id=#{id}
+			WHERE t.enddate-SYSDATE>0 AND m.id=#{id} AND regdate IS NOT NULL
 		) a JOIN customer c ON (a.id=c.id)
 		ORDER BY a.enddate
 	</select>
