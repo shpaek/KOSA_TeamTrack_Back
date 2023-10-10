@@ -1,8 +1,7 @@
 package com.my.rank.dao;
 
-/*
+
 import java.lang.module.FindException;
-import java.util.Date;
 import java.util.List;
 
 import com.my.exception.AddException;
@@ -11,7 +10,7 @@ import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.TeamMemberDTO;
-*/
+
 public interface RankDAO {
 
 	/**
@@ -21,7 +20,7 @@ public interface RankDAO {
 	 * @return rank객체 리스트
 	 * @throws FindException date에 해당하는 rank 정보가 없거나 DB와 연결이 실패하면 예외발생
 	 */
-	// List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException;
+	 List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException;
 
 	/**
 	 * 팀별 팀 멤버들의 id를 조회한다
@@ -29,7 +28,7 @@ public interface RankDAO {
 	 * @return
 	 * @throws FindException 팀 번호에 해당하는 멤버 아이디가 없거나 DB와 연결이 실패하면 예외발생
 	 */
-	// List<TeamMemberDTO> selectAll(Integer teamNo) throws FindException;
+	 List<TeamMemberDTO> selectAll(Integer teamNo) throws FindException;
 
 	/**
 	 * 팀별 Rank 정보를 저장한다
@@ -37,7 +36,7 @@ public interface RankDAO {
 	 * @param rankDto rank 객체
 	 * @throws AddException DB와 연결이 실패하거나 제약조건위배일 경우 예외 발생
 	 */
-	// void insert(Integer teamNo, RankDTO rankDto) throws AddException;
+	 void insert(Integer teamNo, RankDTO rankDto) throws AddException;
 
 
 	//랭킹 점수 계산
@@ -49,13 +48,13 @@ public interface RankDAO {
 	 * @return AttendanceDTO 객체
 	 * @throws FindException DB와 연결이 실패하는 경우 예외 발생
 	 */
-	// List<AttendanceDTO> selectAttendanceDay(Integer teamNo, String attendanceDate, Integer month) throws FindException;
+	 List<AttendanceDTO> selectAttendanceDay(Integer teamNo, String attendanceDate, Integer month) throws FindException;
 
 	/**
 	 * 각 Task의 마감기한 확인을 위해 상세 정보를 조회한다
 	 * @throws FindException DB와 연결이 실패하는 경우 예외 발생
 	 */
-	// List<TaskDTO> selectAllTask() throws FindException;
+	 List<TaskDTO> selectAllTask() throws FindException;
 
 	/**
 	 * 과제 점수를 계산하기 위해 월별 총 과제 갯수를 조회한다
@@ -64,7 +63,7 @@ public interface RankDAO {
 	 * @return TaskDTO 객체
 	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 과제가 없는 경우 예외 발생
 	 */
-	// List<TaskDTO> countMonthlyTask(Integer teamNo, Integer month) throws FindException;
+	 List<TaskDTO> countMonthlyTask(Integer teamNo, Integer month) throws FindException;
 
 	/**
 	 * 과제 점수를 계산하기 위해 id별 월별 과제점수 총합을 조회한다
@@ -73,7 +72,7 @@ public interface RankDAO {
 	 * @return MemberScoreDTO 객체
 	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 과제 점수가 없는 경우 예외 발생
 	 */
-	// List<MemberTaskDTO> selectTaskScore(Integer teamNo, Integer month) throws FindException;
+	 List<MemberTaskDTO> selectTaskScore(Integer teamNo, Integer month) throws FindException;
 
 	/**
 	 * 출제 점수를 계산하기 위해 과제별 리뷰 점수 평균을 조회한다
@@ -82,7 +81,7 @@ public interface RankDAO {
 	 * @return TaskDTO 객체
 	 * @throws FindException DB와 연결이 실패하거나 조회한 과제의 별점 평균 점수가 없는 경우 예외 발생
 	 */
-	// List<TaskDTO> selectReviewScore(Integer teamNo, Integer month) throws FindException;
+	 List<TaskDTO> selectReviewScore(Integer teamNo, Integer month) throws FindException;
 
 //	/**
 //	 * QnA 답변 채택 점수를 계산하기 위해 월별 picked 채택 횟수를 조회한다
