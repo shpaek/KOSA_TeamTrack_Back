@@ -25,6 +25,14 @@ public class QnaBoardDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date updatedate;	// 수정 날짜
 
+	public QnaBoardDTO(Integer qnaNo, String title, String content) {
+		
+		this.qnaNo = qnaNo;
+		this.title = title;
+		this.content = content;
+		
+	} // constructor	
+	
 	public QnaBoardDTO(String id, String title, String content) {
 		
 		this.id = id;
@@ -32,5 +40,6 @@ public class QnaBoardDTO {
 		this.content = content;
 	
 	} // constructor	
+	
 
 } // end class

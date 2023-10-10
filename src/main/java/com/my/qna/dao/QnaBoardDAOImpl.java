@@ -187,14 +187,26 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 
 
 	@Override
-	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException {
+	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException {
 
 		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
 
+		System.out.println( " =================== dao ==================== " + qnaBoardDTO.getTitle());
+		System.out.println( " =================== dao ==================== " + qnaBoardDTO.getContent());
+		
 		try {
+			
+			String tableName="QNABOARD_" + teamNo;
+			
+			map.put("tableName",tableName);
+			map.put("title", qnaBoardDTO.getTitle());
+			map.put("content", qnaBoardDTO.getContent());
+			map.put("qnaNo", qnaBoardDTO.getQnaNo());
 
 			session = sqlSessionFactory.openSession();
-			session.update("com.my.qna.QnaBoardMapper.update", qnaBoardDTO);
+			session.update("com.my.qna.QnaBoardMapper.update", map);
 			
 			session.commit();
 
