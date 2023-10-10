@@ -180,10 +180,11 @@
 	</insert>
 
 	<!-- 팀 메인) 팀 나가기#1 -->
-	<update id="updateTeamMemberStatus" parameterType="String">
-		UPDATE TEAMMEMBER_#{team_No}
+	<update id="updateTeamMemberStatus1" parameterType="String">
+		UPDATE TEAMMEMBER_#{teamNo}
 		SET STATUS = 1
 		WHERE ID = #{id}
+		
 	</update>
 
 	<!-- 팀 메인) 팀 나가기#2 -->
@@ -226,7 +227,7 @@
 	</select>
 	
 	<!-- 팀 관리) 팀원 방출 -->
-	<update id="updateTeamMemberStatus" parameterType="java.util.Map">
+	<update id="updateTeamMemberStatus2" parameterType="java.util.Map">
 	    UPDATE TEAMMEMBER_${teamNo}
 		SET STATUS = 2
 		WHERE ID = #{id}
