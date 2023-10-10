@@ -5,6 +5,7 @@ import com.my.customer.dao.CustomerDAOImpl;
 import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 
 public class CustomerServiceImpl implements CustomerService {
 	
@@ -54,6 +55,12 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	} // idDbuCheck
 	
+	
+	@Override
+	public CustomerDTO findById(String id) throws FindException{
+		return customerDAO.selectById(id);
+	}
+	
 	// ===========================  db와 연결 테스트 ========================
 	
 //	public static void main(String[] args) {
@@ -70,5 +77,20 @@ public class CustomerServiceImpl implements CustomerService {
 //		} // try-catch
 //		
 //	} // main(test)
+	
+	@Override
+	public void nicknameDupChk(String nickname) throws FindException{
+		customerDAO.selectByNickname(nickname);
+	}
+	
+	@Override
+	public void modifyNickname(String id, String nickname) throws ModifyException{
+		customerDAO.updateNickname(id, nickname);
+	}
+	
+	@Override
+	public void modifyMyInfo(String id, CustomerDTO customer) throws ModifyException{
+		customerDAO.updateCustomerAll(id, customer);
+	}
 
 } // end class

@@ -2,6 +2,8 @@ package com.my.customer.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 
 public class CustomerDAOImpl implements CustomerDAO {
 	
@@ -139,6 +142,70 @@ public class CustomerDAOImpl implements CustomerDAO {
 		}
 	} // main(test)
 	
+	@Override
+	public CustomerDTO selectByNickname(String nickname) throws FindException{
+		SqlSession session = null;
+		
+		try {
+			
+			session = sqlSessionFactory.openSession();
+			CustomerDTO customer = session.selectOne("com.my.customer.CustomerMapper.selectByNickname", nickname);
+			if(customer != null) { 
+				return customer;
+			}else {
+				throw new FindException("고객이 없습니다"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} 
+		} 
+	}
 	
+	@Override
+	public void updateNickname(String id, String nickname) throws ModifyException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+		
+		try{
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("nickname", nickname);
+			session.update("com.my.customer.CustomerMapper.updateNickname", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void updateCustomerAll(String id, CustomerDTO customer) throws ModifyException{
+		SqlSession session = null;
+		
+		Map map = new HashMap<>();
+		
+		try{
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("customer", customer);
+			session.update("com.my.customer.CustomerMapper.updateCustomerAll", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
 } // end class
 
