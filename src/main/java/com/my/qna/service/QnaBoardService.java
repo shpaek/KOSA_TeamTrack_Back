@@ -41,7 +41,7 @@ public interface QnaBoardService {
 	 * @return
 	 * @throws ModifyException DB와의 연결 실패 또는 게시글 수정 실패시 예외 발생
 	 */
-	public Integer update(QnaBoardDTO qnaBoardDTO) throws ModifyException;
+	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException;
 
 	/**
 	 * qna게시판의 게시글을 삭제한다
