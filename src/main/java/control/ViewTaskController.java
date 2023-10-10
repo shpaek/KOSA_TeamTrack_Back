@@ -37,20 +37,13 @@ public class ViewTaskController extends TaskController {
 		
 		try {
 			TaskDTO taskinfo=service.findTaskInfo(teamNo, taskNo);
-			List<Integer> answer=service.findQuizAnswer(teamNo, taskNo);
 			if(taskinfo==null) {
 				map.put("status", 0);
-				map.put("msg", "과제를 찾을 수 없습니다.");
+				map.put("msg", "과제를 찾을 수 없습니다");
 			} else {
 				map.put("status", 1);
 				map.put("title", taskinfo.getTitle());
 				map.put("nickname", taskinfo.getNickname());
-			}
-			if(answer==null) {
-				map.put("status", 0);
-				map.put("msg", "답이 존재하지 않습니다.");
-			} else {
-				map.put("list", answer);
 			}
 		} catch (FindException e) {
 			// e.printStackTrace();
