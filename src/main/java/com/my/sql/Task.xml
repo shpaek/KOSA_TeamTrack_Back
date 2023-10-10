@@ -148,5 +148,12 @@
 	<delete id="deleteQuizAnswer" parameterType="java.util.HashMap">
 		DELETE ${tableName} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
 	</delete>
+	
+	<!-- 출제자 여부 체크하기 -->
+	<select id="selectTaskId" resultType="String">
+		SELECT id
+		FROM ${tableName}
+		WHERE duedate1-SYSDATE&lt;=0 AND duedate2-SYSDATE>=0 AND regdate IS NULL
+	</select>
 
 </mapper>

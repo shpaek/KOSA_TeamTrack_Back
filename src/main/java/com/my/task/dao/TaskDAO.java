@@ -158,5 +158,13 @@ public interface TaskDAO {
 	 * @throws RemoveException
 	 */
 	void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException;
+	
+	/**
+	 * 출제자 아이디를 검색한다.
+	 * @param teamNo 팀 번호
+	 * @return 출제자 아이디 리스트
+	 * @throws FindException
+	 */
+	List<String> selectTaskId(Integer teamNo) throws FindException;
 
 }
