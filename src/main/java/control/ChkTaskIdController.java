@@ -32,9 +32,11 @@ public class ChkTaskIdController extends TaskController {
 		Map<String, Object> map=new HashMap<>();
 		
 		try {
-			if(service.findTaskId(teamNo, loginedId)) {
+			Integer taskNo=service.findTaskId(teamNo, loginedId);
+			if(taskNo!=0) {
 				map.put("status", 1);
-				map.put("msg", loginedId);
+				map.put("loginedId", loginedId);
+				map.put("taskNo", taskNo);
 			} else {
 				map.put("status", 0);
 				map.put("msg", "권한이 없습니다");

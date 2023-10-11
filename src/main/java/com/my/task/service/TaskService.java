@@ -85,10 +85,10 @@ public interface TaskService {
 	 * 과제 출제 : 과제 정보를 업데이트한다.
 	 * @param teamNo 팀 번호
 	 * @param title 과제 제목
-	 * @param id 아이디
+	 * @param taskNo 과제 번호
 	 * @throws ModifyException
 	 */
-	void ModifyTask(Integer teamNo, String title, String id) throws ModifyException;
+	void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
 
 	/**
 	 * 과제 출제 : 과제 답안을 생성한다.
@@ -103,8 +103,8 @@ public interface TaskService {
 	 * 출제자 아이디를 가져온다.
 	 * @param teamNo 팀 번호
 	 * @param id 아이디
-	 * @return 아이디가 리스트에 존재하면 true 반환, 리스트가 null이거나 아이디가 존재하지 않으면 false 반환
+	 * @return 아이디가 리스트에 존재하면 과제 번호 반환, 리스트가 null이거나 아이디가 존재하지 않으면 0 반환
 	 * @throws FindException
 	 */
-	boolean findTaskId(Integer teamNo, String id) throws FindException;
+	Integer findTaskId(Integer teamNo, String id) throws FindException;
 }

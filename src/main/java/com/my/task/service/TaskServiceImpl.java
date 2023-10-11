@@ -82,8 +82,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void ModifyTask(Integer teamNo, String title, String id) throws ModifyException {
-		taskDAO.updateTask(teamNo, title, id);
+	public void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
+		taskDAO.updateTask(teamNo, title, taskNo);
 	}
 
 	@Override
@@ -95,14 +95,16 @@ public class TaskServiceImpl implements TaskService {
 		
 	}
 	
-	public boolean findTaskId(Integer teamNo, String id) throws FindException {
-		List<String> list=taskDAO.selectTaskId(teamNo);
-		if(list==null) return false;
+	public Integer findTaskId(Integer teamNo, String id) throws FindException {
+		List<TaskDTO> list=taskDAO.selectTaskId(teamNo);
+		if(list==null) return 0;
 		else {
 			for(int i=0;i<list.size();i++) {
-				if(id.equals(list.get(i))) return true;
+				if(id.equals(list.get(i).getId())) {
+					return list.get(i).getTaskNo();
+				}
 			}
-			return false;
+			return 0;
 		}
 	}
 
