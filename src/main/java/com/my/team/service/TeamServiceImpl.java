@@ -225,8 +225,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void insertExaminer(TaskDTO taskDTO) throws ModifyException {
-		teamDAO.insertExaminer(taskDTO);
+	public void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException {
+		teamDAO.insertExaminer(taskDTO, teamNo);
 	}
 
 } // end class

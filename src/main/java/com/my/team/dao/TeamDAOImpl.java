@@ -653,13 +653,17 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 관리 페이지(출제자 선정) - 출제자 선정
 	@Override
-	public void insertExaminer(TaskDTO taskDTO) throws ModifyException {
+	public void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
-
-			session.insert("com.my.team.TeamMapper.insertExaminer", taskDTO);
+			
+			Map map = new HashMap<>();
+			map.put("TaskDTO", taskDTO);
+			map.put("teamNo", teamNo);
+			
+			session.insert("com.my.team.TeamMapper.insertExaminer", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
