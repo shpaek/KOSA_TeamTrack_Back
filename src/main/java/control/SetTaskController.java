@@ -60,12 +60,12 @@ public class SetTaskController extends TaskController {
 			map.put("msg", "출제에 성공하였습니다");
 		} catch (ModifyException e) {
 			//out.print(e.getMessage());
-//			e.printStackTrace();
+			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", "출제에 실패하였습니다");
 		} catch (AddException e) {
 			//out.print(e.getMessage());
-//			e.printStackTrace();
+			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", "출제에 실패하였습니다");
 		}
@@ -74,9 +74,6 @@ public class SetTaskController extends TaskController {
 		out.print(mapper.writeValueAsString(map));
 		return null;
 	}
-	
-	public static void main(String[] args) {
-		
-	}
+
 
 }

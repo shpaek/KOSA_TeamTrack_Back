@@ -94,5 +94,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public void modifyMyInfo(String id, CustomerDTO customer) throws ModifyException{
 		customerDAO.updateCustomerAll(id, customer);
 	}
+	
+	@Override
+	public void deleteAccount(String id) throws ModifyException{
+		customerDAO.updateCustomerStatus(id);
+	}
 
 } // end class
