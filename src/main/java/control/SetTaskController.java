@@ -26,16 +26,36 @@ public class SetTaskController extends TaskController {
 		//Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String loginedId=(String)session.getAttribute("loginedId");
 		String title=request.getParameter("title");
+		String titletest=title.trim();
+		
 		String answer=request.getParameter("answerList");
+		
+		Map<String, Object> map=new HashMap<>();
+		
+		if(titletest.isEmpty()) {
+			map.put("status", 0);
+			map.put("msg", "타이틀을 올바르게 입력하세요");
+			out.print(mapper.writeValueAsString(map));
+			return null;
+		}
+		if(answer.isEmpty()) {
+			map.put("status", 0);
+			map.put("msg", "답안을 올바르게 입력하세요");
+			out.print(mapper.writeValueAsString(map));
+			return null;
+		}
+		System.out.println(answer.isEmpty());
 		
 		Integer teamNo=9999;
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		
-		Map<String, Object> map=new HashMap<>();
+		
 		
 		try {
 			service.ModifyTask(teamNo, title, taskNo);
 			service.AddQuizAnswer(teamNo, taskNo, answer);
+			title=title.trim();
+			
 			map.put("status", 1);
 			map.put("msg", "출제에 성공하였습니다");
 		} catch (ModifyException e) {
@@ -53,6 +73,10 @@ public class SetTaskController extends TaskController {
 		System.out.println(taskNo+":"+title);
 		out.print(mapper.writeValueAsString(map));
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		
 	}
 
 }
