@@ -103,6 +103,66 @@ public interface TeamDAO {
 	 */
 	String selectLeaderId(Integer teamNo) throws FindException;
 	
+	/**
+	 * 참여중인 팀 목록을 조회한다
+	 * @author 나원희
+	 * @param startRow 시작행
+	 * @param endRow 마지막행
+	 * @param id 사용자 아이디
+	 * @return 참여중인 팀
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List<SignupTeamDTO> selectMyTeam(int startRow, int endRow, String id) throws FindException;
+	
+	/**
+	 * 참여중인 팀 개수 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @return 참여중인 팀 개수 
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	int selectMyTeamCount(String id) throws FindException;
+	
+	/**
+	 * 활동종료된 팀 목록 조회한다
+	 * @author 나원희
+	 * @param startRow 시작행
+	 * @param endRow 마지막행
+	 * @param id 사용자 아이디
+	 * @return 활동종료된 팀
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List<SignupTeamDTO> selectEndTeam(int startRow, int endRow, String id) throws FindException;
+	
+	/**
+	 * 활동종료된 팀 개수 조회한다
+	 * @param id 사용자 아이디
+	 * @return 활동종료된 팀 개수
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	int selectEndTeamCount(String id) throws FindException;
+	
+	/**
+	 * 승인대기, 승인거절 팀 목록 조회한다
+	 * @param startRow 시작행
+	 * @param endRow 마지막행
+	 * @param id 사용자 아이디
+	 * @param status 팀 승인여부
+	 * @return 승인대기중인 팀
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List<SignupTeamDTO> selectWaitingTeam(int startRow, int endRow, String id, Integer status) throws FindException;
+	
+	/**
+	 * 승인대기, 승인거절 팀 개수 조회한다
+	 * @param id 사용자 아이디
+	 * @param status 팀 승인여부
+	 * @return 승인대기중 팀 개수 
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	int selectWaitingTeamCount(String id, Integer status) throws FindException;
+	
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나

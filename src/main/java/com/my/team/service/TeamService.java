@@ -89,6 +89,27 @@ public interface TeamService {
 	 */
 	Integer leaderChk(String id, Integer teamNo) throws FindException;
 	
+	/**
+	 * 참여중, 활동종료, 승인대기 팀 목록을 조회한다
+	 * @author 나원희
+	 * @param 현재페이지
+	 * @param id 사용자 아이디
+	 * @menuStatus 메뉴탭 번호
+	 * @return 팀정보
+	 * @throws FindException DB 연결 실패 시 예외 발생한다
+	 */
+	PageGroup<SignupTeamDTO> findMyTeam(int currentPage, String id, int menuStatus) throws FindException;
+	
+	/**
+	 * 승인거절 팀 목록을 조회한다
+	 * @param currentPage 현재페이지
+	 * @param id 사용자 아이디
+	 * @return 승인거절 팀 목록
+	 * @throws FindException DB 연결 실패 시 예외 발생한다
+	 */
+	PageGroup<SignupTeamDTO> findRejectedTeam(int currentPage, String id) throws FindException;
+	
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나
