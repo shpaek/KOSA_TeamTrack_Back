@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.my.exception.FindException;
+import com.my.qna.dto.QnaBoardCommentDTO;
 import com.my.rank.dao.RankDAO;
 import com.my.rank.dao.RankDAOImpl;
 import com.my.rank.dto.RankDTO;
@@ -37,7 +38,7 @@ public class RankServiceImpl implements RankService {
 		List<TaskDTO> tasknumlist = rankDao.countMonthlyTask(teamNo, month);
 		List<MemberTaskDTO> mtlist = rankDao.selectTaskScore(teamNo, month);
 		List<TaskDTO> rslist = rankDao.selectReviewScore(teamNo, month);
-//		List<QnACommentDTO> qnalist = rankDao.selectQnAScore(teamNo, month);
+		List<QnaBoardCommentDTO> qnalist = rankDao.selectQnAScore(teamNo, month);
 		
 		//id 출력하기
 		for (TeamMemberDTO tmdto : tmlist) {
@@ -82,14 +83,14 @@ public class RankServiceImpl implements RankService {
 		}
 
 		//id별 큐엔에이 채택 점수 누적합 계산 
-//		Map<String, Double> qnamap = new HashMap<>();
-//		for (QnACommentDTO qnadto : qnalist) {
-//			String id = qnadto.getId();
-//			
-//			// 큐엔에이 채택 점수 누적합
-//			Double qnapickedscore = qnadto.getPickedNum();	
-//			qnamap.put(id, qnapickedscore);
-//		}
+		Map<String, Double> qnamap = new HashMap<>();
+		for (QnaBoardCommentDTO qnadto : qnalist) {
+			String id = qnadto.getTeammemberId();
+			
+			// 큐엔에이 채택 점수 누적합
+			Double qnapickedscore = qnadto.getPickedNum();	
+			qnamap.put(id, qnapickedscore);
+		}
 		
 		//id별 Total Score 계산 
 		//총 점수 = 출석률*0.1 + 과제점수평균 + 리뷰점수 + 큐엔에이 채택점수
@@ -97,10 +98,10 @@ public class RankServiceImpl implements RankService {
 			Double attendancerate = attmap.getOrDefault(id, 0.0);
 			Double avgtaskscore = tsmap.getOrDefault(id, 0.0);
 			Double totalreviewscore = rsmap.getOrDefault(id, 0.0);
-//			Double qnapickedscore = qnamap.getOrDefault(id, 0.0);
+			Double qnapickedscore = qnamap.getOrDefault(id, 0.0);
 			
 			//총점 계산 
-			Double totalscore = Math.round(((attendancerate*0.1) + avgtaskscore + totalreviewscore)*100)/100.0; //+ qnapickedscore;
+			Double totalscore = Math.round(((attendancerate*0.1) + avgtaskscore + totalreviewscore + qnapickedscore)*100)/100.0;
 			totalScoreMap.put(id, totalscore);
 		}
 		return totalScoreMap;

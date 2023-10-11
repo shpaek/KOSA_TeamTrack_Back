@@ -66,14 +66,14 @@
 	GROUP BY id, extract (month from enddate)
   </select>
   
-  <!--
-  <select id="selectQnAScore">
+  
+  <select id="selectQnAScore" resultType="QnaBoardCommentDTO" parameterType="java.util.HashMap">
 	SELECT teammember_id
 		, extract (month from regdate) as month
-		, (SELECT COUNT(pickeddate) FROM QNACOMMENT_${team_no} where pickeddate IS NOT NULL) as pickednumber
+		, (SELECT COUNT(pickeddate) FROM QNACOMMENT_${team_no} where pickeddate IS NOT NULL) as pickednum
 	FROM QNACOMMENT_${team_no}
 	WHERE extract (month from regdate)=#{month}
 	GROUP BY teammember_id, extract (month from regdate)
   </select>
-  -->
+  
 </mapper>

@@ -67,14 +67,9 @@ public class RankListController extends RankController {
 				rankmap.put(dto.getId(), dtolist);
 				ranks.put("rankmap", rankmap);
 
-				//단순 rankdto 데이터 전달하기
-//				map.put(dto.getId(), dto);
-//				ranks.put("dto", dto);
 			}
 			ranklist.add(ranks);
-			
-//			for (RankDTO dto : list) {
-//			}
+
 			System.out.println("ranklist" + ranklist);
 			System.out.println("rankdto" + map);
 			

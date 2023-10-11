@@ -20,6 +20,7 @@
 	<typeAlias type="com.my.task.dto.TaskDTO" alias="TaskDTO"/>
 	<typeAlias type="com.my.task.dto.MemberTaskDTO" alias="MemberTaskDTO"/>
 	<typeAlias type="com.my.qna.dto.QnaBoardDTO" alias="QnaBoardDTO"/>
+	<typeAlias type="com.my.qna.dto.QnaBoardCommentDTO" alias="QnaBoardCommentDTO"/>
   </typeAliases>
 
   <environments default="development">

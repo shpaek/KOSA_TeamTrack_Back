@@ -1,6 +1,8 @@
 package com.my.rank.dao;
 
 import com.my.exception.FindException;
+import com.my.qna.dto.QnaBoardCommentDTO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -83,13 +85,13 @@ public interface RankDAO {
 	 */
 	List<TaskDTO> selectReviewScore(Integer teamNo, Integer month) throws FindException;
 	
-//	/**
-//	 * QnA 답변 채택 점수를 계산하기 위해 월별 picked 채택 횟수를 조회한다 
-//	 * @param teamNo 팀 번호 
-//	 * @param pickedDate 답변 채택된 일자 
-//	 * @return QnACommentDTO 객체 
-//	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 picked된 댓글이 없는 경우 예외 발생
-//	 */
-//	List<QnACommentDTO> selectQnAScore(Integer teamNo, Integer month) throws FindException;
+	/**
+	 * QnA 답변 채택 점수를 계산하기 위해 월별 picked 채택 횟수를 조회한다 
+	 * @param teamNo 팀 번호 
+	 * @param pickedDate 답변 채택된 일자 
+	 * @return QnACommentDTO 객체 
+	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 picked된 댓글이 없는 경우 예외 발생
+	 */
+	List<QnaBoardCommentDTO> selectQnAScore(Integer teamNo, Integer month) throws FindException;
 	
 }

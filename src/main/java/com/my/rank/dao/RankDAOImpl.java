@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.qna.dto.QnaBoardCommentDTO;
 import com.my.rank.dto.RankDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
@@ -192,11 +193,27 @@ public class RankDAOImpl implements RankDAO {
 		}
 	}
 
-//	@Override
-//	public List<QnACommentDTO> selectQnAScore(Integer teamNo, Integer month) throws FindException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public List<QnaBoardCommentDTO> selectQnAScore(Integer teamNo, Integer month) throws FindException {
+		SqlSession session = null;
+		List<QnaBoardCommentDTO> list = new ArrayList<>(); 
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			map.put("month", month);
+			list = session.selectList("com.my.rank.RankMapper.selectQnAScore", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		RankDAOImpl dao = new RankDAOImpl();
@@ -255,6 +272,18 @@ public class RankDAOImpl implements RankDAO {
 			System.out.println("[과제별 리뷰 점수]");
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println(list.get(i).getId()+", "+list.get(i).getTotalReviewscore()+", "+list.get(i).getMonth());				
+			}
+			System.out.println("-------------------------------------");
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
+		
+		//id별 게시판 댓글 채택 출력
+		try {
+			List<QnaBoardCommentDTO> list = dao.selectQnAScore(9999, 10);
+			System.out.println("[회원별 댓글 채택 점수]");
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(list.get(i).getTeammemberId()+", " + list.get(i).getPickedNum() + ", "+ list.get(i).getMonth());
 			}
 			System.out.println("-------------------------------------");
 		} catch (FindException e) {
