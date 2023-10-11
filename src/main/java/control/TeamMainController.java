@@ -40,6 +40,10 @@ public class TeamMainController extends TeamController {
         	int memStatus = service.leaderChk(id, teamNo);
         	methodMap.put("memStatus", memStatus);
         	
+        	// 팀명 가져오기
+        	
+        	// 팀 사진 가져오기
+        	
             // 팀 소개글 가져오기
             String teamInfo = service.selectTeamInfoByTeamNo(teamNo);
             methodMap.put("teamInfo", teamInfo);
