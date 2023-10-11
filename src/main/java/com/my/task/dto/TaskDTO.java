@@ -16,9 +16,9 @@ public class TaskDTO {
 	private String id;
 	private String nickname;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date dueDate1;
+	private Date duedate1;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date dueDate2;
+	private Date duedate2;
 	private String title;
 	//private String type;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -26,6 +26,7 @@ public class TaskDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date enddate;
 	private double avgReviewscore;
+	private int answerCnt;
 	//private List<Integer> answerList;
 
 	// rank 산정에 필요한 변수

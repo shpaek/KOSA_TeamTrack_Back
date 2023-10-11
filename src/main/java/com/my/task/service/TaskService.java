@@ -53,45 +53,58 @@ public interface TaskService {
 	 */
 	PageGroup<TaskDTO> findMyTaskList(Integer teamNo, String id, int currentPage, boolean desc) throws FindException;
 
-//	TaskDTO findTaskInfo() throws FindException;
-//	List<Integer> findMemberAnswer() throws FindException;
+	/**
+	 * 과제 정보를 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 과제 정보
+	 * @throws FindException
+	 */
+	TaskDTO findTaskInfo(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제 답을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 과제 답
+	 * @throws FindException
+	 */
+	List<Integer> findQuizAnswer(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 과제에 대한 팀원 답을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 회원 답
+	 * @throws FindException
+	 */
+	List<Integer> findMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException;
 
 	/**
 	 * 과제 출제 : 과제 정보를 업데이트한다.
 	 * @param teamNo 팀 번호
 	 * @param title 과제 제목
-	 * @param enddate 과제 마감일
 	 * @param taskNo 과제 번호
 	 * @throws ModifyException
 	 */
-	void ModifyTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException;
+	void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
 
 	/**
 	 * 과제 출제 : 과제 답안을 생성한다.
 	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
 	 * @param taskNo 과제 번호
 	 * @param answer 답
 	 * @throws AddException
 	 */
-	void AddQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException;
+	void AddQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException;
 
 	/**
-	 * 과제 출제 : 과제 답안을 수정한다.
+	 * 출제자 아이디를 가져온다.
 	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
-	 * @param taskNo 과제 번호
-	 * @param answer 답
-	 * @throws ModifyException
+	 * @param id 아이디
+	 * @return 아이디가 리스트에 존재하면 과제 번호 반환, 리스트가 null이거나 아이디가 존재하지 않으면 0 반환
+	 * @throws FindException
 	 */
-	void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException;
-
-	/**
-	 * 과제 출제 : 과제 답안을 삭제한다.
-	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
-	 * @param taskNo 과제 번호
-	 * @throws RemoveException
-	 */
-	void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException;
+	Integer findTaskId(Integer teamNo, String id) throws FindException;
 }
