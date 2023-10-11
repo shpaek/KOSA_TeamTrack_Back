@@ -236,7 +236,7 @@ public interface TeamDAO {
 	 * @param map
 	 * @throws Exception
 	 */
-	void insertExaminer(TaskDTO taskDTO) throws ModifyException;
+	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
 
 	// 출제자 취소
 
