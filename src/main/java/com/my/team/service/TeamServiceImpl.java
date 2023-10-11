@@ -206,6 +206,11 @@ public class TeamServiceImpl implements TeamService {
 		teamDAO.deleteSignupTeam(id, teamNo);
 	}
 	
+	@Override
+	public void rejectCheck(String id, Integer teamNo) throws RemoveException{
+		teamDAO.deleteSignupTeam(id, teamNo);
+	}
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나

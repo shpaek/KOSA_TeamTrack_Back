@@ -121,6 +121,15 @@ public interface TeamService {
 	 */
 	void cancelWaiting(String id, Integer teamNo) throws RemoveException;
 	
+	/**
+	 * 승인거절 확인하여 목록에서 삭제한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB 연결 실패 시 예외 발생한다
+	 */
+	void rejectCheck(String id, Integer teamNo) throws RemoveException;
+	
 	
 	// ------------------------------------------------------------------------
 
