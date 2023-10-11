@@ -50,7 +50,7 @@ public class QnaBoardCommentListController extends QnaController {
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
 			
-			System.out.println("==========> jsonStr" + jsonStr);
+			System.out.println("==========> jsonStr 출력" + jsonStr);
 			
 		} catch (FindException e) {
 			e.printStackTrace();	
