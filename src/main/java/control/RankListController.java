@@ -57,7 +57,6 @@ public class RankListController extends RankController {
 			for (RankDTO dto : list) {
 				List dtolist = Arrays.asList(dto);
 				for (String key : scoremap.keySet()) {
-					System.out.println(key);
 					if (key.equals(dto.getId())) {
 						dto.setTotalScore((Double)scoremap.get(key));
 					}

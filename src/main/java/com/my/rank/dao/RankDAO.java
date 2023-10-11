@@ -1,6 +1,6 @@
 package com.my.rank.dao;
 
-import java.lang.module.FindException;
+import com.my.exception.FindException;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +19,7 @@ public interface RankDAO {
 	 * @param rankDate rank 일자
 	 * @return rank객체 리스트
 	 * @throws FindException date에 해당하는 rank 정보가 없거나 DB와 연결이 실패하면 예외발생
+	 * @throws com.my.exception.FindException 
 	 */
 	List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException;
 
