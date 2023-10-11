@@ -14,8 +14,11 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class Attach {
 
-	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로
-	private String attachesDir = "C:\\KOSA202307\\attaches"; //첨부경로
+//	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로
+//	private String attachesDir = "C:\\KOSA202307\\attaches"; //첨부경로
+//	
+	private String tempDir = "/Users/qqllzs/Desktop"; //임시파일 저장경로
+	private String attachesDir = "/Users/qqllzs/Desktop/KOSA-FE/KOSA_Project2_Front/images"; //첨부경로
 
 	private ServletFileUpload fileUpload;
 	private Map<String, List<FileItem>> requestMap;
