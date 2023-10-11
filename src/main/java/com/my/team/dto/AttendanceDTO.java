@@ -12,7 +12,7 @@ public class AttendanceDTO {
 
 	// 출석부 테이블
 	private String attendanceDate; 		// 출석일자
-	private String attendanceId; 		// 회원 아이디
+	private String Id; 					// 회원 아이디
 
 	// rank 산정에 필요한 변수
 	private Integer attendanceday;		//월별 출석일수
