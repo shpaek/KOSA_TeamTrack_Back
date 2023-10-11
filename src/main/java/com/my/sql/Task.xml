@@ -8,17 +8,10 @@
 	<!-- 메인 과제 리스트 가져오기 -->
 	<select id="selectMainTaskList" resultType="TaskDTO"
 		parameterType="java.util.HashMap">
-		SELECT a.*, c.nickname
-		FROM (
-			SELECT t.task_no, t.title, t.regdate, t.enddate, t.id
-			FROM ${tableName1} t
-			WHERE t.enddate-SYSDATE>0 AND t.id!=#{id}
-			MINUS
-			SELECT t.task_no, t.title, t.regdate, t.enddate, t.id
-			FROM ${tableName1} t JOIN ${tableName2} m ON(t.task_no=m.task_no)
-			WHERE t.enddate-SYSDATE>0 AND m.id=#{id}
-		) a JOIN customer c ON (a.id=c.id)
-		ORDER BY a.enddate
+		SELECT t.task_no, t.title, t.enddate, c.nickname
+		FROM ${tableName} t JOIN customer c ON (t.id=c.id)
+		WHERE t.enddate-SYSDATE>=0
+		ORDER BY t.enddate
 	</select>
 
 	<!-- 전체 과제 리스트 가져오기 -->
@@ -28,7 +21,7 @@
 		FROM (
 			SELECT rownum rn, a.*
 			FROM (
-				SELECT t.task_no, t.title, t.regdate, c.nickname
+				SELECT t.task_no, t.title, c.nickname
 				FROM ${tableName} t JOIN customer c ON (t.id=c.id)
 				WHERE t.enddate-SYSDATE&lt;0
 				ORDER BY t.regdate
@@ -77,7 +70,7 @@
 		FROM ( SELECT task_no, title,
 		regdate,
 		avg_reviewscore FROM ${tableName}
-		WHERE id=#{id}
+		WHERE id=#{id} AND enddate-SYSDATE&lt;0
 		ORDER BY
 		regdate
 		<if test="desc">DESC</if>
@@ -95,8 +88,8 @@
 	<!-- 과제 정보 가져오기 -->
 	<select id="selectTaskInfo" resultType="TaskDTO"
 		parameterType="java.util.HashMap">
-		SELECT t.task_no, t.title, c.nickname
-		FROM ${tableName} t JOIN customer c ON (t.id=c.id)
+		SELECT task_no, title, id, regdate
+		FROM ${tableName}
 		WHERE task_no=#{taskNo}
 	</select>
 
@@ -148,12 +141,5 @@
 	<delete id="deleteQuizAnswer" parameterType="java.util.HashMap">
 		DELETE ${tableName} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
 	</delete>
-	
-	<!-- 출제자 여부 체크하기 -->
-	<select id="selectTaskId" resultType="String">
-		SELECT id
-		FROM ${tableName}
-		WHERE duedate1-SYSDATE&lt;=0 AND duedate2-SYSDATE>=0 AND regdate IS NULL
-	</select>
 
 </mapper>

@@ -16,21 +16,21 @@ public class SetTaskAnswerController extends TaskController {
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-
+		
 		//Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer questionNo=Integer.parseInt(request.getParameter("questionNo"));
 		//Integer taskNo=Integer.parseInt(request.getParameter("teamNo"));
 		int answer=Integer.parseInt(request.getParameter("answer"));
-
+		
 		Integer teamNo=9999;
 		Integer taskNo=11;
-
+		
 		try {
 			service.AddQuizAnswer(teamNo, questionNo, taskNo, answer);
 		} catch (AddException e) {
 			out.print(e.getMessage());
 		}
-
+		
 		return null;
 	}
 

@@ -50,7 +50,7 @@ public class TeamFilterController extends TeamController {
 				map.put("msg", e.getMessage());
 			}
 		}
-
+		
 		out.print(mapper.writeValueAsString(map));
 		return null;
 	}

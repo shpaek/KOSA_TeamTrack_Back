@@ -20,23 +20,4 @@
   	WHERE id=#{id}
   </select>
   
-  
-  <!-- 원희 -->
-  <select id="selectByNickname" resultType="CustomerDTO">
-  	SELECT *
-  	FROM customer
-  	WHERE nickname=#{nickname}
-  </select>
-  
-  <update id="updateNickname" parameterType = "hashmap">
-  	UPDATE CUSTOMER
-	SET nickname = #{nickname}
-	WHERE id = #{id}
-  </update>
-  
-  <update id="updateCustomerAll" parameterType = "hashmap">
-  	UPDATE CUSTOMER
-	SET name = #{customer.name}, birthday = #{customer.birthday}, phone = #{customer.phone}, email = #{customer.email}
-	WHERE id = #{id}
-  </update>
 </mapper>

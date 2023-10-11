@@ -18,21 +18,20 @@ import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.Attach;
 
-
 public class DeleteNoticeController extends NoticeController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-
+		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-
+		
 		Map<String, Object> map = new HashMap<>();
-
+		
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 		Integer noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-
+		
 		try {
 			service.removeNotice(teamNo, noticeNo);
 			map.put("status", 1);
@@ -44,7 +43,7 @@ public class DeleteNoticeController extends NoticeController {
 		}
 		String jsonStr = mapper.writeValueAsString(map);
 		out.print(jsonStr);
-
+		
 		return null;
 	}
 }

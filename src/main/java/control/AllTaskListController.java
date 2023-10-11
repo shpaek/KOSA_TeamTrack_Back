@@ -18,10 +18,10 @@ public class AllTaskListController extends TaskController {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-
+		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-
+		
 //		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String currentPage = request.getParameter("currentPage");
 //		String option=request.getParameter("option");
@@ -31,7 +31,7 @@ public class AllTaskListController extends TaskController {
 //		if (currentPage != null && !currentPage.equals("")) {
 //			cp = Integer.parseInt(currentPage);
 //		}
-
+		
 		Integer teamNo=9999;
 		int cp=1;
 		boolean desc=true;
@@ -43,7 +43,7 @@ public class AllTaskListController extends TaskController {
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
-
+		
 		return null;
 	}
 

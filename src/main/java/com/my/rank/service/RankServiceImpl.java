@@ -14,7 +14,7 @@ import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.TeamMemberDTO;
 
 public class RankServiceImpl implements RankService {
-
+	
 	private RankDAO rankDao;
 	private static RankServiceImpl service = new RankServiceImpl();
 	public RankServiceImpl() {
@@ -23,7 +23,7 @@ public class RankServiceImpl implements RankService {
 	public static RankServiceImpl getInstance() {
 		return service;
 	}
-
+	
 	@Override
 	public List<RankDTO> findByMonth(Integer teamNo, String rankDate) throws FindException {
 		List<RankDTO> ranklist = rankDao.selectByMonth(teamNo, rankDate);
@@ -115,7 +115,7 @@ public class RankServiceImpl implements RankService {
 			e.printStackTrace();
 		}
 	}
-
+	
 //	@Override
 //	public List<AttendanceDTO> calculateAttendanceRate(Integer teamNo, String attendanceDate, Integer month)
 //			throws FindException {
@@ -128,25 +128,23 @@ public class RankServiceImpl implements RankService {
 //		}
 //		return list;
 //	}
-//
+//	
 //	@Override
 //	public List<TaskDTO> calculateTaskScore(Integer teamNo, Integer month) throws FindException {
 //		// 과제점수평균 = 과제 점수 총합/월에 출제된 과제 총 개수
 //		return null;
 //	}
-//
+//	
 //	@Override
 //	public List<TaskDTO> calculateReviewScore(Integer teamNo, Integer month) throws FindException {
 //		// 출제한 과제 평균 리뷰점수 누적합
 //		return null;
 //	}
-//
+//	
 //	@Override
 //	public List<QnACommentDTO> calculateQnAScore(Integer teamNo, Integer month) throws FindException {
 //		// 큐엔에이 채택 점수 누적합
 //		return null;
 //	}
 
-
 }
-*/
