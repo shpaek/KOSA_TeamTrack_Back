@@ -171,9 +171,9 @@
 	</insert>
 
 	<!-- 팀 메인_팀 나가기1 -->
-	<update id="updateTeamMemberStatusResign" parameterType="String">
-		UPDATE TEAMMEMBER_#{teamNo}
-		SET STATUS = 1
+	<update id="updateTeamMemberStatusResign" parameterType="java.util.Map">
+		UPDATE TEAMMEMBER_${teamNo}
+		SET STATUS <![CDATA[ = 0 ]]>
 		WHERE ID = #{id}
 	</update>
 
@@ -237,12 +237,20 @@
 		WHERE STATUS = 0 AND TEAM_NO = ${teamNo}
 	</select>
 	
-	<!-- 팀 관리_팀 가입 요청 승인 -->
+	<!-- 팀 관리_팀 가입 요청 승인1 -->
 	<update id="updateRequestInfoApprove" parameterType="java.util.Map">
 	    UPDATE SIGNUP_TEAM
 		SET STATUS = 1
 		WHERE TEAM_NO = #{teamNo} AND ID = #{id}
 	</update>
+	
+	<!-- 팀 관리_팀 가입 요청 승인2 -->
+	<insert id="insertRequestInfoApprove" parameterType="java.util.Map">
+	    INSERT INTO TEAMMEMBER_${teamNo} (ID, NICKNAME, JOIN_DATE, STATUS)
+	    SELECT C.ID, C.NICKNAME, SYSDATE, 1
+	    FROM CUSTOMER C
+	    WHERE C.ID = #{id}
+	</insert>
 	
 	<!-- 팀 관리_팀 가입 요청 거절 -->
 	<update id="updateRequestInfoReject" parameterType="java.util.Map">

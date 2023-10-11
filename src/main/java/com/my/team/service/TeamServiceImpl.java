@@ -160,8 +160,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void updateTeamMemberStatusResign(String id) throws ModifyException {
-		teamDAO.updateTeamMemberStatusResign(id);
+	public void updateTeamMemberStatusResign(Integer teamNo, String id) throws ModifyException {
+	    teamDAO.updateTeamMemberStatusResign(teamNo, id);
 	}
 
 	@Override
@@ -170,8 +170,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void leaveTeam(String id) throws Exception {
-		teamDAO.leaveTeam(id);
+	public void leaveTeam(Integer teamNo, String id) throws Exception {
+		teamDAO.leaveTeam(teamNo, id);
 	}
 
 	@Override
@@ -218,6 +218,16 @@ public class TeamServiceImpl implements TeamService {
 	public void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException {
 		teamDAO.updateRequestInfoApprove(map);
 	}
+	
+	@Override
+	public void insertRequestInfoApprove(Map<String, Object> map) throws AddException {
+		teamDAO.insertRequestInfoApprove(map);
+	}
+	
+    @Override
+    public void approveRequest(Map<String, Object> map) throws Exception {
+    	teamDAO.approveRequest(map);
+    }
 
 	@Override
 	public void updateRequestInfoReject(Map<String, Object> map) throws ModifyException {
