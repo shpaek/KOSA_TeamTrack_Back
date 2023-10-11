@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.qna.dto.QnaBoardCommentDTO;
 
 public interface QnaBoardCommentDAO {
@@ -35,5 +36,15 @@ public interface QnaBoardCommentDAO {
 	 * @throws FindException DB와의 연결 실패 또는 게시글 없으면 예외 발생
 	 */
 	public Integer selectAllCount(Integer teamNo, Integer qnaNo) throws FindException;
+	
+	/**
+	 * 답변을 채택한다
+	 * @param teamNo 팀번호
+	 * @param qnaNo 게시글 번호
+	 * @param commentNo 게시글의 댓글 번호
+	 * @return 채택여부
+	 * @throws ModifyException DB와의 연결 실패 또는 댓글이 없거나 commentNo값이 일치하지 않으면 예외 발생
+	 */
+	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException;
 	
 } // end class

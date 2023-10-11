@@ -14,6 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.qna.dto.QnaBoardCommentDTO;
 
 public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
@@ -149,18 +150,39 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		} // try-catch-finally
 		
 	} // selectAllCount
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
+
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			session = sqlSessionFactory.openSession();
+			
+			String tableName = "QNACOMMENT_" + teamNo;
+			
+			map.put("tableName", tableName);
+			map.put("qnaNo", qnaNo);
+			map.put("commentNo", commentNo);
+			
+			int check = session.update("com.my.qna.QnaboardCommentMapper.commentPick", map);
+			
+			session.commit();
+			
+			return check;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+		
+	} // commentPick
 
 	public static void main(String[] args) {
 		
@@ -185,27 +207,27 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		
 		// ============== 해당 게시글의 전체 댓글 메서드 테스트 ==========================
 		
-		QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
-		
-	    int teamNo = 64; // 팀 번호 (원하는 팀 번호로 설정)
-	    int qnaNo =  112;
-	    int startPage = 1; // 가져올 페이지 번호 (1페이지)
-	    int endPage = 1;
-	    
-        // selectAll 메서드 호출
-        try {
-			List<QnaBoardCommentDTO> qnaList = dao.selectCommentByQnaNo(teamNo, qnaNo, startPage, endPage);
-			
-	        // 결과 출력
-	        for (QnaBoardCommentDTO qna : qnaList) {
-//	            System.out.println("게시글 번호: " + qna.getQna_no());
-	            System.out.println("게시글 제목: " + qna.getContent());
-	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
-	        }
-			
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
+//		QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//		
+//	    int teamNo = 64; // 팀 번호 (원하는 팀 번호로 설정)
+//	    int qnaNo =  112;
+//	    int startPage = 1; // 가져올 페이지 번호 (1페이지)
+//	    int endPage = 1;
+//	    
+//        // selectAll 메서드 호출
+//        try {
+//			List<QnaBoardCommentDTO> qnaList = dao.selectCommentByQnaNo(teamNo, qnaNo, startPage, endPage);
+//			
+//	        // 결과 출력
+//	        for (QnaBoardCommentDTO qna : qnaList) {
+////	            System.out.println("게시글 번호: " + qna.getQna_no());
+//	            System.out.println("게시글 제목: " + qna.getContent());
+//	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
+//	        }
+//			
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
         
         // ===================== 해당 게시글 댓글 총갯수 조회 메서드 =============================
         
@@ -229,10 +251,30 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 //            System.out.println("댓글 조회 실패");
 //        }
 //	    
+        // ========================= 댓글 채택 기능 메서드 테스트 =========================
         
-		
-		
-		
+	    try {
+
+	        Integer teamNo = 64;
+	        Integer qnaNo = 112;
+	        // 게시글 작성자 아이디를 보내야함
+//	        String teammember_id = "test01";
+	        // 게시글의 게시글번호를 가져옴
+	        Integer commentNo = 4;
+
+	        QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+
+	        Integer result = dao.commentPick(teamNo, qnaNo, commentNo);
+
+	        if (result > 0) {
+	            System.out.println("채택 성공!");
+	        } else {
+	            System.out.println("채택 실패!");
+	        }
+	    } catch (ModifyException e) {
+	        e.printStackTrace();
+	    }
+
 	} // main(test)
 
 } // end class
