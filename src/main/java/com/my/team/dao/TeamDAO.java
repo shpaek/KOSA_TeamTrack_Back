@@ -32,14 +32,14 @@ public interface TeamDAO {
 
 	
 	/**
-	 * 팀이름에 해당하는 팀정보를 검색한다
+	 * 팀이름에 해당하는 팀번호를 검색한다
 	 * @param teamName 팀이름
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	TeamDTO selectByTeamName(String teamName) throws FindException;
+	int selectByTeamName(String teamName) throws FindException;
 	
-	
+	List<TeamDTO> selectHashtag(String hashtag, int startRow, int endRow) throws FindException;
 	
 	
 	/**

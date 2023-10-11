@@ -110,6 +110,28 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
+	public MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException{
+		if(currentPage < 1) {
+			currentPage = 1;
+		}
+		
+		int cntPerPage = 9; //한페이지당 보여줄 목록 수 
+		                    
+		//currentPage        //1  2  3  4
+		int startRow;        //1  4  7  10
+		int endRow;          //3  6  9  12 
+		//TODO
+		endRow = currentPage * cntPerPage;
+		startRow = ( currentPage -1 ) *cntPerPage + 1;
+		//return repository.selectAll(startRow, endRow);
+		
+		List<TeamDTO> list = teamDAO.selectHashtag(hashtag, startRow, endRow);
+		int totalCnt = list.size();		
+		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
+		return pg;
+	}
+	
+	@Override
 	public TeamDTO selectByTeamNo(int teamNo) throws FindException {
 		return teamDAO.selectByTeamNo(teamNo);
 	}
@@ -119,8 +141,8 @@ public class TeamServiceImpl implements TeamService {
 		teamDAO.createTeam(params);
 	}
 	@Override
-	public void teamNameDupChk(String teamName) throws FindException {
-		teamDAO.selectByTeamName(teamName);
+	public int teamNameDupChk(String teamName) throws FindException {
+		return teamDAO.selectByTeamName(teamName);
 	}
 	
 	@Override
@@ -169,10 +191,6 @@ public class TeamServiceImpl implements TeamService {
 		return teamDAO.selectByCondition(column, 1, 9);
 	}
 
-	@Override
-	public TeamDTO selectByTeamName(String teamName) throws FindException {
-		return teamDAO.selectByTeamName(teamName);			
-	}
 
 
 	

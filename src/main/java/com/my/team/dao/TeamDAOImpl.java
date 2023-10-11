@@ -85,14 +85,14 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public TeamDTO selectByTeamName(String teamName) throws FindException {
+	public int selectByTeamName(String teamName) throws FindException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession(); //Connection
-			TeamDTO team = session.selectOne("com.my.team.TeamMapper.selectByTeamName", teamName);
-			if(team != null) {
-				return team;
+			int teamNo = session.selectOne("com.my.team.TeamMapper.selectByTeamName", teamName);
+			if(teamNo != 0) {
+				return teamNo;
 			}else {
 				throw new FindException("해당하는 팀이 없습니다");
 			}
@@ -298,6 +298,28 @@ public class TeamDAOImpl implements TeamDAO {
 		}catch(Exception e) {
 			session.rollback();
 			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public List<TeamDTO> selectHashtag(String hashtag, int startRow, int endRow) throws FindException {
+		SqlSession session = null;
+		List<TeamDTO> list = new ArrayList<>();
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("data", hashtag);
+			map.put("start", startRow);
+			map.put("end", endRow);
+			list = session.selectList("com.my.team.TeamMapper.selectHashtag", map);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
 		}finally {
 			if(session != null) {
 				session.close();

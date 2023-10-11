@@ -28,7 +28,7 @@ public interface TeamService {
 	 * @param teamName
 	 * @throws FindException
 	 */
-	void teamNameDupChk(String teamName) throws FindException;
+	int teamNameDupChk(String teamName) throws FindException;
 	
 	/**
 	 * 
@@ -62,7 +62,7 @@ public interface TeamService {
 	 */
 	List<TeamDTO> selectByCondition(String column) throws FindException;
 		
-	TeamDTO selectByTeamName(String teamName) throws FindException;
+	
 
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 	void updateViewCnt(int teamNo) throws ModifyException;
@@ -76,7 +76,7 @@ public interface TeamService {
 	 */
 	MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException;
 	MainPageGroup<TeamDTO> selectByData(int currentPage, String table, String column, String data) throws FindException;
-
+	MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException;
 	MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException;
 
 // ------------------------------------------------------------------------
