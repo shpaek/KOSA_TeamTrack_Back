@@ -17,6 +17,7 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
+import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
@@ -652,13 +653,13 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 관리 페이지(출제자 선정) - 출제자 선정
 	@Override
-	public void insertExaminer(Map<String, Object> map) throws ModifyException {
+	public void insertExaminer(TaskDTO taskDTO) throws ModifyException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
 
-			session.insert("com.my.team.TeamMapper.insertExaminer", map);
+			session.insert("com.my.team.TeamMapper.insertExaminer", taskDTO);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();

@@ -31,9 +31,15 @@ public class TeamMainController extends TeamController {
 		Map<String, Object> statusMap = new HashMap<>();
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-        String id = request.getParameter("id");
+//        String id = request.getParameter("id");
+        String id = "psh2023";
 
         try {
+        	
+        	// 팀장 체크
+        	int memStatus = service.leaderChk(id, teamNo);
+        	methodMap.put("memStatus", memStatus);
+        	
             // 팀 소개글 가져오기
             String teamInfo = service.selectTeamInfoByTeamNo(teamNo);
             methodMap.put("teamInfo", teamInfo);

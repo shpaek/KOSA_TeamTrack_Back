@@ -8,6 +8,7 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
+import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
@@ -235,7 +236,7 @@ public interface TeamDAO {
 	 * @param map
 	 * @throws Exception
 	 */
-	void insertExaminer(Map<String, Object> map) throws ModifyException;
+	void insertExaminer(TaskDTO taskDTO) throws ModifyException;
 
 	// 출제자 취소
 

@@ -137,7 +137,6 @@
 		WHERE team_no = ${teamNo}
 	</update>
 	 -->
-	<!-- ###################################################################################################################### -->
 	
 	<!-- 워니 침입 -->
 		<select id="selectLeaderId" resultType = "String" parameterType="Integer">
@@ -147,6 +146,7 @@
 	</select>
 	
 	<!-- 셍나 -->
+	
 	<!-- 팀 메인_팀 소개글 가져오기 --> 
 	<select id="selectTeamInfoByTeamNo" parameterType="int" resultType="String">
 		SELECT team_info
@@ -252,7 +252,7 @@
 	</update>
 	
 	<!-- 팀 관리_과제 출제자 선정 -->
-	<insert id="insertExaminer" parameterType="java.util.Map">
+	<insert id="insertExaminer" parameterType="TaskDTO">
 	    INSERT INTO TASK_${teamNo} (TASK_NO, ID, DUEDATE1, DUEDATE2, ENDDATE)
 		VALUES (TASK_SEQ.NEXTVAL ,#{id}, #{DUEDATE1}, #{DUEDATE2}, #{ENDDATE})
 	</insert>
