@@ -2,7 +2,9 @@ package com.my.qna.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
@@ -11,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
+import com.my.exception.FindException;
 import com.my.qna.dto.QnaBoardCommentDTO;
 
 public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
@@ -39,7 +42,7 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 	} // constructor
 	
 	@Override
-	public Integer insertComment(QnaBoardCommentDTO dto) throws AddException {
+	public void insertComment(Integer teamNo, QnaBoardCommentDTO dto) throws AddException {
 
 		SqlSession session = null;
 
@@ -47,12 +50,12 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 			
 			Map<String, Object> map = new HashMap<>();
 			
-//			String tableName = "QNABOARD_"+ String.valueOf(teamNo);
+			String tableName = "QNACOMMENT_"+ String.valueOf(teamNo);
 			
-//			map.put("tableName", tableName);
+			map.put("tableName", tableName);
 			map.put("qna_no", dto.getQnaNo());
-			map.put("title", dto.getContent());
-			map.put("content", dto.getTeammemberId());
+			map.put("content", dto.getContent());
+			map.put("teammember_id", dto.getTeammemberId());
 
 			session = sqlSessionFactory.openSession();
 			session.insert("com.my.qna.QnaboardCommentMapper.insertComment", map);
@@ -70,11 +73,165 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 				session.close();
 			}
 		} // try-catch-finally
-		return null;
 
 	} // insertComment
 	
+	
+	
+	
+	@Override
+	public List<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo, int startRow, int endRow) throws FindException {
+		
+		SqlSession session = null;
+		
+		// 조회한 게시물 저장할 변수 생성 
+		List<QnaBoardCommentDTO> qnaCommentList = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<>();
+
+		try {
+			
+			session = sqlSessionFactory.openSession();
+			
+			String tableName = "QNACOMMENT_"+ String.valueOf(teamNo);
+			
+			map.put("tableName", tableName);
+			map.put("qnaNo", qnaNo);
+			map.put("start", startRow);
+			map.put("end", endRow);
+			
+			qnaCommentList = session.selectList("com.my.qna.QnaboardCommentMapper.selectCommentByQnaNo", map);
+			
+//			QnaBoardCommentDTO item = qnaCommentList.get(0);
+//			int qnaNO = item.getQnaNo();
+//			System.out.println("qna_No값 확인하기 ============> " + qnaNo);
+			
+			return qnaCommentList;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+		
+	} // end class
+
+	@Override
+	public Integer selectAllCount(Integer teamNo, Integer qnaNo) throws FindException {
+
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			session = sqlSessionFactory.openSession();
+			
+			String tableName = "QNACOMMENT_" + teamNo;
+			
+			map.put("tableName", tableName);
+			map.put("qnaNo", qnaNo);
+			
+			int count = session.selectOne("com.my.qna.QnaboardCommentMapper.selectAllCount", map);
+			
+			return count;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}  finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+		
+	} // selectAllCount
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	public static void main(String[] args) {
+		
+		// ============== insert 메서드 테스트 ==========================
+		
+//		QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//		
+//		QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
+//		
+//		dto.setQnaNo(106);
+//		dto.setContent("댓글작성");
+//		dto.setTeammemberId("test01");
+//		
+//		try {
+//			dao.insertComment(dto);
+//			
+//			System.out.println("댓글작성 성공");
+//		} catch (AddException e) {
+//			e.printStackTrace();
+//			System.out.println("댓글작성 실패");
+//		}
+		
+		// ============== 해당 게시글의 전체 댓글 메서드 테스트 ==========================
+		
+//		QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//		
+//	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
+//	    int qnaNo =  64;
+//	    int startPage = 1; // 가져올 페이지 번호 (1페이지)
+//	    int endPage = 1;
+//	    
+//        // selectAll 메서드 호출
+//        try {
+//			List<QnaBoardCommentDTO> qnaList = dao.selectCommentByQnaNo(teamNo, qnaNo, startPage, endPage);
+//			
+//	        // 결과 출력
+//	        for (QnaBoardCommentDTO qna : qnaList) {
+////	            System.out.println("게시글 번호: " + qna.getQna_no());
+//	            System.out.println("게시글 제목: " + qna.getContent());
+//	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
+//	        }
+//			
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+        
+        // ===================== 해당 게시글 댓글 총갯수 조회 메서드 =============================
+        
+        // 팀 번호와 QnA 번호를 지정합니다.
+        Integer teamNo = 9999; // 팀 번호를 원하는 값으로 지정하세요.
+        Integer qnaNo = 64;  // QnA 번호를 원하는 값으로 지정하세요.
+
+        // QnaBoardCommentDAO 객체 생성
+        QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+
+        try {
+            // selectAllCount 메서드 호출
+            int count = dao.selectAllCount(teamNo, qnaNo);
+
+            // 조회 결과 출력
+            System.out.println("댓글 총 개수: " + count);
+
+            System.out.println("댓글 조회 성공");
+        } catch (FindException e) {
+            e.printStackTrace();
+            System.out.println("댓글 조회 실패");
+        }
+	    
+        
+		
+		
 		
 	} // main(test)
 

@@ -11,5 +11,24 @@
 	VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{content}, #{teammember_id})
   </insert>
 
+	<!-- 게시글의 전체 댓글 조회 -->
+	<select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
+			SELECT * 
+			FROM (SELECT rownum rn, a.* 
+			     FROM (SELECT *
+			           FROM ${tableName}
+			           WHERE qna_no = #{qnaNo}
+			           ORDER BY qna_no DESC
+			          ) a
+			      )
+			 WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 해당 게시글의 전체 댓글 개수 가져오기 -->
+	<select id="selectAllCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM ${tableName}
+		WHERE qna_no = #{qnaNo} 
+	</select>
   
 </mapper>
