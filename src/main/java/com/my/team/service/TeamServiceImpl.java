@@ -201,6 +201,11 @@ public class TeamServiceImpl implements TeamService {
 		return pg;
 	}
 	
+	@Override
+	public void cancelWaiting(String id, Integer teamNo) throws RemoveException{
+		teamDAO.deleteSignupTeam(id, teamNo);
+	}
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나

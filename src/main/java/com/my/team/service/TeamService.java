@@ -104,12 +104,22 @@ public interface TeamService {
 	
 	/**
 	 * 승인거절 팀 목록을 조회한다
+	 * @author 나원희
 	 * @param currentPage 현재페이지
 	 * @param id 사용자 아이디
 	 * @return 승인거절 팀 목록
 	 * @throws FindException DB 연결 실패 시 예외 발생한다
 	 */
 	PageGroup<SignupTeamDTO> findRejectedTeam(int currentPage, String id) throws FindException;
+	
+	/**
+	 * 승인대기 취소한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB 연결 실패 시 예외 발생한다
+	 */
+	void cancelWaiting(String id, Integer teamNo) throws RemoveException;
 	
 	
 	// ------------------------------------------------------------------------

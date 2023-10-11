@@ -347,6 +347,7 @@ public class TeamDAOImpl implements TeamDAO {
 		}	
 	}
 	
+	@Override
 	public int selectEndTeamCount(String id) throws FindException{
 		SqlSession session = null;
 
@@ -363,6 +364,7 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 	
+	@Override
 	public List<SignupTeamDTO> selectWaitingTeam(int startRow, int endRow, String id, Integer status) throws FindException{
 		SqlSession session = null;
 		List<SignupTeamDTO> teamList = new ArrayList<>();
@@ -386,6 +388,7 @@ public class TeamDAOImpl implements TeamDAO {
 		}	
 	}
 	
+	@Override
 	public int selectWaitingTeamCount(String id, Integer status) throws FindException{
 		SqlSession session = null;
 		Map map = new HashMap<>();
@@ -400,6 +403,27 @@ public class TeamDAOImpl implements TeamDAO {
 			throw new FindException(e.getMessage());
 		}finally {
 			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void deleteSignupTeam(String id, Integer teamNo) throws RemoveException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("teamNo", teamNo);
+			session.delete("com.my.team.TeamMapper.deleteSignupTeam", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		}finally {
+			if(session!=null) {
 				session.close();
 			}
 		}
