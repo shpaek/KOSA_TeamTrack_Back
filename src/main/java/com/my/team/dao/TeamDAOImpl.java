@@ -283,7 +283,154 @@ public class TeamDAOImpl implements TeamDAO {
 			}
 		}		
 	}
+	
+	@Override
+	public List<SignupTeamDTO> selectMyTeam(int startRow, int endRow, String id) throws FindException{
+		SqlSession session = null;
+		List<SignupTeamDTO> teamList = new ArrayList<>();
 
+		try{
+			session = sqlSessionFactory.openSession();
+			Map map = new HashMap<>();
+			map.put("start", startRow);
+			map.put("end", endRow);
+			map.put("id", id);
+			teamList = session.selectList("com.my.team.TeamMapper.selectMyTeam", map);
+			return teamList;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}	
+	}
+	
+	@Override
+	public int selectMyTeamCount(String id) throws FindException{
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			int count = session.selectOne("com.my.team.TeamMapper.selectMyTeamCount", id);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public List<SignupTeamDTO> selectEndTeam(int startRow, int endRow, String id) throws FindException{
+		SqlSession session = null;
+		List<SignupTeamDTO> teamList = new ArrayList<>();
+
+		try{
+			session = sqlSessionFactory.openSession();
+			Map map = new HashMap<>();
+			map.put("start", startRow);
+			map.put("end", endRow);
+			map.put("id", id);
+			teamList = session.selectList("com.my.team.TeamMapper.selectEndTeam", map);
+			return teamList;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}	
+	}
+	
+	@Override
+	public int selectEndTeamCount(String id) throws FindException{
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			int count = session.selectOne("com.my.team.TeamMapper.selectEndTeamCount", id);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public List<SignupTeamDTO> selectWaitingTeam(int startRow, int endRow, String id, Integer status) throws FindException{
+		SqlSession session = null;
+		List<SignupTeamDTO> teamList = new ArrayList<>();
+
+		try{
+			session = sqlSessionFactory.openSession();
+			Map map = new HashMap<>();
+			map.put("start", startRow);
+			map.put("end", endRow);
+			map.put("id", id);
+			map.put("status", status);
+			teamList = session.selectList("com.my.team.TeamMapper.selectWaitingTeam", map);
+			return teamList;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}	
+	}
+	
+	@Override
+	public int selectWaitingTeamCount(String id, Integer status) throws FindException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("status", status);
+			int count = session.selectOne("com.my.team.TeamMapper.selectWaitingTeamCount", map);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void deleteSignupTeam(String id, Integer teamNo) throws RemoveException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("teamNo", teamNo);
+			session.delete("com.my.team.TeamMapper.deleteSignupTeam", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+
+	
 	//	---------------------------------------------------------------------------------
 
 	// 셍나
@@ -653,13 +800,17 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 관리 페이지(출제자 선정) - 출제자 선정
 	@Override
-	public void insertExaminer(TaskDTO taskDTO) throws ModifyException {
+	public void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
-
-			session.insert("com.my.team.TeamMapper.insertExaminer", taskDTO);
+			
+			Map map = new HashMap<>();
+			map.put("TaskDTO", taskDTO);
+			map.put("teamNo", teamNo);
+			
+			session.insert("com.my.team.TeamMapper.insertExaminer", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();

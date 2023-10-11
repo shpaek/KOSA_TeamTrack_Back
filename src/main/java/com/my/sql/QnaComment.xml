@@ -30,5 +30,12 @@
 		FROM ${tableName}
 		WHERE qna_no = #{qnaNo} 
 	</select>
+	
+	<!-- UPDATE qnacomment_64 -->
+	<update id="commentPick">
+		UPDATE ${tableName}
+		SET pickeddate = sysdate
+		WHERE qna_no = #{qnaNo} AND comment_no = #{commentNo}
+	</update>
   
 </mapper>

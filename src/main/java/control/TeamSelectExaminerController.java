@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.task.dto.TaskDTO;
 
@@ -32,23 +33,38 @@ public class TeamSelectExaminerController extends TeamController {
 
         Map<String, Object> map = new HashMap<>();
         
+        
+        int teamNo = Integer.parseInt(request.getParameter("teamNo"));
+        String id = "psh2023";
         try {
         	TaskDTO taskDTO = new TaskDTO();
         	
-        	Date formatDueDate1 = formatter.parse(request.getParameter("DUEDATE1"));
-            Date formatDueDate2 = formatter.parse(request.getParameter("DUEDATE2"));
-            Date formatEndDate = formatter.parse(request.getParameter("ENDDATE"));
+        	Date formatDueDate1 = formatter.parse(request.getParameter("duedate1"));
+            Date formatDueDate2 = formatter.parse(request.getParameter("duedate2"));
+            Date formatEndDate = formatter.parse(request.getParameter("enddate"));
             
-            taskDTO.setTaskNo(Integer.parseInt(request.getParameter("teamNo")));
-            taskDTO.setId(request.getParameter("id"));
-            taskDTO.setDueDate1(formatDueDate1);
-            taskDTO.setDueDate2(formatDueDate2);
+//            taskDTO.setTaskNo(Integer.parseInt(request.getParameter("taskNo")));
+//            taskDTO.setId(request.getParameter("id"));
+            taskDTO.setId(id);
+            taskDTO.setDuedate1(formatDueDate1);
+            taskDTO.setDuedate2(formatDueDate2);
             taskDTO.setEnddate(formatEndDate);
+            
+            System.out.println(taskDTO.getDuedate1());
+            
+            // 출제자 선정을 위한 팀원 목록 보여줌
+            service.selectMemberInfo(teamNo);
 
-            service.insertExaminer(taskDTO);
+            // 출제자 선정
+            service.insertExaminer(taskDTO, teamNo);
             
             map.put("status", 1);
             map.put("msg", "출제자 선정 성공");
+            
+        } catch (FindException e) {
+        	e.printStackTrace();
+            map.put("status", 0);
+            map.put("msg", "팀원 목록 조회 실패: " + e.getMessage());
         } catch (ModifyException e) {
             e.printStackTrace();
             map.put("status", 0);
