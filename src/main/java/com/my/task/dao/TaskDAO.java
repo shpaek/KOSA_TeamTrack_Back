@@ -124,11 +124,10 @@ public interface TaskDAO {
 	 * 과제 내용을 업데이트한다.
 	 * @param teamNo 팀 번호
 	 * @param title 과제 제목
-	 * @param enddate 과제 마감일
 	 * @param taskNo 과제 번호
 	 * @throws ModifyException
 	 */
-	void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException;
+	void updateTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
 
 	/**
 	 * 과제 답안을 생성한다.
@@ -139,24 +138,13 @@ public interface TaskDAO {
 	 * @throws AddException
 	 */
 	void insertQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException;
-
+	
 	/**
-	 * 과제 답안을 수정한다.
+	 * 출제자 아이디를 검색한다.
 	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
-	 * @param taskNo 과제 번호
-	 * @param answer 답
-	 * @throws ModifyException
+	 * @return 출제자 아이디 리스트
+	 * @throws FindException
 	 */
-	void updateQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException;
-
-	/**
-	 * 과제 답안을 삭제한다.
-	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
-	 * @param taskNo 과제 번호
-	 * @throws RemoveException
-	 */
-	void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException;
+	List<TaskDTO> selectTaskId(Integer teamNo) throws FindException;
 
 }

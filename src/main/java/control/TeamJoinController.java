@@ -37,7 +37,7 @@ public class TeamJoinController extends TeamController {
             signupTeamDTO.setStatus(Integer.parseInt(request.getParameter("status")));
             signupTeamDTO.setIntroduction(request.getParameter("introduction"));
 
-			service.joinTeam(signupTeamDTO);
+			service.insertSignUpTeam(signupTeamDTO);
 
 			map.put("status", 1);
 			map.put("msg", "팀 가입 요청 성공");

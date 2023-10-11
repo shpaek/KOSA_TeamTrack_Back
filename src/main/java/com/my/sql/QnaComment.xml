@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.my.qna.QnaboardCommentMapper">
+
+	<!-- 댓글 작성 -->
+  <insert id="insertComment" parameterType="QnaBoardCommentDTO">
+	INSERT INTO qnacomment_9999(comment_no, qna_no, content, teammember_id)
+	VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{content}, #{teammember_id})
+  </insert>
+
+	<!-- 게시글의 전체 댓글 조회 -->
+	<select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
+			SELECT * 
+			FROM (SELECT rownum rn, a.* 
+			     FROM (SELECT *
+			           FROM ${tableName}
+			           WHERE qna_no = #{qnaNo}
+			           ORDER BY qna_no DESC
+			          ) a
+			      )
+			 WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 해당 게시글의 전체 댓글 개수 가져오기 -->
+	<select id="selectAllCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM ${tableName}
+		WHERE qna_no = #{qnaNo} 
+	</select>
+	
+	<!-- UPDATE qnacomment_64 -->
+	<update id="commentPick">
+		UPDATE ${tableName}
+		SET pickeddate = sysdate
+		WHERE qna_no = #{qnaNo} AND comment_no = #{commentNo}
+	</update>
+  
+</mapper>

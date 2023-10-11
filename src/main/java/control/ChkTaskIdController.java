@@ -2,6 +2,8 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,46 +11,45 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
-import com.my.task.dto.TaskDTO;
-import com.my.util.PageGroup;
 
-public class MyTaskListController extends TaskController {
+public class ChkTaskIdController extends TaskController {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
+//		HttpSession session=request.getSession();
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-//		HttpSession session=request.getSession();
-//
+		
 //		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String loginedId=(String)session.getAttribute("loginedId");
-//		String currentPage=request.getParameter("currentPage");
-//		int cp = 1;
-//		if(currentPage != null && !currentPage.equals("")) {
-//			cp = Integer.parseInt(currentPage);
-//		}
-//
-//		String option=request.getParameter("option");
-//		boolean desc=true;
-//		if(!option.equals("최신순")) desc=false;
-
+		
 		Integer teamNo=9999;
-		String loginedId="nwh2023";
-		int cp=1;
-		boolean desc=true;
-
+		String loginedId="psh2023";
+//		String loginedId="nwh2023";
+		Map<String, Object> map=new HashMap<>();
+		
 		try {
-			if(loginedId==null) throw new FindException("로그인 필요");
- 			PageGroup<TaskDTO> pg=service.findMyTaskList(teamNo, loginedId, cp, desc);
- 			String jsonStr = mapper.writeValueAsString(pg);
- 			out.print(jsonStr);
+			Integer taskNo=service.findTaskId(teamNo, loginedId);
+			if(taskNo!=0) {
+				map.put("status", 1);
+				map.put("loginedId", loginedId);
+				map.put("taskNo", taskNo);
+			} else {
+				map.put("status", 0);
+				map.put("msg", "권한이 없습니다");
+			}	
 		} catch (FindException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			map.put("status", "0");
+			map.put("msg", e.getMessage());
+		} finally {
+			String jsonStr=mapper.writeValueAsString(map);
+			out.print(jsonStr);
 		}
-
+		
 		return null;
 	}
 

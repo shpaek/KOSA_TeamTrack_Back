@@ -106,40 +106,40 @@ public class CustomerDAOImpl implements CustomerDAO {
 		CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
 
 		// ================ create 메서드 테스트 =========================
-//		CustomerDTO dto = new CustomerDTO();
-//
-//		dto.setId("test01");
-//		dto.setPwd("test01");
-//		dto.setNickname("test01");
-//		dto.setName("test01");
-//		dto.setBirthday("1993-05-04");
-//		dto.setPhone("01011112222");
-//		dto.setEmail("dd@naver.com");
-////		dto.setStatus(1);
-//
-//		try {
-//			customerDAOImpl.create(dto);
-//
-//			System.out.println("회원가입 완료 ^ㅡ^b");
-//		} catch (AddException e) {
-//			e.printStackTrace();
-//		}
+		CustomerDTO dto = new CustomerDTO();
+
+		dto.setId("test99");
+		dto.setPwd("test99");
+		dto.setNickname("test99");
+		dto.setName("test99");
+		dto.setBirthday("1993-05-04");
+		dto.setPhone("01011112222");
+		dto.setEmail("dd@naver.com");
+//		dto.setStatus(1);
+
+		try {
+			customerDAOImpl.create(dto);
+
+			System.out.println("회원가입 완료 ^ㅡ^b");
+		} catch (AddException e) {
+			e.printStackTrace();
+		}
 		// ==================================================================
 
 		// ================= selectById 메서드 테서트 =======================
-
-		String id = "test01";
-
-
-		try {
-			CustomerDTO dto = customerDAOImpl.selectById(id);
-			// 출력
-			System.out.println("id : " +  dto.getId());
-			System.out.println("nickname : " + dto.getName());
-		} catch(Exception e) {
-			e.printStackTrace();
-			System.out.println(" 해당 회원이 없습니다 ");
-		}
+//
+//		String id = "test01";
+//
+//
+//		try {
+//			CustomerDTO dto = customerDAOImpl.selectById(id);
+//			// 출력
+//			System.out.println("id : " +  dto.getId());
+//			System.out.println("nickname : " + dto.getName());
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			System.out.println(" 해당 회원이 없습니다 ");
+//		}
 	} // main(test)
 	
 	@Override

@@ -1,7 +1,6 @@
 package com.my.rank.dao;
 
 import java.io.InputStream;
-import java.lang.module.FindException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
+import com.my.exception.FindException;
 import com.my.rank.dto.RankDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
@@ -265,10 +265,12 @@ public class RankDAOImpl implements RankDAO {
 			e.printStackTrace();
 		}
 		
+		
 		List<TaskDTO> list = dao.selectAllTask();
 		for (int i = 0; i < list.size(); i++) {
 //			System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEndDate());				
 		}
+		
 		
 	}
 
