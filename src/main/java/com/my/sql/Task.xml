@@ -131,17 +131,17 @@
 	<update id="updateTask" parameterType="java.util.HashMap">
 		UPDATE ${tableName}
 		SET regdate=SYSDATE, title=#{title}
-		WHERE id=#{id}
+		WHERE task_no=#{taskNo}
 	</update>
 	
 	<!-- 과제 답안 생성하기 -->
 	<insert id="insertQuizAnswer" parameterType="java.util.HashMap">
-		INSERT INTO ${tableName} (question_no, id, answer) VALUES (#{questionNo}, #{id}, #{answer})
+		INSERT INTO ${tableName} (question_no, task_no, answer) VALUES (#{questionNo}, #{taskNo}, #{answer})
 	</insert>
 	
 	<!-- 출제자 여부 체크하기 -->
-	<select id="selectTaskId" resultType="String">
-		SELECT id
+	<select id="selectTaskId" resultType="TaskDTO">
+		SELECT id, task_no
 		FROM ${tableName}
 		WHERE duedate1-SYSDATE&lt;=0 AND duedate2-SYSDATE>=0 AND regdate IS NULL
 	</select>

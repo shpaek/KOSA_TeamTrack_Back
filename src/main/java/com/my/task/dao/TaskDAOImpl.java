@@ -242,7 +242,7 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public void updateTask(Integer teamNo, String title, String id) throws ModifyException {
+	public void updateTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
 		SqlSession session=null;
 
 		try {
@@ -250,11 +250,12 @@ public class TaskDAOImpl implements TaskDAO {
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "task_"+teamNo);
 			map.put("title", title);
-			map.put("id", id);
+			map.put("taskNo", taskNo);
 			session.update("com.my.task.TaskMapper.updateTask", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
+			e.printStackTrace();
 			throw new ModifyException("과제 업데이트 실패");
 		} finally {
 			if(session!=null) session.close();
@@ -282,12 +283,12 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 	
-	public List<String> selectTaskId(Integer teamNo) throws FindException {
+	public List<TaskDTO> selectTaskId(Integer teamNo) throws FindException {
 		SqlSession session=null;
 
 		try {
 			session=sqlSessionFactory.openSession();
-			List<String> list=session.selectList("com.my.task.TaskMapper.selectTaskId", "task_"+teamNo);
+			List<TaskDTO> list=session.selectList("com.my.task.TaskMapper.selectTaskId", "task_"+teamNo);
 			return list;
 		} catch(Exception e) {
 			//e.printStackTrace();
