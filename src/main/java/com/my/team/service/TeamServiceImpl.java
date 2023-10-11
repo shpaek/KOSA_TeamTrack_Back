@@ -151,6 +151,94 @@ public class TeamServiceImpl implements TeamService {
 
 	// 셍나
 
+	@Override
+	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
+		return teamDAO.selectTeamInfoByTeamNo(teamNo);
+	}
+
+	@Override
+	public List<NoticeDTO> selectNoticeListByTeamNo(int teamNo) throws FindException {
+		return teamDAO.selectNoticeListByTeamNo(teamNo);
+	}
+
+	@Override
+	public void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException {
+		teamDAO.insertSignUpTeam(signupTeamDTO);
+	}
+
+	@Override
+	public void updateTeamMemberStatusResign(String id) throws ModifyException {
+		teamDAO.updateTeamMemberStatusResign(id);
+	}
+
+	@Override
+	public void deleteSignupTeam(String id) throws RemoveException {
+		teamDAO.deleteSignupTeam(id);
+	}
+
+	@Override
+	public void leaveTeam(String id) throws Exception {
+		teamDAO.leaveTeam(id);
+	}
+
+	@Override
+	public List<String> selectNicknameByTeamNo(int teamNo) throws FindException {
+		return teamDAO.selectNicknameByTeamNo(teamNo);
+	}
+
+	@Override
+	public void updateViewCnt(int teamNo) throws ModifyException {
+		teamDAO.updateViewCnt(teamNo);
+	}
+	
+	@Override
+	public int selectViewCnt(int teamNo) throws FindException {
+		return teamDAO.selectViewCnt(teamNo);
+	}
+
+	@Override
+	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
+		teamDAO.insertAttendanceById(teamNo, id);
+	}
+
+	@Override
+	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
+		return teamDAO.selectAttendanceById(teamNo, id);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException {
+		return teamDAO.selectMemberInfo(teamNo);
+	}
+
+	@Override
+	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateTeamMemberStatusDismiss(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException {
+		return teamDAO.selectRequestInfo(teamNo);
+	}
+
+	@Override
+	public void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateRequestInfoApprove(map);
+	}
+
+	@Override
+	public void updateRequestInfoReject(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateRequestInfoReject(map);
+	}
+
+	@Override
+	public void insertExaminer(Map<String, Object> map) throws ModifyException {
+		teamDAO.insertExaminer(map);
+	}
+
+} // end class
+
+/*
 	// 팀 메인 페이지 - 팀 소개글 보여주기
 	@Override
 	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
@@ -200,44 +288,4 @@ public class TeamServiceImpl implements TeamService {
 	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
 		return teamDAO.selectAttendanceById(teamNo, id);
 	}
-	
-	//	---------------------------
-
-	@Override
-	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateTeamMemberStatus(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateRequestInfoApprove(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateRequestInfoReject(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void insertExaminer(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-} // end class
+*/

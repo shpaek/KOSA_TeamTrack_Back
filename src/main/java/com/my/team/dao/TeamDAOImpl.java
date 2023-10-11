@@ -262,9 +262,9 @@ public class TeamDAOImpl implements TeamDAO {
 	 */
 
 	//	---------------------------------------------------------------------------------
-	
+
 	//워니 침입
-	
+
 	@Override
 	public String selectLeaderId(Integer teamNo) throws FindException{
 		SqlSession session = null;
@@ -282,7 +282,7 @@ public class TeamDAOImpl implements TeamDAO {
 			}
 		}		
 	}
-	
+
 	//	---------------------------------------------------------------------------------
 
 	// 셍나
@@ -338,13 +338,13 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 메인 페이지 - 팀 가입하기
 	@Override
-	public void insertSignUpTeam(SignupTeamDTO SignupTeamDTO) throws AddException {
+	public void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
 
-			session.insert("com.my.team.TeamMapper.insertIntoSignupTeam", SignupTeamDTO);
+			session.insert("com.my.team.TeamMapper.insertIntoSignupTeam", signupTeamDTO);
 			session.commit();
 		} catch(Exception e){
 			session.rollback();
@@ -358,13 +358,13 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 메인 페이지 - 팀 나가기 #1
 	@Override
-	public void updateTeamMemberStatus(String id) throws ModifyException {
+	public void updateTeamMemberStatusResign(String id) throws ModifyException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
 
-			session.update("com.my.team.TeamMapper.updateTeamMemberStatus", id);
+			session.update("com.my.team.TeamMapper.updateTeamMemberStatusResign", id);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
@@ -397,6 +397,7 @@ public class TeamDAOImpl implements TeamDAO {
 	} // deleteSignupTeam()
 
 	// 팀 메인 페이지 -  팀 나가기 -> (두 작업을 하나의 트랜잭션으로 처리)
+	@Override
 	public void leaveTeam(String id) throws Exception {
 		SqlSession session = null;
 
@@ -433,7 +434,7 @@ public class TeamDAOImpl implements TeamDAO {
 		try {
 			session = sqlSessionFactory.openSession();
 
-			List<String> selectedNickname = session.selectList("com.my.team.TeamMapper.selectTeamInfoByTeamNo", teamNo);
+			List<String> selectedNickname = session.selectList("com.my.team.TeamMapper.selectNicknameByTeamNo", teamNo);
 
 			if (selectedNickname != null) {
 				return selectedNickname;
@@ -469,24 +470,44 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	} // updateTeamMemberStatus()
 
+	// 팀 메인 페이지 - 조회수 출력
+	@Override
+	public int selectViewCnt(int teamNo) throws FindException {
+	    SqlSession session = null;
+	    
+	    try {
+	        session = sqlSessionFactory.openSession();
+	        
+	        int viewCount = session.selectOne("com.my.team.TeamMapper.selectViewCnt", teamNo);
+
+	        return viewCount;
+	    } catch(Exception e) {
+	        throw new FindException(e.getMessage());
+	    } finally {
+	        if(session != null) {
+	            session.close();
+	        } // if
+	    } // try-catch-finally
+	} //selectViewCnt()
+	
 	//	---------------------------
 
 	// 팀 출석부 페이지 - 출석하기
 	@Override
 	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
 		SqlSession session = null;
-		
+
 		try {
-	        session = sqlSessionFactory.openSession();
-	        
-	        Map<String, Object> map = new HashMap<>();
-	        
-	        map.put("teamNo", teamNo);
-	        map.put("id", id);
-	        
-	        session.update("com.my.team.TeamMapper.insertAttendanceById", map);
-	        session.commit();
-	    } catch(Exception e) {
+			session = sqlSessionFactory.openSession();
+
+			Map<String, Object> map = new HashMap<>();
+
+			map.put("teamNo", teamNo);
+			map.put("id", id);
+
+			session.update("com.my.team.TeamMapper.insertAttendanceById", map);
+			session.commit();
+		} catch(Exception e) {
 			session.rollback();
 			throw new AddException(e.getMessage());
 		} finally {
@@ -495,7 +516,7 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // insertAttendance
-	
+
 	// 팀 출석부 페이지 - 출석 내역 조회
 	@Override
 	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
@@ -522,26 +543,22 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} //selectAttendanceById()
-	
+
 	//	---------------------------
 
 	// 팀 관리 페이지(현재 팀원 관리) - 현재 팀원들 정보 확인 (아이디, 닉네임, 자기소개)
 	@Override
-	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception {
+	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException {
 		SqlSession session = null;
-
-		List<Map<String, Object>> selectedMemberInfo = new ArrayList<>();
 
 		try {
 			session = sqlSessionFactory.openSession();
 
+			// map 객체에 teamNo 값을 넣어서 전달
 			Map<String, Object> map = new HashMap<>();
+			map.put("teamNo", teamNo);
 
-//			map.put("teamNo", teamNo);
-//			map.put("id", id);
-//			map.put();
-
-			selectedMemberInfo = session.selectList("com.my.team.TeamMapper.selectMemberInfo", map);
+			List<Map<String, Object>> selectedMemberInfo = session.selectList("com.my.team.TeamMapper.selectMemberInfo", map);
 
 			return selectedMemberInfo;
 		} catch (Exception e) {
@@ -555,13 +572,13 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
 	@Override
-	public void updateTeamMemberStatus(Map<String, Object> map) throws Exception {
+	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
 
-			session.update("com.my.team.TeamMapper.updateTeamMemberStatus", map);
+			session.update("com.my.team.TeamMapper.updateTeamMemberStatusDismiss", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
@@ -575,13 +592,27 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인
 	@Override
-	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception {
-		return null;
-	}
+	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			List<Map<String, Object>> requestInfo = session.selectList("com.my.team.TeamMapper.selectRequestInfo", teamNo);
+
+			return requestInfo;
+		} catch (Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectRequestInfo()
 
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
 	@Override
-	public void updateRequestInfoApprove(Map<String, Object> map) throws Exception {
+	public void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException {
 		SqlSession session = null;
 
 		try {
@@ -601,7 +632,7 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
 	@Override
-	public void updateRequestInfoReject(Map<String, Object> map) throws Exception {
+	public void updateRequestInfoReject(Map<String, Object> map) throws ModifyException {
 		SqlSession session = null;
 
 		try {
@@ -621,27 +652,30 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 관리 페이지(출제자 선정) - 출제자 선정
 	@Override
-	public void insertExaminer(Map<String, Object> map) throws Exception {
+	public void insertExaminer(Map<String, Object> map) throws ModifyException {
 		SqlSession session = null;
-		
+
 		try {
-	        session = sqlSessionFactory.openSession();
-	        
-	        Map<String, Object> params = new HashMap<>();
-	        
-//	        map.put("teamNo", teamNo);
-//	        map.put("id", id);
-	        
-	        session.update("com.my.team.TeamMapper.insertExaminer", map);
-	        session.commit();
-	    } catch(Exception e) {
+			session = sqlSessionFactory.openSession();
+
+			session.insert("com.my.team.TeamMapper.insertExaminer", map);
+			session.commit();
+		} catch(Exception e) {
 			session.rollback();
-			throw new AddException(e.getMessage());
+			throw new ModifyException(e.getMessage());
 		} finally {
 			if(session != null) {
 				session.close();
 			} // if
 		} // try-catch-finally
 	} // insertExaminer()
+
+//	################ Test ################
+	
+	public static void main(String[] args) {
+		
+		// 근데 생각해보면 나 메소드 넘 많은데 이거 테스트 언제 다 해바...? 눈물 줄줄
+		
+	}
 	
 } // end class

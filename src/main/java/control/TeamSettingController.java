@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.notice.dto.NoticeDTO;
 
-public class TeamMainController extends TeamController {
+public class TeamSettingController extends TeamController {
 
-//	팀 메인용 컨트롤러
+	// 팀 관리 페이지용 컨트롤러
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -48,10 +48,6 @@ public class TeamMainController extends TeamController {
 
             // 팀 조회수 카운트 업데이트
             service.updateViewCnt(teamNo);
-            
-            // 팀 조회수 가져오기
-            int teamViewCnt = service.selectViewCnt(teamNo);
-            methodMap.put("teamViewCnt", teamViewCnt);
             
             statusMap.put("status", 1);
             statusMap.put("msg", "팀 메인 불러오기 성공");
