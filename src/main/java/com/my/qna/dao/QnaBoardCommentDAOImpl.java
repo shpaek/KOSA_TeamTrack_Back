@@ -185,50 +185,50 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		
 		// ============== 해당 게시글의 전체 댓글 메서드 테스트 ==========================
 		
-//		QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
-//		
-//	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
-//	    int qnaNo =  64;
-//	    int startPage = 1; // 가져올 페이지 번호 (1페이지)
-//	    int endPage = 1;
-//	    
-//        // selectAll 메서드 호출
-//        try {
-//			List<QnaBoardCommentDTO> qnaList = dao.selectCommentByQnaNo(teamNo, qnaNo, startPage, endPage);
-//			
-//	        // 결과 출력
-//	        for (QnaBoardCommentDTO qna : qnaList) {
-////	            System.out.println("게시글 번호: " + qna.getQna_no());
-//	            System.out.println("게시글 제목: " + qna.getContent());
-//	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
-//	        }
-//			
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+		QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+		
+	    int teamNo = 64; // 팀 번호 (원하는 팀 번호로 설정)
+	    int qnaNo =  112;
+	    int startPage = 1; // 가져올 페이지 번호 (1페이지)
+	    int endPage = 1;
+	    
+        // selectAll 메서드 호출
+        try {
+			List<QnaBoardCommentDTO> qnaList = dao.selectCommentByQnaNo(teamNo, qnaNo, startPage, endPage);
+			
+	        // 결과 출력
+	        for (QnaBoardCommentDTO qna : qnaList) {
+//	            System.out.println("게시글 번호: " + qna.getQna_no());
+	            System.out.println("게시글 제목: " + qna.getContent());
+	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
+	        }
+			
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
         
         // ===================== 해당 게시글 댓글 총갯수 조회 메서드 =============================
         
         // 팀 번호와 QnA 번호를 지정합니다.
-        Integer teamNo = 9999; // 팀 번호를 원하는 값으로 지정하세요.
-        Integer qnaNo = 64;  // QnA 번호를 원하는 값으로 지정하세요.
-
-        // QnaBoardCommentDAO 객체 생성
-        QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
-
-        try {
-            // selectAllCount 메서드 호출
-            int count = dao.selectAllCount(teamNo, qnaNo);
-
-            // 조회 결과 출력
-            System.out.println("댓글 총 개수: " + count);
-
-            System.out.println("댓글 조회 성공");
-        } catch (FindException e) {
-            e.printStackTrace();
-            System.out.println("댓글 조회 실패");
-        }
-	    
+//        Integer teamNo = 9999; // 팀 번호를 원하는 값으로 지정하세요.
+//        Integer qnaNo = 64;  // QnA 번호를 원하는 값으로 지정하세요.
+//
+//        // QnaBoardCommentDAO 객체 생성
+//        QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//
+//        try {
+//            // selectAllCount 메서드 호출
+//            int count = dao.selectAllCount(teamNo, qnaNo);
+//
+//            // 조회 결과 출력
+//            System.out.println("댓글 총 개수: " + count);
+//
+//            System.out.println("댓글 조회 성공");
+//        } catch (FindException e) {
+//            e.printStackTrace();
+//            System.out.println("댓글 조회 실패");
+//        }
+//	    
         
 		
 		
