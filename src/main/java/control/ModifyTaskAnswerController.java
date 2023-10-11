@@ -25,11 +25,11 @@ public class ModifyTaskAnswerController extends TaskController {
 		Integer teamNo=9999;
 		Integer taskNo=11;
 
-		try {
-			service.ModifyQuizAnswer(teamNo, questionNo, taskNo, answer);
-		} catch (ModifyException e) {
-			out.print(e.getMessage());
-		}
+//		try {
+//			service.ModifyQuizAnswer(teamNo, questionNo, taskNo, answer);
+//		} catch (ModifyException e) {
+//			out.print(e.getMessage());
+//		}
 
 		return null;
 	}

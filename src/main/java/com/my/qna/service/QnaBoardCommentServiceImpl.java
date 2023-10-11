@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.qna.dao.QnaBoardCommentDAO;
 import com.my.qna.dao.QnaBoardCommentDAOImpl;
 import com.my.qna.dto.QnaBoardCommentDTO;
@@ -61,6 +62,14 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 		
 	} // selectCommentByQnaNo
 	
+	@Override
+	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
+
+		int result = qnaBoardCommentDAO.commentPick(teamNo, qnaNo, commentNo);
+		
+		return result;
+	
+	} // commentPick
 	
 	
 	
@@ -68,38 +77,51 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 	
 	// ================= selectCommentByQnaNo 메서드 테스트 ===================
 	
+
 	public static void main(String[] args) {
 
-	    QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//	    QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//		
+//		// 팀 번호와 QnA 번호를 지정합니다.
+//	    Integer teamNo = 9999;
+//	    Integer qnaNo = 64;
+//	    int currentPage = 1;
+//
+//        try {
+//
+//            PageGroup<QnaBoardCommentDTO> result = service.selectCommentByQnaNo(teamNo, qnaNo, currentPage);
+//
+//            // 페이지 정보 출력
+//            System.out.println("=======> Total Pages: " + result.getTotalPage());
+//            System.out.println("=======> Current Page: " + result.getCurrentPage());
+//            System.out.println("=======> Total Count: " + result.getTotalCnt());
+//
+//        } catch (FindException e) {
+//            e.printStackTrace();
+//        } 
+
 		
-		// 팀 번호와 QnA 번호를 지정합니다.
-	    Integer teamNo = 9999;
-	    Integer qnaNo = 64;
-	    int currentPage = 1;
+		// =================== commentPick 메서드 테스트 =============================
+		
+	    QnaBoardCommentService service = QnaBoardCommentServiceImpl.getInstance();
 
+	    Integer teamNo = 64;
+	    Integer qnaNo = 112;
+	    Integer commentNo = 4;
 
-        try {
+	    try {
+	        Integer result = service.commentPick(teamNo, qnaNo, commentNo);
 
-            PageGroup<QnaBoardCommentDTO> result = service.selectCommentByQnaNo(teamNo, qnaNo, currentPage);
-
-            // 현재 페이지에 있는 댓글 목록 가져옴
-//            List<QnaBoardCommentDTO> list = result.getList();
-//            
-//            for (QnaBoardCommentDTO dto : list) {
-//            	
-//                System.out.println("dto -> "+dto);
-//                
-//            }
-
-            // 페이지 정보 출력
-            System.out.println("=======> Total Pages: " + result.getTotalPage());
-            System.out.println("=======> Current Page: " + result.getCurrentPage());
-            System.out.println("=======> Total Count: " + result.getTotalCnt());
-
-        } catch (FindException e) {
-            e.printStackTrace();
-        } 
-
+	        if (result > 0) {
+	            System.out.println("댓글 채택 성공!");
+	        } else {
+	            System.out.println("댓글 채택 실패!");
+	        }
+	    } catch (ModifyException e) {
+	        e.printStackTrace();
+	    }
+		
+		
 	} // main(test)
 
 } // end class
