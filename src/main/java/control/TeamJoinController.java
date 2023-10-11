@@ -32,12 +32,12 @@ public class TeamJoinController extends TeamController {
 
 			SignupTeamDTO signupTeamDTO = new SignupTeamDTO();
 
-            signupTeamDTO.setSignupTeamNo(Integer.parseInt(request.getParameter("teamNo")));
-            signupTeamDTO.setSignupId(request.getParameter("id"));
-            signupTeamDTO.setSignupStatus(Integer.parseInt(request.getParameter("status")));
+            signupTeamDTO.setTeamNo(Integer.parseInt(request.getParameter("teamNo")));
+            signupTeamDTO.setId(request.getParameter("id"));
+            signupTeamDTO.setStatus(Integer.parseInt(request.getParameter("status")));
             signupTeamDTO.setIntroduction(request.getParameter("introduction"));
 
-			service.joinTeam(signupTeamDTO);
+			service.insertSignUpTeam(signupTeamDTO);
 
 			map.put("status", 1);
 			map.put("msg", "팀 가입 요청 성공");
