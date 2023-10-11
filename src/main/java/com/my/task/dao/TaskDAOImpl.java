@@ -242,7 +242,7 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
+	public void updateTask(Integer teamNo, String title, String id) throws ModifyException {
 		SqlSession session=null;
 
 		try {
@@ -250,8 +250,7 @@ public class TaskDAOImpl implements TaskDAO {
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "task_"+teamNo);
 			map.put("title", title);
-			map.put("enddate", enddate);
-			map.put("taskNo", taskNo);
+			map.put("id", id);
 			session.update("com.my.task.TaskMapper.updateTask", map);
 			session.commit();
 		} catch(Exception e) {
@@ -278,47 +277,6 @@ public class TaskDAOImpl implements TaskDAO {
 		} catch(Exception e) {
 			session.rollback();
 			throw new AddException("답안 생성 실패");
-		} finally {
-			if(session!=null) session.close();
-		}
-	}
-
-	@Override
-	public void updateQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException {
-		SqlSession session=null;
-
-		try {
-			session=sqlSessionFactory.openSession();
-			Map<String, Object> map=new HashMap<>();
-			map.put("tableName", "quizanswer_"+teamNo);
-			map.put("questionNo", questionNo);
-			map.put("taskNo", taskNo);
-			map.put("answer", answer);
-			session.update("com.my.task.TaskMapper.updateQuizAnswer", map);
-			session.commit();
-		} catch(Exception e) {
-			session.rollback();
-			throw new ModifyException("답안 수정 실패");
-		} finally {
-			if(session!=null) session.close();
-		}
-	}
-
-	@Override
-	public void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
-		SqlSession session=null;
-
-		try {
-			session=sqlSessionFactory.openSession();
-			Map<String, Object> map=new HashMap<>();
-			map.put("tableName", "quizanswer_"+teamNo);
-			map.put("questionNo", questionNo);
-			map.put("taskNo", taskNo);
-			session.delete("com.my.task.TaskMapper.deleteQuizAnswer", map);
-			session.commit();
-		} catch(Exception e) {
-			session.rollback();
-			throw new RemoveException("답안 삭제 실패");
 		} finally {
 			if(session!=null) session.close();
 		}
