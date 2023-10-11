@@ -54,18 +54,22 @@ public class SetTaskController extends TaskController {
 				return null;
 			}
 			
-			service.AddQuizAnswer(teamNo, taskNo, answer);
-			service.ModifyTask(teamNo, title, taskNo);
+//			service.AddQuizAnswer(teamNo, taskNo, answer);
+//			service.ModifyTask(teamNo, title, taskNo);
 			
 			try {
 				for(int i=0;i<attach.getFile("taskfile").size();i++) {
-					attach.upload("taskfile", "과제"+taskNo+"_"+(i+1));
+					String file=attach.getFile("taskfile").get(i).getName();
+					System.out.println(file);
+					String[] filetype=file.split("\\.");
+					System.out.println(filetype[filetype.length-1]);
+					attach.upload("taskfile", "과제"+taskNo+"_"+(i+1)+"."+filetype[filetype.length-1]);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				map.put("status", 0);
 				map.put("msg", "출제에 실패하였습니다");
-			}
+			} 
 			
 			map.put("status", 1);
 			map.put("msg", "출제에 성공하였습니다");
