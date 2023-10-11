@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -10,8 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.exception.AddException;
-import com.my.team.dto.SignupTeamDTO;
+import com.my.notice.dto.NoticeDTO;
 
 public class TeamMainController extends TeamController {
 
@@ -26,11 +26,54 @@ public class TeamMainController extends TeamController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
-		Map<String, Object> map = new HashMap<>();
-
 		// 메인에서 실행하는 모든 서비스 메소드들의 결과값을 map에 넣어서 리턴하기
+		Map<String, Object> methodMap = new HashMap<>();
+		Map<String, Object> statusMap = new HashMap<>();
 		
-		String jsonStr = mapper.writeValueAsString(map);
+        int teamNo = Integer.parseInt(request.getParameter("teamNo"));
+//        String id = request.getParameter("id");
+        String id = "psh2023";
+
+        try {
+        	
+        	// 팀장 체크
+        	int memStatus = service.leaderChk(id, teamNo);
+        	methodMap.put("memStatus", memStatus);
+        	
+        	// 팀명 가져오기
+        	
+        	// 팀 사진 가져오기
+        	
+            // 팀 소개글 가져오기
+            String teamInfo = service.selectTeamInfoByTeamNo(teamNo);
+            methodMap.put("teamInfo", teamInfo);
+
+            // 공지사항 가져오기
+            List<NoticeDTO> noticeList = service.selectNoticeListByTeamNo(teamNo);
+            methodMap.put("noticeList", noticeList);
+
+            // 팀 멤버 닉네임 가져오기
+            List<String> nicknameList = service.selectNicknameByTeamNo(teamNo);
+            methodMap.put("nicknameList", nicknameList);
+
+            // 팀 조회수 카운트 업데이트
+            service.updateViewCnt(teamNo);
+            
+            // 팀 조회수 가져오기
+            int teamViewCnt = service.selectViewCnt(teamNo);
+            methodMap.put("teamViewCnt", teamViewCnt);
+            
+            statusMap.put("status", 1);
+            statusMap.put("msg", "팀 메인 불러오기 성공");
+            
+        } catch (Exception e) {
+        	e.printStackTrace();
+			
+        	statusMap.put("status", 0);
+        	statusMap.put("msg", "팀 메인 불러오기 실패");
+        } // try-catch
+		
+		String jsonStr = mapper.writeValueAsString(methodMap);
 		out.print(jsonStr);
 
 		return null;

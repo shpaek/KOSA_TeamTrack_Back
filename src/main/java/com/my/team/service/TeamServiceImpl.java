@@ -13,6 +13,7 @@ import com.my.notice.dao.NoticeDAOImpl;
 import com.my.notice.dto.NoticeDTO;
 import com.my.task.dao.TaskDAO;
 import com.my.task.dao.TaskDAOImpl;
+import com.my.task.dto.TaskDTO;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.AttendanceDTO;
@@ -125,14 +126,6 @@ public class TeamServiceImpl implements TeamService {
 		return teamDAO.selectByHashtag(hashtag, 1, 10);
 	}
 
-	/*
-	@Override
-	public void updateViewCnt(int teamNo) throws ModifyException {
-		teamDAO.updateViewCnt(teamNo);
-	}
-	 */
-
-
 	// ------------------------------------------------------------------------
 	
 	//워니 침입
@@ -151,93 +144,89 @@ public class TeamServiceImpl implements TeamService {
 
 	// 셍나
 
-	// 팀 메인 페이지 - 팀 소개글 보여주기
 	@Override
 	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
 		return teamDAO.selectTeamInfoByTeamNo(teamNo);
 	}
 
-	// 팀 메인 페이지 - 팀 자기소개 보여주기
 	@Override
 	public List<NoticeDTO> selectNoticeListByTeamNo(int teamNo) throws FindException {
 		return teamDAO.selectNoticeListByTeamNo(teamNo);
 	}
 
-	// 팀 메인 페이지 - 팀 가입하기
 	@Override
-	public void joinTeam(SignupTeamDTO signupTeamDTO) throws AddException {
+	public void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException {
 		teamDAO.insertSignUpTeam(signupTeamDTO);
 	}
 
-	// 팀 메인 페이지 - 팀 나가기 트랜잭션
+	@Override
+	public void updateTeamMemberStatusResign(String id) throws ModifyException {
+		teamDAO.updateTeamMemberStatusResign(id);
+	}
+
+	@Override
+	public void deleteSignupTeam(String id) throws RemoveException {
+		teamDAO.deleteSignupTeam(id);
+	}
+
 	@Override
 	public void leaveTeam(String id) throws Exception {
 		teamDAO.leaveTeam(id);
 	}
 
-	// 팀 메인 페이지 - 팀원 닉네임 보여주기
 	@Override
 	public List<String> selectNicknameByTeamNo(int teamNo) throws FindException {
 		return teamDAO.selectNicknameByTeamNo(teamNo);
 	}
 
-	// 팀 메인 페이지 - 조회수 측정
 	@Override
 	public void updateViewCnt(int teamNo) throws ModifyException {
 		teamDAO.updateViewCnt(teamNo);
 	}
+	
+	@Override
+	public int selectViewCnt(int teamNo) throws FindException {
+		return teamDAO.selectViewCnt(teamNo);
+	}
 
-	//	---------------------------
-
-	// 팀 출석부 페이지 - 출석하기
 	@Override
 	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
 		teamDAO.insertAttendanceById(teamNo, id);
 	}
 
-	// 팀 출석부 페이지 - 출석 내역 조회하기
 	@Override
 	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
 		return teamDAO.selectAttendanceById(teamNo, id);
 	}
-	
-	//	---------------------------
 
 	@Override
-	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException {
+		return teamDAO.selectMemberInfo(teamNo);
 	}
 
 	@Override
-	public void updateTeamMemberStatus(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateTeamMemberStatusDismiss(map);
 	}
 
 	@Override
-	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException {
+		return teamDAO.selectRequestInfo(teamNo);
 	}
 
 	@Override
-	public void updateRequestInfoApprove(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateRequestInfoApprove(map);
 	}
 
 	@Override
-	public void updateRequestInfoReject(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void updateRequestInfoReject(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateRequestInfoReject(map);
 	}
 
 	@Override
-	public void insertExaminer(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException {
+		teamDAO.insertExaminer(taskDTO, teamNo);
 	}
-
 
 } // end class

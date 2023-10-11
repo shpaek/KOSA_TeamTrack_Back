@@ -8,6 +8,7 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.notice.dto.NoticeDTO;
+import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
@@ -127,14 +128,14 @@ public interface TeamDAO {
 	 * @param SignupTeamDTO
 	 * @throws AddException
 	 */
-	void insertSignUpTeam(SignupTeamDTO SignupTeamDTO) throws AddException;
+	void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException;
 
 	/**
 	 * 팀 메인 페이지 - 팀에서 나가기 #1 (팀원 테이블에서 상태값 변경)
 	 * @param id
 	 * @throws ModifyException
 	 */
-	void updateTeamMemberStatus(String id) throws ModifyException;
+	void updateTeamMemberStatusResign(String id) throws ModifyException;
 
 	/**
 	 * 팀 메인 페이지 - 팀에서 나가기 #2 (가입한 팀 테이블에서 삭제)
@@ -163,6 +164,14 @@ public interface TeamDAO {
 	 * @throws AddException
 	 */
 	void updateViewCnt(int teamNo) throws ModifyException;
+	
+	/**
+	 * 팀 메인 페이지 - 조회수 출력
+	 * @param teamNo
+	 * @return Integer
+	 * @throws FindException
+	 */
+	int selectViewCnt(int teamNo) throws FindException;
 
 //	---------------------------
 
@@ -191,14 +200,14 @@ public interface TeamDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws Exception;
+	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException;
 	
 	/**
 	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
 	 * @param map
 	 * @throws Exception
 	 */
-	void updateTeamMemberStatus(Map<String, Object> map) throws Exception;
+	void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인
@@ -206,28 +215,28 @@ public interface TeamDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws Exception;
+	List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
 	 * @param map
 	 * @throws Exception
 	 */
-	void updateRequestInfoApprove(Map<String, Object> map) throws Exception;
+	void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
 	 * @param map
 	 * @throws Exception
 	 */
-	void updateRequestInfoReject(Map<String, Object> map) throws Exception;
+	void updateRequestInfoReject(Map<String, Object> map) throws ModifyException;
 	
 	/**
 	 * 팀 관리 페이지(출제자 선정) - 출제자 선정
 	 * @param map
 	 * @throws Exception
 	 */
-	void insertExaminer(Map<String, Object> map) throws Exception;
+	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
 
 	// 출제자 취소
 
