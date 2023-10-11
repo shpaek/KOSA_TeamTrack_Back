@@ -35,15 +35,15 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException {
+	public List<RankDTO> selectByMonth(Integer teamNo, Integer month) throws FindException {
 		SqlSession session = null;
-		List<RankDTO> list = new ArrayList<>(); 
+		List<RankDTO> list = new ArrayList<>();
 		
 		try {
 			session = sqlSessionFactory.openSession();
 			Map<String, Object> map = new HashMap<>();
 			map.put("team_no", teamNo);
-			map.put("date", rankDate);
+			map.put("month", month);
 			list = session.selectList("com.my.rank.RankMapper.selectByMonth", map);
 			return list;
 		} catch (Exception e) {
@@ -204,9 +204,9 @@ public class RankDAOImpl implements RankDAO {
 		//rank list 가져오기 
 		try {
 			Integer teamNo = 9999;
-			String date = "2023-10-01";
+			Integer month = 10;
 			
-			List<RankDTO> list = dao.selectByMonth(teamNo, date);
+			List<RankDTO> list = dao.selectByMonth(teamNo, month);
 			System.out.println("[월별 랭킹 리스트 출력]");
 			System.out.println(list);
 			System.out.println("-------------------------------------");

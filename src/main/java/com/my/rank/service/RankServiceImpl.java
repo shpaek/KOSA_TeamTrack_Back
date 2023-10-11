@@ -25,8 +25,8 @@ public class RankServiceImpl implements RankService {
 	}
 	
 	@Override
-	public List<RankDTO> findByMonth(Integer teamNo, String rankDate) throws FindException {
-		List<RankDTO> ranklist = rankDao.selectByMonth(teamNo, rankDate);
+	public List<RankDTO> findByMonth(Integer teamNo, Integer month) throws FindException {
+		List<RankDTO> ranklist = rankDao.selectByMonth(teamNo, month);
 		return ranklist;
 	}
 
@@ -109,7 +109,7 @@ public class RankServiceImpl implements RankService {
 	public static void main(String[] args) {
 		RankServiceImpl service = new RankServiceImpl();
 		try {
-			System.out.println(service.findByMonth(9999, "2023-10-01"));
+			System.out.println(service.findByMonth(9999, 10));
 			System.out.println(service.calculateTotalScore(9999, "2023-10-01", 10));
 		} catch (FindException e) {
 			e.printStackTrace();

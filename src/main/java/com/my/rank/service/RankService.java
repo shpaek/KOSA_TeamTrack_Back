@@ -19,7 +19,7 @@ public interface RankService {
 	 * @return
 	 * @throws FindException
 	 */
-	public List<RankDTO> findByMonth(Integer teamNo, String rankDate) throws FindException;
+	public List<RankDTO> findByMonth(Integer teamNo, Integer month) throws FindException;
 	
 	/**
 	 * 각 팀 멤버의 총 점수를 계산한다. 멤버의 점수가 없으면 FindException 발생한다 

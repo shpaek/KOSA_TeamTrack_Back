@@ -14,7 +14,6 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 
-
 public class Attach {
 	
 	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로

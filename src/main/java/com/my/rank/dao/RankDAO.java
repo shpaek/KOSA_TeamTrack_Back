@@ -19,9 +19,8 @@ public interface RankDAO {
 	 * @param rankDate rank 일자
 	 * @return rank객체 리스트
 	 * @throws FindException date에 해당하는 rank 정보가 없거나 DB와 연결이 실패하면 예외발생
-	 * @throws com.my.exception.FindException 
 	 */
-	List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException;
+	List<RankDTO> selectByMonth(Integer teamNo, Integer month) throws FindException;
 
 	/**
 	 * 팀별 팀 멤버들의 id를 조회한다

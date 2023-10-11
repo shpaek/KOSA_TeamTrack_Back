@@ -44,16 +44,19 @@ public class RankListController extends RankController {
 		String rankDate = formatter.format(nowdate);
 		//현재날짜의 월
 		LocalDate now = LocalDate.now();
-		Integer month = now.getMonthValue();
+		Integer month = now.getMonthValue(); 
 		
 		List ranklist = new ArrayList<>();		
 		Map<String, Object> ranks = new HashMap<>();
 		try {
-			List<RankDTO> list = service.findByMonth(teamNo, rankDate);
+			List<RankDTO> list = service.findByMonth(teamNo, month);
 			Map<String, Object> scoremap = service.calculateTotalScore(teamNo, rankDate, month);
 			System.out.println(scoremap);
-			Map<String, Object> rankmap = new HashMap();
 			
+			//calculate 점수 -> 데이터 전달하기 
+			Map<String, Object> rankmap = new HashMap();
+			Map<String, Object> map = new HashMap();
+
 			for (RankDTO dto : list) {
 				List dtolist = Arrays.asList(dto);
 				for (String key : scoremap.keySet()) {
@@ -63,9 +66,18 @@ public class RankListController extends RankController {
 				}
 				rankmap.put(dto.getId(), dtolist);
 				ranks.put("rankmap", rankmap);
+
+				//단순 rankdto 데이터 전달하기
+//				map.put(dto.getId(), dto);
+//				ranks.put("dto", dto);
 			}
 			ranklist.add(ranks);
-			System.out.println(ranklist);
+			
+//			for (RankDTO dto : list) {
+//			}
+			System.out.println("ranklist" + ranklist);
+			System.out.println("rankdto" + map);
+			
 		} catch (FindException e) {
 				e.printStackTrace();
 		}
