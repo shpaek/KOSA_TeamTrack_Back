@@ -220,8 +220,9 @@ public interface TeamService {
 	
 	/**
 	 * 팀 관리 페이지(출제자 선정) - 출제자 선정
-	 * @param map
-	 * @throws Exception
+	 * @param taskDTO
+	 * @param teamNo
+	 * @throws ModifyException
 	 */
 	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
 
