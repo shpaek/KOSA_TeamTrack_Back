@@ -85,40 +85,20 @@ public interface TaskService {
 	 * 과제 출제 : 과제 정보를 업데이트한다.
 	 * @param teamNo 팀 번호
 	 * @param title 과제 제목
-	 * @param taskNo 과제 번호
+	 * @param id 아이디
 	 * @throws ModifyException
 	 */
-	void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
+	void ModifyTask(Integer teamNo, String title, String id) throws ModifyException;
 
 	/**
 	 * 과제 출제 : 과제 답안을 생성한다.
 	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
 	 * @param taskNo 과제 번호
 	 * @param answer 답
 	 * @throws AddException
 	 */
-	void AddQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException;
+	void AddQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException;
 
-	/**
-	 * 과제 출제 : 과제 답안을 수정한다.
-	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
-	 * @param taskNo 과제 번호
-	 * @param answer 답
-	 * @throws ModifyException
-	 */
-	void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException;
-
-	/**
-	 * 과제 출제 : 과제 답안을 삭제한다.
-	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
-	 * @param taskNo 과제 번호
-	 * @throws RemoveException
-	 */
-	void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException;
-	
 	/**
 	 * 출제자 아이디를 가져온다.
 	 * @param teamNo 팀 번호

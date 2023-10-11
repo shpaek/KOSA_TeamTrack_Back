@@ -131,23 +131,13 @@
 	<update id="updateTask" parameterType="java.util.HashMap">
 		UPDATE ${tableName}
 		SET regdate=SYSDATE, title=#{title}
-		WHERE task_no=#{taskNo}
+		WHERE id=#{id}
 	</update>
 	
 	<!-- 과제 답안 생성하기 -->
 	<insert id="insertQuizAnswer" parameterType="java.util.HashMap">
-		INSERT INTO ${tableName} (question_no, task_no, answer) VALUES (#{questionNo}, #{taskNo}, #{answer})
+		INSERT INTO ${tableName} (question_no, id, answer) VALUES (#{questionNo}, #{id}, #{answer})
 	</insert>
-	
-	<!-- 과제 답안 수정하기 -->
-	<update id="updateQuizAnswer" parameterType="java.util.HashMap">
-		UPDATE ${tableName} SET answer=#{answer} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
-	</update>
-	
-	<!-- 과제 답안 삭제하기 -->
-	<delete id="deleteQuizAnswer" parameterType="java.util.HashMap">
-		DELETE ${tableName} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
-	</delete>
 	
 	<!-- 출제자 여부 체크하기 -->
 	<select id="selectTaskId" resultType="String">

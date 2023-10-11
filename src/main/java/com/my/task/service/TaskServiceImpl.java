@@ -82,24 +82,17 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
-		taskDAO.updateTask(teamNo, title, taskNo);
+	public void ModifyTask(Integer teamNo, String title, String id) throws ModifyException {
+		taskDAO.updateTask(teamNo, title, id);
 	}
 
 	@Override
-	public void AddQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
-		taskDAO.insertQuizAnswer(teamNo, questionNo, taskNo, answer);
-	}
-
-	@Override
-	public void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer)
-			throws ModifyException {
-		taskDAO.updateQuizAnswer(teamNo, questionNo, taskNo, answer);
-	}
-
-	@Override
-	public void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
-		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
+	public void AddQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException {
+		String[] answerList=answer.split(",");
+		for(int i=0;i<answerList.length;i++) {
+			taskDAO.insertQuizAnswer(teamNo, i+1, taskNo, Integer.parseInt(answerList[i]));
+		}
+		
 	}
 	
 	public boolean findTaskId(Integer teamNo, String id) throws FindException {
