@@ -82,8 +82,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void ModifyTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
-		taskDAO.updateTask(teamNo, title, enddate, taskNo);
+	public void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
+		taskDAO.updateTask(teamNo, title, taskNo);
 	}
 
 	@Override

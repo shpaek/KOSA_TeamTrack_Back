@@ -85,11 +85,10 @@ public interface TaskService {
 	 * 과제 출제 : 과제 정보를 업데이트한다.
 	 * @param teamNo 팀 번호
 	 * @param title 과제 제목
-	 * @param enddate 과제 마감일
 	 * @param taskNo 과제 번호
 	 * @throws ModifyException
 	 */
-	void ModifyTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException;
+	void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
 
 	/**
 	 * 과제 출제 : 과제 답안을 생성한다.

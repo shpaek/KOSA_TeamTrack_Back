@@ -242,7 +242,7 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
+	public void updateTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
 		SqlSession session=null;
 
 		try {
@@ -250,7 +250,6 @@ public class TaskDAOImpl implements TaskDAO {
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "task_"+teamNo);
 			map.put("title", title);
-			map.put("enddate", enddate);
 			map.put("taskNo", taskNo);
 			session.update("com.my.task.TaskMapper.updateTask", map);
 			session.commit();

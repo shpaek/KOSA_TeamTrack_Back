@@ -27,7 +27,8 @@ public class ChkTaskIdController extends TaskController {
 //		String loginedId=(String)session.getAttribute("loginedId");
 		
 		Integer teamNo=9999;
-		String loginedId="nwh2023";
+		String loginedId="cyk2023";
+//		String loginedId="nwh2023";
 		Map<String, Object> map=new HashMap<>();
 		
 		try {

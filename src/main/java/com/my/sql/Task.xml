@@ -130,7 +130,7 @@
 	<!-- 과제 정보 업데이트하기 -->
 	<update id="updateTask" parameterType="java.util.HashMap">
 		UPDATE ${tableName}
-		SET regdate=SYSDATE, enddate=TO_DATE(#{enddate}, 'yyyy-MM-dd'), title=#{title}
+		SET regdate=SYSDATE, title=#{title}
 		WHERE task_no=#{taskNo}
 	</update>
 	
