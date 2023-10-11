@@ -125,6 +125,11 @@ public class TaskServiceImpl implements TaskService {
 		List<Integer> list=taskDAO.selectMemberAnswer(teamNo, taskNo, id);
 		return list;
 	}
+	
+	public int findAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
+		int cnt=taskDAO.selectAnswerCount(teamNo, taskNo);
+		return cnt;
+	}
 
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
