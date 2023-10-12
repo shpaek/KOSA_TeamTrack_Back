@@ -7,6 +7,40 @@
 	<select id="selectCount" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM TEAM
 	</select>
+	<select id="selectCountOfSelectHashtag" resultType="java.lang.Integer" parameterType="String">
+		SELECT COUNT(*) FROM (SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info, viewcnt
+		FROM TEAM a
+		WHERE
+		team_no IN
+		(SELECT team_no FROM team_hashtag
+		WHERE hashtag_name = #{data})) c))
+	</select>
+		<select id="selectCountOfSelectDate" resultType="java.lang.Integer"  parameterType="java.util.HashMap">
+		SELECT COUNT(*) FROM (SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info,
+		viewcnt
+		FROM TEAM a
+		WHERE
+		(TO_DATE(startdate, 'YYYY-MM-DD') <![CDATA[>=]]> TO_DATE(#{startDate}, 'YYYY-MM-DD')) AND (TO_DATE(enddate, 'YYYY-MM-DD') <![CDATA[<=]]> TO_DATE(#{endDate}, 'YYYY-MM-DD'))
+		ORDER BY ${column} DESC) c))
+	</select>
+			<select id="selectCountOfSelectData" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		SELECT COUNT(*) FROM (SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info, viewcnt
+		FROM TEAM a
+		WHERE
+		team_no IN
+		(SELECT team_no FROM ${table}
+		WHERE ${column} LIKE
+		'%'||#{data}||'%')) c))
+	</select>
 	<!-- 확인 필요 -->
 	<select id="selectByTeamNo" resultType="TeamDTO">
 		SELECT team_name,

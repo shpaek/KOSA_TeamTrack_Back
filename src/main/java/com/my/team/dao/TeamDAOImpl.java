@@ -64,6 +64,65 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
+	public int selectCountOfSelectHashtag(String hashtag) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			int count = session.selectOne("com.my.team.TeamMapper.selectCountOfSelectHashtag", hashtag);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public int selectCountOfSelectDate(String column, String startDate, String endDate) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("column", column);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+			int count = session.selectOne("com.my.team.TeamMapper.selectCountOfSelectDate", map);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public int selectCountOfSelectData(String table, String column, String data) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("table", table);
+			map.put("column", column);
+			map.put("data", data);
+			int count = session.selectOne("com.my.team.TeamMapper.selectCountOfSelectData", map);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
 	public TeamDTO selectByTeamNo(int teamNo) throws FindException {
 		SqlSession session = null;
 
@@ -326,6 +385,10 @@ public class TeamDAOImpl implements TeamDAO {
 			}
 		}
 	}
+
+
+
+
 
 
 		

@@ -82,7 +82,7 @@ public class TeamServiceImpl implements TeamService {
 		//return repository.selectAll(startRow, endRow);
 		
 		List<TeamDTO> list = teamDAO.selectByData(table, column, data, startRow, endRow);
-		int totalCnt = list.size();		
+		int totalCnt = teamDAO.selectCountOfSelectData(table, column, data);
 		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}
@@ -104,7 +104,7 @@ public class TeamServiceImpl implements TeamService {
 		//return repository.selectAll(startRow, endRow);
 		
 		List<TeamDTO> list = teamDAO.selectByDate(column, startDate, endDate, startRow, endRow);
-		int totalCnt = list.size();		
+		int totalCnt = teamDAO.selectCountOfSelectDate(column, startDate, endDate);
 		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}
@@ -126,7 +126,8 @@ public class TeamServiceImpl implements TeamService {
 		//return repository.selectAll(startRow, endRow);
 		
 		List<TeamDTO> list = teamDAO.selectHashtag(hashtag, startRow, endRow);
-		int totalCnt = list.size();		
+		int totalCnt = teamDAO.selectCountOfSelectHashtag(hashtag);
+		System.out.println("총개수"+totalCnt);
 		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}

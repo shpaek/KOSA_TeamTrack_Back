@@ -21,8 +21,10 @@ public interface TeamDAO {
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	int selectCount() throws FindException;
-	
-	/**
+	int selectCountOfSelectHashtag(String hashtag) throws FindException;
+	int selectCountOfSelectDate(String column, String startDate, String endDate) throws FindException;
+	int selectCountOfSelectData(String table, String column, String data) throws FindException;
+ 	/**
 	 * 팀번호에 해당하는 팀정보를 검색한다
 	 * @param teamNo 팀번호
 	 * @return 팀객체

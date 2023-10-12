@@ -39,6 +39,7 @@ public class TeamHashtagController extends TeamController {
 			PrintWriter out = response.getWriter();
 			try {
 				MainPageGroup<TeamDTO> pg = service.selectHashtag(cp, hashtag);
+				System.out.println(pg);
 				List<TeamHashtagDTO> hashlist = new ArrayList<>();
 				for(TeamDTO team : pg.getList()){
 					hashlist.addAll(service.selectTeamHashtag(team.getTeamNo()));

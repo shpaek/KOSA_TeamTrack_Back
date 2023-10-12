@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
 import com.my.exception.RemoveException;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
 
 public class TeamManageController extends TeamController {
 
@@ -24,7 +25,7 @@ public class TeamManageController extends TeamController {
 		response.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		String gubun = request.getParameter("gubun");
 
-		
+
 		if(gubun.equals("create")) {
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -62,25 +63,26 @@ public class TeamManageController extends TeamController {
 		}else if(gubun.equals("update")) {
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
-//			HttpSession session = request.getSession();
-			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-			
-			String teamName = request.getParameter("teamName");
-			String studyType = request.getParameter("studyType");
-			String onOffLine = request.getParameter("onOffLine");
-			int maxMember = Integer.parseInt(request.getParameter("maxMember"));
-			String startDate = request.getParameter("startDate");
-			String endDate = request.getParameter("endDate");
-			String briefInfo = request.getParameter("briefInfo");
-			String teamInfo = request.getParameter("teamInfo");
+			//			HttpSession session = request.getSession();
+			int teamNo = Integer.parseInt(request.getParameter("teamNo").trim());
+
+			String teamName = request.getParameter("teamName").trim();
+			String studyType = request.getParameter("studyType").trim();
+			String onOffLine = request.getParameter("onOffLine").trim();
+			int maxMember = Integer.parseInt(request.getParameter("maxMember").trim());
+			String startDate = request.getParameter("startDate").trim();
+			String endDate = request.getParameter("endDate").trim();
+			String briefInfo = request.getParameter("briefInfo").trim();
+			String teamInfo = request.getParameter("teamInfo").trim();
+
 			String hashtag1 = request.getParameter("hashtag1");
 			String hashtag2 = request.getParameter("hashtag2");
 			String hashtag3 = request.getParameter("hashtag3");
 			String hashtag4 = request.getParameter("hashtag4");
 			String hashtag5 = request.getParameter("hashtag5");
-			
+
 			TeamDTO t = new TeamDTO();
-			
+
 			t.setTeamNo(teamNo);
 			t.setTeamName(teamName);
 			t.setStudyType(studyType);
@@ -145,13 +147,14 @@ public class TeamManageController extends TeamController {
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
 			return null;
-		
+
 		}else if(gubun.equals("delete")) {
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			ObjectMapper mapper = new ObjectMapper();
 			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-			
+			System.out.println(teamNo);
+
 			Map<String, Integer> map = new HashMap<>();
 			try {
 				service.deleteTeam(teamNo);
@@ -165,28 +168,34 @@ public class TeamManageController extends TeamController {
 			System.out.println(map);
 			out.print(mapper.writeValueAsString(map));
 			return null;
-			
+
 		}else if(gubun.equals("select")) {
-			ObjectMapper mapper = new ObjectMapper();
-			response.setContentType("application/json;charset=UTF-8");
+			response.setContentType("application/json;charset=utf-8");
+
 			PrintWriter out = response.getWriter();
+			ObjectMapper mapper = new ObjectMapper();
+			//			HttpSession session = request.getSession();
 			int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-			Map<String, Integer> map = new HashMap<>();
+			Map<String, Object> map = new HashMap<>();
 			try {
-				service.selectByTeamNo(teamNo);
-				System.out.println(service.selectByTeamNo(teamNo));
+				TeamDTO team = new TeamDTO();
+				team = service.selectByTeamNo(teamNo);
+				List<TeamHashtagDTO> hashlist = new ArrayList<>();
+				hashlist.addAll(service.selectTeamHashtag(teamNo));
+
 				//팀이 있는 경우
 				map.put("status", 0);
+				map.put("team", team);
+				map.put("hashtag", hashlist);
 			} catch (FindException e) {
 				//팀이 없는 경우
+				e.printStackTrace();
 				map.put("status", 1);
 			}
 			System.out.println(map);
 			out.print(mapper.writeValueAsString(map));
 			return null;
-		}
-		
-		return null;
-	}
 
+		}return null;
+	}
 }
