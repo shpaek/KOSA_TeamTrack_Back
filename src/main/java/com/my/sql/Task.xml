@@ -167,9 +167,14 @@
 		INSERT INTO ${tableName} (task_no, id, hwscore, reviewscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, #{reviewScore}, SYSDATE)
 	</insert>
 	
-	<!-- 평점 업데이트하기 -->
+	<!-- 팀원 평점 업데이트하기 -->
 	<update id="updateReviewScore" parameterType="java.util.HashMap">
 		UPDATE ${tableName} SET reviewscore=#{reviewScore} WHERE id=#{id} AND task_no=#{taskNo}
+	</update>
+
+	<!-- 과제 평점 업데이트하기 -->
+	<update id="updateAvgReviewScore" parameterType="java.util.HashMap">
+		UPDATE ${tableName1} SET avg_reviewscore=(SELECT SUM(reviewscore)/COUNT(*) FROM ${tableName2} WHERE task_no=#{taskNo}) WHERE task_no=#{taskNo}
 	</update>
 
 </mapper>

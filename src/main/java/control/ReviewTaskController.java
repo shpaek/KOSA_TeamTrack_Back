@@ -26,6 +26,8 @@ public class ReviewTaskController extends TaskController {
 		
 		try {
 			service.setReviewScore(teamNo, taskNo, "nwh2023", reviewScore);
+			service.setAvgReviewScore(teamNo, taskNo);
+			
 			map.put("status", 1);
 			map.put("msg", "평가 완료!");
 		} catch (ModifyException e) {
