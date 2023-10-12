@@ -26,9 +26,27 @@ public class SubmitTaskController extends TaskController {
 		
 		Integer teamNo=9999;
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
+		System.out.println(taskNo);
 //		String id="khb2023";
 		String id="nwh2023";
 		String answer=request.getParameter("answerlist");
+		int answerCnt=Integer.parseInt(request.getParameter("answerCnt"));
+		System.out.println(answerCnt);
+		
+		if(answer.isEmpty()) {
+			map.put("status", 0);
+			map.put("msg", "답안을 올바르게 입력하세요");
+			out.print(mapper.writeValueAsString(map));
+			return null;
+		}
+		
+		String[] answerList=answer.split(",");
+		if(answerList.length!=answerCnt) {
+			map.put("status", 0);
+			map.put("msg", "모든 답안을 작성하세요");
+			out.print(mapper.writeValueAsString(map));
+			return null;
+		}
 		
 		try {
 			service.addMemberAnswer(teamNo, taskNo, id, answer);
@@ -37,10 +55,12 @@ public class SubmitTaskController extends TaskController {
 			map.put("status", 1);
 			map.put("msg", "과제 제출에 성공하였습니다");
 		} catch (AddException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", "과제 제출에 실패하였습니다");
 		}
+		
+		out.print(mapper.writeValueAsString(map));
 		
 		return null;
 	}

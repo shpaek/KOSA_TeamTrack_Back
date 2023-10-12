@@ -331,6 +331,7 @@ public class TaskDAOImpl implements TaskDAO {
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
+			e.printStackTrace();
 			throw new AddException("답안 생성 실패");
 		} finally {
 			if(session!=null) session.close();

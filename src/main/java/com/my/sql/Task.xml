@@ -150,5 +150,10 @@
 	<select id="selectAnswerCount" parameterType="java.util.HashMap" resultType="Integer">
 		SELECT COUNT(*) FROM ${tableName} WHERE task_no=#{taskNo}
 	</select>
+	
+	<!-- 팀원 답안 생성하기 -->
+	<insert id="insertMemberAnswer" parameterType="java.util.HashMap">
+		INSERT INTO ${tableName} (question_no, task_no, id, answer) VALUES (#{questionNo}, #{taskNo}, #{id}, #{answer})
+	</insert>
 
 </mapper>
