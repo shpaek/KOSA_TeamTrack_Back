@@ -22,9 +22,12 @@ import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+<<<<<<< HEAD
 import com.my.team.dto.TeamMemberDTO;
+=======
 import com.my.team.dto.TeamHashtagDTO;
 import com.my.util.MainPageGroup;
+>>>>>>> origin/dev
 import com.my.util.PageGroup;
 
 public class TeamServiceImpl implements TeamService {

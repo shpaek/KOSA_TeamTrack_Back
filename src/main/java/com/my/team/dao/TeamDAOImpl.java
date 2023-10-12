@@ -552,6 +552,35 @@ public class TeamDAOImpl implements TeamDAO {
 	//	---------------------------------------------------------------------------------
 
 	// 셍나
+	
+	// 팀 멤버인지 확인
+	@Override
+	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("id", id);
+		map.put("teamNo", teamNo);
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			int selectedTeamMemberStatus = session.selectOne("com.my.team.TeamMapper.selectTeamMemberStatus", map);
+
+			if(selectedTeamMemberStatus == 1) {
+				return selectedTeamMemberStatus;
+			} else {
+				throw new FindException("해당 팀의 팀원이 아닙니다.");
+			} // if-else
+		} catch(Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	}
 
 	// 팀 메인 페이지 - 팀 소개글 보여주기
 	@Override
@@ -576,6 +605,30 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // selectByTeamInfo()
+	
+	// 팀 메인 페이지 - 정보들 다 가져오기
+	@Override
+	public List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			List<TeamDTO> teamInfoList = session.selectList("com.my.team.TeamMapper.selectAllTeamInfo", teamNo);
+
+			if(teamInfoList != null) {
+				return teamInfoList;
+			} else {
+				throw new FindException("선택하신 팀의 정보가 존재하지 않습니다.");
+			}
+		} catch(Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
 
 	// 팀 메인 페이지 - 팀 공지사항 보여주기
 	@Override
@@ -767,6 +820,25 @@ public class TeamDAOImpl implements TeamDAO {
 	} //selectViewCnt()
 	
 	//	---------------------------
+	
+	// 팀 출석부 페이지 - 출석 여부 확인
+	@Override
+	public String selectAttendanceDate(Map<String, Object> map) throws FindException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession();
+			
+			String dateChk = session.selectOne("com.my.team.TeamMapper.selectAttendanceDate", map);
+			return dateChk;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectAttendanceDate()
 
 	// 팀 출석부 페이지 - 출석하기
 	@Override
@@ -999,10 +1071,14 @@ public class TeamDAOImpl implements TeamDAO {
 
 //	################ Test ################
 	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws FindException {
+		TeamDAOImpl t=new TeamDAOImpl();
 		// 근데 생각해보면 나 메소드 넘 많은데 이거 테스트 언제 다 해바...? 눈물 줄줄
-		
+		Map<String, Object> map=new HashMap<>();
+		map.put("teamNo", 9999);
+		map.put("id", "psh2023");
+
+		String s=t.selectAttendanceDate(map);
 	}
 	
 } // end class
