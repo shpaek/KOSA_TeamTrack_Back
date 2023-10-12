@@ -155,5 +155,10 @@
 	<insert id="insertMemberAnswer" parameterType="java.util.HashMap">
 		INSERT INTO ${tableName} (question_no, task_no, id, answer) VALUES (#{questionNo}, #{taskNo}, #{id}, #{answer})
 	</insert>
+	
+	<!-- 팀원 과제 정보 생성하기 -->
+	<insert id="insertMemberScore" parameterType="java.util.HashMap">
+		INSERT INTO ${tableName} (task_no, id, hwscore, reviewscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, #{reviewScore}, SYSDATE)
+	</insert>
 
 </mapper>

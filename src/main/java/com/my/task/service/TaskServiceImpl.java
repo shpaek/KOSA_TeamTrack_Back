@@ -140,6 +140,27 @@ public class TaskServiceImpl implements TaskService {
 		
 	}
 
+	@Override
+	public void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore)
+			throws AddException {
+		taskDAO.insertMemberScore(teamNo, taskNo, id, hwscore, reviewScore);
+	}
+
+	@Override
+	public int chkHwscore(Integer teamNo, Integer taskNo, String id) throws FindException {
+		List<Integer> taskAnswer=taskDAO.selectQuizAnswer(teamNo, taskNo);
+		List<Integer> memberAnswer=taskDAO.selectMemberAnswer(teamNo, taskNo, id);
+		int answerCnt=taskAnswer.size();
+		double score=100/(double)answerCnt;
+		double hwscore=0.0;
+		
+		for(int i=0;i<taskAnswer.size();i++) {
+			if(taskAnswer.get(i)==memberAnswer.get(i)) hwscore+=score;
+		}
+		
+		return (int)hwscore;
+	}
+
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");

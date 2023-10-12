@@ -126,5 +126,27 @@ public interface TaskService {
 	 * @throws AddException
 	 */
 	void addMemberAnswer(Integer teamNo, Integer taskNo, String id, String answer) throws AddException;
+	
+	/**
+	 * 팀원 과제 정보를 생성한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param hwscore 점수
+	 * @param reviewScore 평점
+	 * @throws AddException
+	 */
+	void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException;
+	
+	/**
+	 * 팀원의 과제를 채점한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 점수
+	 * @throws FindException
+	 */
+	int chkHwscore(Integer teamNo, Integer taskNo, String id) throws FindException;
+
 
 }
