@@ -1,5 +1,6 @@
 package com.my.team.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,9 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
+import com.my.team.dto.TeamHashtagDTO;
+import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
 public interface TeamService {
@@ -30,15 +34,15 @@ public interface TeamService {
 	 * @param teamName
 	 * @throws FindException
 	 */
-	void teamNameDupChk(String teamName) throws FindException;
-
+	int teamNameDupChk(String teamName) throws FindException;
+	
 	/**
 	 *
 	 * @param t
 	 * @throws ModifyException
 	 */
 	void updateTeam(TeamDTO t) throws ModifyException;
-
+	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
 	/**
 	 *
 	 */
@@ -63,9 +67,9 @@ public interface TeamService {
 	 * @throws FindException
 	 */
 	List<TeamDTO> selectByCondition(String column) throws FindException;
+		
+	
 
-	TeamDTO selectByTeamName(String teamName) throws FindException;
-	List<TeamDTO> selectByHashtag(String hashtag) throws FindException;
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 	// void updateViewCnt(int teamNo) throws ModifyException;
 
@@ -76,7 +80,10 @@ public interface TeamService {
 	 * @return
 	 * @throws FindException
 	 */
-	PageGroup<TeamDTO> findAll(int currentPage) throws FindException;
+	MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException;
+	MainPageGroup<TeamDTO> selectByData(int currentPage, String table, String column, String data) throws FindException;
+	MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException;
+	MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException;
 
 	// ------------------------------------------------------------------------
 	
@@ -130,10 +137,30 @@ public interface TeamService {
 	 */
 	void rejectCheck(String id, Integer teamNo) throws RemoveException;
 	
+	/**
+	 * 팀에서의 나의 활동내역을 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @return 해당 팀 정보와 내 활동내역을 조회한다
+	 * @throws FindException  DB 연결 실패 시 예외 발생한다
+	 * @throws SQLException 
+	 */
+	Map myActivity(String id, Integer teamNo) throws FindException, SQLException;
+	
 	
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	/**
+	 * 팀 메인 페이지 - 팀 멤버인지 확인하기
+	 * @param teamMemberDTO
+	 * @return
+	 * @throws FindException
+	 */
+	Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException;
+	
 	/**
 	 * 팀 메인 페이지 - 팀 소개글 보여주기
 	 * @param teamNo
@@ -142,6 +169,14 @@ public interface TeamService {
 	 */
 	String selectTeamInfoByTeamNo(int teamNo) throws FindException;
 
+	/**
+	 * 팀 메인 페이지 - 팀 정보 다 가져오기
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException;
+	
 	/**
 	 * 팀 메인 페이지 - 공지사항 보여주기
 	 * @param teamNo
@@ -202,7 +237,15 @@ public interface TeamService {
 	int selectViewCnt(int teamNo) throws FindException;
 
 //	---------------------------
-
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 여부 확인
+	 * @param map
+	 * @return String
+	 * @throws FindException
+	 */
+	String selectAttendanceDate(Map<String, Object> map) throws FindException;
+	
 	/**
 	 * 팀 출석부 페이지 - 출석하기
 	 * @param teamNo

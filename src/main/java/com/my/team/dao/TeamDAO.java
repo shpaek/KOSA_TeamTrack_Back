@@ -12,6 +12,8 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
+import com.my.team.dto.TeamHashtagDTO;
 
 public interface TeamDAO {
 
@@ -23,8 +25,10 @@ public interface TeamDAO {
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	int selectCount() throws FindException;
-
-	/**
+	int selectCountOfSelectHashtag(String hashtag) throws FindException;
+	int selectCountOfSelectDate(String column, String startDate, String endDate) throws FindException;
+	int selectCountOfSelectData(String table, String column, String data) throws FindException;
+ 	/**
 	 * 팀번호에 해당하는 팀정보를 검색한다
 	 * @param teamNo 팀번호
 	 * @return 팀객체
@@ -32,21 +36,36 @@ public interface TeamDAO {
 	 */
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 
+	
 	/**
-	 * 팀이름에 해당하는 팀정보를 검색한다
+	 * 팀이름에 해당하는 팀번호를 검색한다
 	 * @param teamName 팀이름
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	TeamDTO selectByTeamName(String teamName) throws FindException;
-
+	int selectByTeamName(String teamName) throws FindException;
+	
+	List<TeamDTO> selectHashtag(String hashtag, int startRow, int endRow) throws FindException;
+	
+	
 	/**
 	 * 해시태그에 해당하는 팀을 검색한다
 	 * @param hashtag 해시태그
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	List<TeamDTO> selectByHashtag(String hashtag, int startRow, int endRow) throws FindException;
+	List<TeamDTO> selectByData(String table, String column, String data, int startRow, int endRow) throws FindException;
+	
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param startRow
+	 * @param endRow
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectByDate(String column, String startDate, String endDate, int startRow, int endRow) throws FindException;
 
 	/**
 	 * 조건에 맞는 팀을 조회한다
@@ -70,7 +89,15 @@ public interface TeamDAO {
 	void updateTeam(TeamDTO team) throws ModifyException;
 
 	/**
-	 *
+	 * 
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
+	
+	/**
+	 * 
 	 * @param hashtag
 	 * @throws RemoveException
 	 */
@@ -173,19 +200,46 @@ public interface TeamDAO {
 	 * @param teamNo 팀번호
 	 * @throws RemoveException DB와의 연결 실패 시 예외 발생한다
 	 */
-	void deleteSignupTeam(String id, Integer teamNo) throws RemoveException;
+	void deleteSignupTeamByTeamNo(String id, Integer teamNo) throws RemoveException;
+	
+	/**
+	 * 해당 팀에서의 멤버 정보를 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @return 팀에서의 멤버 정보
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	TeamMemberDTO selectTeamMember(String id, Integer teamNo) throws FindException;
+	
 	
 	
 	// ------------------------------------------------------------------------
 
 	// 셍나
 	/**
+	 * 팀 멤버인지 확인 = 결과가 1이면 멤버임
+	 * @param teamMemberDTO
+	 * @return
+	 * @throws FindException
+	 */
+	Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException;
+	
+	/**
 	 * 팀 메인 페이지 - 팀 소개글 보여주기
 	 * @param teamNo
-	 * @return TeamDTO
+	 * @return String
 	 * @throws FindException
 	 */
 	String selectTeamInfoByTeamNo(int teamNo) throws FindException;
+	
+	/**
+	 * 팀 메인 페이지 - 정보 보여주기
+	 * @param teamDTO
+	 * @return TeamDTO
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException;
 
 	/**
 	 * 팀 메인 페이지 - 공지사항 보여주기
@@ -246,6 +300,14 @@ public interface TeamDAO {
 	int selectViewCnt(int teamNo) throws FindException;
 
 //	---------------------------
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 여부 확인
+	 * @param params
+	 * @return
+	 * @throws FindException
+	 */
+	String selectAttendanceDate(Map<String, Object> map) throws FindException;
 
 	/**
 	 * 팀 출석부 페이지 - 출석하기

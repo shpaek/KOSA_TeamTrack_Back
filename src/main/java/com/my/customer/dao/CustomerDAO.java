@@ -22,6 +22,9 @@ public interface CustomerDAO {
 	 */
 	CustomerDTO selectById(String id) throws FindException;
 	
+	
+	//----------------------------------------------------------------------------------------------
+	
 	/**
 	 * 닉네임을 조회한다
 	 * @author 나원희
@@ -54,5 +57,14 @@ public interface CustomerDAO {
 	 * @throws ModifyException DB연결 실패 시 예외 발생한다
 	 */
 	void updateCustomerStatus(String id) throws ModifyException;
+	
+	/**
+	 * 비밀번호를 변경한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param pwd 변경할 비밀번호
+	 * @throws ModifyException DB연결 실패 시 예외 발생한다
+	 */
+	void updatePwd(String id, String pwd) throws ModifyException;
 
 }
