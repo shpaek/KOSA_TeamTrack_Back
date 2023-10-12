@@ -1,6 +1,13 @@
 package com.my.team.service;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -282,6 +289,81 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public void rejectCheck(String id, Integer teamNo) throws RemoveException{
 		teamDAO.deleteSignupTeam(id, teamNo);
+	}
+	
+	@Override
+	public Map myActivity(String id, Integer teamNo) throws FindException, SQLException{
+		
+		TeamDTO team = teamDAO.selectByTeamNo(teamNo);
+		TeamMemberDTO teammember = teamDAO.selectTeamMember(id, teamNo);
+		
+		Date joinDate = teammember.getJoinDate();    
+		Date nowDate = new Date();
+		
+		long baseDay = 24 * 60 * 60 * 1000; 	// 일
+		long baseMonth = baseDay * 30;		// 월
+		
+		// from 일자와 to 일자의 시간 차이를 계산한다.
+		long calDate = nowDate.getTime() - joinDate.getTime();
+		System.out.println("calDate:"+calDate);
+		
+		if(calDate<0) {
+			calDate = 0;
+		}
+		
+		// from 일자와 to 일자의 시간 차 값을 하루기준으로 나눠 준다.
+		long diffDate = calDate / baseDay;
+		long diffMonth = calDate / baseMonth;
+		
+		//출석률
+		int getAttendance = 0; 
+		double attendanceRate = 0;
+		if(teammember.getAttendance()!=null) {
+			getAttendance = teammember.getAttendance();
+		}
+		if(diffDate !=0) {
+			attendanceRate = Math.round((double)getAttendance/(double)diffDate*100*100)/100.0;
+			teammember.setAttendanceRate(attendanceRate);
+		}
+		
+		//평균랭킹
+		int ranksum = 0;
+		int rankAvg = 0;
+		if(teammember.getRankSum()!=null) {
+			ranksum = teammember.getRankSum();
+			if(diffMonth != 0) {
+				rankAvg = ranksum/Long.valueOf(diffMonth).intValue();
+			}
+		}
+		teammember.setRankAvg(rankAvg);
+		
+		//과제완수율
+		double taskCompleteRate = 0;
+		Integer taskcnt =0;
+		try {
+			taskcnt = taskDAO.selectJoinAfterTaskCount(id, teamNo);
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		Integer mytaskcnt = taskDAO.selectCompleteTaskCount(teamNo,id);
+		
+		if(mytaskcnt!=null) {
+			if(taskcnt!=null) {
+				taskCompleteRate = Math.round((double)mytaskcnt/(double)taskcnt*100*100)/100.0;
+			}
+		}
+		teammember.setTaskCompleteRate(taskCompleteRate);
+		
+		System.out.println(teammember.getAttendanceRate());
+		System.out.println(team.getJoinMember());
+
+		Map map = new HashMap<>();
+		
+		map.put("team", team);
+		map.put("teammember", teammember);
+		
+		return map;
 	}
 	
 	// ------------------------------------------------------------------------

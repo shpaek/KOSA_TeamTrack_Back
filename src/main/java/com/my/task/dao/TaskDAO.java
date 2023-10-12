@@ -1,5 +1,6 @@
 package com.my.task.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.my.exception.AddException;
@@ -148,7 +149,15 @@ public interface TaskDAO {
 	List<TaskDTO> selectTaskId(Integer teamNo) throws FindException;
 	
 	/**
-	 * 과제 번호에 해당하는 답 개수를 가져온다.
+	 * 가입일 이후 등록된 전체 과제 수를 조회한다
+	 * @author 나원희
+	 * @param teamNo 팀번호
+	 * @return 과제 수
+	 * @throws SQLException 
+	 */
+	Integer selectJoinAfterTaskCount(String id, Integer teamNo) throws FindException, SQLException;
+	 
+	 /** 과제 번호에 해당하는 답 개수를 가져온다.
 	 * @param teamNo 팀 번호
 	 * @param taskNo 과제 번호
 	 * @return 답 개수

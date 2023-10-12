@@ -21,6 +21,7 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
 
 public class TeamDAOImpl implements TeamDAO {
@@ -542,6 +543,27 @@ public class TeamDAOImpl implements TeamDAO {
 			throw new RemoveException(e.getMessage());
 		}finally {
 			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public TeamMemberDTO selectTeamMember(String id, Integer teamNo) throws FindException{
+		SqlSession session = null;
+		String tableName = "TEAMMEMBER_"+ String.valueOf(teamNo);
+		Map map = new HashMap<>();
+
+		try {
+			session = sqlSessionFactory.openSession(); 
+			map.put("tableName", tableName);
+			map.put("id", id);			
+			TeamMemberDTO teammember = session.selectOne("com.my.team.TeamMapper.selectTeamMember", map);
+			return teammember;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
 				session.close();
 			}
 		}

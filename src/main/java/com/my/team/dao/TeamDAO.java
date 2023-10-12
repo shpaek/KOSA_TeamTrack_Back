@@ -12,6 +12,7 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
 
 public interface TeamDAO {
@@ -200,6 +201,17 @@ public interface TeamDAO {
 	 * @throws RemoveException DB와의 연결 실패 시 예외 발생한다
 	 */
 	void deleteSignupTeam(String id, Integer teamNo) throws RemoveException;
+	
+	/**
+	 * 해당 팀에서의 멤버 정보를 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @return 팀에서의 멤버 정보
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	TeamMemberDTO selectTeamMember(String id, Integer teamNo) throws FindException;
+	
 	
 	
 	// ------------------------------------------------------------------------
