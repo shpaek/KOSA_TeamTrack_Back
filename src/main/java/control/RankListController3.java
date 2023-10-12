@@ -25,7 +25,7 @@ import com.my.exception.FindException;
 import com.my.rank.dto.RankDTO;
 import com.my.util.ValueComparator;
 
-public class RankListController extends RankController {
+public class RankListController3 extends RankController {
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -58,31 +58,52 @@ public class RankListController extends RankController {
 			
 			//calculate 점수 -> 데이터 전달하기 
 			Map<String, Object> rankmap = new LinkedHashMap();
-			List<RankDTO> dtolist = new ArrayList();
 
+			List<RankDTO> dtolist = new ArrayList();
+			RankDTO dto2 = new RankDTO();
 			for (RankDTO dto : list) {
+				System.out.println(dto);
 				dtolist.add(dto);
+			}
+			System.out.println(dtolist.get(0));
+			System.out.println(dtolist.size());
+			
+			List<RankDTO> list2 = new ArrayList();
+			System.out.println("실행 후");
+			for (int i = dtolist.size()-1; i >=0; i--) {
+				list2.add(dtolist.get(i));
+			}
+			System.out.println(list2);
+			System.out.println(list2.get(0));
 				
+			for(RankDTO dto : dtolist) {
 				for (String key : scoremap.keySet()) {
 					if (key.equals(dto.getId())) {
 						dto.setTotalScore((Double)scoremap.get(key));
 					}
 				}
-				Collections.sort(dtolist, new ValueComparator());
-				System.out.println(dtolist);
-				System.out.println(dtolist.size());
 			}
-			
-			for (int i = 0; i < dtolist.size(); i++) {
-				int currrank = 1;
-				if (i>0 && dtolist.get(i).getTotalScore() <= dtolist.get(i-1).getTotalScore()) {
-//					dtolist.get(i).setRank(0);
-//					dtolist.get(i).setRank(i+1);
-					currrank++;
+				//정렬
+//				Arrays.sort(dto);
+//				Collections.sort(dtolist, new ValueComparator().reversed());
+//				System.out.println(dtolist);
+				
+//				List<RankDTO> list2 = new ArrayList();
+//				for (int i = dtolist.size()-1; i >=0; i--) {
+//					list2.add(dtolist.get(i));
+////					System.out.println("000");
+////					System.out.println(dtolist.get(i));
+//				}
+//				System.out.println("실행후" + list2);
+//				
+				for (int i = 0; i < dtolist.size(); i++) {
+					list.get(i).setRank(0);
+					list.get(i).setRank(i+1);
 				}
-				dtolist.get(i).setRank(currrank);
-				rankmap.put(dtolist.get(i).getId(), dtolist.get(i));
-			}
+				
+				for (int i = 0; i < dtolist.size(); i++) {
+					rankmap.put(dtolist.get(i).getId(), dtolist.get(i));
+				}
 			
 			ranklist.add(rankmap);
 			System.out.println("ranklist" + ranklist);	

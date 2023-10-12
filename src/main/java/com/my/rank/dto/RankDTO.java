@@ -1,7 +1,5 @@
 package com.my.rank.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -10,7 +8,7 @@ import lombok.Setter;
 
 @Getter @Setter @Data
 @AllArgsConstructor @NoArgsConstructor
-public class RankDTO {
+public class RankDTO implements Comparable{
 	
 	//Rank 기본 변수 
 	private Integer rankNo;		//랭킹 번호
@@ -24,5 +22,11 @@ public class RankDTO {
 	private String profile;		//회원 프로필
 	private Integer month;		//월
 //	RankDetailDTO scoredetail;
+	
+	@Override
+	public int compareTo(Object o) {
+		RankDTO dto = (RankDTO) o;
+		return getTotalScore().compareTo(dto.getTotalScore());
+	}
 	
 }
