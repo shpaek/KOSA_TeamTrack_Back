@@ -58,13 +58,18 @@ public class SetTaskController extends TaskController {
 			service.ModifyTask(teamNo, title, taskNo);
 			
 			try {
-				for(int i=0;i<attach.getFile("taskfile").size();i++) {
-					String file=attach.getFile("taskfile").get(i).getName();
+				//for(int i=0;i<attach.getFile("taskfile").size();i++) {
+				
+//					Thread.sleep(5*1000);
+//					String file=attach.getFile("taskfile").get(i).getName();
+					String file=attach.getFile("taskfile").get(0).getName();
 					System.out.println(file);
 					String[] filetype=file.split("\\.");
 					System.out.println(filetype[filetype.length-1]);
-					attach.upload("taskfile", "과제"+taskNo+"_"+(i+1)+"."+filetype[filetype.length-1]);
-				}
+					attach.upload("taskfile", "과제"+taskNo+"_"+"."+filetype[filetype.length-1]);
+					
+					
+//				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				map.put("status", 0);

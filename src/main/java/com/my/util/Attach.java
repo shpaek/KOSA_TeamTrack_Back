@@ -1,6 +1,8 @@
 package com.my.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +18,10 @@ public class Attach {
 
 //	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로
 //	private String attachesDir = "C:\\KOSA202307\\attaches"; //첨부경로
-//	
-	private String tempDir = "/Users/qqllzs/Desktop"; //임시파일 저장경로
-	private String attachesDir = "/Users/qqllzs/Desktop/KOSA-FE/KOSA_Project2_Front/images"; //첨부경로
+
+	//안녕하세요 아래는 저(혜빈)의 경로입니다.. ^^ㅜ
+	private String tempDir = "/Users/qqllzs/filetest"; //임시파일 저장경로
+	private String attachesDir = "/Users/qqllzs/filetest"; //첨부경로
 
 	private ServletFileUpload fileUpload;
 	private Map<String, List<FileItem>> requestMap;
@@ -117,7 +120,8 @@ public class Attach {
 		if(fileItem == null || fileItem.getSize() == 0){
 			String fileName = fileItem.getName();
 			File profileFile = new File(fileName);
-			fileItem.write(profileFile);
+//			fileItem.write(profileFile);
+			
 		}
 	}
 
@@ -133,10 +137,9 @@ public class Attach {
 		if(fileItem == null || fileItem.getSize() == 0){
 			throw new Exception("첨부할 파일이 없습니다");
 		}
-		//String fileName = fileItem.getName();
+//		//String fileName = fileItem.getName();
 		File file = new File(attachesDir, fileName);
 		fileItem.write(file);
-
 	}
-
+	
 } //end class
