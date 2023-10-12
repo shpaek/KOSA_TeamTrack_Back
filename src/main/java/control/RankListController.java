@@ -48,21 +48,21 @@ public class RankListController extends RankController {
 		LocalDate now = LocalDate.now();
 		Integer month = now.getMonthValue(); 
 		
-		List ranklist = new ArrayList<>();		
-		Map<String, Object> ranks = new LinkedHashMap<>();
+		List<Map<String, Object>> ranklist = new ArrayList<>();		
 		try {
 			List<RankDTO> list = service.findByMonth(teamNo, month);
 			System.out.println(list);
 			Map<String, Object> scoremap = service.calculateTotalScore(teamNo, rankDate, month);
 			System.out.println(scoremap);
 			
-			//calculate 점수 -> 데이터 전달하기 
+			// calculate 점수 -> 데이터 전달하기 
 			Map<String, Object> rankmap = new LinkedHashMap();
 			List<RankDTO> dtolist = new ArrayList();
 
 			for (RankDTO dto : list) {
 				dtolist.add(dto);
 				
+				// service에서 점수 계산하여 set
 				for (String key : scoremap.keySet()) {
 					if (key.equals(dto.getId())) {
 						dto.setTotalScore((Double)scoremap.get(key));
@@ -73,17 +73,17 @@ public class RankListController extends RankController {
 				System.out.println(dtolist.size());
 			}
 			
+			// Rank 순위를 TotalScore 기준으로 새롭게 부여
+			int currrank = 1;
 			for (int i = 0; i < dtolist.size(); i++) {
-				int currrank = 1;
-				if (i>0 && dtolist.get(i).getTotalScore() <= dtolist.get(i-1).getTotalScore()) {
-//					dtolist.get(i).setRank(0);
-//					dtolist.get(i).setRank(i+1);
-					currrank++;
+				if (i>0 && (dtolist.get(i).getTotalScore() < dtolist.get(i-1).getTotalScore())) {
+					currrank++; //total score 이전보다 작으면 rank 하나 증가
+					dtolist.get(i).setRank(currrank);
+				} else {		//이외의 경우 rank 유지
+					dtolist.get(i).setRank(currrank);
 				}
-				dtolist.get(i).setRank(currrank);
 				rankmap.put(dtolist.get(i).getId(), dtolist.get(i));
 			}
-			
 			ranklist.add(rankmap);
 			System.out.println("ranklist" + ranklist);	
 			
