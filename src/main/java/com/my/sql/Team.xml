@@ -243,6 +243,11 @@
 		WHERE a.id = #{id} AND a.status=1
 	</select>
 	
+	<delete id="deleteSignupTeamByTeamNo" parameterType="hashmap">
+		DELETE FROM SIGNUP_TEAM
+		WHERE id = #{id} AND team_no = #{teamNo}
+	</delete>
+	
 	<!-- ###################################################################################################################### -->
 
 	<!-- 셍나 -->
@@ -294,7 +299,7 @@
 	<!-- 팀 메인_팀 나가기2 -->
 	<delete id="deleteSignupTeam" parameterType="hashmap">
 		DELETE FROM SIGNUP_TEAM
-		WHERE ID = #{id} AND TEAM_NO=#{teamNo}
+		WHERE ID = #{id}
 	</delete>
 	
 	<!-- 팀 메인_팀 멤버 닉네임 보여주기 -->

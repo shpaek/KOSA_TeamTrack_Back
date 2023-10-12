@@ -528,7 +528,7 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 	
 	@Override
-	public void deleteSignupTeam(String id, Integer teamNo) throws RemoveException{
+	public void deleteSignupTeamByTeamNo(String id, Integer teamNo) throws RemoveException{
 		SqlSession session = null;
 		Map map = new HashMap<>();
 
