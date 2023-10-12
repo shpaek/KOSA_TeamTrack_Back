@@ -49,7 +49,7 @@ public class PageGroup <T> {
 	public static void main(String[] args) {
 		int cp = 4; // currentPage (현재 보려는 페이지)
 		int tc = 14; // totalCnt (총 상품 수)
-		
+
 		PageGroup pg = new PageGroup(null, cp, tc);
 
 		System.out.println("pg.getTotalPage(): " + pg.getTotalPage());

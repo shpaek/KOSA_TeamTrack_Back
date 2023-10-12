@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileUploadException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.exception.AddException;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.Attach;
 
@@ -25,22 +22,21 @@ public class WriteNoticeController extends NoticeController {
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		
-		
+
+
 		HttpSession session = request.getSession();
 		String loginedId = (String)session.getAttribute("loginedId");
-		
+
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
-		Map<String, Object> map = new HashMap<>();; 
+
+		Map<String, Object> map = new HashMap<>();
 		Date regDate = Date.from(Instant.now());
-		
+
 		try {
 			Attach attach=new Attach(request);
-			String No = attach.getParameter("teamNo");
-			Integer teamNo = Integer.parseInt(No);
-			
+			Integer teamNo = Integer.parseInt(attach.getParameter("teamNo"));
+
 			String noticeTitle=attach.getParameter("title");
 			String noticeContent=attach.getParameter("content");
 			Integer mainStatus = 0;
@@ -53,7 +49,7 @@ public class WriteNoticeController extends NoticeController {
 				String originFileName=attach.getFile("f1").get(0).getName();
 				attach.upload("f1", loginedId+"_notice_"+originFileName);
 			} catch(Exception e) {
-			
+
 			}
 			map.put("status", 1);
 			map.put("msg", "게시글이 업로드되었습니다");
@@ -62,7 +58,7 @@ public class WriteNoticeController extends NoticeController {
 			map.put("status", 0);
 			map.put("msg", e.getMessage());
 		}
-		
+
 		out.print(mapper.writeValueAsString(map));
 
 		return null;

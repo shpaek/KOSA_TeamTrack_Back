@@ -6,13 +6,18 @@
 <mapper namespace="com.my.rank.RankMapper">
 
   <select id="selectByMonth" resultType="RankDTO" parameterType="java.util.HashMap">
-	SELECT mr.RANK_NO RANK_NO, mr.ID ID, mr.RANK_DATE RANK_DATE, mr.RANK RANK, mr.TOTALSCORE TOTALSCORE, c.NICKNAME NICKNAME 
+	SELECT mr.RANK_NO RANK_NO, mr.ID ID, mr.RANK_DATE RANK_DATE, mr.TOTALSCORE TOTALSCORE
+	, DENSE_RANK() OVER(ORDER BY mr.TOTALSCORE desc) AS RANK
+	, c.NICKNAME NICKNAME
 	FROM MEMBER_RANK_${team_no} mr JOIN CUSTOMER c ON (mr.ID = c.ID)
 	WHERE mr.RANK_DATE BETWEEN TRUNC(TO_DATE(#{date}, 'yyyy-MM-dd'),'MM') 
 		AND LAST_DAY(#{date})
 	ORDER BY mr.RANK
   </select>
   
+  <select id="selectAll" resultType="TeamMemberDTO" parameterType="java.util.HashMap">
+	SELECT * FROM teammember_${team_no}
+  </select>
   
   <select id="selectAttendanceDay" resultType="AttendanceDTO" parameterType="java.util.HashMap">
   	SELECT COUNT(attendance_date) as attendanceday

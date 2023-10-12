@@ -32,10 +32,13 @@ public class DispatcherServlet extends HttpServlet {
 		env = new Properties(); // Properties객체 생성
 		//servletContext 객체 찾기
 		ServletContext sc = this.getServletContext();
-		//String realPath = sc.getRealPath("WEB-INF\\classes\\com\\my\\env\\" + envFileName); //window
+
+//		String realPath = sc.getRealPath("WEB-INF\\classes\\com\\my\\env\\" + envFileName); //window
 		String realPath = sc.getRealPath("WEB-INF/classes/com/my/env/" + envFileName); //mac
+
 		System.out.println("in DispathcerServlet의 init:() realPath = " + realPath);
 		// control.properties파일의 내용을 Properties객체에 넣기
+
 		try {
 			env.load(new FileInputStream(realPath));
 		} catch (IOException e) {
@@ -43,6 +46,7 @@ public class DispatcherServlet extends HttpServlet {
 		} //try-catch
 	} // init
 
+	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// 헤더 설정
@@ -54,6 +58,7 @@ public class DispatcherServlet extends HttpServlet {
 		System.out.println("req.getServletPath() = " + req.getServletPath());
 
 		String className = env.getProperty(req.getServletPath());
+		System.out.println(className);
 		try {
 			Class<?> clazz = Class.forName(className);//클래스이름에 해당하는 .class파일 찾아서 JVM으로 로드
 
