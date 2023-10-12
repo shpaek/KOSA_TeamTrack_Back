@@ -24,6 +24,7 @@ public class QnaBoardDTO {
 	private Date regdate;		// 작성 날짜
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date updatedate;	// 수정 날짜
+	private Integer status;
 
 	public QnaBoardDTO(Integer qnaNo, String title, String content) {
 		
