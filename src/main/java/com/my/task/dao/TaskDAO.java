@@ -14,7 +14,7 @@ public interface TaskDAO {
 	/**
 	 * 과제생성순으로 정렬된 메인 과제들을 검색한다.
 	 * @param teamNo 팀 번호
-	 * @param id true인 경우 최신순, false인 경우 오래된순 출력
+	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
@@ -124,11 +124,12 @@ public interface TaskDAO {
 	 * 과제 내용을 업데이트한다.
 	 * @param teamNo 팀 번호
 	 * @param title 과제 제목
+	 * @param enddate 과제 마감일
 	 * @param taskNo 과제 번호
 	 * @throws ModifyException
 	 */
-	void updateTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
-
+	void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException;
+	
 	/**
 	 * 과제 답안을 생성한다.
 	 * @param teamNo 팀 번호
@@ -140,31 +141,22 @@ public interface TaskDAO {
 	void insertQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException;
 	
 	/**
-	 * 출제자 아이디를 검색한다.
-	 * @param teamNo 팀 번호
-	 * @return 출제자 아이디 리스트
-	 * @throws FindException
-	 */
-	List<TaskDTO> selectTaskId(Integer teamNo) throws FindException;
-	
-	/**
-	 * 과제 번호에 해당하는 답 개수를 가져온다.
-	 * @param teamNo 팀 번호
-	 * @param taskNo 과제 번호
-	 * @return 답 개수
-	 * @throws FindException
-	 */
-	int selectAnswerCount(Integer teamNo, Integer taskNo) throws FindException;
-	
-	/**
-	 * 팀원 답안을 생성한다.
+	 * 과제 답안을 수정한다.
 	 * @param teamNo 팀 번호
 	 * @param questionNo 문제 번호
 	 * @param taskNo 과제 번호
-	 * @param id 아이디
 	 * @param answer 답
-	 * @throws AddException
+	 * @throws ModifyException
 	 */
-	void insertMemberAnswer(Integer teamNo, Integer questionNo, Integer taskNo, String id, int answer) throws AddException;
-
+	void updateQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException;
+	
+	/**
+	 * 과제 답안을 삭제한다.
+	 * @param teamNo 팀 번호
+	 * @param questionNo 문제 번호
+	 * @param taskNo 과제 번호
+	 * @throws RemoveException
+	 */
+	void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException;
+	
 }

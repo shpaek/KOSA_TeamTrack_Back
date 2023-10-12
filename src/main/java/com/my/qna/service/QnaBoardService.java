@@ -36,11 +36,10 @@ public interface QnaBoardService {
 	
 	/**
 	 * qna게시판의 게시글을 삭제한다
-	 * @param teamNo
 	 * @param qna_no 게시글 번호
 	 * @return
-	 * @throws ModifyException  DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
+	 * @throws RemoveException DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
 	 */
-	public Integer delete(Integer teamNo, Integer qna_no) throws ModifyException;
-
+	public Integer delete(Integer qna_no) throws RemoveException;
+	
 } // end interface

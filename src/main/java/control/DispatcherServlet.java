@@ -54,7 +54,6 @@ public class DispatcherServlet extends HttpServlet {
 		System.out.println("req.getServletPath() = " + req.getServletPath());
 
 		String className = env.getProperty(req.getServletPath());
-		System.out.println(className);
 		try {
 			Class<?> clazz = Class.forName(className);//클래스이름에 해당하는 .class파일 찾아서 JVM으로 로드
 

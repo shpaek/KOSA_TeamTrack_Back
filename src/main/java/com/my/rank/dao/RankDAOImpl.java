@@ -57,6 +57,29 @@ public class RankDAOImpl implements RankDAO {
 		}
 	}
 	
+
+	@Override
+	public List<RankDTO> selectAllRank(Integer teamNo) throws FindException {
+		SqlSession session = null;
+		List<RankDTO> list = new ArrayList<>();
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			list = session.selectList("com.my.rank.RankMapper.selectAllRank", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	
 	@Override
 	public List<TeamMemberDTO> selectMemberId(Integer teamNo) throws FindException {
 		SqlSession session = null;

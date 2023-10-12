@@ -23,18 +23,17 @@ public class AllTaskListController extends TaskController {
 		ObjectMapper mapper = new ObjectMapper();
 		
 //		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
-		String currentPage = request.getParameter("currentPage");
-//		System.out.println(currentPage);
+//		String currentPage = request.getParameter("currentPage");
 //		String option=request.getParameter("option");
 //		boolean desc=true;
 //		if(!option.equals("최신순")) desc=false;
-		int cp = 1;
-		if (currentPage != null && !currentPage.equals("")) {
-			cp = Integer.parseInt(currentPage);
-		}
-
+//		int cp = 1;
+//		if (currentPage != null && !currentPage.equals("")) {
+//			cp = Integer.parseInt(currentPage);
+//		}
+		
 		Integer teamNo=9999;
-//		int cp=1;
+		int cp=1;
 		boolean desc=true;
 
 		try {

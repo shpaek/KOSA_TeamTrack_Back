@@ -6,19 +6,22 @@
 <mapper namespace="com.my.rank.RankMapper">
 
   <select id="selectByMonth" resultType="RankDTO" parameterType="java.util.HashMap">
-	
 	SELECT tm.id ID, NVL(mr.RANK_NO,0) RANK_NO, NVL(mr.RANK_DATE,sysdate) RANK_DATE
 	, NVL(extract(month from rank_date),extract(month from sysdate)) as month
 	, NVL(mr.TOTALSCORE,0) TOTALSCORE
 	, DENSE_RANK() OVER(ORDER BY NVL(mr.TOTALSCORE,0) desc) AS RANK
 	, NVL(c.NICKNAME,'-') NICKNAME
 	FROM MEMBER_RANK_${team_no} mr JOIN CUSTOMER c ON (mr.ID = c.ID)
-	    right join teammember_${team_no} tm on (mr.id = tm.id)
+	    RIGHT JOIN teammember_${team_no} tm on (mr.id = tm.id)
 	WHERE extract(month from rank_date)=#{month} or extract(month from rank_date) is null
 	ORDER BY RANK
-	
   </select>
   
+  <select id="selectAllRank" resultType="RankDTO" parameterType="java.util.HashMap">
+  	SELECT DISTINCT extract(month from rank_date) as month 
+  	FROM member_rank_${team_no}
+  	ORDER BY month DESC
+  </select>
   
   <select id="selectMemberId" resultType="TeamMemberDTO">
 	SELECT id FROM teammember_${team_no}

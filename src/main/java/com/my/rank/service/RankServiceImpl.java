@@ -32,6 +32,11 @@ public class RankServiceImpl implements RankService {
 	}
 
 	@Override
+	public List<RankDTO> findAllRank(Integer teamNo) throws FindException {
+		return rankDao.selectAllRank(teamNo);
+	}
+	
+	@Override
 	public Map<String, Object> calculateTotalScore(Integer teamNo, String rankDate, Integer month) throws FindException {
 		List<TeamMemberDTO> tmlist = rankDao.selectMemberId(teamNo);
 		List<AttendanceDTO> attlist = rankDao.selectAttendanceDay(teamNo, rankDate, month);
@@ -51,7 +56,7 @@ public class RankServiceImpl implements RankService {
 		//id별 출석률 계산 
 		Map<String, Double> attmap = new HashMap<>();
 		for (AttendanceDTO attdto : attlist) {
-			String id = attdto.getId();
+			String id = attdto.getAttendanceId();
 			
 			// 출석률 = 출석인증일수 / 월별 총 일수 * 100
 			Integer attendanceday = attdto.getAttendanceday();
@@ -60,7 +65,7 @@ public class RankServiceImpl implements RankService {
 			attmap.put(id, attendancerate);
 		}
 		
-		//id별 평균 task score 계산 
+		// id별 평균 task score 계산 
 		Map<String, Double> tsmap = new HashMap<>();
 		Integer monthlytasknum = tasknumlist.get(0).getMonthlyTaskNum();
 		for (MemberTaskDTO mtdto : mtlist) {
@@ -116,36 +121,5 @@ public class RankServiceImpl implements RankService {
 			e.printStackTrace();
 		}
 	}
-	
-//	@Override
-//	public List<AttendanceDTO> calculateAttendanceRate(Integer teamNo, String attendanceDate, Integer month)
-//			throws FindException {
-//		// 출석률 = 출석인증일수 / 월별 총 일수 * 100
-//		List<AttendanceDTO> list = rankDao.selectAttendanceDay(teamNo, attendanceDate, month);
-//		for (int i = 0; i < list.size(); i++) {
-//			Integer attendanceday = list.get(i).getAttendanceday();
-//			Integer monthday = list.get(i).getMonthday();
-//			Double attendancerate = ((double)attendanceday/monthday)*100;
-//		}
-//		return list;
-//	}
-//	
-//	@Override
-//	public List<TaskDTO> calculateTaskScore(Integer teamNo, Integer month) throws FindException {
-//		// 과제점수평균 = 과제 점수 총합/월에 출제된 과제 총 개수
-//		return null;
-//	}
-//	
-//	@Override
-//	public List<TaskDTO> calculateReviewScore(Integer teamNo, Integer month) throws FindException {
-//		// 출제한 과제 평균 리뷰점수 누적합
-//		return null;
-//	}
-//	
-//	@Override
-//	public List<QnACommentDTO> calculateQnAScore(Integer teamNo, Integer month) throws FindException {
-//		// 큐엔에이 채택 점수 누적합
-//		return null;
-//	}
 
 }

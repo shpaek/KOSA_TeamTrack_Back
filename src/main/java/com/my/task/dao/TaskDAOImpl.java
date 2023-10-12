@@ -229,9 +229,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-
-	@Override
-	public void updateTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
+	
+	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
 		SqlSession session=null;
 
 		try {
@@ -239,12 +238,12 @@ public class TaskDAOImpl implements TaskDAO {
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "task_"+teamNo);
 			map.put("title", title);
+			map.put("enddate", enddate);
 			map.put("taskNo", taskNo);
 			session.update("com.my.task.TaskMapper.updateTask", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
-			e.printStackTrace();
 			throw new ModifyException("과제 업데이트 실패");
 		} finally {
 			if(session!=null) session.close();
@@ -271,56 +270,40 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 	
-	public List<TaskDTO> selectTaskId(Integer teamNo) throws FindException {
-		SqlSession session=null;
-
-		try {
-			session=sqlSessionFactory.openSession();
-			List<TaskDTO> list=session.selectList("com.my.task.TaskMapper.selectTaskId", "task_"+teamNo);
-			return list;
-		} catch(Exception e) {
-			//e.printStackTrace();
-			throw new FindException("아이디 조회 실패");
-		} finally {
-			if(session!=null) session.close();
-		}
-	}
-	
-	public int selectAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
+	public void updateQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException {
 		SqlSession session=null;
 
 		try {
 			session=sqlSessionFactory.openSession();
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "quizanswer_"+teamNo);
+			map.put("questionNo", questionNo);
 			map.put("taskNo", taskNo);
-			int cnt=session.selectOne("com.my.task.TaskMapper.selectAnswerCount", map);
-			return cnt;
+			map.put("answer", answer);
+			session.update("com.my.task.TaskMapper.updateQuizAnswer", map);
+			session.commit();
 		} catch(Exception e) {
-			//e.printStackTrace();
-			throw new FindException("답 개수 조회 실패");
+			session.rollback();
+			throw new ModifyException("답안 수정 실패");
 		} finally {
 			if(session!=null) session.close();
 		}
 	}
 	
-	public void insertMemberAnswer(Integer teamNo, Integer questionNo, Integer taskNo, String id, int answer) throws AddException {
+	public void deleteQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
 		SqlSession session=null;
-		
+
 		try {
 			session=sqlSessionFactory.openSession();
 			Map<String, Object> map=new HashMap<>();
-			map.put("tableName", "memberanswer_"+teamNo);
+			map.put("tableName", "quizanswer_"+teamNo);
 			map.put("questionNo", questionNo);
 			map.put("taskNo", taskNo);
-			map.put("id", id);
-			map.put("answer", answer);
-			session.insert("com.my.task.TaskMapper.insertMemberAnswer", map);
+			session.delete("com.my.task.TaskMapper.deleteQuizAnswer", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
-			e.printStackTrace();
-			throw new AddException("답안 생성 실패");
+			throw new RemoveException("답안 삭제 실패");
 		} finally {
 			if(session!=null) session.close();
 		}

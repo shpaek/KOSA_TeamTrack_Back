@@ -146,35 +146,28 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 	} // update
 
 	@Override
-	public Integer delete(Integer teamNo, Integer qnaNo) throws ModifyException {
-
+	public Integer delete(Integer qna_no) throws RemoveException {
+		
 		SqlSession session = null;
 		
-		Map<String, Object> map = new HashMap<>();
-
 		try {
 			
-			String tableName="QNABOARD_" + teamNo;
-			
-			map.put("tableName", tableName);
-			map.put("qnaNo", qnaNo);
-
 			session = sqlSessionFactory.openSession();
-			int result = session.delete("com.my.qna.QnaBoardMapper.delete", map);
+			session.delete("com.my.customer.QnaBoardMapper.delete", qna_no);
 			
 			session.commit();
-
-			return result; // 삭제된 행 수 반환
 			
 		} catch(Exception e) {
 			session.rollback();
 			e.printStackTrace();
-			throw new ModifyException(e.getMessage());
+			throw new RemoveException(e.getMessage());
 		} finally {
 			if(session!=null) {
 				session.close();
 			}
 		} // try-catch-finally
+		
+		return null;
 	} // delete
 	
 	// ===================  메서드 테스트 =======================
@@ -182,21 +175,21 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		
 		// ================== create 메서드 =====================
 		
-//		QnaBoardDAOImpl impl = new QnaBoardDAOImpl();
-//		
-//		QnaBoardDTO dto = new QnaBoardDTO();
-//
-//		dto.setId("test01");
-//		dto.setTitle("tset입니다8");
-//		dto.setContent("test입니다8");
-//		
-//		try {
-//			impl.create(dto);
-//			System.out.println("게시물 등록 완료");
-//		} catch (AddException e) {
-//			 System.out.println("게시물 등록 실패");
-//			e.printStackTrace();
-//		}
+		QnaBoardDAOImpl impl = new QnaBoardDAOImpl();
+		
+		QnaBoardDTO dto = new QnaBoardDTO();
+
+		dto.setId("게시판test6");
+		dto.setTitle("tset입니다6");
+		dto.setContent("test입니다6");
+		
+		try {
+			impl.create(dto);
+			System.out.println("게시물 등록 완료");
+		} catch (AddException e) {
+			 System.out.println("게시물 등록 실패");
+			e.printStackTrace();
+		}
 		
 		// ================== update 메서드 =====================
 		
@@ -231,64 +224,6 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 //			System.out.println("게시물 삭제 실패");
 //			e.printStackTrace();
 //		} // try-catch
-		
-		// =============== selectAll 메서드 테스트 ======================
-		
-//	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
-//
-//	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
-//	    int currentPage = 2; // 가져올 페이지 번호 (1페이지)
-//
-//	    try {
-//	        // selectAll 메서드 호출
-//	        List<QnaBoardDTO> qnaList = dao.selectAll(teamNo, currentPage, currentPage);
-//
-//	        // 결과 출력
-//	        for (QnaBoardDTO qna : qnaList) {
-////	            System.out.println("게시글 번호: " + qna.getQna_no());
-//	            System.out.println("게시글 제목: " + qna.getTitle());
-//	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
-//	        }
-//	    } catch (FindException e) {
-//	        System.out.println("게시글 조회 실패");
-//	        e.printStackTrace();
-//	    }
-		
-		// =============== selectByQnaNo 메서드 테스트 ======================
-        // 테스트를 위한 팀 번호와 게시글 번호 설정
-		
-//	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
-//		
-//        Integer teamNo = 9999;
-//        Integer qnaNo = 33; // 테스트할 게시글 번호
-//        
-//        try {
-//			QnaBoardDTO dto = dao.selectByQnaNo(teamNo, qnaNo);
-//			
-//			System.out.println("dto : " + dto);
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-        
-        // ============= delete 메서드 테스트 =======================
-        
-	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
-		
-        Integer teamNo = 65; // 팀 번호
-        Integer qnaNo = 115; // 게시글 번호
-        
-        try {
-			int result = dao.delete(teamNo, qnaNo);
-			
-			System.out.println("result : " + result);
-			System.out.println(" 삭제 되었습니다 ");
-			
-		} catch (ModifyException e) {
-			
-			e.printStackTrace();
-			System.out.println(" 삭제 실패 ");
-			
-		}
 		
 	} // main(test)
 	

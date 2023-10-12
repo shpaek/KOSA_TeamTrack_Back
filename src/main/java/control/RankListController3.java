@@ -25,7 +25,7 @@ import com.my.exception.FindException;
 import com.my.rank.dto.RankDTO;
 import com.my.util.ValueComparator;
 
-public class RankListController extends RankController {
+public class RankListController3 extends RankController {
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -48,42 +48,63 @@ public class RankListController extends RankController {
 		LocalDate now = LocalDate.now();
 		Integer month = now.getMonthValue(); 
 		
-		List<Map<String, Object>> ranklist = new ArrayList<>();		
+		List ranklist = new ArrayList<>();		
+		Map<String, Object> ranks = new LinkedHashMap<>();
 		try {
 			List<RankDTO> list = service.findByMonth(teamNo, month);
 			System.out.println(list);
 			Map<String, Object> scoremap = service.calculateTotalScore(teamNo, rankDate, month);
 			System.out.println(scoremap);
 			
-			// calculate 점수 -> 데이터 전달하기 
+			//calculate 점수 -> 데이터 전달하기 
 			Map<String, Object> rankmap = new LinkedHashMap();
-			List<RankDTO> dtolist = new ArrayList();
 
+			List<RankDTO> dtolist = new ArrayList();
+			RankDTO dto2 = new RankDTO();
 			for (RankDTO dto : list) {
+				System.out.println(dto);
 				dtolist.add(dto);
+			}
+			System.out.println(dtolist.get(0));
+			System.out.println(dtolist.size());
+			
+			List<RankDTO> list2 = new ArrayList();
+			System.out.println("실행 후");
+			for (int i = dtolist.size()-1; i >=0; i--) {
+				list2.add(dtolist.get(i));
+			}
+			System.out.println(list2);
+			System.out.println(list2.get(0));
 				
-				// service에서 점수 계산하여 set
+			for(RankDTO dto : dtolist) {
 				for (String key : scoremap.keySet()) {
 					if (key.equals(dto.getId())) {
 						dto.setTotalScore((Double)scoremap.get(key));
 					}
 				}
-				Collections.sort(dtolist, new ValueComparator());
-				System.out.println(dtolist);
-				System.out.println(dtolist.size());
 			}
-			
-			// Rank 순위를 TotalScore 기준으로 새롭게 부여
-			int currrank = 1;
-			for (int i = 0; i < dtolist.size(); i++) {
-				if (i>0 && (dtolist.get(i).getTotalScore() < dtolist.get(i-1).getTotalScore())) {
-					currrank++; //total score 이전보다 작으면 rank 하나 증가
-					dtolist.get(i).setRank(currrank);
-				} else {		//이외의 경우 rank 유지
-					dtolist.get(i).setRank(currrank);
+				//정렬
+//				Arrays.sort(dto);
+//				Collections.sort(dtolist, new ValueComparator().reversed());
+//				System.out.println(dtolist);
+				
+//				List<RankDTO> list2 = new ArrayList();
+//				for (int i = dtolist.size()-1; i >=0; i--) {
+//					list2.add(dtolist.get(i));
+////					System.out.println("000");
+////					System.out.println(dtolist.get(i));
+//				}
+//				System.out.println("실행후" + list2);
+//				
+				for (int i = 0; i < dtolist.size(); i++) {
+					list.get(i).setRank(0);
+					list.get(i).setRank(i+1);
 				}
-				rankmap.put(dtolist.get(i).getId(), dtolist.get(i));
-			}
+				
+				for (int i = 0; i < dtolist.size(); i++) {
+					rankmap.put(dtolist.get(i).getId(), dtolist.get(i));
+				}
+			
 			ranklist.add(rankmap);
 			System.out.println("ranklist" + ranklist);	
 			
