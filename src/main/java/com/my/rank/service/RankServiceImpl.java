@@ -56,7 +56,7 @@ public class RankServiceImpl implements RankService {
 		//id별 출석률 계산 
 		Map<String, Double> attmap = new HashMap<>();
 		for (AttendanceDTO attdto : attlist) {
-			String id = attdto.getAttendanceId();
+			String id = attdto.getId();
 			
 			// 출석률 = 출석인증일수 / 월별 총 일수 * 100
 			Integer attendanceday = attdto.getAttendanceday();

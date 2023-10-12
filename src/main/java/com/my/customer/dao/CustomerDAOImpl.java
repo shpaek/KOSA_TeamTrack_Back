@@ -2,6 +2,8 @@ package com.my.customer.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 
 public class CustomerDAOImpl implements CustomerDAO {
 	
@@ -201,6 +204,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 				session.close();
 			}
 		}
+	}
+
+
+	@Override
+	public CustomerDTO selectByNickname(String nickname) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 } // end class
 

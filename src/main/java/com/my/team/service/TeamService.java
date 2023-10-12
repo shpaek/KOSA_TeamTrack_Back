@@ -2,6 +2,7 @@ package com.my.team.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
@@ -18,50 +19,50 @@ import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
 public interface TeamService {
-	
+
 	// 서현 웅니
 	/**
-	 * 
+	 *
 	 * @param t
 	 * @throws AddException
 	 */
 	void createTeam(HashMap<String, Object> params) throws AddException;
-	
+
 	/**
-	 * 
+	 *
 	 * @param teamName
 	 * @throws FindException
 	 */
 	int teamNameDupChk(String teamName) throws FindException;
 	
 	/**
-	 * 
+	 *
 	 * @param t
 	 * @throws ModifyException
 	 */
 	void updateTeam(TeamDTO t) throws ModifyException;
 	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
 	/**
-	 * 
+	 *
 	 */
 	void updateHashtag(HashMap<String, Object> params) throws ModifyException;
-	
+
 	void deleteHashtag(int teamNo) throws RemoveException;
 	/**
-	 * 
+	 *
 	 * @param teamNo
 	 * @throws RemoveException
 	 */
 	void deleteTeam(int teamNo) throws RemoveException;
-	
+
 	/**
-	 * 
+	 *
 	 * @throws FindException
 	 */
 	List<TeamDTO> selectTopThreeTeams() throws FindException;
-	
+
 	/**
-	 * 
+	 *
 	 * @throws FindException
 	 */
 	List<TeamDTO> selectByCondition(String column) throws FindException;
@@ -69,11 +70,11 @@ public interface TeamService {
 	
 
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
-	void updateViewCnt(int teamNo) throws ModifyException;
-	
-	
+	// void updateViewCnt(int teamNo) throws ModifyException;
+
+
 	/**
-	 * 
+	 *
 	 * @param currentPage
 	 * @return
 	 * @throws FindException
@@ -83,7 +84,7 @@ public interface TeamService {
 	MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException;
 	MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException;
 
-// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	
 	// 워니 침입
 	/**
@@ -154,8 +155,8 @@ public interface TeamService {
 	 * @return TeamDTO
 	 * @throws FindException
 	 */
-	void showTeamInfo(TeamDTO teamDTO) throws FindException;
-	
+	String selectTeamInfoByTeamNo(int teamNo) throws FindException;
+
 	/**
 	 * 팀 메인 페이지 - 팀 정보 다 가져오기
 	 * @param teamNo
@@ -166,13 +167,15 @@ public interface TeamService {
 	
 	/**
 	 * 팀 메인 페이지 - 공지사항 보여주기
+	 * @param teamNo
+	 * @return List<NoticeDTO>
 	 * @throws FindException
 	 */
-	void showInfo(NoticeDTO noticeDTO) throws FindException;
-	
+	List<NoticeDTO> selectNoticeListByTeamNo(int teamNo) throws FindException;
+
 	/**
 	 * 팀 메인 페이지 - 팀에 가입하기
-	 * @param teamDTO
+	 * @param SignupTeamDTO
 	 * @throws AddException
 	 */
 	void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException;

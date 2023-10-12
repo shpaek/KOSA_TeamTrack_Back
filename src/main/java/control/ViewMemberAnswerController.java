@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
+import com.my.task.dto.TaskDTO;
 
 public class ViewMemberAnswerController extends TaskController {
 
@@ -32,10 +33,11 @@ public class ViewMemberAnswerController extends TaskController {
 		Integer teamNo=9999;
 //		Integer taskNo=1;
 		String loginedId="nwh2023";
+		boolean bool = true;
 		Map<String, Object> map=new HashMap<>();
 		
 		try {
-			List<Integer> list=service.findMemberAnswer(teamNo, taskNo, loginedId);
+			List<TaskDTO> list=service.findMainTaskList(teamNo, bool);
 			if(list.size()==0) {
 				map.put("status", 0);
 				map.put("msg", "답안이 존재하지 않습니다");

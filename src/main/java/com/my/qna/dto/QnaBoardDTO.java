@@ -23,7 +23,7 @@ public class QnaBoardDTO {
 
 	public QnaBoardDTO(Integer qnaNo, String title, String content) {
 		
-		this.qnaNo = qnaNo;
+		this.qna_no = qnaNo;
 		this.title = title;
 		this.content = content;
 		

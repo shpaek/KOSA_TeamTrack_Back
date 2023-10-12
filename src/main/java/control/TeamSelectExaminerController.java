@@ -47,11 +47,11 @@ public class TeamSelectExaminerController extends TeamController {
             
 //            taskDTO.setId(request.getParameter("id"));
             taskDTO.setId(id);
-            taskDTO.setDuedate1(formatDueDate1);
-            taskDTO.setDuedate2(formatDueDate2);
+            taskDTO.setDueDate1(formatDueDate1);
+            taskDTO.setDueDate2(formatDueDate2);
             taskDTO.setEnddate(formatEndDate);
             
-            System.out.println(taskDTO.getDuedate1());
+            System.out.println(taskDTO.getDueDate1());
             
             // 출제자 선정을 위한 팀원 목록 보여줌
             List<Map<String, Object>> teamInfo = service.selectMemberInfo(teamNo);

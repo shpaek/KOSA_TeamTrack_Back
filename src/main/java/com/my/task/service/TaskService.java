@@ -11,11 +11,11 @@ import com.my.task.dto.TaskDTO;
 import com.my.util.PageGroup;
 
 public interface TaskService {
-	
+
 	/**
 	 * 메인 과제 리스트를 불러온다.
 	 * @param teamNo 팀 번호
-	 * @param desc true인 경우 최신순, false인 경우 오래된순 출력
+	 * @param id 아이디
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
@@ -30,7 +30,7 @@ public interface TaskService {
 	 * @throws FindException
 	 */
 	PageGroup<TaskDTO> findAllTaskList(Integer teamNo, int currentPage, boolean desc) throws FindException;
-	
+
 	/**
 	 * 완료한 과제 리스트를 페이징 처리하여 불러온다.
 	 * @param teamNo 팀 번호
@@ -41,7 +41,7 @@ public interface TaskService {
 	 * @throws FindException
 	 */
 	PageGroup<MemberTaskDTO> findCompleteTaskList(Integer teamNo, String id, int currentPage, boolean desc) throws FindException;
-	
+
 	/**
 	 * 출제한 과제 리스트를 페이징 처리하여 불러온다.
 	 * @param teamNo 팀 번호
@@ -52,10 +52,35 @@ public interface TaskService {
 	 * @throws FindException
 	 */
 	PageGroup<TaskDTO> findMyTaskList(Integer teamNo, String id, int currentPage, boolean desc) throws FindException;
+
+	/**
+	 * 과제 정보를 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 과제 정보
+	 * @throws FindException
+	 */
+	TaskDTO findTaskInfo(Integer teamNo, Integer taskNo) throws FindException;
 	
-//	TaskDTO findTaskInfo() throws FindException;
-//	List<Integer> findMemberAnswer() throws FindException;
+	/**
+	 * 과제 답을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 과제 답
+	 * @throws FindException
+	 */
+	List<Integer> findQuizAnswer(Integer teamNo, Integer taskNo) throws FindException;
 	
+	/**
+	 * 과제에 대한 팀원 답을 불러온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 회원 답
+	 * @throws FindException
+	 */
+	List<Integer> findMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException;
+
 	/**
 	 * 과제 출제 : 과제 정보를 업데이트한다.
 	 * @param teamNo 팀 번호

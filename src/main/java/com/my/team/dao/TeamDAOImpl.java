@@ -583,25 +583,25 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	}
 
-
-		try {
-			session = sqlSessionFactory.openSession();
-
-			String selectedTeamInfo = session.selectOne("com.my.team.TeamMapper.selectTeamInfoByTeamNo", teamNo);
-
-			if(selectedTeamInfo != null) {
-				return selectedTeamInfo;
-			} else {
-				throw new FindException("선택하신 팀의 소개글이 존재하지 않습니다.");
-			} // if-else
-		} catch(Exception e) {
-			throw new FindException(e.getMessage());
-		} finally {
-			if(session != null) {
-				session.close();
-			} // if
-		} // try-catch-finally
-	} // selectByTeamInfo()
+//
+//		try {
+//			session = sqlSessionFactory.openSession();
+//
+//			String selectedTeamInfo = session.selectOne("com.my.team.TeamMapper.selectTeamInfoByTeamNo", teamNo);
+//
+//			if(selectedTeamInfo != null) {
+//				return selectedTeamInfo;
+//			} else {
+//				throw new FindException("선택하신 팀의 소개글이 존재하지 않습니다.");
+//			} // if-else
+//		} catch(Exception e) {
+//			throw new FindException(e.getMessage());
+//		} finally {
+//			if(session != null) {
+//				session.close();
+//			} // if
+//		} // try-catch-finally
+//	} // selectByTeamInfo()
 	
 	// 팀 메인 페이지 - 정보들 다 가져오기
 	@Override
@@ -1076,6 +1076,12 @@ public class TeamDAOImpl implements TeamDAO {
 		map.put("id", "psh2023");
 
 		String s=t.selectAttendanceDate(map);
+	}
+
+	@Override
+	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 } // end class

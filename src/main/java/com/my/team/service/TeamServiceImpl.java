@@ -3,6 +3,7 @@ package com.my.team.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
@@ -18,6 +19,8 @@ import com.my.task.dao.TaskDAOImpl;
 import com.my.task.dto.TaskDTO;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
+import com.my.team.dto.AttendanceDTO;
+import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
 import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
@@ -32,20 +35,20 @@ public class TeamServiceImpl implements TeamService {
 	private QnaBoardDAO qnaDAO;
 	
 	private static TeamServiceImpl service = new TeamServiceImpl();
-	
+
 	private TeamServiceImpl() {
 		teamDAO = new TeamDAOImpl();
 		noticeDAO = new NoticeDAOImpl();
 		taskDAO = new TaskDAOImpl();
 		qnaDAO = new QnaBoardDAOImpl();
 	}
-	
+
 	public static TeamServiceImpl getInstance() {
 		return service;
 	}
-	
-// ------------------------------------------------------------------------
-	
+
+	// ------------------------------------------------------------------------
+
 	// 서현 웅니
 	public MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException{
 		if(currentPage < 1) {
@@ -56,7 +59,7 @@ public class TeamServiceImpl implements TeamService {
 		                    
 		//currentPage        //1  2  3  4
 		int startRow;        //1  4  7  10
-		int endRow;          //3  6  9  12 
+		int endRow;          //3  6  9  12
 		//TODO
 		endRow = currentPage * cntPerPage;
 		startRow = ( currentPage -1 ) *cntPerPage + 1;
@@ -134,12 +137,12 @@ public class TeamServiceImpl implements TeamService {
 		MainPageGroup<TeamDTO> pg = new MainPageGroup<>(list, currentPage, totalCnt);
 		return pg;
 	}
-	
+
 	@Override
 	public TeamDTO selectByTeamNo(int teamNo) throws FindException {
 		return teamDAO.selectByTeamNo(teamNo);
 	}
-	
+
 	@Override
 	public void createTeam(HashMap<String, Object> params) throws AddException {
 		teamDAO.createTeam(params);
@@ -148,12 +151,12 @@ public class TeamServiceImpl implements TeamService {
 	public int teamNameDupChk(String teamName) throws FindException {
 		return teamDAO.selectByTeamName(teamName);
 	}
-	
+
 	@Override
 	public void updateTeam(TeamDTO t) throws ModifyException {
 		teamDAO.updateTeam(t);
 	}
-	
+
 	@Override
 	public List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException {
 		return teamDAO.selectTeamHashtag(teamNo);
@@ -163,7 +166,7 @@ public class TeamServiceImpl implements TeamService {
 	public void updateHashtag(HashMap<String, Object> params) throws ModifyException{
 		teamDAO.updateHashtag(params);
 	}
-	
+
 	@Override
 	public void deleteHashtag(int teamNo) throws RemoveException{
 		teamDAO.deleteHashtag(teamNo);
@@ -196,9 +199,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 
-	
 
-// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	
 	//워니 침입
 	
@@ -292,8 +294,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public void showTeamInfo(TeamDTO teamDTO) throws FindException {
-		// TODO Auto-generated method stub
+	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
+		return teamDAO.selectTeamInfoByTeamNo(teamNo);
 	}
 	
 	@Override

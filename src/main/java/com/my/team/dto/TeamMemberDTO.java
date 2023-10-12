@@ -16,7 +16,7 @@ public class TeamMemberDTO {
 	private String id;					// 회원 아이디
 	private String nickname;			// 닉네임
 	private Date joinDate;				// 팀가입일
-	private Integer attendence;			// 출석수
+	private Integer attendance;			// 출석수
 	private Integer rankSum;			// 개인랭킹 누적합
 	private Integer bestRank;			// 개인랭킹 최고순위
 	private Integer status;				// 회원 상태
