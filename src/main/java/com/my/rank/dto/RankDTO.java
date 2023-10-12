@@ -21,6 +21,7 @@ public class RankDTO implements Comparable{
 	private String nickname;	//회원 닉네임
 	private String profile;		//회원 프로필
 	private Integer month;		//월
+//	RankDetailDTO scoredetail;
 	
 	@Override
 	public int compareTo(Object o) {
