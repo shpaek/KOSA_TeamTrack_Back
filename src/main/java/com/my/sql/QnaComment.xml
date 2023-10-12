@@ -39,20 +39,14 @@
 	
 	<!-- 댓글과 대댓글 모두 조회 -->
 	<select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
-		
-		<!-- SELECT level, ${tableName}.*, #{qnaNo, jdbcType=INTEGER} "qna_no"
-		FROM ${tableName}
-		START WITH comment_group  IS NULL
-		CONNECT BY PRIOR comment_no = comment_group
-		ORDER SIBLINGS BY comment_no  DESC -->
-		
-		
-SELECT level, a.*
+
+		SELECT level, a.*
 		FROM ${tableName} a
         WHERE QNA_NO=#{qnaNo}
 		START WITH comment_group IS NULL
 		CONNECT BY PRIOR comment_no = comment_group
 		ORDER SIBLINGS BY comment_no  ASC		
+		
 	</select>
 	
 	<!-- UPDATE qnacomment_64 -->
