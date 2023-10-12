@@ -364,4 +364,30 @@ public class TaskDAOImpl implements TaskDAO {
 //		}
 //	}
 
+	public Integer selectJoinAfterTaskCount(String id, Integer teamNo) throws FindException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+		String tableName = "TASK_"+ String.valueOf(teamNo);
+		String tableName2 = "TEAMMEMBER_"+ String.valueOf(teamNo);
+		Integer count =0;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("tableName", tableName);
+			map.put("tableName2", tableName2);
+			count = session.selectOne("com.my.task.TaskMapper.selectJoinAfterTaskCount", map);
+			if(count == null) { 
+				count = 0;
+				return count;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+		return count;
+	}
 }

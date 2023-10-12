@@ -99,5 +99,21 @@ public class CustomerServiceImpl implements CustomerService {
 	public void deleteAccount(String id) throws ModifyException{
 		customerDAO.updateCustomerStatus(id);
 	}
+	
+	@Override
+	public boolean pwdCheck(String id, String pwd) throws FindException{
+		CustomerDTO customer = customerDAO.selectById(id);
+		
+		if(customer.getPwd().equals(pwd)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	@Override
+	public void editMyPwd(String id, String pwd) throws ModifyException{
+		customerDAO.updatePwd(id, pwd);
+	}
 
 } // end class

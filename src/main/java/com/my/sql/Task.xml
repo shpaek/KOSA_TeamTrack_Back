@@ -145,5 +145,11 @@
 		FROM ${tableName}
 		WHERE duedate1-SYSDATE&lt;=0 AND duedate2-SYSDATE>=0 AND regdate IS NULL
 	</select>
-
+	
+	<!-- 원희 - 가입일 지난 후 등록된 과제 개수 -->
+	<select id="selectJoinAfterTaskCount" resultType="Integer" parameterType="hashmap">
+		SELECT COUNT(*)
+		FROM ${tableName}
+		WHERE regdate > (SELECT join_date FROM ${tableName2} WHERE id=#{id})
+	</select>
 </mapper>
