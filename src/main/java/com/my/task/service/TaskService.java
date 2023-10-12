@@ -88,7 +88,7 @@ public interface TaskService {
 	 * @param taskNo 과제 번호
 	 * @throws ModifyException
 	 */
-	void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
+	void modifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException;
 
 	/**
 	 * 과제 출제 : 과제 답안을 생성한다.
@@ -97,7 +97,7 @@ public interface TaskService {
 	 * @param answer 답
 	 * @throws AddException
 	 */
-	void AddQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException;
+	void addQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException;
 
 	/**
 	 * 출제자 아이디를 가져온다.
@@ -116,4 +116,15 @@ public interface TaskService {
 	 * @throws FindException
 	 */
 	int findAnswerCount(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 팀원 답안을 생성한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param answer 답
+	 * @throws AddException
+	 */
+	void addMemberAnswer(Integer teamNo, Integer taskNo, String id, String answer) throws AddException;
+
 }

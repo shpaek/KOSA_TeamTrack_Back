@@ -315,6 +315,29 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
+	
+	public void insertMemberAnswer(Integer teamNo, Integer questionNo, Integer taskNo, String id, int answer) throws AddException {
+		SqlSession session=null;
+		
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "memberanswer_"+teamNo);
+			map.put("questionNo", questionNo);
+			map.put("taskNo", taskNo);
+			map.put("id", id);
+			map.put("answer", answer);
+			session.insert("com.my.task.TaskMapper.insertMemberAnswer", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new AddException("답안 생성 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+
 
 
 	// main test

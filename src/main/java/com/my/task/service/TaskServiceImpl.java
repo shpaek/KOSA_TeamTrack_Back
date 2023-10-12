@@ -82,12 +82,12 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
+	public void modifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
 		taskDAO.updateTask(teamNo, title, taskNo);
 	}
 
 	@Override
-	public void AddQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException {
+	public void addQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException {
 		String[] answerList=answer.split(",");
 		for(int i=0;i<answerList.length;i++) {
 			taskDAO.insertQuizAnswer(teamNo, i+1, taskNo, Integer.parseInt(answerList[i]));
@@ -129,6 +129,15 @@ public class TaskServiceImpl implements TaskService {
 	public int findAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
 		int cnt=taskDAO.selectAnswerCount(teamNo, taskNo);
 		return cnt;
+	}
+
+	@Override
+	public void addMemberAnswer(Integer teamNo, Integer taskNo, String id, String answer) throws AddException {
+		String[] answerList=answer.split(",");
+		for(int i=0;i<answerList.length;i++) {
+			taskDAO.insertMemberAnswer(teamNo, i+1, taskNo, id, Integer.parseInt(answerList[i]));
+		}
+		
 	}
 
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
