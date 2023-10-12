@@ -13,6 +13,8 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
+import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
 public interface TeamService {
@@ -30,15 +32,15 @@ public interface TeamService {
 	 * @param teamName
 	 * @throws FindException
 	 */
-	void teamNameDupChk(String teamName) throws FindException;
-
+	int teamNameDupChk(String teamName) throws FindException;
+	
 	/**
 	 *
 	 * @param t
 	 * @throws ModifyException
 	 */
 	void updateTeam(TeamDTO t) throws ModifyException;
-
+	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
 	/**
 	 *
 	 */
@@ -63,9 +65,9 @@ public interface TeamService {
 	 * @throws FindException
 	 */
 	List<TeamDTO> selectByCondition(String column) throws FindException;
+		
+	
 
-	TeamDTO selectByTeamName(String teamName) throws FindException;
-	List<TeamDTO> selectByHashtag(String hashtag) throws FindException;
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 	// void updateViewCnt(int teamNo) throws ModifyException;
 
@@ -76,7 +78,10 @@ public interface TeamService {
 	 * @return
 	 * @throws FindException
 	 */
-	PageGroup<TeamDTO> findAll(int currentPage) throws FindException;
+	MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException;
+	MainPageGroup<TeamDTO> selectByData(int currentPage, String table, String column, String data) throws FindException;
+	MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException;
+	MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException;
 
 	// ------------------------------------------------------------------------
 	

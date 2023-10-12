@@ -2,8 +2,6 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +17,7 @@ import com.my.team.dto.TeamDTO;
 import com.my.team.dto.TeamHashtagDTO;
 import com.my.util.MainPageGroup;
 
-public class TeamFilterController extends TeamController {
+public class TeamListController extends TeamController {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -28,14 +26,7 @@ public class TeamFilterController extends TeamController {
 		response.setContentType("application/json;charset=UTF-8");
 		
 		String column = request.getParameter("column");
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
 		String currentPage = request.getParameter("currentPage");
-
-		if(endDate =="") {
-			endDate = "2050-12-31";
-		}
-		
 		int cp = 1;
 		if(currentPage != null && !currentPage.equals("")) {
 			cp = Integer.parseInt(currentPage);
@@ -45,7 +36,7 @@ public class TeamFilterController extends TeamController {
 		
 			PrintWriter out = response.getWriter();
 			try {
-				MainPageGroup<TeamDTO> pg = service.selectByDate(cp, column, startDate, endDate);
+				MainPageGroup<TeamDTO> pg = service.findAll(cp, column);
 				List<TeamHashtagDTO> hashlist = new ArrayList<>();
 				for(TeamDTO team : pg.getList()){
 					hashlist.addAll(service.selectTeamHashtag(team.getTeamNo()));
@@ -63,6 +54,8 @@ public class TeamFilterController extends TeamController {
 				map.put("status", 0);
 				map.put("msg", e.getMessage());
 			}out.print(mapper.writeValueAsString(map));
+		
+		
 		
 		return null;
 	}

@@ -7,6 +7,40 @@
 	<select id="selectCount" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM TEAM
 	</select>
+	<select id="selectCountOfSelectHashtag" resultType="java.lang.Integer" parameterType="String">
+		SELECT COUNT(*) FROM (SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info, viewcnt
+		FROM TEAM a
+		WHERE
+		team_no IN
+		(SELECT team_no FROM team_hashtag
+		WHERE hashtag_name = #{data})) c))
+	</select>
+		<select id="selectCountOfSelectDate" resultType="java.lang.Integer"  parameterType="java.util.HashMap">
+		SELECT COUNT(*) FROM (SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info,
+		viewcnt
+		FROM TEAM a
+		WHERE
+		(TO_DATE(startdate, 'YYYY-MM-DD') <![CDATA[>=]]> TO_DATE(#{startDate}, 'YYYY-MM-DD')) AND (TO_DATE(enddate, 'YYYY-MM-DD') <![CDATA[<=]]> TO_DATE(#{endDate}, 'YYYY-MM-DD'))
+		ORDER BY ${column} DESC) c))
+	</select>
+			<select id="selectCountOfSelectData" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		SELECT COUNT(*) FROM (SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info, viewcnt
+		FROM TEAM a
+		WHERE
+		team_no IN
+		(SELECT team_no FROM ${table}
+		WHERE ${column} LIKE
+		'%'||#{data}||'%')) c))
+	</select>
 	<!-- 확인 필요 -->
 	<select id="selectByTeamNo" resultType="TeamDTO">
 		SELECT team_name,
@@ -23,77 +57,80 @@
 		WHERE
 		team_no = ${teamNo}
 	</select>
-	<select id="selectByTeamName" resultType="TeamDTO">
-		SELECT team_name,
-		brief_info, viewcnt
+	<select id="selectByTeamName" resultType="Integer">
+		SELECT team_no
 		FROM TEAM
 		WHERE team_name = #{teamName}
 	</select>
 	<!-- 확인 필요 -->
-	<select id="selectByHashtag" resultType="TeamDTO"
-		parameterType="java.util.HashMap">
-		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT
-		team_name,
-		study_type, onoffline, join_member, max_member,
-		startdate,
-		enddate,
-		brief_info,
-		(select LISTAGG(hashtag_name, ',') from
-		TEAM_HASHTAG b
-		where b.team_no =
-		a.team_no)
-		AS hashtags, viewcnt
-		FROM TEAM
-		a
+	<select id="selectHashtag" resultType="TeamDTO" parameterType="java.util.HashMap">
+		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info, viewcnt
+		FROM TEAM a
 		WHERE
 		team_no IN
-		(SELECT team_no FROM TEAM_HASHTAG
-		WHERE hashtag_name
-		LIKE
-		'%${hashtag, jdbcType=VARCHAR}%')) c)
-		WHERE rn BETWEEN #{start,
-		jdbcType=INTEGER}AND #{end, jdbcType=INTEGER}
+		(SELECT team_no FROM team_hashtag
+		WHERE hashtag_name = #{data})) c)
+		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
-	<select id="selectByCondition" resultType="TeamDTO"
-		parameterType="java.util.HashMap">
-		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT
-		team_name,
-		study_type, onoffline, join_member, max_member,
-		startdate,
-		enddate,
+	<select id="selectByData" resultType="TeamDTO" parameterType="java.util.HashMap">
+		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info, viewcnt
+		FROM TEAM a
+		WHERE
+		team_no IN
+		(SELECT team_no FROM ${table}
+		WHERE ${column} LIKE
+		'%'||#{data}||'%')) c)
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	<select id="selectByCondition" resultType="TeamDTO" parameterType="java.util.HashMap">
+		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
 		brief_info,
-		(select LISTAGG(hashtag_name, ',') from
-		TEAM_HASHTAG b
-		where b.team_no =
-		a.team_no)
-		AS hashtags, viewcnt
-		FROM TEAM
-		a
+		viewcnt
+		FROM TEAM a
 		WHERE
 		TO_DATE(enddate, 'YYYY-MM-DD') > sysdate
 		ORDER BY ${column} DESC)
 		c)
 		WHERE rn BETWEEN #{start}AND #{end}
 	</select>
-	<select id="createTeam" statementType="CALLABLE"
-		parameterType="hashMap">
-		{call CREATE_TEAM(
-		#{I_TEAM_NAME, mode=IN, jdbcType=VARCHAR},
-		#{I_LEADER_ID, mode=IN, jdbcType=VARCHAR},
-		#{I_STUDY_TYPE, mode=IN, jdbcType=VARCHAR},
-		#{I_ONOFFLINE, mode=IN, jdbcType=VARCHAR},
-		#{I_MAX_MEMBER, mode=IN, jdbcType=INTEGER},
-		#{I_STARTDATE, mode=IN, jdbcType=VARCHAR},
-		#{I_ENDDATE, mode=IN, jdbcType=VARCHAR},
-		#{I_BRIEF_INFO, mode=IN, jdbcType=VARCHAR},
-		#{I_TEAM_INFO, mode=IN, jdbcType=VARCHAR},
-		#{I_HASHTAG_NAME1, mode=IN, jdbcType=VARCHAR},
-		#{I_HASHTAG_NAME2, mode=IN, jdbcType=VARCHAR},
-		#{I_HASHTAG_NAME3, mode=IN, jdbcType=VARCHAR},
-		#{I_HASHTAG_NAME4, mode=IN, jdbcType=VARCHAR},
-		#{I_HASHTAG_NAME5, mode=IN, jdbcType=VARCHAR}
-		)
-		}
+	<select id="selectByDate" resultType="TeamDTO" parameterType="java.util.HashMap">
+		SELECT * FROM (SELECT rownum rn, c.* FROM(SELECT team_no, team_name,
+		study_type, onoffline, join_member, max_member, createdate,
+		startdate, enddate,
+		brief_info,
+		viewcnt
+		FROM TEAM a
+		WHERE
+		(TO_DATE(startdate, 'YYYY-MM-DD') <![CDATA[>=]]> TO_DATE(#{startDate}, 'YYYY-MM-DD')) AND (TO_DATE(enddate, 'YYYY-MM-DD') <![CDATA[<=]]> TO_DATE(#{endDate}, 'YYYY-MM-DD'))
+		ORDER BY ${column} DESC) c)
+		WHERE rn BETWEEN #{start}AND #{end}
+	</select>
+	<select id="createTeam" statementType="CALLABLE" parameterType="hashMap">
+    {call CREATE_TEAM(
+            #{I_TEAM_NAME, mode=IN, jdbcType=VARCHAR},
+            #{I_LEADER_ID, mode=IN, jdbcType=VARCHAR},
+            #{I_STUDY_TYPE, mode=IN, jdbcType=VARCHAR},
+            #{I_ONOFFLINE, mode=IN, jdbcType=VARCHAR},
+            #{I_MAX_MEMBER, mode=IN, jdbcType=INTEGER},
+            #{I_STARTDATE, mode=IN, jdbcType=VARCHAR},
+            #{I_ENDDATE, mode=IN, jdbcType=VARCHAR},
+			#{I_BRIEF_INFO, mode=IN, jdbcType=VARCHAR},
+			#{I_TEAM_INFO, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME1, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME2, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME3, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME4, mode=IN, jdbcType=VARCHAR},
+			#{I_HASHTAG_NAME5, mode=IN, jdbcType=VARCHAR}
+        )
+    }
 	</select>
 	<update id="updateTeam" parameterType="TeamDTO">
 		UPDATE TEAM
@@ -117,6 +154,10 @@
 		)
 		}
 	</delete>
+	<select id="selectTeamHashtag" resultType="TeamHashtagDTO" parameterType="int">
+		SELECT * FROM TEAM_HASHTAG
+		WHERE team_no = ${teamNo}
+	</select>
 	<delete id="deleteHashtag" parameterType="int">
 		DELETE FROM
 		TEAM_HASHTAG

@@ -21,6 +21,7 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
 
 public class TeamDAOImpl implements TeamDAO {
 
@@ -66,6 +67,65 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
+	public int selectCountOfSelectHashtag(String hashtag) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			int count = session.selectOne("com.my.team.TeamMapper.selectCountOfSelectHashtag", hashtag);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public int selectCountOfSelectDate(String column, String startDate, String endDate) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("column", column);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+			int count = session.selectOne("com.my.team.TeamMapper.selectCountOfSelectDate", map);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public int selectCountOfSelectData(String table, String column, String data) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("table", table);
+			map.put("column", column);
+			map.put("data", data);
+			int count = session.selectOne("com.my.team.TeamMapper.selectCountOfSelectData", map);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
 	public TeamDTO selectByTeamNo(int teamNo) throws FindException {
 		SqlSession session = null;
 
@@ -87,14 +147,14 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public TeamDTO selectByTeamName(String teamName) throws FindException {
+	public int selectByTeamName(String teamName) throws FindException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession(); //Connection
-			TeamDTO team = session.selectOne("com.my.team.TeamMapper.selectByTeamName", teamName);
-			if(team != null) {
-				return team;
+			int teamNo = session.selectOne("com.my.team.TeamMapper.selectByTeamName", teamName);
+			if(teamNo != 0) {
+				return teamNo;
 			}else {
 				throw new FindException("해당하는 팀이 없습니다");
 			}
@@ -107,18 +167,21 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 
+	
 	@Override
-	public List<TeamDTO> selectByHashtag(String hashtag, int startRow, int endRow) throws FindException {
+	public List<TeamDTO> selectByData(String table, String column, String data, int startRow, int endRow) throws FindException {
 		SqlSession session = null;
 		List<TeamDTO> list = new ArrayList<>();
 
 		try {
 			session = sqlSessionFactory.openSession(); //Connection
 			Map<String, Object> map = new HashMap<>();
-			map.put("hashtag", hashtag);
+			map.put("table", table);
+			map.put("column", column);
+			map.put("data", data);
 			map.put("start", startRow);
 			map.put("end", endRow);
-			list = session.selectList("com.my.team.TeamMapper.selectByHashtag", map);
+			list = session.selectList("com.my.team.TeamMapper.selectByData", map);
 			return list;
 		}catch(Exception e) {
 			throw new FindException(e.getMessage());
@@ -151,6 +214,31 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 
+	public List<TeamDTO> selectByDate(String column, String startDate, String endDate, int startRow, int endRow) throws FindException{
+		SqlSession session = null;
+		List<TeamDTO> list = new ArrayList<>();
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("column", column);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+			map.put("start", startRow);
+			map.put("end", endRow);
+			list = session.selectList("com.my.team.TeamMapper.selectByDate", map);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}		
+
+	
+	
 	@Override
 	public void createTeam(Map<String, Object> params) throws AddException {
 
@@ -206,7 +294,26 @@ public class TeamDAOImpl implements TeamDAO {
 
 	}
 
+	@Override
+	public List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException {
+		SqlSession session = null;
+		List<TeamHashtagDTO> list = new ArrayList<>();
 
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			list = session.selectList("com.my.team.TeamMapper.selectTeamHashtag", teamNo);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+		
+	
+	
 	@Override
 	public void deleteHashtag(int teamNo) throws RemoveException {
 		SqlSession session = null;
@@ -242,25 +349,36 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 
-	/*
+	
+
 	@Override
-	public void updateViewCnt(int teamNo) throws ModifyException {
+	public List<TeamDTO> selectHashtag(String hashtag, int startRow, int endRow) throws FindException {
 		SqlSession session = null;
+		List<TeamDTO> list = new ArrayList<>();
 
 		try {
 			session = sqlSessionFactory.openSession(); //Connection
-			session.update("com.my.team.TeamMapper.updateViewCnt", teamNo);
-			session.commit();
+			Map<String, Object> map = new HashMap<>();
+			map.put("data", hashtag);
+			map.put("start", startRow);
+			map.put("end", endRow);
+			list = session.selectList("com.my.team.TeamMapper.selectHashtag", map);
+			return list;
 		}catch(Exception e) {
-			session.rollback();
-			throw new ModifyException(e.getMessage());
+			throw new FindException(e.getMessage());
 		}finally {
 			if(session != null) {
 				session.close();
 			}
 		}
 	}
-	 */
+
+
+
+
+
+
+		
 
 	//	---------------------------------------------------------------------------------
 

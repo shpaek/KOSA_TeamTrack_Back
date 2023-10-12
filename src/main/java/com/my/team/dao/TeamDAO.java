@@ -12,6 +12,7 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
 
 public interface TeamDAO {
 
@@ -23,8 +24,10 @@ public interface TeamDAO {
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	int selectCount() throws FindException;
-
-	/**
+	int selectCountOfSelectHashtag(String hashtag) throws FindException;
+	int selectCountOfSelectDate(String column, String startDate, String endDate) throws FindException;
+	int selectCountOfSelectData(String table, String column, String data) throws FindException;
+ 	/**
 	 * 팀번호에 해당하는 팀정보를 검색한다
 	 * @param teamNo 팀번호
 	 * @return 팀객체
@@ -32,21 +35,36 @@ public interface TeamDAO {
 	 */
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 
+	
 	/**
-	 * 팀이름에 해당하는 팀정보를 검색한다
+	 * 팀이름에 해당하는 팀번호를 검색한다
 	 * @param teamName 팀이름
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	TeamDTO selectByTeamName(String teamName) throws FindException;
-
+	int selectByTeamName(String teamName) throws FindException;
+	
+	List<TeamDTO> selectHashtag(String hashtag, int startRow, int endRow) throws FindException;
+	
+	
 	/**
 	 * 해시태그에 해당하는 팀을 검색한다
 	 * @param hashtag 해시태그
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
-	List<TeamDTO> selectByHashtag(String hashtag, int startRow, int endRow) throws FindException;
+	List<TeamDTO> selectByData(String table, String column, String data, int startRow, int endRow) throws FindException;
+	
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param startRow
+	 * @param endRow
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectByDate(String column, String startDate, String endDate, int startRow, int endRow) throws FindException;
 
 	/**
 	 * 조건에 맞는 팀을 조회한다
@@ -70,7 +88,15 @@ public interface TeamDAO {
 	void updateTeam(TeamDTO team) throws ModifyException;
 
 	/**
-	 *
+	 * 
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
+	
+	/**
+	 * 
 	 * @param hashtag
 	 * @throws RemoveException
 	 */
