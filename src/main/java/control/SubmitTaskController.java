@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.AddException;
+import com.my.exception.FindException;
 
 public class SubmitTaskController extends TaskController {
 
@@ -48,9 +49,20 @@ public class SubmitTaskController extends TaskController {
 			return null;
 		}
 		
+
 		try {
 			service.addMemberAnswer(teamNo, taskNo, id, answer);
-			//과제 채점 메소드 추가하기
+			
+			int hwscore=0;
+			try {
+				hwscore=service.chkHwscore(teamNo, taskNo, id);
+			} catch (FindException e) {
+				map.put("status", 0);
+				map.put("msg", "모든 답안을 작성하세요");
+			}
+			System.out.println(hwscore);
+			
+			service.addMemberScore(teamNo, taskNo, id, hwscore, 5);
 			
 			map.put("status", 1);
 			map.put("msg", "과제 제출에 성공하였습니다");
