@@ -20,5 +20,38 @@ public interface CustomerDAO {
 	 * @throws FindException 아이디에 해당하는 고객 객체가 없거나 DB연결 실패시 예외 발생
 	 */
 	CustomerDTO selectById(String id) throws FindException;
+	
+	/**
+	 * 닉네임을 조회한다
+	 * @author 나원희
+	 * @param nickname 닉네임
+	 * @throws FindException 해당 닉네임이 존재하지 않을 경우와 DB연결 실패 시 예외 발생한다
+	 */
+	CustomerDTO selectByNickname(String nickname) throws FindException;
+	
+	/**
+	 * 닉네임을 변경한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param nickname 닉네임
+	 * @throws FindException DB연결 실패 시 예외 발생한다
+	 */
+	void updateNickname(String id, String nickname) throws ModifyException;
+	
+	/**
+	 * 아이디, 비밀번호, 닉네임 외 정보를 변경한다
+	 * @author 나원희
+	 * @param customer 변경할 정보
+	 * @throws ModifyException DB연결 실패 시 예외 발생한다
+	 */
+	void updateCustomerAll(String id, CustomerDTO customer) throws ModifyException;
+	
+	/**
+	 * 회원 상태를 변경한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @throws ModifyException DB연결 실패 시 예외 발생한다
+	 */
+	void updateCustomerStatus(String id) throws ModifyException;
 
 }

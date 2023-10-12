@@ -79,26 +79,64 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void ModifyTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
-		taskDAO.updateTask(teamNo, title, enddate, taskNo);
+	public void modifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
+		taskDAO.updateTask(teamNo, title, taskNo);
 	}
 
 	@Override
-	public void AddQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
-		taskDAO.insertQuizAnswer(teamNo, questionNo, taskNo, answer);
-	}
-
-	@Override
-	public void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer)
-			throws ModifyException {
-		taskDAO.updateQuizAnswer(teamNo, questionNo, taskNo, answer);	
-	}
-
-	@Override
-	public void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException {
-		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
+	public void addQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException {
+		String[] answerList=answer.split(",");
+		for(int i=0;i<answerList.length;i++) {
+			taskDAO.insertQuizAnswer(teamNo, i+1, taskNo, Integer.parseInt(answerList[i]));
+		}
+		
 	}
 	
+	public Integer findTaskId(Integer teamNo, String id) throws FindException {
+		List<TaskDTO> list=taskDAO.selectTaskId(teamNo);
+		if(list==null) return 0;
+		else {
+			for(int i=0;i<list.size();i++) {
+				if(id.equals(list.get(i).getId())) {
+					return list.get(i).getTaskNo();
+				}
+			}
+			return 0;
+		}
+	}
+
+	@Override
+	public TaskDTO findTaskInfo(Integer teamNo, Integer taskNo) throws FindException {
+		TaskDTO task=taskDAO.selectTaskInfo(teamNo, taskNo);
+		return task;
+	}
+
+	@Override
+	public List<Integer> findQuizAnswer(Integer teamNo, Integer taskNo) throws FindException {
+		List<Integer> list=taskDAO.selectQuizAnswer(teamNo, taskNo);
+		return list;
+	}
+
+	@Override
+	public List<Integer> findMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException {
+		List<Integer> list=taskDAO.selectMemberAnswer(teamNo, taskNo, id);
+		return list;
+	}
+	
+	public int findAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
+		int cnt=taskDAO.selectAnswerCount(teamNo, taskNo);
+		return cnt;
+	}
+
+	@Override
+	public void addMemberAnswer(Integer teamNo, Integer taskNo, String id, String answer) throws AddException {
+		String[] answerList=answer.split(",");
+		for(int i=0;i<answerList.length;i++) {
+			taskDAO.insertMemberAnswer(teamNo, i+1, taskNo, id, Integer.parseInt(answerList[i]));
+		}
+		
+	}
+
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");
