@@ -104,6 +104,78 @@ public interface TeamDAO {
 	 */
 	String selectLeaderId(Integer teamNo) throws FindException;
 	
+	/**
+	 * 참여중인 팀 목록을 조회한다
+	 * @author 나원희
+	 * @param startRow 시작행
+	 * @param endRow 마지막행
+	 * @param id 사용자 아이디
+	 * @return 참여중인 팀
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List<SignupTeamDTO> selectMyTeam(int startRow, int endRow, String id) throws FindException;
+	
+	/**
+	 * 참여중인 팀 개수 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @return 참여중인 팀 개수 
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	int selectMyTeamCount(String id) throws FindException;
+	
+	/**
+	 * 활동종료된 팀 목록 조회한다
+	 * @author 나원희
+	 * @param startRow 시작행
+	 * @param endRow 마지막행
+	 * @param id 사용자 아이디
+	 * @return 활동종료된 팀
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List<SignupTeamDTO> selectEndTeam(int startRow, int endRow, String id) throws FindException;
+	
+	/**
+	 * 활동종료된 팀 개수 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @return 활동종료된 팀 개수
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	int selectEndTeamCount(String id) throws FindException;
+	
+	/**
+	 * 승인대기, 승인거절 팀 목록 조회한다
+	 * @author 나원희
+	 * @param startRow 시작행
+	 * @param endRow 마지막행
+	 * @param id 사용자 아이디
+	 * @param status 팀 승인여부
+	 * @return 승인대기중인 팀
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List<SignupTeamDTO> selectWaitingTeam(int startRow, int endRow, String id, Integer status) throws FindException;
+	
+	/**
+	 * 승인대기, 승인거절 팀 개수 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param status 팀 승인여부
+	 * @return 승인대기중 팀 개수 
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	int selectWaitingTeamCount(String id, Integer status) throws FindException;
+	
+	/**
+	 * 승인대기 팀을 삭제한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB와의 연결 실패 시 예외 발생한다
+	 */
+	void deleteSignupTeam(String id, Integer teamNo) throws RemoveException;
+	
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나
@@ -135,7 +207,7 @@ public interface TeamDAO {
 	 * @param id
 	 * @throws ModifyException
 	 */
-	void updateTeamMemberStatusResign(String id) throws ModifyException;
+	void updateTeamMemberStatusResign(Integer teamNo, String id) throws ModifyException;
 
 	/**
 	 * 팀 메인 페이지 - 팀에서 나가기 #2 (가입한 팀 테이블에서 삭제)
@@ -149,7 +221,7 @@ public interface TeamDAO {
 	 * @param id 회원 아이디
 	 * @throws Exception
 	 */
-	void leaveTeam(String id) throws Exception;
+	void leaveTeam(Integer teamNo, String id) throws Exception;
 
 	/**
 	 * 팀 메인 페이지 - 팀 멤버 출력
@@ -218,26 +290,39 @@ public interface TeamDAO {
 	List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException;
 	
 	/**
-	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인1
 	 * @param map
-	 * @throws Exception
+	 * @throws ModifyException
 	 */
 	void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException;
 	
 	/**
-	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인2
+	 * @param map
+	 * @throws AddException
+	 */
+	void insertRequestInfoApprove(Map<String, Object> map) throws AddException;
+	
+	/**
+	 * 트랜잭션
 	 * @param map
 	 * @throws Exception
+	 */
+	void approveRequest(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
+	 * @param map
+	 * @throws ModifyException
 	 */
 	void updateRequestInfoReject(Map<String, Object> map) throws ModifyException;
 	
 	/**
 	 * 팀 관리 페이지(출제자 선정) - 출제자 선정
-	 * @param map
-	 * @throws Exception
+	 * @param taskDTO
+	 * @param teamNo
+	 * @throws ModifyException
 	 */
 	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
-
-	// 출제자 취소
 
 } // end interface

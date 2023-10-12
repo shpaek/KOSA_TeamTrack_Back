@@ -91,6 +91,46 @@ public interface TeamService {
 	 */
 	Integer leaderChk(String id, Integer teamNo) throws FindException;
 	
+	/**
+	 * 참여중, 활동종료, 승인대기 팀 목록을 조회한다
+	 * @author 나원희
+	 * @param 현재페이지
+	 * @param id 사용자 아이디
+	 * @menuStatus 메뉴탭 번호
+	 * @return 팀정보
+	 * @throws FindException DB 연결 실패 시 예외 발생한다
+	 */
+	PageGroup<SignupTeamDTO> findMyTeam(int currentPage, String id, int menuStatus) throws FindException;
+	
+	/**
+	 * 승인거절 팀 목록을 조회한다
+	 * @author 나원희
+	 * @param currentPage 현재페이지
+	 * @param id 사용자 아이디
+	 * @return 승인거절 팀 목록
+	 * @throws FindException DB 연결 실패 시 예외 발생한다
+	 */
+	PageGroup<SignupTeamDTO> findRejectedTeam(int currentPage, String id) throws FindException;
+	
+	/**
+	 * 승인대기 취소한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB 연결 실패 시 예외 발생한다
+	 */
+	void cancelWaiting(String id, Integer teamNo) throws RemoveException;
+	
+	/**
+	 * 승인거절 확인하여 목록에서 삭제한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB 연결 실패 시 예외 발생한다
+	 */
+	void rejectCheck(String id, Integer teamNo) throws RemoveException;
+	
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나
@@ -119,10 +159,11 @@ public interface TeamService {
 
 	/**
 	 * 팀 메인 페이지 - 팀에서 나가기 #1 (팀원 테이블에서 상태값 변경)
+	 * @param teamNo
 	 * @param id
 	 * @throws ModifyException
 	 */
-	void updateTeamMemberStatusResign(String id) throws ModifyException;
+	void updateTeamMemberStatusResign(Integer teamNo, String id) throws ModifyException;
 
 	/**
 	 * 팀 메인 페이지 - 팀에서 나가기 #2 (가입한 팀 테이블에서 삭제)
@@ -136,7 +177,7 @@ public interface TeamService {
 	 * @param id 회원 아이디
 	 * @throws Exception
 	 */
-	void leaveTeam(String id) throws Exception;
+	void leaveTeam(Integer teamNo, String id) throws Exception;
 
 	/**
 	 * 팀 메인 페이지 - 팀 멤버 출력
@@ -205,11 +246,26 @@ public interface TeamService {
 	List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException;
 	
 	/**
-	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인1
 	 * @param map
-	 * @throws Exception
+	 * @throws ModifyException
 	 */
 	void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인2
+	 * @param map
+	 * @throws AddException
+	 */
+	void insertRequestInfoApprove(Map<String, Object> map) throws AddException;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 트랜잭션
+	 * @param teamNo
+	 * @param id
+	 * @throws Exception
+	 */
+	void approveRequest(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
@@ -220,8 +276,9 @@ public interface TeamService {
 	
 	/**
 	 * 팀 관리 페이지(출제자 선정) - 출제자 선정
-	 * @param map
-	 * @throws Exception
+	 * @param taskDTO
+	 * @param teamNo
+	 * @throws ModifyException
 	 */
 	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
 

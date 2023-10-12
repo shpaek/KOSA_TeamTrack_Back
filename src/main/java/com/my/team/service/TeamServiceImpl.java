@@ -1,5 +1,6 @@
 package com.my.team.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +141,76 @@ public class TeamServiceImpl implements TeamService {
 		return memStatus;
 	}
 	
+	@Override
+	public PageGroup<SignupTeamDTO> findMyTeam(int currentPage, String id, int menuStatus) throws FindException{
+		if(currentPage <1) {
+			currentPage = 1;
+		}
+
+		int cntPerPage = 10; //한페이지당 보여줄 목록 수
+
+		int startRow =0;
+		int endRow =0;
+
+		startRow = (currentPage -1)*cntPerPage +1;
+		endRow = currentPage*cntPerPage;
+		
+		List<SignupTeamDTO> teamList = new ArrayList<>();
+		int totalCnt=0;
+		
+		if(menuStatus==1) {
+			teamList = teamDAO.selectMyTeam(startRow, endRow, id);
+			totalCnt = teamDAO.selectMyTeamCount(id);
+		}else if(menuStatus==2) {
+			teamList = teamDAO.selectEndTeam(startRow, endRow, id);
+			totalCnt = teamDAO.selectEndTeamCount(id);
+		}else if(menuStatus==3) {
+			int status = 0;
+			teamList = teamDAO.selectWaitingTeam(startRow, endRow, id, status);
+			totalCnt = teamDAO.selectWaitingTeamCount(id, status);
+		}
+
+		System.out.println("리스트 개수: " +totalCnt);
+
+		PageGroup<SignupTeamDTO> pg = new PageGroup<>(teamList, currentPage, totalCnt);
+		return pg;
+	}
+	
+	@Override
+	public PageGroup<SignupTeamDTO> findRejectedTeam(int currentPage, String id) throws FindException{
+		if(currentPage <1) {
+			currentPage = 1;
+		}
+
+		int cntPerPage = 10; //한페이지당 보여줄 목록 수
+
+		int startRow =0;
+		int endRow =0;
+
+		startRow = (currentPage -1)*cntPerPage +1;
+		endRow = currentPage*cntPerPage;
+		
+		int status = 2;
+		
+		List<SignupTeamDTO> teamList = teamDAO.selectWaitingTeam(startRow, endRow, id, status);
+		int totalCnt= teamDAO.selectWaitingTeamCount(id, status);
+
+		System.out.println("리스트 개수: " +totalCnt);
+
+		PageGroup<SignupTeamDTO> pg = new PageGroup<>(teamList, currentPage, totalCnt);
+		return pg;
+	}
+	
+	@Override
+	public void cancelWaiting(String id, Integer teamNo) throws RemoveException{
+		teamDAO.deleteSignupTeam(id, teamNo);
+	}
+	
+	@Override
+	public void rejectCheck(String id, Integer teamNo) throws RemoveException{
+		teamDAO.deleteSignupTeam(id, teamNo);
+	}
+	
 	// ------------------------------------------------------------------------
 
 	// 셍나
@@ -160,8 +231,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void updateTeamMemberStatusResign(String id) throws ModifyException {
-		teamDAO.updateTeamMemberStatusResign(id);
+	public void updateTeamMemberStatusResign(Integer teamNo, String id) throws ModifyException {
+	    teamDAO.updateTeamMemberStatusResign(teamNo, id);
 	}
 
 	@Override
@@ -170,8 +241,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void leaveTeam(String id) throws Exception {
-		teamDAO.leaveTeam(id);
+	public void leaveTeam(Integer teamNo, String id) throws Exception {
+		teamDAO.leaveTeam(teamNo, id);
 	}
 
 	@Override
@@ -218,6 +289,16 @@ public class TeamServiceImpl implements TeamService {
 	public void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException {
 		teamDAO.updateRequestInfoApprove(map);
 	}
+	
+	@Override
+	public void insertRequestInfoApprove(Map<String, Object> map) throws AddException {
+		teamDAO.insertRequestInfoApprove(map);
+	}
+	
+    @Override
+    public void approveRequest(Map<String, Object> map) throws Exception {
+    	teamDAO.approveRequest(map);
+    }
 
 	@Override
 	public void updateRequestInfoReject(Map<String, Object> map) throws ModifyException {

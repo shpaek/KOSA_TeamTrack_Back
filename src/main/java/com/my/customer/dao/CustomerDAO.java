@@ -46,5 +46,13 @@ public interface CustomerDAO {
 	 * @throws ModifyException DB연결 실패 시 예외 발생한다
 	 */
 	void updateCustomerAll(String id, CustomerDTO customer) throws ModifyException;
+	
+	/**
+	 * 회원 상태를 변경한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @throws ModifyException DB연결 실패 시 예외 발생한다
+	 */
+	void updateCustomerStatus(String id) throws ModifyException;
 
 }

@@ -20,21 +20,31 @@ public class ViewTaskController extends TaskController {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-//		HttpSession session=request.getSession();
-		
+		//		HttpSession session=request.getSession();
+
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
-//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+
+		//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		System.out.println(taskNo);
-//		String loginedId=(String)session.getAttribute("loginedId");
-		
+		//		String loginedId=(String)session.getAttribute("loginedId");
+
 		Integer teamNo=9999;
-//		Integer taskNo=1;
-//		String loginedId="nwh2023";
+		//		Integer taskNo=1;
+		//		String loginedId="nwh2023";
 		Map<String, Object> map=new HashMap<>();
-		
+
+		try {
+			int answerCnt=service.findAnswerCount(teamNo, taskNo);
+			map.put("answerCnt", answerCnt);
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			map.put("status", 0);
+			map.put("msg", e.getMessage());
+		}
+
 		try {
 			TaskDTO taskinfo=service.findTaskInfo(teamNo, taskNo);
 			if(taskinfo==null) {
@@ -49,12 +59,12 @@ public class ViewTaskController extends TaskController {
 			// e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", e.getMessage());
-		} finally {
-			String jsonStr=mapper.writeValueAsString(map);
-			out.print(jsonStr);
 		}
-		
-		
+
+		out.print(mapper.writeValueAsString(map));
+
+
+
 		return null;
 	}
 

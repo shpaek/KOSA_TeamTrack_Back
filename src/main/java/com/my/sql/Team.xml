@@ -139,12 +139,70 @@
 	 -->
 	
 	<!-- 워니 침입 -->
-		<select id="selectLeaderId" resultType = "String" parameterType="Integer">
+	<select id="selectLeaderId" resultType = "String" parameterType="Integer">
 		SELECT leader_id
 		FROM TEAM
 		WHERE team_no = #{teamNo}
 	</select>
 	
+	<select id="selectMyTeam" resultType = "SignupTeamDTO" parameterType="hashmap">
+		SELECT * FROM (SELECT rownum rn, c.*
+     					FROM (SELECT a.team_no, b.team_name, a.status
+								FROM SIGNUP_TEAM a JOIN TEAM b ON (a.team_no = b.team_no)
+								WHERE a.id = #{id} AND (a.status=1 OR a.status=3) AND TO_CHAR(SYSDATE,'YYYY-MM-DD') &lt; b.enddate
+								ORDER BY a.team_no DESC
+         					) c
+      					)
+  		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="selectMyTeamCount" resultType = "int" parameterType="String">
+		SELECT COUNT(*)
+		FROM SIGNUP_TEAM a JOIN TEAM b ON (a.team_no = b.team_no)
+		WHERE a.id = #{id} AND (a.status=1 OR a.status=3) AND TO_CHAR(SYSDATE,'YYYY-MM-DD') &lt; b.enddate
+	</select>
+	
+	<select id="selectEndTeam" resultType = "SignupTeamDTO" parameterType="hashmap">
+		SELECT * FROM (SELECT rownum rn, c.*
+     					FROM (SELECT a.team_no, b.team_name, a.status
+								FROM SIGNUP_TEAM a JOIN TEAM b ON (a.team_no = b.team_no)
+								WHERE a.id = #{id} AND (a.status=1 OR a.status=3) AND TO_CHAR(SYSDATE,'YYYY-MM-DD') &gt; b.enddate
+								ORDER BY a.team_no DESC
+         					) c
+      					)
+  		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="selectEndTeamCount" resultType = "int" parameterType="String">
+		SELECT COUNT(*)
+		FROM SIGNUP_TEAM a JOIN TEAM b ON (a.team_no = b.team_no)
+		WHERE a.id = #{id} AND (a.status=1 OR a.status=3) AND TO_CHAR(SYSDATE,'YYYY-MM-DD') &gt; b.enddate
+	</select>
+	
+	<select id="selectWaitingTeam" resultType = "SignupTeamDTO" parameterType="hashmap">
+		SELECT * FROM (SELECT rownum rn, c.*
+     					FROM (SELECT a.team_no, b.team_name
+								FROM SIGNUP_TEAM a JOIN TEAM b
+								ON (a.team_no = b.team_no)
+								WHERE a.id = #{id} AND a.status=#{status}
+         					) c
+      					)
+  		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="selectWaitingTeamCount" resultType = "int" parameterType="hashmap">
+		SELECT COUNT(*)
+		FROM SIGNUP_TEAM a JOIN TEAM b ON (a.team_no = b.team_no)
+		WHERE a.id = #{id} AND a.status=#{status}
+	</select>
+	
+	<delete id="deleteSignupTeam" parameterType = "hashmap">
+  		DELETE FROM SIGNUP_TEAM
+		WHERE id = #{id} AND team_no = #{teamNo}
+  	</delete>
+	
+	<!-- ###################################################################################################################### -->
+
 	<!-- 셍나 -->
 	
 	<!-- 팀 메인_팀 소개글 가져오기 --> 
@@ -171,17 +229,17 @@
 	</insert>
 
 	<!-- 팀 메인_팀 나가기1 -->
-	<update id="updateTeamMemberStatusResign" parameterType="String">
-		UPDATE TEAMMEMBER_#{teamNo}
-		SET STATUS = 1
+	<update id="updateTeamMemberStatusResign" parameterType="java.util.Map">
+		UPDATE TEAMMEMBER_${teamNo}
+		SET STATUS <![CDATA[ = 0 ]]>
 		WHERE ID = #{id}
 	</update>
 
 	<!-- 팀 메인_팀 나가기2 -->
-	<delete id="deleteSignupTeam" parameterType="String">
+	<!--<delete id="deleteSignupTeam" parameterType="String">
 		DELETE FROM SIGNUP_TEAM
 		WHERE ID = #{id}
-	</delete>
+	</delete>-->
 	
 	<!-- 팀 메인_팀 멤버 닉네임 보여주기 -->
 	<select id="selectNicknameByTeamNo" parameterType="int" resultType="String">
@@ -237,12 +295,20 @@
 		WHERE STATUS = 0 AND TEAM_NO = ${teamNo}
 	</select>
 	
-	<!-- 팀 관리_팀 가입 요청 승인 -->
+	<!-- 팀 관리_팀 가입 요청 승인1 -->
 	<update id="updateRequestInfoApprove" parameterType="java.util.Map">
 	    UPDATE SIGNUP_TEAM
 		SET STATUS = 1
 		WHERE TEAM_NO = #{teamNo} AND ID = #{id}
 	</update>
+	
+	<!-- 팀 관리_팀 가입 요청 승인2 -->
+	<insert id="insertRequestInfoApprove" parameterType="java.util.Map">
+	    INSERT INTO TEAMMEMBER_${teamNo} (ID, NICKNAME, JOIN_DATE, STATUS)
+	    SELECT C.ID, C.NICKNAME, SYSDATE, 1
+	    FROM CUSTOMER C
+	    WHERE C.ID = #{id}
+	</insert>
 	
 	<!-- 팀 관리_팀 가입 요청 거절 -->
 	<update id="updateRequestInfoReject" parameterType="java.util.Map">
