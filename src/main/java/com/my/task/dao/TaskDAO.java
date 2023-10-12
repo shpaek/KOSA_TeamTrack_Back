@@ -155,5 +155,16 @@ public interface TaskDAO {
 	 * @throws FindException
 	 */
 	int selectAnswerCount(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 팀원 답안을 생성한다.
+	 * @param teamNo 팀 번호
+	 * @param questionNo 문제 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param answer 답
+	 * @throws AddException
+	 */
+	void insertMemberAnswer(Integer teamNo, Integer questionNo, Integer taskNo, String id, int answer) throws AddException;
 
 }
