@@ -133,9 +133,10 @@ public interface TaskService {
 	 * @param taskNo 과제 번호
 	 * @param id 아이디
 	 * @param hwscore 점수
+	 * @param reviewScore 평점
 	 * @throws AddException
 	 */
-	void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore) throws AddException;
+	void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException;
 	
 	/**
 	 * 팀원의 과제를 채점한다.
@@ -147,5 +148,13 @@ public interface TaskService {
 	 */
 	int chkHwscore(Integer teamNo, Integer taskNo, String id) throws FindException;
 
-
+	/**
+	 * 평점을 부여한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param reviewScore 평점
+	 * @throws ModifyException
+	 */
+	void setReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException;
 }

@@ -62,7 +62,7 @@ public class SubmitTaskController extends TaskController {
 			}
 			System.out.println(hwscore);
 			
-			service.addMemberScore(teamNo, taskNo, id, hwscore);
+			service.addMemberScore(teamNo, taskNo, id, hwscore, 5);
 			
 			map.put("status", 1);
 			map.put("msg", "과제 제출에 성공하였습니다");

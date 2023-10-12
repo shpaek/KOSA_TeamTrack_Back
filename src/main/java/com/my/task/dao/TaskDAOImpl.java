@@ -338,7 +338,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
-	public void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore) throws AddException {
+	public void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException {
 		SqlSession session=null;
 
 		try {
@@ -348,6 +348,7 @@ public class TaskDAOImpl implements TaskDAO {
 			map.put("taskNo", taskNo);
 			map.put("id", id);
 			map.put("hwscore", hwscore);
+			map.put("reviewScore", reviewScore);
 			session.insert("com.my.task.TaskMapper.insertMemberScore", map);
 			session.commit();
 		} catch(Exception e) {
@@ -358,7 +359,27 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
+	
+	public void updateReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException {
+		SqlSession session=null;
 
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "memberscore_"+teamNo);
+			map.put("taskNo", taskNo);
+			map.put("id", id);
+			map.put("reviewScore", reviewScore);
+			session.update("com.my.task.TaskMapper.updateReviewScore", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new ModifyException("과제 정보 생성 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
 
 
 	// main test

@@ -158,7 +158,12 @@
 	
 	<!-- 팀원 과제 정보 생성하기 -->
 	<insert id="insertMemberScore" parameterType="java.util.HashMap">
-		INSERT INTO ${tableName} (task_no, id, hwscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, SYSDATE)
+		INSERT INTO ${tableName} (task_no, id, hwscore, reviewscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, #{reviewScore}, SYSDATE)
 	</insert>
+	
+	<!-- 평점 업데이트하기 -->
+	<update id="updateReviewScore" parameterType="java.util.HashMap">
+		UPDATE ${tableName} SET reviewscore=#{reviewScore} WHERE id=#{id} AND task_no=#{taskNo}
+	</update>
 
 </mapper>

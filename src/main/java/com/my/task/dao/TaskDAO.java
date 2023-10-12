@@ -173,8 +173,18 @@ public interface TaskDAO {
 	 * @param taskNo 과제 번호
 	 * @param id 아이디
 	 * @param hwscore 점수
+	 * @param reviewScore 평점
 	 * @throws AddException
 	 */
-	void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore) throws AddException;
+	void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException;
 
+	/**
+	 * 평점을 업데이트한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param reviewScore 평점
+	 * @throws ModifyException
+	 */
+	void updateReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException;
 }

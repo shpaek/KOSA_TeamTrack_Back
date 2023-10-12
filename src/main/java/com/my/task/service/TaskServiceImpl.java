@@ -141,9 +141,9 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore)
+	public void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore)
 			throws AddException {
-		taskDAO.insertMemberScore(teamNo, taskNo, id, hwscore);
+		taskDAO.insertMemberScore(teamNo, taskNo, id, hwscore, reviewScore);
 	}
 
 	@Override
@@ -159,6 +159,10 @@ public class TaskServiceImpl implements TaskService {
 		}
 		
 		return (int)hwscore;
+	}
+	
+	public void setReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException {
+		taskDAO.updateReviewScore(teamNo, taskNo, id, reviewScore);
 	}
 
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
