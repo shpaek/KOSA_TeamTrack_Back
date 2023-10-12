@@ -200,7 +200,7 @@ public interface TeamDAO {
 	 * @param teamNo 팀번호
 	 * @throws RemoveException DB와의 연결 실패 시 예외 발생한다
 	 */
-	void deleteSignupTeam(String id, Integer teamNo) throws RemoveException;
+	void deleteSignupTeamByTeamNo(String id, Integer teamNo) throws RemoveException;
 	
 	/**
 	 * 해당 팀에서의 멤버 정보를 조회한다
