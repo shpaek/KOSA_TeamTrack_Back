@@ -25,11 +25,11 @@ public class MyTaskListController extends TaskController {
 //
 //		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String loginedId=(String)session.getAttribute("loginedId");
-//		String currentPage=request.getParameter("currentPage");
-//		int cp = 1;
-//		if(currentPage != null && !currentPage.equals("")) {
-//			cp = Integer.parseInt(currentPage);
-//		}
+		String currentPage=request.getParameter("currentPage");
+		int cp = 1;
+		if(currentPage != null && !currentPage.equals("")) {
+			cp = Integer.parseInt(currentPage);
+		}
 //
 //		String option=request.getParameter("option");
 //		boolean desc=true;
@@ -37,7 +37,7 @@ public class MyTaskListController extends TaskController {
 
 		Integer teamNo=9999;
 		String loginedId="nwh2023";
-		int cp=1;
+		//int cp=1;
 		boolean desc=true;
 
 		try {

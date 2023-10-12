@@ -14,6 +14,9 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
+import com.my.team.dto.TeamHashtagDTO;
+import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
 public interface TeamService {
@@ -31,15 +34,15 @@ public interface TeamService {
 	 * @param teamName
 	 * @throws FindException
 	 */
-	void teamNameDupChk(String teamName) throws FindException;
-
+	int teamNameDupChk(String teamName) throws FindException;
+	
 	/**
 	 *
 	 * @param t
 	 * @throws ModifyException
 	 */
 	void updateTeam(TeamDTO t) throws ModifyException;
-
+	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
 	/**
 	 *
 	 */
@@ -64,9 +67,9 @@ public interface TeamService {
 	 * @throws FindException
 	 */
 	List<TeamDTO> selectByCondition(String column) throws FindException;
+		
+	
 
-	TeamDTO selectByTeamName(String teamName) throws FindException;
-	List<TeamDTO> selectByHashtag(String hashtag) throws FindException;
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 	// void updateViewCnt(int teamNo) throws ModifyException;
 
@@ -77,7 +80,10 @@ public interface TeamService {
 	 * @return
 	 * @throws FindException
 	 */
-	PageGroup<TeamDTO> findAll(int currentPage) throws FindException;
+	MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException;
+	MainPageGroup<TeamDTO> selectByData(int currentPage, String table, String column, String data) throws FindException;
+	MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException;
+	MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException;
 
 	// ------------------------------------------------------------------------
 	
@@ -146,6 +152,15 @@ public interface TeamService {
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	/**
+	 * 팀 메인 페이지 - 팀 멤버인지 확인하기
+	 * @param teamMemberDTO
+	 * @return
+	 * @throws FindException
+	 */
+	Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException;
+	
 	/**
 	 * 팀 메인 페이지 - 팀 소개글 보여주기
 	 * @param teamNo
@@ -154,6 +169,14 @@ public interface TeamService {
 	 */
 	String selectTeamInfoByTeamNo(int teamNo) throws FindException;
 
+	/**
+	 * 팀 메인 페이지 - 팀 정보 다 가져오기
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException;
+	
 	/**
 	 * 팀 메인 페이지 - 공지사항 보여주기
 	 * @param teamNo
@@ -171,10 +194,11 @@ public interface TeamService {
 
 	/**
 	 * 팀 메인 페이지 - 팀에서 나가기 #1 (팀원 테이블에서 상태값 변경)
+	 * @param teamNo
 	 * @param id
 	 * @throws ModifyException
 	 */
-	void updateTeamMemberStatusResign(String id) throws ModifyException;
+	void updateTeamMemberStatusResign(Integer teamNo, String id) throws ModifyException;
 
 	/**
 	 * 팀 메인 페이지 - 팀에서 나가기 #2 (가입한 팀 테이블에서 삭제)
@@ -188,7 +212,7 @@ public interface TeamService {
 	 * @param id 회원 아이디
 	 * @throws Exception
 	 */
-	void leaveTeam(String id) throws Exception;
+	void leaveTeam(Integer teamNo, String id) throws Exception;
 
 	/**
 	 * 팀 메인 페이지 - 팀 멤버 출력
@@ -213,7 +237,15 @@ public interface TeamService {
 	int selectViewCnt(int teamNo) throws FindException;
 
 //	---------------------------
-
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 여부 확인
+	 * @param map
+	 * @return String
+	 * @throws FindException
+	 */
+	String selectAttendanceDate(Map<String, Object> map) throws FindException;
+	
 	/**
 	 * 팀 출석부 페이지 - 출석하기
 	 * @param teamNo
@@ -257,11 +289,26 @@ public interface TeamService {
 	List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException;
 	
 	/**
-	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인1
 	 * @param map
-	 * @throws Exception
+	 * @throws ModifyException
 	 */
 	void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인2
+	 * @param map
+	 * @throws AddException
+	 */
+	void insertRequestInfoApprove(Map<String, Object> map) throws AddException;
+	
+	/**
+	 * 팀 관리 페이지(가입 요청 관리) - 트랜잭션
+	 * @param teamNo
+	 * @param id
+	 * @throws Exception
+	 */
+	void approveRequest(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
@@ -272,8 +319,9 @@ public interface TeamService {
 	
 	/**
 	 * 팀 관리 페이지(출제자 선정) - 출제자 선정
-	 * @param map
-	 * @throws Exception
+	 * @param taskDTO
+	 * @param teamNo
+	 * @throws ModifyException
 	 */
 	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
 

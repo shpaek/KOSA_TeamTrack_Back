@@ -266,10 +266,10 @@ public class RankDAOImpl implements RankDAO {
 		}
 		
 		
-		List<TaskDTO> list = dao.selectAllTask();
-		for (int i = 0; i < list.size(); i++) {
-//			System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEndDate());				
-		}
+//		List<TaskDTO> list = dao.selectAllTask();
+//		for (int i = 0; i < list.size(); i++) {
+////			System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEndDate());				
+//		}
 		
 		
 	}

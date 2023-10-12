@@ -2,6 +2,8 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.exception.AddException;
-import com.my.exception.FindException;
 import com.my.team.dto.AttendanceDTO;
 
 public class TeamAttendanceController extends TeamController {
 
-	// 팀 출석부용 컨트롤러
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -28,56 +27,72 @@ public class TeamAttendanceController extends TeamController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
-		Map<String, Object> map = new HashMap<>();
+		Map statusMap = new HashMap<>();
+		Map methodMap = new HashMap<>();
+		Map<String, Object> paramsMap = new HashMap<>();
+		Map resultMap = new HashMap<>();
 
-		try {
-			String method = request.getMethod();
+	    int teamNo = Integer.parseInt(request.getParameter("teamNo"));
+	    String id = request.getParameter("id");
+	    String action = request.getParameter("action");
+//	    Integer action = Integer.parseInt(request.getParameter("action"));
+	    
+	    System.out.println(action);
+	    
+	    paramsMap.put("teamNo", teamNo);
+	    paramsMap.put("id", id);
+	    
+//	    System.out.println(teamNo+":"+id);
 
-			// 출석하기
-			if ("POST".equals(method)) {
+	    try {
+	    	if ("attendChk".equals(action)) {
+	    	    String existingDate = service.selectAttendanceDate(paramsMap);
+	    	    
+	    	    System.out.println("됨ㅇㅇ");
+	    	    if (existingDate != null) {
+	    	    	statusMap.put("status", 2);
+	    	    	System.out.println("1번");
+	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
+	    	    } else {
+	    	    	statusMap.put("status", 1);
+	    	    	System.out.println("2번");
+	    	    	statusMap.put("msg", "오늘 출석 가능합니다.");
+	    	    } // else-if
+	    	    
+	    	} else if ("attend".equals(action)) {
+	    		String existingDate = service.selectAttendanceDate(paramsMap);
+	    		
+	    		if (existingDate != null) {
+	    	    	statusMap.put("status", 2);
+	    	    	System.out.println("3번");
+	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
+	    	    } else {
+	    	        service.insertAttendanceById(teamNo, id);
+	    	        statusMap.put("status", 1);
+	    	        System.out.println("4번");
+	    	        statusMap.put("msg", "팀 출석 성공");
+	    	    } // else-if
+	    		
+	    	} // else-if
 
-				String id = (String) request.getSession().getAttribute("loginedId");
-				Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+	    	// 출석내역확인
+	    	List<AttendanceDTO> attendanceList = service.selectAttendanceById(teamNo, id);
+	    	methodMap.put("attendanceList", attendanceList);
 
-				service.insertAttendanceById(teamNo, id);
-
-				map.put("status", 1);
-				map.put("msg", "출석 성공");
-				
-			} else if ("GET".equals(method)) {
-				// 출석 내역 조회하기
-				String id = (String) request.getSession().getAttribute("loginedId");
-				Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
-
-				List<AttendanceDTO> attendanceList = service.selectAttendanceById(teamNo, id);
-
-				map.put("status", 1);
-				map.put("msg", "출석 내역 조회 성공");
-			} // else-if
-			
-		} catch (FindException e) {
-			e.printStackTrace();
-			
-			map.put("status", 0);
-			map.put("msg", "출석 실패");
-		} catch (AddException e) {
-			e.printStackTrace();
-			
-			map.put("status", 0);
-			map.put("msg", "출석 실패");
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-			map.put("status", 0);
-			map.put("msg", "출석 실패");
-		} // try-catch
-
-		// JSON문자열 응답
-		String jsonStr = mapper.writeValueAsString(map);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	statusMap.put("status", 0);
+	    	System.out.println("5번");
+	    	statusMap.put("msg", "팀 출석 실패");
+	    }
+	    
+	    Object status = statusMap.get("status");
+	    resultMap.put("statusMap", statusMap);
+	    resultMap.put("method", methodMap);
+	    
+		String jsonStr = mapper.writeValueAsString(resultMap);
 		out.print(jsonStr);
-		
+
 		return null;
-
-	} // execute()
-
-} // end class
+	} 
+}

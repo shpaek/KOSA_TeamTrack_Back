@@ -6,29 +6,53 @@
 <mapper namespace="com.my.qna.QnaboardCommentMapper">
 
 	<!-- 댓글 작성 -->
-  <insert id="insertComment" parameterType="QnaBoardCommentDTO">
-	INSERT INTO qnacomment_9999(comment_no, qna_no, content, teammember_id)
-	VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{content}, #{teammember_id})
-  </insert>
+	<insert id="insertComment" parameterType="QnaBoardCommentDTO">
+		INSERT INTO ${tableName}(comment_no, qna_no, content, teammember_id)
+		VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{content}, #{teammember_id})
+  	</insert>
+  
+  	<!-- 대댓글 작성 -->
+  	<insert id="insertReplyComment" parameterType="QnaBoardCommentDTO">
+		INSERT INTO ${tableName}(comment_no, qna_no, comment_group, content, teammember_id)
+		VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{commentGroup}, #{content}, #{teammember_id})
+  	</insert>
 
-	<!-- 게시글의 전체 댓글 조회 -->
-	<select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
+	<!-- 게시글의 전체 댓글 조회 --> <!-- grup null인것들만 조회 -->
+	<!-- <select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
 			SELECT * 
 			FROM (SELECT rownum rn, a.* 
 			     FROM (SELECT *
 			           FROM ${tableName}
 			           WHERE qna_no = #{qnaNo}
-			           ORDER BY qna_no DESC
+			           ORDER BY qna_no ASC
 			          ) a
 			      )
 			 WHERE rn BETWEEN #{start} AND #{end}
-	</select>
+	</select> -->
 	
 	<!-- 해당 게시글의 전체 댓글 개수 가져오기 -->
-	<select id="selectAllCount" resultType="Integer">
+<!-- 	<select id="selectAllCount" resultType="Integer">
 		SELECT COUNT(*)
 		FROM ${tableName}
 		WHERE qna_no = #{qnaNo} 
+	</select> -->
+	
+	<!-- 댓글과 대댓글 모두 조회 -->
+	<select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
+		
+		<!-- SELECT level, ${tableName}.*, #{qnaNo, jdbcType=INTEGER} "qna_no"
+		FROM ${tableName}
+		START WITH comment_group  IS NULL
+		CONNECT BY PRIOR comment_no = comment_group
+		ORDER SIBLINGS BY comment_no  DESC -->
+		
+		
+SELECT level, a.*
+		FROM ${tableName} a
+        WHERE QNA_NO=#{qnaNo}
+		START WITH comment_group IS NULL
+		CONNECT BY PRIOR comment_no = comment_group
+		ORDER SIBLINGS BY comment_no  ASC		
 	</select>
 	
 	<!-- UPDATE qnacomment_64 -->

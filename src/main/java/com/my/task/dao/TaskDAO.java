@@ -156,5 +156,13 @@ public interface TaskDAO {
 	 * @throws SQLException 
 	 */
 	Integer selectJoinAfterTaskCount(String id, Integer teamNo) throws FindException, SQLException;
+	 
+	 /** 과제 번호에 해당하는 답 개수를 가져온다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @return 답 개수
+	 * @throws FindException
+	 */
+	int selectAnswerCount(Integer teamNo, Integer taskNo) throws FindException;
 
 }

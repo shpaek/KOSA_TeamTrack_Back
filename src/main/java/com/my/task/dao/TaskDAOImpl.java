@@ -297,6 +297,24 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
+	
+	public int selectAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "quizanswer_"+teamNo);
+			map.put("taskNo", taskNo);
+			int cnt=session.selectOne("com.my.task.TaskMapper.selectAnswerCount", map);
+			return cnt;
+		} catch(Exception e) {
+			//e.printStackTrace();
+			throw new FindException("답 개수 조회 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
 
 
 	// main test
