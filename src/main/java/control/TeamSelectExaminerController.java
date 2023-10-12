@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -31,7 +32,8 @@ public class TeamSelectExaminerController extends TeamController {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  // 사용하려는 날짜 형식에 따라 변경 가능
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> statusMap = new HashMap<>();
+        Map<String, Object> methodMap = new HashMap<>();
         
         
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
@@ -43,7 +45,6 @@ public class TeamSelectExaminerController extends TeamController {
             Date formatDueDate2 = formatter.parse(request.getParameter("duedate2"));
             Date formatEndDate = formatter.parse(request.getParameter("enddate"));
             
-//            taskDTO.setTaskNo(Integer.parseInt(request.getParameter("taskNo")));
 //            taskDTO.setId(request.getParameter("id"));
             taskDTO.setId(id);
             taskDTO.setDuedate1(formatDueDate1);
@@ -53,30 +54,31 @@ public class TeamSelectExaminerController extends TeamController {
             System.out.println(taskDTO.getDuedate1());
             
             // 출제자 선정을 위한 팀원 목록 보여줌
-            service.selectMemberInfo(teamNo);
+            List<Map<String, Object>> teamInfo = service.selectMemberInfo(teamNo);
+            methodMap.put("teamInfo", teamInfo);
 
             // 출제자 선정
             service.insertExaminer(taskDTO, teamNo);
             
-            map.put("status", 1);
-            map.put("msg", "출제자 선정 성공");
+            statusMap.put("status", 1);
+            statusMap.put("msg", "출제자 선정 성공");
             
         } catch (FindException e) {
         	e.printStackTrace();
-            map.put("status", 0);
-            map.put("msg", "팀원 목록 조회 실패: " + e.getMessage());
+        	statusMap.put("status", 0);
+        	statusMap.put("msg", "팀원 목록 조회 실패: " + e.getMessage());
         } catch (ModifyException e) {
             e.printStackTrace();
-            map.put("status", 0);
-            map.put("msg", "출제자 선정 실패: " + e.getMessage());
+            statusMap.put("status", 0);
+            statusMap.put("msg", "출제자 선정 실패: " + e.getMessage());
         } catch (ParseException e) {
         	e.printStackTrace();
-        	map.put("status", 0);
-        	map.put("msg", "date 타입 파싱 실패: " + e.getMessage());
+        	statusMap.put("status", 0);
+        	statusMap.put("msg", "date 타입 파싱 실패: " + e.getMessage());
 		}
 
         // JSON문자열 응답
-        String jsonStr = mapper.writeValueAsString(map);
+        String jsonStr = mapper.writeValueAsString(methodMap);
         out.print(jsonStr);
 
         return null;

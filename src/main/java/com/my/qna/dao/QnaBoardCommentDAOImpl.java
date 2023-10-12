@@ -56,6 +56,8 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 			map.put("tableName", tableName);
 			map.put("qna_no", dto.getQnaNo());
 			map.put("content", dto.getContent());
+			
+			// 이 teammember_id는 sessionId로 가져와야 할거같다.. 수정 필요
 			map.put("teammember_id", dto.getTeammemberId());
 
 			session = sqlSessionFactory.openSession();
@@ -76,12 +78,47 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		} // try-catch-finally
 
 	} // insertComment
-	
-	
-	
-	
+
 	@Override
-	public List<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo, int startRow, int endRow) throws FindException {
+	public void insertReplyComment(Integer teamNo, QnaBoardCommentDTO dto) throws AddException {
+		
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			String tableName = "QNACOMMENT_"+ String.valueOf(teamNo);
+		
+			map.put("tableName", tableName);
+			map.put("commentGroup", dto.getCommentGroup());
+			map.put("qna_no", dto.getQnaNo());
+			map.put("content", dto.getContent());
+			
+			// 이 teammember_id는 sessionId로 가져와야 할거같다.. 수정 필요
+			map.put("teammember_id", dto.getTeammemberId());
+			
+			session = sqlSessionFactory.openSession();
+			session.insert("com.my.qna.QnaboardCommentMapper.insertReplyComment", map);
+			
+			session.commit();
+			
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new AddException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		} // try-catch-finally
+		
+	} // insertReplyComment
+
+	@Override
+	public List<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo)
+	//, int startRow, int endRow) 
+	throws FindException {
 		
 		SqlSession session = null;
 		
@@ -98,8 +135,8 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 			
 			map.put("tableName", tableName);
 			map.put("qnaNo", qnaNo);
-			map.put("start", startRow);
-			map.put("end", endRow);
+//			map.put("start", startRow);
+//			map.put("end", endRow);
 			
 			qnaCommentList = session.selectList("com.my.qna.QnaboardCommentMapper.selectCommentByQnaNo", map);
 			
@@ -150,6 +187,50 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		} // try-catch-finally
 		
 	} // selectAllCount
+	
+	
+
+	@Override
+	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException {
+		
+		SqlSession session = null;
+		
+		// 조회한 게시물 저장할 변수 생성 
+		List<QnaBoardCommentDTO> qnaCommentReplyList = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			session = sqlSessionFactory.openSession();
+			
+			String tableName = "QNACOMMENT_"+ String.valueOf(teamNo);
+			
+			map.put("tableName", tableName);
+			map.put("qnaNo", dto.getQnaNo());
+			map.put("commentNo", dto.getCommentNo());
+			map.put("commentGroup", dto.getCommentGroup());
+			map.put("content", dto.getContent());
+			
+			// 이 teammember_id는 sessionId로 가져와야 할거같다.. 수정 필요
+			map.put("teammember_id", dto.getTeammemberId());
+			
+			qnaCommentReplyList = session.selectList("com.my.qna.QnaboardCommentMapper.selectCommentReply", map);
+			
+			return qnaCommentReplyList;
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+		
+//		return null;
+	} // selectCommentReply
 
 	@Override
 	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
@@ -192,18 +273,67 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 //		
 //		QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
 //		
-//		dto.setQnaNo(106);
-//		dto.setContent("댓글작성");
-//		dto.setTeammemberId("test01");
+//		Integer teamNo = 64;
+//		dto.setQnaNo(112);
+//		dto.setContent("112번 게시글에 댓글작성 해볼게요1");
+//		dto.setTeammemberId("psh2023");
 //		
 //		try {
-//			dao.insertComment(dto);
+//			dao.insertComment(teamNo, dto);
 //			
 //			System.out.println("댓글작성 성공");
 //		} catch (AddException e) {
 //			e.printStackTrace();
 //			System.out.println("댓글작성 실패");
 //		}
+		
+		// ============== insertReply 메서드 테스트 ==========================
+		
+//		QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//		
+//		QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
+//		
+//		Integer teamNo = 64;
+//		dto.setQnaNo(112);
+//		dto.setCommentGroup(1);
+//		dto.setContent("112번 게시글의 CommentNo가1인 댓글에 대댓글작성 해볼게요~~이게 찐임");
+//		dto.setTeammemberId("psh2023");
+//		
+//		try {
+//			dao.insertReplyComment(teamNo, dto);
+//			
+//			System.out.println("댓글작성 성공");
+//		} catch (AddException e) {
+//			e.printStackTrace();
+//			System.out.println("댓글작성 실패");
+//		}
+		
+		// ================== selectCommentReply 메서드 테스트 ======================
+		
+	    QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+
+	    QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
+
+	    Integer teamNo = 64;
+	    dto.setQnaNo(112);
+	    dto.setCommentNo(1);
+	    dto.setCommentGroup(1);
+
+	    try {
+	        List<QnaBoardCommentDTO> commentReplyList = dao.selectCommentReply(teamNo, dto);
+
+	        System.out.println("댓글 조회 성공");
+	        
+	        for (QnaBoardCommentDTO commentList : commentReplyList) {
+	        	
+	            System.out.println("commentNo: " + commentList.getCommentNo());
+	            System.out.println("content: " + commentList.getContent());
+	            
+	        }
+	    } catch (FindException e) {
+	        e.printStackTrace();
+	        System.out.println("댓글 조회 실패");
+	    }
 		
 		// ============== 해당 게시글의 전체 댓글 메서드 테스트 ==========================
 		
@@ -253,27 +383,27 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 //	    
         // ========================= 댓글 채택 기능 메서드 테스트 =========================
         
-	    try {
-
-	        Integer teamNo = 64;
-	        Integer qnaNo = 112;
-	        // 게시글 작성자 아이디를 보내야함
-//	        String teammember_id = "test01";
-	        // 게시글의 게시글번호를 가져옴
-	        Integer commentNo = 4;
-
-	        QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
-
-	        Integer result = dao.commentPick(teamNo, qnaNo, commentNo);
-
-	        if (result > 0) {
-	            System.out.println("채택 성공!");
-	        } else {
-	            System.out.println("채택 실패!");
-	        }
-	    } catch (ModifyException e) {
-	        e.printStackTrace();
-	    }
+//	    try {
+//
+//	        Integer teamNo = 64;
+//	        Integer qnaNo = 112;
+//	        // 게시글 작성자 아이디를 보내야함
+////	        String teammember_id = "test01";
+//	        // 게시글의 게시글번호를 가져옴
+//	        Integer commentNo = 4;
+//
+//	        QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//
+//	        Integer result = dao.commentPick(teamNo, qnaNo, commentNo);
+//
+//	        if (result > 0) {
+//	            System.out.println("채택 성공!");
+//	        } else {
+//	            System.out.println("채택 실패!");
+//	        }
+//	    } catch (ModifyException e) {
+//	        e.printStackTrace();
+//	    }
 
 	} // main(test)
 

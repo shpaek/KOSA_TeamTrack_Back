@@ -224,28 +224,36 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 	} // update
 
 	@Override
-	public Integer delete(Integer qna_no) throws RemoveException {
+	public Integer delete(Integer teamNo, Integer qnaNo) throws ModifyException {
 
 		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
 
 		try {
+			
+			String tableName="QNABOARD_" + teamNo;
+			
+			map.put("tableName", tableName);
+			map.put("qnaNo", qnaNo);
 
 			session = sqlSessionFactory.openSession();
-			session.delete("com.my.qna.QnaBoardMapper.delete", qna_no);
+			int result = session.delete("com.my.qna.QnaBoardMapper.delete", map);
 			
 			session.commit();
 
+			return result; // 삭제된 행 수 반환
+			
 		} catch(Exception e) {
 			session.rollback();
 			e.printStackTrace();
-			throw new RemoveException(e.getMessage());
+			throw new ModifyException(e.getMessage());
 		} finally {
 			if(session!=null) {
 				session.close();
 			}
 		} // try-catch-finally
 
-		return null;
 	} // delete
 
 	// ===================  메서드 테스트 =======================
@@ -257,7 +265,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 //		
 //		QnaBoardDTO dto = new QnaBoardDTO();
 //
-//		dto.setId("게시판test8");
+//		dto.setId("test01");
 //		dto.setTitle("tset입니다8");
 //		dto.setContent("test입니다8");
 //		
@@ -328,17 +336,37 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		// =============== selectByQnaNo 메서드 테스트 ======================
         // 테스트를 위한 팀 번호와 게시글 번호 설정
 		
+//	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
+//		
+//        Integer teamNo = 9999;
+//        Integer qnaNo = 33; // 테스트할 게시글 번호
+//        
+//        try {
+//			QnaBoardDTO dto = dao.selectByQnaNo(teamNo, qnaNo);
+//			
+//			System.out.println("dto : " + dto);
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+        
+        // ============= delete 메서드 테스트 =======================
+        
 	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
 		
-        Integer teamNo = 9999;
-        Integer qnaNo = 33; // 테스트할 게시글 번호
+        Integer teamNo = 65; // 팀 번호
+        Integer qnaNo = 115; // 게시글 번호
         
         try {
-			QnaBoardDTO dto = dao.selectByQnaNo(teamNo, qnaNo);
+			int result = dao.delete(teamNo, qnaNo);
 			
-			System.out.println("dto : " + dto);
-		} catch (FindException e) {
+			System.out.println("result : " + result);
+			System.out.println(" 삭제 되었습니다 ");
+			
+		} catch (ModifyException e) {
+			
 			e.printStackTrace();
+			System.out.println(" 삭제 실패 ");
+			
 		}
 		
 	} // main(test)

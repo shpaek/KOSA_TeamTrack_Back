@@ -5,7 +5,6 @@ import java.util.List;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
-import com.my.exception.RemoveException;
 import com.my.qna.dao.QnaBoardDAO;
 import com.my.qna.dao.QnaBoardDAOImpl;
 import com.my.qna.dto.QnaBoardDTO;
@@ -87,9 +86,9 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	} // update
 
 	@Override
-	public Integer delete(Integer qna_no) throws RemoveException {
+	public Integer delete(Integer teamNo, Integer qnaNo) throws ModifyException {
 
-		qnaBoardDAO.delete(qna_no);
+		qnaBoardDAO.delete(teamNo, qnaNo);
 
 		return null;
 	} // delete
