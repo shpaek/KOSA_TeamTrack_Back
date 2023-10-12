@@ -283,12 +283,12 @@ public class TeamServiceImpl implements TeamService {
 	
 	@Override
 	public void cancelWaiting(String id, Integer teamNo) throws RemoveException{
-		teamDAO.deleteSignupTeam(id, teamNo);
+		teamDAO.deleteSignupTeamByTeamNo(id, teamNo);
 	}
 	
 	@Override
 	public void rejectCheck(String id, Integer teamNo) throws RemoveException{
-		teamDAO.deleteSignupTeam(id, teamNo);
+		teamDAO.deleteSignupTeamByTeamNo(id, teamNo);
 	}
 	
 	@Override
