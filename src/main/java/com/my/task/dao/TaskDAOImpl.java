@@ -32,7 +32,7 @@ public class TaskDAOImpl implements TaskDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public List<TaskDTO> selectMainTaskList(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -282,7 +282,7 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
 	public List<TaskDTO> selectTaskId(Integer teamNo) throws FindException {
 		SqlSession session=null;
 
@@ -297,7 +297,7 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
 	public int selectAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
@@ -316,71 +316,136 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	public void insertMemberAnswer(Integer teamNo, Integer questionNo, Integer taskNo, String id, int answer) throws AddException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "memberanswer_"+teamNo);
+			map.put("questionNo", questionNo);
+			map.put("taskNo", taskNo);
+			map.put("id", id);
+			map.put("answer", answer);
+			session.insert("com.my.task.TaskMapper.insertMemberAnswer", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new AddException("답안 생성 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+
+	public void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "memberscore_"+teamNo);
+			map.put("taskNo", taskNo);
+			map.put("id", id);
+			map.put("hwscore", hwscore);
+			map.put("reviewScore", reviewScore);
+			session.insert("com.my.task.TaskMapper.insertMemberScore", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new AddException("과제 정보 생성 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	public void updateReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException {
+		SqlSession session=null;
+
+		try {
+			session=sqlSessionFactory.openSession();
+			Map<String, Object> map=new HashMap<>();
+			map.put("tableName", "memberscore_"+teamNo);
+			map.put("taskNo", taskNo);
+			map.put("id", id);
+			map.put("reviewScore", reviewScore);
+			session.update("com.my.task.TaskMapper.updateReviewScore", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new ModifyException("과제 정보 생성 실패");
+		} finally {
+			if(session!=null) session.close();
+		}
+	}
+
 
 	// main test
-//	public static void main(String[] args) throws FindException, AddException {
-//		TaskDAOImpl t=new TaskDAOImpl();
-//		try {
-//			System.out.println("======================\n메인과제리스트");
-//			List<TaskDTO> list4=t.selectMainTaskList(9999, "");
-//			for(int i=0;i<list4.size();i++) {
-//				System.out.print("과제 타이틀 : "+list4.get(i).getTitle()+" | ");
-//				System.out.print("출제자 : "+list4.get(i).getId()+" | ");
-//				System.out.print("과제 생성일 : "+list4.get(i).getRegdate()+" | ");
-//				System.out.println("과제 마감일 : "+list4.get(i).getEnddate());
-//			}
-//			System.out.print("======================\n전체과제리스트 - ");
-//			int cnt=t.selectAllTaskCount(9999);
-//			System.out.println(cnt);
-//			List<TaskDTO> list=t.selectAllTaskList(9999, 1, 4, true);
-//			for(int i=0;i<list.size();i++) {
-//				System.out.print("과제 타이틀 : "+list.get(i).getTitle()+" | ");
-//				System.out.print("출제자 : "+list.get(i).getId()+" | ");
-//				System.out.println("과제 생성일 : "+list.get(i).getRegdate());
-//			}
-//			System.out.print("======================\n완료과제리스트 - ");
-//			int cnt2=t.selectCompleteTaskCount(9999, "nwh2023");
-//			System.out.println(cnt2);
-//			List<MemberTaskDTO> list2=t.selectCompleteTaskList(9999, "nwh2023", 1, 2, true);
-//			for(int i=0;i<list2.size();i++) {
-//				System.out.print("과제 타이틀 : "+list2.get(i).getTitle()+" | ");
-//				System.out.print("출제자 : "+list2.get(i).getId()+" | ");
-//				System.out.println("과제 제출일 : "+list2.get(i).getSubmitDate());
-//			}
-//			System.out.print("======================\n출제과제리스트 - ");
-//			int cnt3=t.selectMyTaskCount(9999, "khb2023");
-//			System.out.println(cnt3);
-//			List<TaskDTO> list3=t.selectMyTaskList(9999, "khb2023", 1, 2, true);
-//			for(int i=0;i<list3.size();i++) {
-//				System.out.print("과제 타이틀 : "+list3.get(i).getTitle()+" | ");
-//				System.out.println("평점 : "+list3.get(i).getAvgReviewscore());
-//			}
-//			System.out.println("======================\n선택한 과제");
-//			TaskDTO task=t.selectTaskInfo(9999, 1);
-//			List<Integer> qa=t.selectQuizAnswer(9999, 1);
-//			List<Integer> ma=t.selectMemberAnswer(9999, 1, "nwh2023");
-//			System.out.println(task.getTitle()+"	출제자 : "+task.getId()+" | 과제생성일 : "+task.getRegdate());
-//			for(int i=0;i<qa.size();i++) {
-//				System.out.println("과제 답 : "+qa.get(i)+" / 팀원 답 : "+ma.get(i));
-//			}
-//			int score=t.selectMemberScore(9999, 1, "nwh2023");
-//			System.out.println("점수 : "+score); //풀지 않았을 경우 예외처리
-////			System.out.println("======================\\n과제 업데이트");
-////			t.updateTask(9999, "test exam1", "2023-10-20", 10);
-////			System.out.println("======================\\n답안 생성");
-////			//t.insertQuizAnswer(9999, 1, 10, 4);
-////			System.out.println("======================\\n답안 수정");
-////			//t.updateQuizAnswer(9999, 1, 10, 1);
-////			System.out.println("======================\\n답안 삭제");
-////			//t.deleteQuizAnswer(9999, 1, 10);
-//			System.out.println("======================\n출제자 아이디");
-//			List<String> id=t.selectTaskId(9999);
-//			for(int i=0;i<id.size();i++) System.out.print(id.get(i)+" ");
-//		} catch (Exception e) {
-//			//e.printStackTrace();
-//			System.out.println(e.getMessage());
-//		}
-//	}
+	//	public static void main(String[] args) throws FindException, AddException {
+	//		TaskDAOImpl t=new TaskDAOImpl();
+	//		try {
+	//			System.out.println("======================\n메인과제리스트");
+	//			List<TaskDTO> list4=t.selectMainTaskList(9999, "");
+	//			for(int i=0;i<list4.size();i++) {
+	//				System.out.print("과제 타이틀 : "+list4.get(i).getTitle()+" | ");
+	//				System.out.print("출제자 : "+list4.get(i).getId()+" | ");
+	//				System.out.print("과제 생성일 : "+list4.get(i).getRegdate()+" | ");
+	//				System.out.println("과제 마감일 : "+list4.get(i).getEnddate());
+	//			}
+	//			System.out.print("======================\n전체과제리스트 - ");
+	//			int cnt=t.selectAllTaskCount(9999);
+	//			System.out.println(cnt);
+	//			List<TaskDTO> list=t.selectAllTaskList(9999, 1, 4, true);
+	//			for(int i=0;i<list.size();i++) {
+	//				System.out.print("과제 타이틀 : "+list.get(i).getTitle()+" | ");
+	//				System.out.print("출제자 : "+list.get(i).getId()+" | ");
+	//				System.out.println("과제 생성일 : "+list.get(i).getRegdate());
+	//			}
+	//			System.out.print("======================\n완료과제리스트 - ");
+	//			int cnt2=t.selectCompleteTaskCount(9999, "nwh2023");
+	//			System.out.println(cnt2);
+	//			List<MemberTaskDTO> list2=t.selectCompleteTaskList(9999, "nwh2023", 1, 2, true);
+	//			for(int i=0;i<list2.size();i++) {
+	//				System.out.print("과제 타이틀 : "+list2.get(i).getTitle()+" | ");
+	//				System.out.print("출제자 : "+list2.get(i).getId()+" | ");
+	//				System.out.println("과제 제출일 : "+list2.get(i).getSubmitDate());
+	//			}
+	//			System.out.print("======================\n출제과제리스트 - ");
+	//			int cnt3=t.selectMyTaskCount(9999, "khb2023");
+	//			System.out.println(cnt3);
+	//			List<TaskDTO> list3=t.selectMyTaskList(9999, "khb2023", 1, 2, true);
+	//			for(int i=0;i<list3.size();i++) {
+	//				System.out.print("과제 타이틀 : "+list3.get(i).getTitle()+" | ");
+	//				System.out.println("평점 : "+list3.get(i).getAvgReviewscore());
+	//			}
+	//			System.out.println("======================\n선택한 과제");
+	//			TaskDTO task=t.selectTaskInfo(9999, 1);
+	//			List<Integer> qa=t.selectQuizAnswer(9999, 1);
+	//			List<Integer> ma=t.selectMemberAnswer(9999, 1, "nwh2023");
+	//			System.out.println(task.getTitle()+"	출제자 : "+task.getId()+" | 과제생성일 : "+task.getRegdate());
+	//			for(int i=0;i<qa.size();i++) {
+	//				System.out.println("과제 답 : "+qa.get(i)+" / 팀원 답 : "+ma.get(i));
+	//			}
+	//			int score=t.selectMemberScore(9999, 1, "nwh2023");
+	//			System.out.println("점수 : "+score); //풀지 않았을 경우 예외처리
+	////			System.out.println("======================\\n과제 업데이트");
+	////			t.updateTask(9999, "test exam1", "2023-10-20", 10);
+	////			System.out.println("======================\\n답안 생성");
+	////			//t.insertQuizAnswer(9999, 1, 10, 4);
+	////			System.out.println("======================\\n답안 수정");
+	////			//t.updateQuizAnswer(9999, 1, 10, 1);
+	////			System.out.println("======================\\n답안 삭제");
+	////			//t.deleteQuizAnswer(9999, 1, 10);
+	//			System.out.println("======================\n출제자 아이디");
+	//			List<String> id=t.selectTaskId(9999);
+	//			for(int i=0;i<id.size();i++) System.out.print(id.get(i)+" ");
+	//		} catch (Exception e) {
+	//			//e.printStackTrace();
+	//			System.out.println(e.getMessage());
+	//		}
+	//	}
 
 	public Integer selectJoinAfterTaskCount(String id, Integer teamNo) throws FindException{
 		SqlSession session = null;

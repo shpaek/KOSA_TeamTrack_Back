@@ -45,6 +45,7 @@ public class TaskDownloadController extends TaskController {
 				while((readValue=fis.read())!=-1) {
 					sos.print(readValue);
 				}
+				System.out.println("test");
 				sos.close();
 			}
 		}

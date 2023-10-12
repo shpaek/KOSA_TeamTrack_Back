@@ -54,8 +54,8 @@ public class SetTaskController extends TaskController {
 				return null;
 			}
 			
-			service.AddQuizAnswer(teamNo, taskNo, answer);
-			service.ModifyTask(teamNo, title, taskNo);
+			service.addQuizAnswer(teamNo, taskNo, answer);
+			service.modifyTask(teamNo, title, taskNo);
 			
 			try {
 				for(int i=0;i<attach.getFile("taskfile").size();i++) {
