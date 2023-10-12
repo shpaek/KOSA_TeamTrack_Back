@@ -33,7 +33,6 @@ public class SubmitTaskController extends TaskController {
 		String answer=request.getParameter("answerlist");
 		int answerCnt=Integer.parseInt(request.getParameter("answerCnt"));
 		System.out.println(answerCnt);
-		int reviewScore=Integer.parseInt(request.getParameter("reviewScore"));
 		
 		if(answer.isEmpty()) {
 			map.put("status", 0);
@@ -63,7 +62,7 @@ public class SubmitTaskController extends TaskController {
 			}
 			System.out.println(hwscore);
 			
-			service.addMemberScore(teamNo, taskNo, id, hwscore, reviewScore);
+			service.addMemberScore(teamNo, taskNo, id, hwscore);
 			
 			map.put("status", 1);
 			map.put("msg", "과제 제출에 성공하였습니다");

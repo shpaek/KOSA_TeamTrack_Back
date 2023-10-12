@@ -158,7 +158,7 @@
 	
 	<!-- 팀원 과제 정보 생성하기 -->
 	<insert id="insertMemberScore" parameterType="java.util.HashMap">
-		INSERT INTO ${tableName} (task_no, id, hwscore, reviewscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, #{reviewScore}, SYSDATE)
+		INSERT INTO ${tableName} (task_no, id, hwscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, SYSDATE)
 	</insert>
 
 </mapper>

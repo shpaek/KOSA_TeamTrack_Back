@@ -338,7 +338,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
-	public void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException {
+	public void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore) throws AddException {
 		SqlSession session=null;
 
 		try {
@@ -348,7 +348,6 @@ public class TaskDAOImpl implements TaskDAO {
 			map.put("taskNo", taskNo);
 			map.put("id", id);
 			map.put("hwscore", hwscore);
-			map.put("reviewScore", reviewScore);
 			session.insert("com.my.task.TaskMapper.insertMemberScore", map);
 			session.commit();
 		} catch(Exception e) {

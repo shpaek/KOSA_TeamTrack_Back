@@ -141,9 +141,9 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore)
+	public void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore)
 			throws AddException {
-		taskDAO.insertMemberScore(teamNo, taskNo, id, hwscore, reviewScore);
+		taskDAO.insertMemberScore(teamNo, taskNo, id, hwscore);
 	}
 
 	@Override

@@ -133,10 +133,9 @@ public interface TaskService {
 	 * @param taskNo 과제 번호
 	 * @param id 아이디
 	 * @param hwscore 점수
-	 * @param reviewScore 평점
 	 * @throws AddException
 	 */
-	void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException;
+	void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore) throws AddException;
 	
 	/**
 	 * 팀원의 과제를 채점한다.
