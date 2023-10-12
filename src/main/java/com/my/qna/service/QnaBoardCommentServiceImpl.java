@@ -25,42 +25,63 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 	}
 
 	@Override
-	public void insert(Integer teamNo, QnaBoardCommentDTO qnaBoardCommentDTO) throws AddException {
+	public void insert(Integer teamNo, QnaBoardCommentDTO dto) throws AddException {
 		
-		qnaBoardCommentDAO.insertComment(teamNo, qnaBoardCommentDTO);
+		qnaBoardCommentDAO.insertComment(teamNo, dto);
 		
-	}
+	} // insert
+	
+	
 
 	@Override
-	public PageGroup<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo, int currentPage) throws FindException {
+	public void insertReply(Integer teamNo, QnaBoardCommentDTO dto) throws AddException {
 		
-		if(currentPage <1) {
-			currentPage = 1;
-		}
-
-		int cntPerPage = 10; //한페이지당 보여줄 목록 수
-
-		int startRow = 0;
-		int endRow = 0;
-
-		startRow = (currentPage -1)*cntPerPage +1;
-		endRow = currentPage*cntPerPage;
+		qnaBoardCommentDAO.insertReplyComment(teamNo, dto);
 		
+	} // insertReply
+
+
+	@Override
+//	public PageGroup<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo, int currentPage) throws FindException {
+	public List<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo) throws FindException {
+//		
+//		if(currentPage <1) {
+//			currentPage = 1;
+//		}
+//
+//		int cntPerPage = 10; //한페이지당 보여줄 목록 수
+//
+//		int startRow = 0;
+//		int endRow = 0;
+//
+//		startRow = (currentPage -1)*cntPerPage +1;
+//		endRow = currentPage*cntPerPage;
+//		
 		System.out.println("service teamNO ============> " + teamNo);
 
-		List<QnaBoardCommentDTO> list = qnaBoardCommentDAO.selectCommentByQnaNo(teamNo, qnaNo, startRow, endRow);
+		List<QnaBoardCommentDTO> list = qnaBoardCommentDAO.selectCommentByQnaNo(teamNo, qnaNo); //, startRow, endRow);
+		return list;
 
-		int totalCnt = qnaBoardCommentDAO.selectAllCount(teamNo, qnaNo);
+//		int totalCnt = qnaBoardCommentDAO.selectAllCount(teamNo, qnaNo);
 		
 //	    for (QnaBoardDTO dto : list) {
 //	        System.out.println("qna_no: " + dto.getQna_no());
 //	    }
 		
-		PageGroup<QnaBoardCommentDTO> pg = new PageGroup<>(list, currentPage, totalCnt); 
+//		PageGroup<QnaBoardCommentDTO> pg = new PageGroup<>(list, currentPage, totalCnt); 
 		
-		return pg;
+//		return pg;
 		
 	} // selectCommentByQnaNo
+	
+	@Override
+	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException {
+
+		List<QnaBoardCommentDTO> list = qnaBoardCommentDAO.selectCommentReply(teamNo, dto);
+		
+		return list;
+		
+	} // selectCommentReply
 	
 	@Override
 	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
@@ -103,24 +124,51 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 		
 		// =================== commentPick 메서드 테스트 =============================
 		
-	    QnaBoardCommentService service = QnaBoardCommentServiceImpl.getInstance();
+//	    QnaBoardCommentService service = QnaBoardCommentServiceImpl.getInstance();
+//
+//	    Integer teamNo = 64;
+//	    Integer qnaNo = 112;
+//	    Integer commentNo = 4;
+//
+//	    try {
+//	        Integer result = service.commentPick(teamNo, qnaNo, commentNo);
+//
+//	        if (result > 0) {
+//	            System.out.println("댓글 채택 성공!");
+//	        } else {
+//	            System.out.println("댓글 채택 실패!");
+//	        }
+//	    } catch (ModifyException e) {
+//	        e.printStackTrace();
+//	    }
+	    
+	    // ================================= selectCommentReply메서드 테스트  ======================================
 
+	    QnaBoardCommentService service = new QnaBoardCommentServiceImpl();
+
+	    QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
+	    
 	    Integer teamNo = 64;
-	    Integer qnaNo = 112;
-	    Integer commentNo = 4;
+	    dto.setQnaNo(112);
+	    dto.setCommentNo(1);
+	    dto.setCommentGroup(1);
 
 	    try {
-	        Integer result = service.commentPick(teamNo, qnaNo, commentNo);
 
-	        if (result > 0) {
-	            System.out.println("댓글 채택 성공!");
-	        } else {
-	            System.out.println("댓글 채택 실패!");
-	        }
-	    } catch (ModifyException e) {
+	        List<QnaBoardCommentDTO> commentReplyList = service.selectCommentReply(teamNo, dto);
+
+            System.out.println("댓글 조회 성공");
+            for (QnaBoardCommentDTO commentList : commentReplyList) {
+            	
+                System.out.println("commentNo: " + commentList.getCommentNo());
+                System.out.println("content: " + commentList.getContent());
+                
+            }
+
+	    } catch (FindException e) {
 	        e.printStackTrace();
+	        System.out.println("댓글 조회 실패");
 	    }
-		
 		
 	} // main(test)
 
