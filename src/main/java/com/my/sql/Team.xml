@@ -297,7 +297,7 @@
 	</update>
 	
 	<!-- 팀 메인_팀 나가기2 -->
-	<delete id="deleteSignupTeam" parameterType="hashmap">
+	<delete id="deleteSignupTeam" parameterType="String">
 		DELETE FROM SIGNUP_TEAM
 		WHERE ID = #{id}
 	</delete>
