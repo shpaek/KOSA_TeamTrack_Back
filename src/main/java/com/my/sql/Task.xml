@@ -30,7 +30,7 @@
 			FROM (
 				SELECT t.task_no, t.title, t.regdate, c.nickname
 				FROM ${tableName} t JOIN customer c ON (t.id=c.id)
-				WHERE t.enddate-SYSDATE&lt;0
+				WHERE regdate IS NOT NULL AND t.enddate-SYSDATE&lt;0
 				ORDER BY t.regdate
 				<if test="desc">DESC</if>
 			) a
@@ -144,6 +144,11 @@
 		SELECT id, task_no
 		FROM ${tableName}
 		WHERE duedate1-SYSDATE&lt;=0 AND duedate2-SYSDATE>=0 AND regdate IS NULL
+	</select>
+	
+	<!-- 과제 답안 개수 가져오기 -->
+	<select id="selectAnswerCount" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT COUNT(*) FROM ${tableName} WHERE task_no=#{taskNo}
 	</select>
 
 </mapper>
