@@ -20,6 +20,7 @@ import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.util.PageGroup;
 
 public class TeamServiceImpl implements TeamService {
@@ -216,8 +217,18 @@ public class TeamServiceImpl implements TeamService {
 	// 셍나
 
 	@Override
+	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
+		return teamDAO.selectTeamMemberStatus(id, teamNo);
+	}
+	
+	@Override
 	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
 		return teamDAO.selectTeamInfoByTeamNo(teamNo);
+	}
+	
+	@Override
+	public List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException {
+		return teamDAO.selectAllTeamInfo(teamNo);
 	}
 
 	@Override
@@ -260,6 +271,13 @@ public class TeamServiceImpl implements TeamService {
 		return teamDAO.selectViewCnt(teamNo);
 	}
 
+//	-------------------
+	
+	@Override
+	public String selectAttendanceDate(Map<String, Object> map) throws FindException {
+		return teamDAO.selectAttendanceDate(map);
+	}
+	
 	@Override
 	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
 		teamDAO.insertAttendanceById(teamNo, id);
@@ -269,6 +287,8 @@ public class TeamServiceImpl implements TeamService {
 	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
 		return teamDAO.selectAttendanceById(teamNo, id);
 	}
+	
+//	-------------------
 
 	@Override
 	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException {

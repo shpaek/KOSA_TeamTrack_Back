@@ -13,6 +13,7 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.util.PageGroup;
 
 public interface TeamService {
@@ -134,6 +135,15 @@ public interface TeamService {
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	/**
+	 * 팀 메인 페이지 - 팀 멤버인지 확인하기
+	 * @param teamMemberDTO
+	 * @return
+	 * @throws FindException
+	 */
+	Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException;
+	
 	/**
 	 * 팀 메인 페이지 - 팀 소개글 보여주기
 	 * @param teamNo
@@ -142,6 +152,14 @@ public interface TeamService {
 	 */
 	String selectTeamInfoByTeamNo(int teamNo) throws FindException;
 
+	/**
+	 * 팀 메인 페이지 - 팀 정보 다 가져오기
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException;
+	
 	/**
 	 * 팀 메인 페이지 - 공지사항 보여주기
 	 * @param teamNo
@@ -202,7 +220,15 @@ public interface TeamService {
 	int selectViewCnt(int teamNo) throws FindException;
 
 //	---------------------------
-
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 여부 확인
+	 * @param map
+	 * @return String
+	 * @throws FindException
+	 */
+	String selectAttendanceDate(Map<String, Object> map) throws FindException;
+	
 	/**
 	 * 팀 출석부 페이지 - 출석하기
 	 * @param teamNo

@@ -12,6 +12,7 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public interface TeamDAO {
 
@@ -180,12 +181,28 @@ public interface TeamDAO {
 
 	// 셍나
 	/**
+	 * 팀 멤버인지 확인 = 결과가 1이면 멤버임
+	 * @param teamMemberDTO
+	 * @return
+	 * @throws FindException
+	 */
+	Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException;
+	
+	/**
 	 * 팀 메인 페이지 - 팀 소개글 보여주기
 	 * @param teamNo
-	 * @return TeamDTO
+	 * @return String
 	 * @throws FindException
 	 */
 	String selectTeamInfoByTeamNo(int teamNo) throws FindException;
+	
+	/**
+	 * 팀 메인 페이지 - 정보 보여주기
+	 * @param teamDTO
+	 * @return TeamDTO
+	 * @throws FindException
+	 */
+	List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException;
 
 	/**
 	 * 팀 메인 페이지 - 공지사항 보여주기
@@ -246,6 +263,14 @@ public interface TeamDAO {
 	int selectViewCnt(int teamNo) throws FindException;
 
 //	---------------------------
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 여부 확인
+	 * @param params
+	 * @return
+	 * @throws FindException
+	 */
+	String selectAttendanceDate(Map<String, Object> map) throws FindException;
 
 	/**
 	 * 팀 출석부 페이지 - 출석하기
