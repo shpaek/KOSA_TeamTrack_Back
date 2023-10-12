@@ -5,7 +5,9 @@ import java.util.List;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
+import com.my.exception.RemoveException;
 import com.my.qna.dto.QnaBoardCommentDTO;
+import com.my.qna.dto.QnaBoardDTO;
 
 public interface QnaBoardCommentDAO {
 
@@ -62,5 +64,22 @@ public interface QnaBoardCommentDAO {
 	 * @throws ModifyException DB와의 연결 실패 또는 댓글이 없거나 commentNo값이 일치하지 않으면 예외 발생
 	 */
 	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException;
+	
+	/**
+	 * qna게시판의 게시글을 수정한다
+	 * @param qnaBoardDTO 게시글 수정 정보
+	 * @return
+	 * @throws ModifyException DB와의 연결 실패 또는 게시글 수정 실패시 예외 발생
+	 */
+	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException;
+
+	/**
+	 * qna게시판의 게시글을 삭제한다
+	 * @param qna_no 게시글 번호
+	 * @return
+	 * @throws RemoveException DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
+	 */
+	public Integer delete(Integer teamNo, Integer qna_no) throws ModifyException;
+
 	
 } // end class
