@@ -29,10 +29,11 @@ public class TeamLeaveController extends TeamController {
 		Map<String, Object> map = new HashMap<>();
 		
 		try {
-			String id = request.getParameter("id");
+            Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+            String id = request.getParameter("id");
 
 			// 트랜잭션 메소드
-			service.leaveTeam(id);
+			service.leaveTeam(teamNo, id);
 
 			map.put("status", 1);
 			map.put("msg", "팀 나가기 성공");

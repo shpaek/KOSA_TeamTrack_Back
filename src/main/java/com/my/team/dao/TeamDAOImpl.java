@@ -506,13 +506,18 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 메인 페이지 - 팀 나가기 #1
 	@Override
-	public void updateTeamMemberStatusResign(String id) throws ModifyException {
+	public void updateTeamMemberStatusResign(Integer teamNo, String id) throws ModifyException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
+			
+	        Map<String, Object> map = new HashMap<>();
+	        
+	        map.put("teamNo", teamNo);
+	        map.put("id", id);
 
-			session.update("com.my.team.TeamMapper.updateTeamMemberStatusResign", id);
+			session.update("com.my.team.TeamMapper.updateTeamMemberStatusResign", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
@@ -546,33 +551,38 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 메인 페이지 -  팀 나가기 -> (두 작업을 하나의 트랜잭션으로 처리)
 	@Override
-	public void leaveTeam(String id) throws Exception {
-		SqlSession session = null;
+	public void leaveTeam(Integer teamNo, String id) throws Exception {
+	    SqlSession session = null;
 
-		try {
-			session = sqlSessionFactory.openSession();
+	    try {
+	        session = sqlSessionFactory.openSession();
 
-			// 팀 나가기 #1
-			session.update("com.my.team.TeamMapper.updateTeamMemberStatus", id);
+	        // 팀 나가기 #1
+	        Map<String, Object> map = new HashMap<>();
+	        
+	        map.put("teamNo", teamNo);
+	        map.put("id", id);
+	        session.update("com.my.team.TeamMapper.updateTeamMemberStatusResign", map);
 
-			// 팀 나가기 #2
-			session.delete("com.my.team.TeamMapper.deleteSignupTeam", id);
+	        // 팀 나가기 #2
+	        session.delete("com.my.team.TeamMapper.deleteSignupTeam", id);
 
-			// 두 작업 모두 성공하면 커밋
-			session.commit();
+	        // 두 작업 모두 성공하면 커밋
+	        session.commit();
 
-		} catch (Exception e) {
-			// 어떤 작업이든 실패하면 롤백
-			if (session != null) {
-				session.rollback();
-			} // if
-			throw new Exception("팀 나가기 실패: " + e.getMessage());
-		} finally {
-			if (session != null) {
-				session.close();
-			} // if
-		} // try-catch-finally
-	} // leaveTeam
+	    } catch (Exception e) {
+	        // 어떤 작업이든 실패하면 롤백
+	        if (session != null) {
+	            session.rollback();
+	        }
+	        throw new Exception("팀 나가기 실패: " + e.getMessage());
+	    } finally {
+	        if (session != null) {
+	            session.close();
+	        } // if
+	    } // try-catch-finally
+	} // leaveTeam()
+
 
 	// 팀 메인 페이지 - 팀 멤버 출력하기
 	@Override
@@ -758,7 +768,7 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	} // selectRequestInfo()
 
-	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인
+	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인1
 	@Override
 	public void updateRequestInfoApprove(Map<String, Object> map) throws ModifyException {
 		SqlSession session = null;
@@ -777,6 +787,53 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // updateRequestInfoApprove()
+	
+	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인2
+	@Override
+	public void insertRequestInfoApprove(Map<String, Object> map) throws AddException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			session.insert("com.my.team.TeamMapper.insertRequestInfoApprove", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new AddException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // updateRequestInfoApprove()
+	
+	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인 -> (두 작업을 하나의 트랜잭션으로 처리)
+	@Override
+	public void approveRequest(Map<String, Object> map) throws Exception {
+	    SqlSession session = null;
+
+	    try {
+	        session = sqlSessionFactory.openSession();
+
+	        session.update("com.my.team.TeamMapper.updateRequestInfoApprove", map);
+	        session.insert("com.my.team.TeamMapper.insertRequestInfoApprove", map);
+
+	        // 두 작업 모두 성공하면 커밋
+	        session.commit();
+
+	    } catch (Exception e) {
+	        // 어떤 작업이든 실패하면 롤백
+	        if (session != null) {
+	            session.rollback();
+	        }
+	        throw new Exception("팀 가입 요청 승인 실패: " + e.getMessage());
+	    } finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    } // try-catch-finally
+	} // approveRequest()
 
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
 	@Override

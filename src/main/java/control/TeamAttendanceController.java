@@ -17,67 +17,88 @@ import com.my.team.dto.AttendanceDTO;
 
 public class TeamAttendanceController extends TeamController {
 
-	// 팀 출석부용 컨트롤러
-	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    @Override
+    public String execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+        String method = request.getMethod();
 
-		PrintWriter out = response.getWriter();
-		ObjectMapper mapper = new ObjectMapper();
+        if ("GET".equalsIgnoreCase(method)) {
+            return doGet(request, response);
+        } else if ("POST".equalsIgnoreCase(method)) {
+            return doPost(request, response);
+        } else {
+        	return null;
+        } // else-if
+    } // execute()
 
-		Map<String, Object> map = new HashMap<>();
+//  출석 내역 조회
+    private String doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
 
-		try {
-			String method = request.getMethod();
+        Map<String, Object> map = new HashMap<>();
 
-			// 출석하기
-			if ("POST".equals(method)) {
+        try {
+//            String id = (String) request.getSession().getAttribute("loginedId");
+        	String id = request.getParameter("id");
+            Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 
-				String id = (String) request.getSession().getAttribute("loginedId");
-				Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+            List<AttendanceDTO> attendanceList = service.selectAttendanceById(teamNo, id);
 
-				service.insertAttendanceById(teamNo, id);
+            map.put("status", 1);
+            map.put("msg", "출석 내역 조회 성공");
+            map.put("attendanceList", attendanceList);
 
-				map.put("status", 1);
-				map.put("msg", "출석 성공");
-				
-			} else if ("GET".equals(method)) {
-				// 출석 내역 조회하기
-				String id = (String) request.getSession().getAttribute("loginedId");
-				Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+        } catch (FindException e) {
+            e.printStackTrace();
+            map.put("status", 0);
+            map.put("msg", "출석 내역 조회 실패");
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", 0);
+            map.put("msg", "출석 내역 조회 실패");
+        } // try-catch
 
-				List<AttendanceDTO> attendanceList = service.selectAttendanceById(teamNo, id);
+        String jsonStr = mapper.writeValueAsString(map);
+        out.print(jsonStr);
 
-				map.put("status", 1);
-				map.put("msg", "출석 내역 조회 성공");
-			} // else-if
-			
-		} catch (FindException e) {
-			e.printStackTrace();
-			
-			map.put("status", 0);
-			map.put("msg", "출석 실패");
-		} catch (AddException e) {
-			e.printStackTrace();
-			
-			map.put("status", 0);
-			map.put("msg", "출석 실패");
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-			map.put("status", 0);
-			map.put("msg", "출석 실패");
-		} // try-catch
+        return null;
+    } // 출석 내역 조회()
 
-		// JSON문자열 응답
-		String jsonStr = mapper.writeValueAsString(map);
-		out.print(jsonStr);
-		
-		return null;
+//  출석하기
+    private String doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
 
-	} // execute()
+        Map<String, Object> map = new HashMap<>();
 
+        try {
+//            String id = (String) request.getSession().getAttribute("loginedId");
+        	String id = request.getParameter("id");
+            Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+
+            service.insertAttendanceById(teamNo, id);
+
+            map.put("status", 1);
+            map.put("msg", "출석 성공");
+
+        } catch (AddException e) {
+            e.printStackTrace();
+            map.put("status", 0);
+            map.put("msg", "출석 실패");
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", 0);
+            map.put("msg", "출석 실패");
+        } // try-catch
+
+        String jsonStr = mapper.writeValueAsString(map);
+        out.print(jsonStr);
+
+        return null;
+    } // 출석하기()
+    
 } // end class
