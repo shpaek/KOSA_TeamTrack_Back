@@ -23,8 +23,11 @@
 	WHERE notice_no = #{noticeNo}
   </select>
   <insert id="insertNotice" parameterType = "hashmap">
-	INSERT INTO ${tableName} (notice_no, notice_title, notice_content, regdate, main_status)
-	VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice.noticeTitle}, #{notice.noticeContent}, #{notice.regDate}, #{notice.mainStatus})
+	INSERT INTO NOTICEBOARD_${teamNo} (notice_no, notice_title, notice_content, regdate, main_status)
+	VALUES (NOTICE_${teamNo}_SEQ.NEXTVAL, #{notice.noticeTitle}, #{notice.noticeContent}, #{notice.regDate}, #{notice.mainStatus})
+  	<selectKey keyProperty="notice.noticeNo" resultType = "Integer" order="AFTER">
+  		SELECT NOTICE_${teamNo}_SEQ.CURRVAL FROM DUAL
+  	</selectKey>
   </insert>
   <delete id="deleteNotice" parameterType = "hashmap">
   	DELETE FROM ${tableName}

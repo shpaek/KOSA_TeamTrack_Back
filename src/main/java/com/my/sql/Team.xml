@@ -179,7 +179,7 @@
 	</update>
 	 -->
 	
-	<!-- 워니 침입 -->
+	<!-- 워니 침입 : 리더 확인 쿼리 -->
 	<select id="selectLeaderId" resultType = "String" parameterType="Integer">
 		SELECT leader_id
 		FROM TEAM
@@ -247,6 +247,12 @@
 		DELETE FROM SIGNUP_TEAM
 		WHERE id = #{id} AND team_no = #{teamNo}
 	</delete>
+	
+	<select id="selectSignupTeam" resultType = "list" parameterType="String">
+		SELECT team_no
+		FROM SIGNUP_TEAM
+		WHERE id=#{id}
+	</select>
 	
 	<!-- ###################################################################################################################### -->
 

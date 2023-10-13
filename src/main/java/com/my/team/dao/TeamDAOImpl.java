@@ -569,13 +569,28 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 	
+	@Override
+	public List selectSignupTeam(String id) throws FindException{
+		SqlSession session = null;
 
+		try {
+			session = sqlSessionFactory.openSession(); 	
+			List<Integer> list = session.selectOne("com.my.team.TeamMapper.selectSignupTeam", id);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
 	
 	//	---------------------------------------------------------------------------------
 
 	// 셍나
 	
-	// 팀 멤버인지 확인 1아니면 일반 회원
+	// 팀 멤버인지 확인 1 아니면 일반 회원
 	@Override
 	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
 		SqlSession session = null;

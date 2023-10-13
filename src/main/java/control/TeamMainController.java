@@ -22,8 +22,9 @@ public class TeamMainController extends TeamController {
 			throws ServletException, IOException {
 		
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-
+		//response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -42,9 +43,9 @@ public class TeamMainController extends TeamController {
             String userRole = service.determineUserRole(id, teamNo);
             methodMap.put("userRole", userRole);
         	
-        	// 팀 정보 다가져오기
-        	List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
-        	methodMap.put("teamList", teamList.get(0)); // List로 가져오지 말고 그냥 TeamDTO로 가져왓어야 햇는데,,, 8ㅅ8
+            // 팀 정보 다가져오기
+            List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
+            methodMap.put("teamList", teamList.get(0)); // List로 가져오지 말고 그냥 TeamDTO로 가져왓어야 햇는데,,, 8ㅅ8
         	
             // 팀 소개글 가져오기
             String teamInfo = service.selectTeamInfoByTeamNo(teamNo);

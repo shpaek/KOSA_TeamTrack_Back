@@ -212,6 +212,15 @@ public interface TeamDAO {
 	 */
 	TeamMemberDTO selectTeamMember(String id, Integer teamNo) throws FindException;
 	
+	/**
+	 * 해당되는 회원이 가입한 팀 번호를 모두 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @return 팀번호
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List selectSignupTeam(String id) throws FindException;
+	
 	
 	
 	// ------------------------------------------------------------------------

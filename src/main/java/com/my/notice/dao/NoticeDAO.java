@@ -44,9 +44,10 @@ public interface NoticeDAO {
 	 * @author 나원희
 	 * @param teamNo 팀번호
 	 * @param notice 게시글정보
+	 * @return 게시글번호
 	 * @throws AddException DB와의 연결 실패 시 예외 발생한다
 	 */
-	void insertNotice(Integer teamNo, NoticeDTO notice) throws AddException;
+	Integer insertNotice(Integer teamNo, NoticeDTO notice) throws AddException;
 
 	/**
 	 * 해당되는 게시글을 DB에서 삭제한다
