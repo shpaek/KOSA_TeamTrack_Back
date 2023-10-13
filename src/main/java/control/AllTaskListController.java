@@ -22,7 +22,7 @@ public class AllTaskListController extends TaskController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
-//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		String currentPage = request.getParameter("currentPage");
 //		System.out.println(currentPage);
 //		String option=request.getParameter("option");
@@ -33,7 +33,7 @@ public class AllTaskListController extends TaskController {
 			cp = Integer.parseInt(currentPage);
 		}
 
-		Integer teamNo=9999;
+//		Integer teamNo=9999;
 //		int cp=1;
 		boolean desc=true;
 

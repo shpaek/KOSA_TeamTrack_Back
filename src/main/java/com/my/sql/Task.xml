@@ -77,7 +77,7 @@
 		FROM ( SELECT task_no, title,
 		regdate,
 		avg_reviewscore FROM ${tableName}
-		WHERE id=#{id}
+		WHERE id=#{id} AND regdate IS NOT NULL
 		ORDER BY
 		regdate
 		<if test="desc">DESC</if>
@@ -146,9 +146,35 @@
 		WHERE duedate1-SYSDATE&lt;=0 AND duedate2-SYSDATE>=0 AND regdate IS NULL
 	</select>
 	
+	<!-- 원희 - 가입일 지난 후 등록된 과제 개수 -->
+	<select id="selectJoinAfterTaskCount" resultType="Integer" parameterType="hashmap">
+		SELECT COUNT(*)
+		FROM ${tableName}
+		WHERE regdate > (SELECT join_date FROM ${tableName2} WHERE id=#{id})
+	</select>
 	<!-- 과제 답안 개수 가져오기 -->
 	<select id="selectAnswerCount" parameterType="java.util.HashMap" resultType="Integer">
 		SELECT COUNT(*) FROM ${tableName} WHERE task_no=#{taskNo}
 	</select>
+	
+	<!-- 팀원 답안 생성하기 -->
+	<insert id="insertMemberAnswer" parameterType="java.util.HashMap">
+		INSERT INTO ${tableName} (question_no, task_no, id, answer) VALUES (#{questionNo}, #{taskNo}, #{id}, #{answer})
+	</insert>
+	
+	<!-- 팀원 과제 정보 생성하기 -->
+	<insert id="insertMemberScore" parameterType="java.util.HashMap">
+		INSERT INTO ${tableName} (task_no, id, hwscore, reviewscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, #{reviewScore}, SYSDATE)
+	</insert>
+	
+	<!-- 팀원 평점 업데이트하기 -->
+	<update id="updateReviewScore" parameterType="java.util.HashMap">
+		UPDATE ${tableName} SET reviewscore=#{reviewScore} WHERE id=#{id} AND task_no=#{taskNo}
+	</update>
+
+	<!-- 과제 평점 업데이트하기 -->
+	<update id="updateAvgReviewScore" parameterType="java.util.HashMap">
+		UPDATE ${tableName1} SET avg_reviewscore=(SELECT SUM(reviewscore)/COUNT(*) FROM ${tableName2} WHERE task_no=#{taskNo}) WHERE task_no=#{taskNo}
+	</update>
 
 </mapper>

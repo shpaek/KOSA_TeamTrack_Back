@@ -44,7 +44,7 @@
 	<!-- 확인 필요 -->
 	<select id="selectByTeamNo" resultType="TeamDTO">
 		SELECT team_name,
-		study_type, onoffline, max_member,
+		study_type, onoffline, join_member, max_member,
 		startdate, enddate,
 		brief_info,
 		team_info,
@@ -237,12 +237,16 @@
 		WHERE a.id = #{id} AND a.status=#{status}
 	</select>
 	
-	<!-- 
-	<delete id="deleteSignupTeam" parameterType = "hashmap">
-  		DELETE FROM SIGNUP_TEAM
+	<select id="selectTeamMember" resultType = "TeamMemberDTO" parameterType="hashmap">
+		SELECT a.*, b.nickname
+		FROM ${tableName} a JOIN CUSTOMER b ON (a.id=b.id)
+		WHERE a.id = #{id} AND a.status=1
+	</select>
+	
+	<delete id="deleteSignupTeamByTeamNo" parameterType="hashmap">
+		DELETE FROM SIGNUP_TEAM
 		WHERE id = #{id} AND team_no = #{teamNo}
-  	</delete>
-	 -->
+	</delete>
 	
 	<!-- ###################################################################################################################### -->
 

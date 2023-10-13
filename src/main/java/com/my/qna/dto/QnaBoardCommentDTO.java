@@ -36,4 +36,5 @@
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 		Date pickeddate;			// 댓글 채택 여부 -> date가 있으면 채택, null이면 채택x
 		
+		
 	} // end class

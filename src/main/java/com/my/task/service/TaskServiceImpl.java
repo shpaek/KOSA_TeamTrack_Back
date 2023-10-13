@@ -82,12 +82,12 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void ModifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
+	public void modifyTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
 		taskDAO.updateTask(teamNo, title, taskNo);
 	}
 
 	@Override
-	public void AddQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException {
+	public void addQuizAnswer(Integer teamNo, Integer taskNo, String answer) throws AddException {
 		String[] answerList=answer.split(",");
 		for(int i=0;i<answerList.length;i++) {
 			taskDAO.insertQuizAnswer(teamNo, i+1, taskNo, Integer.parseInt(answerList[i]));
@@ -129,6 +129,44 @@ public class TaskServiceImpl implements TaskService {
 	public int findAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
 		int cnt=taskDAO.selectAnswerCount(teamNo, taskNo);
 		return cnt;
+	}
+
+	@Override
+	public void addMemberAnswer(Integer teamNo, Integer taskNo, String id, String answer) throws AddException {
+		String[] answerList=answer.split(",");
+		for(int i=0;i<answerList.length;i++) {
+			taskDAO.insertMemberAnswer(teamNo, i+1, taskNo, id, Integer.parseInt(answerList[i]));
+		}
+		
+	}
+
+	@Override
+	public void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore)
+			throws AddException {
+		taskDAO.insertMemberScore(teamNo, taskNo, id, hwscore, reviewScore);
+	}
+
+	@Override
+	public int chkHwscore(Integer teamNo, Integer taskNo, String id) throws FindException {
+		List<Integer> taskAnswer=taskDAO.selectQuizAnswer(teamNo, taskNo);
+		List<Integer> memberAnswer=taskDAO.selectMemberAnswer(teamNo, taskNo, id);
+		int answerCnt=taskAnswer.size();
+		double score=100/(double)answerCnt;
+		double hwscore=0.0;
+		
+		for(int i=0;i<taskAnswer.size();i++) {
+			if(taskAnswer.get(i)==memberAnswer.get(i)) hwscore+=score;
+		}
+		
+		return (int)hwscore;
+	}
+	
+	public void setReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException {
+		taskDAO.updateReviewScore(teamNo, taskNo, id, reviewScore);
+	}
+	
+	public void setAvgReviewScore(Integer teamNo, Integer taskNo) throws ModifyException {
+		taskDAO.updateAvgReviewScore(teamNo, taskNo);
 	}
 
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {

@@ -1,5 +1,6 @@
 package com.my.task.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.my.exception.AddException;
@@ -148,12 +149,59 @@ public interface TaskDAO {
 	List<TaskDTO> selectTaskId(Integer teamNo) throws FindException;
 	
 	/**
-	 * 과제 번호에 해당하는 답 개수를 가져온다.
+	 * 가입일 이후 등록된 전체 과제 수를 조회한다
+	 * @author 나원희
+	 * @param teamNo 팀번호
+	 * @return 과제 수
+	 * @throws SQLException 
+	 */
+	Integer selectJoinAfterTaskCount(String id, Integer teamNo) throws FindException, SQLException;
+	 
+	 /** 과제 번호에 해당하는 답 개수를 가져온다.
 	 * @param teamNo 팀 번호
 	 * @param taskNo 과제 번호
 	 * @return 답 개수
 	 * @throws FindException
 	 */
 	int selectAnswerCount(Integer teamNo, Integer taskNo) throws FindException;
+	
+	/**
+	 * 팀원 답안을 생성한다.
+	 * @param teamNo 팀 번호
+	 * @param questionNo 문제 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param answer 답
+	 * @throws AddException
+	 */
+	void insertMemberAnswer(Integer teamNo, Integer questionNo, Integer taskNo, String id, int answer) throws AddException;
+	
+	/**
+	 * 팀원 과제 정보를 생성한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param hwscore 점수
+	 * @param reviewScore 평점
+	 * @throws AddException
+	 */
+	void insertMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException;
 
+	/**
+	 * 평점을 업데이트한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param reviewScore 평점
+	 * @throws ModifyException
+	 */
+	void updateReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException;
+	
+	/**
+	 * 평균평점을 업데이트한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @throws ModifyException
+	 */
+	void updateAvgReviewScore(Integer teamNo, Integer taskNo) throws ModifyException;
 }

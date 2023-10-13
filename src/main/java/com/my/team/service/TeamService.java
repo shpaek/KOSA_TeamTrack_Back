@@ -1,5 +1,6 @@
 package com.my.team.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,6 +135,17 @@ public interface TeamService {
 	 * @throws RemoveException DB 연결 실패 시 예외 발생한다
 	 */
 	void rejectCheck(String id, Integer teamNo) throws RemoveException;
+	
+	/**
+	 * 팀에서의 나의 활동내역을 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param teamNo 팀번호
+	 * @return 해당 팀 정보와 내 활동내역을 조회한다
+	 * @throws FindException  DB 연결 실패 시 예외 발생한다
+	 * @throws SQLException 
+	 */
+	Map myActivity(String id, Integer teamNo) throws FindException, SQLException;
 	
 	
 	// ------------------------------------------------------------------------

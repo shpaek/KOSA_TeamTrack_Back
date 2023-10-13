@@ -17,49 +17,37 @@
 		VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{commentGroup}, #{content}, #{teammember_id})
   	</insert>
 
-	<!-- 게시글의 전체 댓글 조회 --> <!-- grup null인것들만 조회 -->
-	<!-- <select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
-			SELECT * 
-			FROM (SELECT rownum rn, a.* 
-			     FROM (SELECT *
-			           FROM ${tableName}
-			           WHERE qna_no = #{qnaNo}
-			           ORDER BY qna_no ASC
-			          ) a
-			      )
-			 WHERE rn BETWEEN #{start} AND #{end}
-	</select> -->
-	
-	<!-- 해당 게시글의 전체 댓글 개수 가져오기 -->
-<!-- 	<select id="selectAllCount" resultType="Integer">
-		SELECT COUNT(*)
-		FROM ${tableName}
-		WHERE qna_no = #{qnaNo} 
-	</select> -->
-	
 	<!-- 댓글과 대댓글 모두 조회 -->
 	<select id="selectCommentByQnaNo" resultType="QnaBoardCommentDTO" parameterType = "hashmap">
-		
-		<!-- SELECT level, ${tableName}.*, #{qnaNo, jdbcType=INTEGER} "qna_no"
-		FROM ${tableName}
-		START WITH comment_group  IS NULL
-		CONNECT BY PRIOR comment_no = comment_group
-		ORDER SIBLINGS BY comment_no  DESC -->
-		
-		
-SELECT level, a.*
+
+		SELECT level, a.*
 		FROM ${tableName} a
         WHERE QNA_NO=#{qnaNo}
 		START WITH comment_group IS NULL
 		CONNECT BY PRIOR comment_no = comment_group
 		ORDER SIBLINGS BY comment_no  ASC		
+		
 	</select>
 	
-	<!-- UPDATE qnacomment_64 -->
+	<!-- 댓글 채택 -->
 	<update id="commentPick">
 		UPDATE ${tableName}
 		SET pickeddate = sysdate
 		WHERE qna_no = #{qnaNo} AND comment_no = #{commentNo}
+	</update>
+	
+	<!-- 댓글 수정 -->
+	<update id="update" parameterType="QnaBoardDTO">
+			UPDATE ${tableName}
+			SET content = #{content, jdbcType=VARCHAR}, regdate = sysdate
+			WHERE qna_no = #{qnaNo} AND comment_no = #{commentNo}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<update id="delete" parameterType="hashmap">
+			UPDATE ${tableName}
+			SET comment_status = 0
+			WHERE qna_no = #{qnaNo} AND comment_no = #{commentNo}
 	</update>
   
 </mapper>

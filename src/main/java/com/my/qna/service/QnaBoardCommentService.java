@@ -29,10 +29,7 @@ public interface QnaBoardCommentService {
 	 * @return 현재페이지의 댓글
 	 * @throws FindException
 	 */
-//	public PageGroup<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo, int currentPage) throws FindException;
 	public List<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo) throws FindException;
-	
-	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException;
 
 	/**
 	 * 댓글을 채택한다
@@ -43,5 +40,22 @@ public interface QnaBoardCommentService {
 	 * @throws ModifyException
 	 */
 	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException;
+	
+	/**
+	 * qna 댓글을 수정한다
+	 * @param qnaBoardDTO 게시글 수정 정보
+	 * @return
+	 * @throws ModifyException DB와의 연결 실패 또는 게시글 수정 실패시 예외 발생
+	 */
+	public Integer update(Integer teamNo, QnaBoardCommentDTO dto) throws ModifyException;
+
+	/**
+	 * qna 댓글을삭제한다
+	 * @param teamNo
+	 * @param qna_no 게시글 번호
+	 * @return
+	 * @throws ModifyException  DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
+	 */
+	public Integer delete(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException;
 	
 } // end interface
