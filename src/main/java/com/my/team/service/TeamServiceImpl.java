@@ -1,12 +1,7 @@
 package com.my.team.service;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +24,8 @@ import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
@@ -369,6 +364,32 @@ public class TeamServiceImpl implements TeamService {
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	@Override
+	public String determineUserRole(String id, int teamNo) throws Exception {
+		
+//		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + id);
+		
+	    int isMember = teamDAO.selectTeamMemberStatus(id, teamNo); // return값이 1이면 팀원 O, 1이 아닌 다른 값이면 팀원 X
+	    int isLeader = service.leaderChk(id, teamNo); // return값: memStatus = 1이면 팀장 O
+	    
+//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isMember);
+//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isLeader);
+	    
+	    if (isMember == 1) {				// 팀 멤버일 때,
+	    	
+	    	if (isLeader == 1) {			// 팀장이면,
+	    		return "leader";
+	    	} else if (isLeader != 1) {		// 팀원이면,
+	    		return "teamMember";
+	    	} else {
+	    		return "오류입니다";
+	    	}
+	    } else {							// 일반 회원일 때
+	    	return "customer";
+	    } // if-else
+	    
+	}
 
 	@Override
 	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {

@@ -10,8 +10,8 @@
   </settings>
 
   <typeAliases>
-  <!-- 
-	<typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>  -->
+
+	<typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>
 	<typeAlias type="com.my.notice.dto.NoticeDTO" alias="NoticeDTO"/>
 	<typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
 	<typeAlias type="com.my.team.dto.TeamDTO" alias="TeamDTO"/>
@@ -42,8 +42,8 @@
   </environments>
 
   <mappers>
-  <!-- 
-	<mapper resource="com/my/sql/Rank.xml"/>  -->
+
+	<mapper resource="com/my/sql/Rank.xml"/>
 	<mapper resource="com/my/sql/Notice.xml"/>
 	<mapper resource="com/my/sql/Customer.xml"/>
 	<mapper resource="com/my/sql/Team.xml"/>

@@ -590,11 +590,8 @@ public class TeamDAOImpl implements TeamDAO {
 
 			int selectedTeamMemberStatus = session.selectOne("com.my.team.TeamMapper.selectTeamMemberStatus", map);
 
-			if(selectedTeamMemberStatus == 1) {
-				return selectedTeamMemberStatus;
-			} else {
-				throw new FindException("해당 팀의 팀원이 아닙니다.");
-			} // if-else
+			return selectedTeamMemberStatus;
+			
 		} catch(Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
@@ -602,7 +599,7 @@ public class TeamDAOImpl implements TeamDAO {
 				session.close();
 			} // if
 		} // try-catch-finally
-	}
+	} // selectTeamMemberStatus()
 
 	// 팀 메인 페이지 - 팀 소개글 보여주기
 	@Override
