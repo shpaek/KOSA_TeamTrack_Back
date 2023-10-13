@@ -32,7 +32,10 @@ public class TeamMainController extends TeamController {
 		Map<String, Object> statusMap = new HashMap<>();
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-        String id = request.getParameter("id");
+        //String id = request.getParameter("id");
+//        String id="psh2023";
+//        String id="khb2023";
+        String id="cjs1231";
 
         try {
         	
