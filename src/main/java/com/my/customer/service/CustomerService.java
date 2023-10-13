@@ -32,6 +32,9 @@ public interface CustomerService {
 	public void idDubCheck(String id) throws FindException;
 	
 	
+	
+	//----------------- 원희 -----------------------
+	
 	/**
 	 * 회원정보를 조회한다
 	 * @author 나원희

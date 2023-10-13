@@ -32,12 +32,12 @@ public class SetMainNoticeController extends NoticeController {
 		Map<String, Object> map = new HashMap<>();
 
 		try {
+			NoticeDTO notice = service.findMainNotice(teamNo);
 			if(mainStatus==1) {
-				NoticeDTO notice = service.findMainNotice(teamNo);
 				if(notice==null) {
 					service.setMainNotice(teamNo, noticeNo, mainStatus);
 					map.put("status", 1);
-					map.put("msg", "메인공지가 변경되었습니다");
+					map.put("msg", "메인공지가 등록되었습니다");
 				}
 				else if(notice.getNoticeNo()==noticeNo) {
 					map.put("status", 0);
@@ -48,6 +48,10 @@ public class SetMainNoticeController extends NoticeController {
 				}
 				out.print(mapper.writeValueAsString(map));
 				return null;
+			}else if(mainStatus==0){
+				service.setMainNotice(teamNo, noticeNo, mainStatus);
+				map.put("status", 1);
+				map.put("msg", "메인공지가 취소되었습니다");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

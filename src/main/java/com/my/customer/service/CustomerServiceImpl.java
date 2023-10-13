@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
 //
 //	} // main(test)
 	
-	// ---- 원희 ----
+	// ---------- 원희 -----------------
 	
 	@Override
 	public CustomerDTO findById(String id) throws FindException{
@@ -98,6 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void deleteAccount(String id) throws ModifyException{
 		customerDAO.updateCustomerStatus(id);
+		
 	}
 	
 	@Override

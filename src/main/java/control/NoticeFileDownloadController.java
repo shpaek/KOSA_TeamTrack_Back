@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UserProfileDownloadController implements Controller {
+public class NoticeFileDownloadController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -22,11 +24,12 @@ public class UserProfileDownloadController implements Controller {
 		String loginedId = "psh2023";
 
 		ServletOutputStream sos = response.getOutputStream();
-		
+
+		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+		Integer noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		String attachesDir = "C:\\KOSA202307\\attaches";
-		String fileName = loginedId +"_userprofile_";
+		String fileName = teamNo+"_"+noticeNo+"_notice_";
 		File dir = new File(attachesDir);
-		
 		
 		for(File file : dir.listFiles()) {
 			String existFileName = file.getName();
@@ -41,6 +44,7 @@ public class UserProfileDownloadController implements Controller {
 				}
 				sos.close();
 				fis.close();
+
 				return null;
 			}
 		}

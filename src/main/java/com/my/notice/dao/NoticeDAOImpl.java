@@ -97,17 +97,20 @@ public class NoticeDAOImpl implements NoticeDAO{
 	}
 
 	@Override
-	public void insertNotice(Integer teamNo, NoticeDTO notice) throws AddException{
+	public Integer insertNotice(Integer teamNo, NoticeDTO notice) throws AddException{
 		SqlSession session = null;
 		Map map = new HashMap<>();
 		String tableName = "NOTICEBOARD_"+ String.valueOf(teamNo);
+		Integer noticeNo;
 
 		try {
 			session = sqlSessionFactory.openSession();
 			map.put("tableName", tableName);
 			map.put("notice", notice);
 			session.insert("com.my.notice.NoticeMapper.insertNotice", map);
+			noticeNo = notice.getNoticeNo();			
 			session.commit();
+			return noticeNo;
 		}catch(Exception e) {
 			session.rollback();
 			throw new AddException(e.getMessage());

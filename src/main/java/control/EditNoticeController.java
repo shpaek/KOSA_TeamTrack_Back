@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
@@ -24,29 +25,42 @@ public class EditNoticeController extends NoticeController{
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> map = new HashMap<>();
+		
+		String attachesDir = "C:\\KOSA202307\\attaches";
+		File dir = new File(attachesDir);
 
 		try {
 			Attach attach=new Attach(request);
 			Integer teamNo = Integer.parseInt(attach.getParameter("teamNo"));
 			Integer noticeNo = Integer.parseInt(attach.getParameter("noticeNo"));
+			
 			String noticeTitle = attach.getParameter("title");
 			String noticeContent=attach.getParameter("content");
 			Integer mainStatus = 0;
+			String fileName ="";
+			
 			if(attach.getParameter("status") != null) {
 				mainStatus = 1;
 			}
 			NoticeDTO notice = new NoticeDTO(noticeNo, noticeTitle, noticeContent, mainStatus);
 			service.modifyNotice(teamNo, notice);
+			String findName = teamNo+"_"+noticeNo+"_notice_";
+			
 			try {
-				String originFileName=attach.getFile("f1").get(0).getName();
-				attach.upload("f1", loginedId+"_notice_"+originFileName);
+				if(attach.getFile("f1")!=null){
+					String originFileName=attach.getFile("f1").get(0).getName();
+					for(File file : dir.listFiles()) {
+						String existFileName = file.getName();
+						if(existFileName.startsWith(findName)) {
+							file.delete();
+						}
+					}
+					attach.upload("f1", teamNo+"_"+noticeNo+"_notice_"+originFileName);
+				}
 			} catch(Exception e) {
 
 			}
