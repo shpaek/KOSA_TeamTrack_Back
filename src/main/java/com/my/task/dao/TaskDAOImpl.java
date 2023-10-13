@@ -39,8 +39,9 @@ public class TaskDAOImpl implements TaskDAO {
 		try {
 			session=sqlSessionFactory.openSession();
 			Map<String, Object> map=new HashMap<>();
-			map.put("tableName", "task_"+teamNo);
-			map.put("desc", desc);
+			map.put("tableName1", "task_"+teamNo);
+			map.put("tableName2", "memberscore_"+teamNo);
+			map.put("id", id);
 			List<TaskDTO> list=session.selectList("com.my.task.TaskMapper.selectMainTaskList", map);
 			return list;
 		} catch(Exception e) {
@@ -51,6 +52,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public List<TaskDTO> selectAllTaskList(Integer teamNo, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -70,6 +72,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public int selectAllTaskCount(Integer teamNo) throws FindException {
 		SqlSession session=null;
 
@@ -85,6 +88,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public List<MemberTaskDTO> selectCompleteTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -106,6 +110,7 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 	}
 
+	@Override
 	public int selectCompleteTaskCount(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -122,7 +127,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<TaskDTO> selectMyTaskList(Integer teamNo, String id, int startRow, int endRow, boolean desc) throws FindException {
 		SqlSession session=null;
 
@@ -142,7 +148,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public int selectMyTaskCount(Integer teamNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -159,7 +166,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public TaskDTO selectTaskInfo(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
@@ -176,7 +184,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<Integer> selectQuizAnswer(Integer teamNo, Integer taskNo) throws FindException {
 		SqlSession session=null;
 
@@ -193,7 +202,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public List<Integer> selectMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -211,7 +221,8 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public int selectMemberScore(Integer teamNo, Integer taskNo, String id) throws FindException {
 		SqlSession session=null;
 
@@ -229,8 +240,9 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
-	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
+
+	@Override
+	public void updateTask(Integer teamNo, String title, Integer taskNo) throws ModifyException {
 		SqlSession session=null;
 
 		try {
@@ -238,18 +250,19 @@ public class TaskDAOImpl implements TaskDAO {
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "task_"+teamNo);
 			map.put("title", title);
-			map.put("enddate", enddate);
 			map.put("taskNo", taskNo);
 			session.update("com.my.task.TaskMapper.updateTask", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
+			e.printStackTrace();
 			throw new ModifyException("과제 업데이트 실패");
 		} finally {
 			if(session!=null) session.close();
 		}
 	}
-	
+
+	@Override
 	public void insertQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
 		SqlSession session=null;
 
@@ -292,14 +305,12 @@ public class TaskDAOImpl implements TaskDAO {
 			session=sqlSessionFactory.openSession();
 			Map<String, Object> map=new HashMap<>();
 			map.put("tableName", "quizanswer_"+teamNo);
-			map.put("questionNo", questionNo);
 			map.put("taskNo", taskNo);
-			map.put("answer", answer);
-			session.update("com.my.task.TaskMapper.updateQuizAnswer", map);
-			session.commit();
+			int cnt=session.selectOne("com.my.task.TaskMapper.selectAnswerCount", map);
+			return cnt;
 		} catch(Exception e) {
-			session.rollback();
-			throw new ModifyException("답안 수정 실패");
+			//e.printStackTrace();
+			throw new FindException("답 개수 조회 실패");
 		} finally {
 			if(session!=null) session.close();
 		}
@@ -311,14 +322,17 @@ public class TaskDAOImpl implements TaskDAO {
 		try {
 			session=sqlSessionFactory.openSession();
 			Map<String, Object> map=new HashMap<>();
-			map.put("tableName", "quizanswer_"+teamNo);
+			map.put("tableName", "memberanswer_"+teamNo);
 			map.put("questionNo", questionNo);
 			map.put("taskNo", taskNo);
-			session.delete("com.my.task.TaskMapper.deleteQuizAnswer", map);
+			map.put("id", id);
+			map.put("answer", answer);
+			session.insert("com.my.task.TaskMapper.insertMemberAnswer", map);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
-			throw new RemoveException("답안 삭제 실패");
+			e.printStackTrace();
+			throw new AddException("답안 생성 실패");
 		} finally {
 			if(session!=null) session.close();
 		}
@@ -366,6 +380,7 @@ public class TaskDAOImpl implements TaskDAO {
 			if(session!=null) session.close();
 		}
 	}
+
 
 	// main test
 	//	public static void main(String[] args) throws FindException, AddException {
@@ -457,5 +472,11 @@ public class TaskDAOImpl implements TaskDAO {
 			}
 		}
 		return count;
+	}
+
+	@Override
+	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
+		// TODO Auto-generated method stub
+		
 	}
 }

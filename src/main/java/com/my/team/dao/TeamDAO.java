@@ -8,9 +8,9 @@ import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
+import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
 import com.my.team.dto.TeamMemberDTO;
-import com.my.team.dto.TeamHashtagDTO;
 
 public interface TeamDAO {
 

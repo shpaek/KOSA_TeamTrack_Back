@@ -19,7 +19,7 @@ public interface TaskDAO {
 	 * @return 과제 리스트
 	 * @throws FindException
 	 */
-	List<TaskDTO> selectMainTaskList(Integer teamNo, boolean desc) throws FindException;
+	List<TaskDTO> selectMainTaskList(Integer teamNo, String id) throws FindException;
 
 	/**
 	 * 과제생성순으로 정렬된 전체 과제들 중 시작행부터 끝행까지의 과제들을 검색한다.
