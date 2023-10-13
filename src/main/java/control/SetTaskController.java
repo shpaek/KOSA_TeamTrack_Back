@@ -30,7 +30,7 @@ public class SetTaskController extends TaskController {
 			String title=attach.getParameter("title");
 			String titletest=title.trim();
 			String answer=attach.getParameter("answerlist");
-			int answerCnt=Integer.parseInt(attach.getParameter("answerCnt"));
+			
 			//Integer teamNo=9999;
 			Integer teamNo=Integer.parseInt(attach.getParameter("teamNo"));
 			Integer taskNo=Integer.parseInt(attach.getParameter("taskNo"));
@@ -56,6 +56,7 @@ public class SetTaskController extends TaskController {
 				return null;
 			}
 			
+			int answerCnt=Integer.parseInt(attach.getParameter("answerCnt"));
 			String[] answerList=answer.split(",");
 			if(answerList.length!=answerCnt) {
 				map.put("status", 0);
