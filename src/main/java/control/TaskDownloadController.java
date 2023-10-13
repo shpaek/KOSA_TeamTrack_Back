@@ -24,12 +24,13 @@ public class TaskDownloadController extends TaskController {
 		
 		ServletOutputStream sos=response.getOutputStream();
 		
+		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 //		Integer taskNo=7;
 		System.out.println(taskNo);
 		
 		String dir="/Users/qqllzs/filetest";
-		String fileName="과제"+taskNo+"_1";
+		String fileName="과제"+teamNo+"_"+taskNo+".";
 		System.out.println(fileName);
 		File fileDir=new File(dir);
 		

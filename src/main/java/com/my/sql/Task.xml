@@ -77,7 +77,7 @@
 		FROM ( SELECT task_no, title,
 		regdate,
 		avg_reviewscore FROM ${tableName}
-		WHERE id=#{id}
+		WHERE id=#{id} AND regdate IS NOT NULL
 		ORDER BY
 		regdate
 		<if test="desc">DESC</if>
