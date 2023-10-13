@@ -148,6 +148,8 @@ public class RankDAOImpl implements RankDAO {
 			map.put("date", attendanceDate);
 			map.put("month", month);
 			list = session.selectList("com.my.rank.RankMapper.selectAttendanceDay", map);
+			System.out.println("id");
+			System.out.println(list.get(0).getId());
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();

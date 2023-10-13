@@ -39,7 +39,7 @@
      , (LAST_DAY(#{date})-TRUNC(TO_DATE(#{date}, 'yyyy-MM-DD'), 'MM')+1) as monthday
      , (CASE WHEN extract (month from a.attendance_date) IS NULL THEN #{month}
      	ELSE extract (month from a.attendance_date) END) as MONTH
-     , t.id as attendanceid
+     , t.id as Id
 	FROM ATTENDANCE_${team_no} a RIGHT JOIN TEAMMEMBER_${team_no} t ON a.ID = t.ID
 	WHERE extract (month from a.attendance_date)=#{month} OR extract (month from a.attendance_date) IS NULL 
 	GROUP BY t.id, extract (month from a.attendance_date)

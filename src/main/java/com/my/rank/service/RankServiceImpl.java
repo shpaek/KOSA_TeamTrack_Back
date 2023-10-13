@@ -59,6 +59,8 @@ public class RankServiceImpl implements RankService {
 		Map<String, Double> attmap = new HashMap<>();
 		for (AttendanceDTO attdto : attlist) {
 			String id = attdto.getId();
+			System.out.println("오류ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ");
+			System.out.println(id);
 			
 			// 출석률 = 출석인증일수 / 월별 총 일수 * 100
 			Integer attendanceday = attdto.getAttendanceday();
