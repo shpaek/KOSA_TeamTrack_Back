@@ -33,8 +33,8 @@ public class TeamMainController extends TeamController {
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
 //        String id = request.getParameter("id");
-        String id = "psh2023";
-//        String id = "sengna";
+//        String id = "psh2023";
+        String id = "sengna";
 
         try {
         	

@@ -453,8 +453,18 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
-		teamDAO.insertAttendanceById(teamNo, id);
+	public void insertAttendanceById(Map<String, Object> map) throws AddException {
+		teamDAO.insertAttendanceById(map);
+	}
+	
+	@Override
+	public void updateAttendanceCnt(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateAttendanceCnt(map);
+	}
+	
+	@Override
+	public void increaseAttendanceCnt(Map<String, Object> map) throws Exception {
+		teamDAO.increaseAttendanceCnt(map);
 	}
 
 	@Override

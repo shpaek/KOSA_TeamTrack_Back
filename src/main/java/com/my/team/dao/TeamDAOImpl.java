@@ -859,19 +859,14 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	} // selectAttendanceDate()
 
-	// 팀 출석부 페이지 - 출석하기
+	// 팀 출석부 페이지 - 출석하기#1
 	@Override
-	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
+	public void insertAttendanceById(Map<String, Object> map) throws AddException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
-
-			Map<String, Object> map = new HashMap<>();
-
-			map.put("teamNo", teamNo);
-			map.put("id", id);
-
+			
 			session.update("com.my.team.TeamMapper.insertAttendanceById", map);
 			session.commit();
 		} catch(Exception e) {
@@ -882,7 +877,48 @@ public class TeamDAOImpl implements TeamDAO {
 				session.close();
 			} // if
 		} // try-catch-finally
-	} // insertAttendance
+	} // insertAttendance 
+	
+	// 팀 출석부 페이지 - 출석하기#2
+	public void updateAttendanceCnt(Map<String, Object> map) throws ModifyException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			session.update("com.my.team.TeamMapper.updateAttendanceCnt", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // updateAttendanceCnt()
+	
+	// 팀 출석부 페이지 - 출석하기(트랜잭션)
+	public void increaseAttendanceCnt(Map<String, Object> map) throws Exception {
+		SqlSession session = null;
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			
+			session.insert("com.my.team.TeamMapper.insertAttendanceById", map);
+	        session.update("com.my.team.TeamMapper.updateAttendanceCnt", map);
+	        
+	        session.commit();
+
+		} catch (Exception e) {
+			session.rollback();
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+		
+	} // increaseAttendanceCnt()
 
 	// 팀 출석부 페이지 - 출석 내역 조회
 	@Override

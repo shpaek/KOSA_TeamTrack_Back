@@ -304,8 +304,9 @@
 	
 	<!-- 팀 메인_팀 멤버 닉네임 보여주기 -->
 	<select id="selectNicknameByTeamNo" parameterType="int" resultType="String">
-        SELECT nickname
+        SELECT NICKNAME
         FROM TEAMMEMBER_${teamNo}
+        WHERE STATUS <![CDATA[ = 1 ]]>
     </select>
     
     <!-- 팀 메인_조회수 증가 -->
@@ -335,7 +336,12 @@
 	    VALUES (SYSDATE, #{id})
 	</insert>
 	
-	<!-- 팀 출석부_팀 멤버 테이블에 추가해주기 -->
+	<!-- 팀 출석부_팀 멤버 테이블에도 출석수 추가해주기 -->
+	<update id="updateAttendanceCnt" parameterType="java.util.Map">
+		UPDATE TEAMMEMBER_${teamNo}
+		SET ATTENDANCE = NVL(ATTENDANCE, 0) <![CDATA[ + 1 ]]>
+		WHERE ID = #{id}
+	</update>
 
 	<!-- 팀 출석부_출석부 조회 -->
 	<select id="selectAttendanceById" resultType="AttendanceDTO" parameterType="java.util.Map">

@@ -310,12 +310,26 @@ public interface TeamDAO {
 	String selectAttendanceDate(Map<String, Object> map) throws FindException;
 
 	/**
-	 * 팀 출석부 페이지 - 출석하기
+	 * 팀 출석부 페이지 - 출석하기#1
 	 * @param teamNo
 	 * @param id
 	 * @throws AddException
 	 */
-	void insertAttendanceById(Integer teamNo, String id) throws AddException;
+	void insertAttendanceById(Map<String, Object> map) throws AddException;
+	
+	/**
+	 * 팀 출석부 페이지 - 출석하기#2
+	 * @param map
+	 * @throws ModifyException
+	 */
+	void updateAttendanceCnt(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 트랜잭션
+	 * @param map
+	 * @throws Exception
+	 */
+	void increaseAttendanceCnt(Map<String, Object> map) throws Exception;
 
 	/**
 	 * 팀 출석부 페이지 - 조회하기
