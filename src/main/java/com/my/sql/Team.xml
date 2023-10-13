@@ -248,6 +248,12 @@
 		WHERE id = #{id} AND team_no = #{teamNo}
 	</delete>
 	
+	<select id="selectSignupTeam" resultType = "list" parameterType="String">
+		SELECT team_no
+		FROM SIGNUP_TEAM
+		WHERE id=#{id}
+	</select>
+	
 	<!-- ###################################################################################################################### -->
 
 	<!-- 셍나 -->

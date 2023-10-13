@@ -4,6 +4,7 @@ import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
+import com.my.exception.RemoveException;
 
 public interface CustomerService {
 
@@ -82,8 +83,10 @@ public interface CustomerService {
 	 * @author 나원희
 	 * @param id 사용자 아이디
 	 * @throws ModifyException DB연결 실패 시 예외 발생한다
+	 * @throws FindException DB연결 실패 시 예외 발생한다
+	 * @throws RemoveException DB연결 실패 시 예외 발생한다
 	 */
-	void deleteAccount(String id) throws ModifyException;
+	void deleteAccount(String id) throws ModifyException, FindException, RemoveException;
 	
 	/**
 	 * 회원 아이디에 해당하는 비밀번호가 일치하는지 비교한다

@@ -569,6 +569,23 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 	
+	@Override
+	public List selectSignupTeam(String id) throws FindException{
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession(); 	
+			List<Integer> list = session.selectOne("com.my.team.TeamMapper.selectSignupTeam", id);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
 
 	
 	//	---------------------------------------------------------------------------------
