@@ -27,6 +27,12 @@
 	SELECT id FROM teammember_${team_no}
   </select>
   
+  <update id="updateRankInfo" parameterType="java.util.HashMap">
+  	UPDATE member_rank_${team_no}
+	SET rank_date=#{rankDate}, rank=#{rank}, totalscore=#{totalScore} 
+	WHERE id=#{id} and extract(month from rank_date)=#{month}
+  </update>
+  
   
   <select id="selectAttendanceDay" resultType="AttendanceDTO" parameterType="java.util.HashMap">
 	SELECT count(a.ATTENDANCE_DATE) as attendanceday

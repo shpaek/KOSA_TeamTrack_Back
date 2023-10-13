@@ -1,6 +1,7 @@
 package com.my.rank.dao;
 
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.qna.dto.QnaBoardCommentDTO;
 
 import java.util.Date;
@@ -48,6 +49,17 @@ public interface RankDAO {
 	 */
 	void insert(Integer teamNo, RankDTO rankDto) throws AddException;
 	
+	/**
+	 * 팀별 Rank Info를 업데이트한다
+	 * @param teamNo 팀 번호 
+	 * @param rankDate 랭킹 등록 날짜
+	 * @param rank 랭킹 순위
+	 * @param totalScore 전체 점수
+	 * @param id 팀원 아이디
+	 * @param month 월
+	 * @throws ModifyException DB에 수정에 실패하였을 때 예외 발생
+	 */
+	void updateRankInfo(Integer teamNo, String rankDate, Integer rank, Double totalScore, String id, Integer month) throws ModifyException;
 	
 	//랭킹 점수 계산 
 	/**

@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.rank.dto.RankDTO;
 import com.my.util.ValueComparator;
 
@@ -48,6 +49,7 @@ public class RankListController extends RankController {
 		LocalDate now = LocalDate.now();
 		Integer month = now.getMonthValue(); 
 		
+		//개인 랭킹을 실시간으로 계산하여 반환해준다
 		List<Map<String, Object>> ranklist = new ArrayList<>();		
 		try {
 			List<RankDTO> list = service.findByMonth(teamNo, month);
@@ -85,14 +87,31 @@ public class RankListController extends RankController {
 				rankmap.put(dtolist.get(i).getId(), dtolist.get(i));
 			}
 			ranklist.add(rankmap);
-			System.out.println("ranklist" + ranklist);	
+			System.out.println("ranklist" + ranklist);
+			
+			// 업데이트한 정보를 Rank DB에 저장한다
+			Integer rank = null;
+			Double totalScore = null;
+			String id = null;
+			for (RankDTO dto : dtolist) {
+				rank = dto.getRank();
+				totalScore = dto.getTotalScore();
+				id = dto.getId();				
+				service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+			}
+			System.out.println("modify 성공");
 			
 		} catch (FindException e) {
 				e.printStackTrace();
+		} catch (ModifyException e) {
+			e.printStackTrace();
 		}
-		
 		String jsonStr = mapper.writeValueAsString(ranklist);
 		out.print(jsonStr);
+		
+		// Teammember의 id를 저장한다 (Insert)
+		// 새롭게 등록되는 멤버는 Trigger로 만들기
+		
 		return null;
 	}
 }

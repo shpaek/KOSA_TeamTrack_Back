@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.qna.dto.QnaBoardCommentDTO;
 import com.my.rank.dto.RankDTO;
 import com.my.task.dto.MemberTaskDTO;
@@ -105,6 +106,33 @@ public class RankDAOImpl implements RankDAO {
 	public void insert(Integer teamNo, RankDTO rank) throws AddException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void updateRankInfo(Integer teamNo, String rankDate, Integer rank, Double totalScore, String id, Integer month) 
+			throws ModifyException {
+		SqlSession session = null;
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			map.put("rankDate", rankDate);
+			map.put("rank", rank);
+			map.put("totalScore", totalScore);
+			map.put("id", id);
+			map.put("month", month);
+			session.update("com.my.rank.RankMapper.updateRankInfo", map);
+			session.commit();
+			System.out.println("commit성공");
+		} catch (Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 
 	@Override
@@ -238,6 +266,9 @@ public class RankDAOImpl implements RankDAO {
 		}
 	}
 
+	
+	
+	//----------------------------TEST---------------------------------
 	public static void main(String[] args) {
 		RankDAOImpl dao = new RankDAOImpl();
 		

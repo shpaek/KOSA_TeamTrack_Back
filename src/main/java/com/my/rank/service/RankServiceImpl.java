@@ -1,10 +1,12 @@
 package com.my.rank.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.qna.dto.QnaBoardCommentDTO;
 import com.my.rank.dao.RankDAO;
 import com.my.rank.dao.RankDAOImpl;
@@ -112,6 +114,14 @@ public class RankServiceImpl implements RankService {
 		return totalScoreMap;
 	}
 	
+	@Override
+	public void modifyRankInfo(Integer teamNo, String rankDate, Integer rank, Double totalScore, String id,
+			Integer month) throws ModifyException {
+		rankDao.updateRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+	}
+
+	
+	//--------------------------------------TEST---------------------------------------
 	public static void main(String[] args) {
 		RankServiceImpl service = new RankServiceImpl();
 		try {

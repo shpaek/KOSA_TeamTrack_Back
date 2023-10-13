@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 import com.my.rank.dto.RankDTO;
 import com.my.rank.dto.RankDetailDTO;
 import com.my.task.dto.MemberTaskDTO;
@@ -37,5 +38,17 @@ public interface RankService {
 	 * @throws FindException
 	 */
 	public Map<String, Object> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException;
-	
+
+	/**
+	 * 팀별 랭킹 정보를 실시간 업데이트 한다. 업데이트가 불가하면 ModifyException이 발생한다
+	 * @param teamNo
+	 * @param rankDate
+	 * @param rank
+	 * @param totalScore
+	 * @param id
+	 * @param month
+	 * @throws ModifyException
+	 */
+	public void modifyRankInfo(Integer teamNo, String rankDate, Integer rank, Double totalScore, String id, Integer month) throws ModifyException;
+
 }
