@@ -66,20 +66,20 @@ public interface QnaBoardCommentDAO {
 	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException;
 	
 	/**
-	 * qna게시판의 게시글을 수정한다
+	 * qna 게시글의 댓글을 수정한다
 	 * @param qnaBoardDTO 게시글 수정 정보
 	 * @return
 	 * @throws ModifyException DB와의 연결 실패 또는 게시글 수정 실패시 예외 발생
 	 */
-	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException;
+	public Integer update(Integer teamNo, QnaBoardCommentDTO dto) throws ModifyException;
 
 	/**
-	 * qna게시판의 게시글을 삭제한다
+	 * qna 게시글의 댓글을 삭제한다
 	 * @param qna_no 게시글 번호
 	 * @return
 	 * @throws RemoveException DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
 	 */
-	public Integer delete(Integer teamNo, Integer qna_no) throws ModifyException;
+	public Integer delete(Integer teamNo, Integer qnaNo, Integer commetNo) throws ModifyException;
 
 	
 } // end class

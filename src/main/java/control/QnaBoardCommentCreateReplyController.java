@@ -99,7 +99,7 @@ public class QnaBoardCommentCreateReplyController extends QnaController {
 				
 			e.printStackTrace();
 			
-			}
+			} // try-catch
 		
 		// JSON문자열 응답
 		String jsonStr = mapper.writeValueAsString(map);
