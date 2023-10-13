@@ -8,10 +8,17 @@
 	<!-- 메인 과제 리스트 가져오기 -->
 	<select id="selectMainTaskList" resultType="TaskDTO"
 		parameterType="java.util.HashMap">
-		SELECT t.task_no, t.title, t.enddate, c.nickname
-		FROM ${tableName} t JOIN customer c ON (t.id=c.id)
-		WHERE t.enddate-SYSDATE>=0
-		ORDER BY t.enddate
+		SELECT a.*, c.nickname
+		FROM (
+			SELECT t.task_no, t.title, t.regdate, t.enddate, t.id
+			FROM ${tableName1} t
+			WHERE t.enddate-SYSDATE>0 AND t.id!=#{id} AND regdate IS NOT NULL
+			MINUS
+			SELECT t.task_no, t.title, t.regdate, t.enddate, t.id
+			FROM ${tableName1} t JOIN ${tableName2} m ON(t.task_no=m.task_no)
+			WHERE t.enddate-SYSDATE>0 AND m.id=#{id} AND regdate IS NOT NULL
+		) a JOIN customer c ON (a.id=c.id)
+		ORDER BY a.enddate
 	</select>
 
 	<!-- 전체 과제 리스트 가져오기 -->
@@ -21,9 +28,9 @@
 		FROM (
 			SELECT rownum rn, a.*
 			FROM (
-				SELECT t.task_no, t.title, c.nickname
+				SELECT t.task_no, t.title, t.regdate, c.nickname
 				FROM ${tableName} t JOIN customer c ON (t.id=c.id)
-				WHERE t.enddate-SYSDATE&lt;0
+				WHERE regdate IS NOT NULL AND t.enddate-SYSDATE&lt;0
 				ORDER BY t.regdate
 				<if test="desc">DESC</if>
 			) a
@@ -70,7 +77,7 @@
 		FROM ( SELECT task_no, title,
 		regdate,
 		avg_reviewscore FROM ${tableName}
-		WHERE id=#{id} AND enddate-SYSDATE&lt;0
+		WHERE id=#{id} AND regdate IS NOT NULL
 		ORDER BY
 		regdate
 		<if test="desc">DESC</if>
@@ -88,8 +95,8 @@
 	<!-- 과제 정보 가져오기 -->
 	<select id="selectTaskInfo" resultType="TaskDTO"
 		parameterType="java.util.HashMap">
-		SELECT task_no, title, id, regdate
-		FROM ${tableName}
+		SELECT t.task_no, t.title, c.nickname
+		FROM ${tableName} t JOIN customer c ON (t.id=c.id)
 		WHERE task_no=#{taskNo}
 	</select>
 
@@ -123,7 +130,7 @@
 	<!-- 과제 정보 업데이트하기 -->
 	<update id="updateTask" parameterType="java.util.HashMap">
 		UPDATE ${tableName}
-		SET regdate=SYSDATE, enddate=TO_DATE(#{enddate}, 'yyyy-MM-dd'), title=#{title}
+		SET regdate=SYSDATE, title=#{title}
 		WHERE task_no=#{taskNo}
 	</update>
 	
@@ -132,10 +139,12 @@
 		INSERT INTO ${tableName} (question_no, task_no, answer) VALUES (#{questionNo}, #{taskNo}, #{answer})
 	</insert>
 	
-	<!-- 과제 답안 수정하기 -->
-	<update id="updateQuizAnswer" parameterType="java.util.HashMap">
-		UPDATE ${tableName} SET answer=#{answer} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
-	</update>
+	<!-- 출제자 여부 체크하기 -->
+	<select id="selectTaskId" resultType="TaskDTO">
+		SELECT id, task_no
+		FROM ${tableName}
+		WHERE duedate1-SYSDATE&lt;=0 AND duedate2-SYSDATE>=0 AND regdate IS NULL
+	</select>
 	
 	<!-- 원희 - 가입일 지난 후 등록된 과제 개수 -->
 	<select id="selectJoinAfterTaskCount" resultType="Integer" parameterType="hashmap">
@@ -158,9 +167,14 @@
 		INSERT INTO ${tableName} (task_no, id, hwscore, reviewscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, #{reviewScore}, SYSDATE)
 	</insert>
 	
-	<!-- 평점 업데이트하기 -->
+	<!-- 팀원 평점 업데이트하기 -->
 	<update id="updateReviewScore" parameterType="java.util.HashMap">
 		UPDATE ${tableName} SET reviewscore=#{reviewScore} WHERE id=#{id} AND task_no=#{taskNo}
+	</update>
+
+	<!-- 과제 평점 업데이트하기 -->
+	<update id="updateAvgReviewScore" parameterType="java.util.HashMap">
+		UPDATE ${tableName1} SET avg_reviewscore=(SELECT SUM(reviewscore)/COUNT(*) FROM ${tableName2} WHERE task_no=#{taskNo}) WHERE task_no=#{taskNo}
 	</update>
 
 </mapper>

@@ -11,7 +11,7 @@ import lombok.ToString;
 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") // 일단 보류
 @Getter @Setter @ToString
 public class TeamMemberDTO {
-	
+
 	// 팀원 테이블
 	private String id;					// 회원 아이디
 	private String nickname;			// 닉네임

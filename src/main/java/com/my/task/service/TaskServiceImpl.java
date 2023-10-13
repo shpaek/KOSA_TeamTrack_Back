@@ -164,6 +164,10 @@ public class TaskServiceImpl implements TaskService {
 	public void setReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException {
 		taskDAO.updateReviewScore(teamNo, taskNo, id, reviewScore);
 	}
+	
+	public void setAvgReviewScore(Integer teamNo, Integer taskNo) throws ModifyException {
+		taskDAO.updateAvgReviewScore(teamNo, taskNo);
+	}
 
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();

@@ -157,4 +157,13 @@ public interface TaskService {
 	 * @throws ModifyException
 	 */
 	void setReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException;
+	
+	/**
+	 * 평균 평점을 계산한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @throws ModifyException
+	 */
+	void setAvgReviewScore(Integer teamNo, Integer taskNo) throws ModifyException;
+
 }
