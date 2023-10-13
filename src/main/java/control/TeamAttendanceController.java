@@ -35,15 +35,10 @@ public class TeamAttendanceController extends TeamController {
 	    int teamNo = Integer.parseInt(request.getParameter("teamNo"));
 	    String id = request.getParameter("id");
 	    String action = request.getParameter("action");
-//	    Integer action = Integer.parseInt(request.getParameter("action"));
-	    
-	    System.out.println(action);
 	    
 	    paramsMap.put("teamNo", teamNo);
 	    paramsMap.put("id", id);
 	    
-//	    System.out.println(teamNo+":"+id);
-
 	    try {
 	    	if ("attendChk".equals(action)) {
 	    	    String existingDate = service.selectAttendanceDate(paramsMap);
@@ -86,7 +81,7 @@ public class TeamAttendanceController extends TeamController {
 	    	statusMap.put("msg", "팀 출석 실패");
 	    }
 	    
-	    Object status = statusMap.get("status");
+//	    Object status = statusMap.get("status");
 	    resultMap.put("statusMap", statusMap);
 	    resultMap.put("method", methodMap);
 	    

@@ -22,7 +22,6 @@ import com.my.team.dao.TeamDAOImpl;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
 import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
@@ -287,6 +286,21 @@ public class TeamServiceImpl implements TeamService {
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	@Override
+	public String determineUserRole(String id, int teamNo) throws Exception {
+		
+	    int isMember = service.selectTeamMemberStatus(id, teamNo);
+	    int isLeader = service.leaderChk(id, teamNo);
+	    
+	    if (isLeader == 1) {
+	        return "leader";
+	    } else if (isMember == 1) {
+	        return "teamMember";
+	    } else {
+	        return "member";
+	    }
+	}
 
 	@Override
 	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {

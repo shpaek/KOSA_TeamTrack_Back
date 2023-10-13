@@ -47,7 +47,7 @@ public class TeamMainController extends TeamController {
         	
         	// 팀 정보 다가져오기
         	List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
-        	methodMap.put("teamList", teamList);
+        	methodMap.put("teamList", teamList.get(0)); // List로 가져오지 말고 그냥 TeamDTO로 가져왓어야 햇는데,,, 8ㅅ8
         	
             // 팀 소개글 가져오기
             String teamInfo = service.selectTeamInfoByTeamNo(teamNo);
