@@ -24,14 +24,14 @@ public class ViewMemberAnswerController extends TaskController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
-//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		System.out.println(taskNo);
 //		String loginedId=(String)session.getAttribute("loginedId");
 		
-		Integer teamNo=9999;
+		//Integer teamNo=9999;
 //		Integer taskNo=1;
-		String loginedId="nwh2023";
+		String loginedId="cjs1231";
 		Map<String, Object> map=new HashMap<>();
 		
 		try {
