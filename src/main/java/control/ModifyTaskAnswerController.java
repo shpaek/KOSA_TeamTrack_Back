@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.my.exception.ModifyException;
 
-public class SetTaskController extends TaskController {
+public class ModifyTaskAnswerController extends TaskController {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -18,15 +18,15 @@ public class SetTaskController extends TaskController {
 		PrintWriter out = response.getWriter();
 		
 		//Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
-		String title=request.getParameter("title");
-		String enddate=request.getParameter("enddate");
+		Integer questionNo=Integer.parseInt(request.getParameter("questionNo"));
 		//Integer taskNo=Integer.parseInt(request.getParameter("teamNo"));
+		int answer=Integer.parseInt(request.getParameter("answer"));
 		
 		Integer teamNo=9999;
 		Integer taskNo=11;
 		
 		try {
-			service.ModifyTask(teamNo, title, enddate, taskNo);
+			service.ModifyQuizAnswer(teamNo, questionNo, taskNo, answer);
 		} catch (ModifyException e) {
 			out.print(e.getMessage());
 		}

@@ -22,22 +22,23 @@ public class MainTaskListController extends TaskController {
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-//		HttpSession session=request.getSession();
+		
 //		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String option=request.getParameter("option");
-//		String loginedId=(String)session.getAttribute("loginedId");
+//		boolean desc=true;
+//		if(!option.equals("최신순")) desc=false;
 		
 		Integer teamNo=9999;
-		String loginedId="nwh2023";
+		boolean desc=true;
 		
 		try {
-			List<TaskDTO> list=service.findMainTaskList(teamNo, loginedId);
+			List<TaskDTO> list=service.findMainTaskList(teamNo, desc);
 			String jsonStr = mapper.writeValueAsString(list);
 			out.print(jsonStr);
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
-
+		
 		return null;
 	}
 

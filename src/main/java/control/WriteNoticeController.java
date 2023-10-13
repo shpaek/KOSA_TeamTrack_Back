@@ -48,7 +48,7 @@ public class WriteNoticeController extends NoticeController {
 			service.writeNotice(teamNo, notice);
 			try {
 				String originFileName=attach.getFile("f1").get(0).getName();
-				attach.upload("f1", teamNo+"_notice_"+originFileName);
+				attach.upload("f1", loginedId+"_notice_"+originFileName);
 			} catch(Exception e) {
 			
 			}

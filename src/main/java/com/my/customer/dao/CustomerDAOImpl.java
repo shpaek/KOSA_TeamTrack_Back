@@ -2,8 +2,6 @@ package com.my.customer.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +11,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
-import com.my.exception.ModifyException;
 
 public class CustomerDAOImpl implements CustomerDAO {
 	
@@ -143,97 +140,5 @@ public class CustomerDAOImpl implements CustomerDAO {
 	} // main(test)
 	
 	
-	@Override
-	public void updateNickname(String id, String nickname) throws ModifyException{
-		SqlSession session = null;
-		Map map = new HashMap<>();
-		
-		try{
-			session = sqlSessionFactory.openSession();
-			map.put("id", id);
-			map.put("nickname", nickname);
-			session.update("com.my.customer.CustomerMapper.updateNickname", map);
-			session.commit();
-		}catch(Exception e) {
-			session.rollback();
-			throw new ModifyException(e.getMessage());
-		}finally {
-			if(session!=null) {
-				session.close();
-			}
-		}
-	}
-	
-	@Override
-	public void updateCustomerAll(String id, CustomerDTO customer) throws ModifyException{
-		SqlSession session = null;
-		
-		Map map = new HashMap<>();
-		
-		try{
-			session = sqlSessionFactory.openSession();
-			map.put("id", id);
-			map.put("customer", customer);
-			session.update("com.my.customer.CustomerMapper.updateCustomerAll", map);
-			session.commit();
-		}catch(Exception e) {
-			session.rollback();
-			throw new ModifyException(e.getMessage());
-		}finally {
-			if(session!=null) {
-				session.close();
-			}
-		}
-	}
-	
-	@Override
-	public void updateCustomerStatus(String id) throws ModifyException{
-		SqlSession session = null;
-		
-		Map map = new HashMap<>();
-		
-		try{
-			session = sqlSessionFactory.openSession();
-			session.update("com.my.customer.CustomerMapper.updateCustomerStatus", id);
-			session.commit();
-		}catch(Exception e) {
-			session.rollback();
-			throw new ModifyException(e.getMessage());
-		}finally {
-			if(session!=null) {
-				session.close();
-			}
-		}
-	}
-	
-	@Override
-	public void updatePwd(String id, String pwd) throws ModifyException{
-		SqlSession session = null;
-		
-		Map map = new HashMap<>();
-		
-		try{
-			session = sqlSessionFactory.openSession();
-			map.put("id", id);
-			map.put("pwd", pwd);
-			session.update("com.my.customer.CustomerMapper.updatePwd", map);
-			session.commit();
-		}catch(Exception e) {
-			session.rollback();
-			throw new ModifyException(e.getMessage());
-		}finally {
-			if(session!=null) {
-				session.close();
-			}
-		}
-	}
-
-
-	@Override
-	public CustomerDTO selectByNickname(String nickname) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 } // end class
 
