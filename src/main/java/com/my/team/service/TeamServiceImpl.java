@@ -290,16 +290,27 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public String determineUserRole(String id, int teamNo) throws Exception {
 		
-	    int isMember = service.selectTeamMemberStatus(id, teamNo);
-	    int isLeader = service.leaderChk(id, teamNo);
+//		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + id);
+		
+	    int isMember = teamDAO.selectTeamMemberStatus(id, teamNo); // return값이 1이면 팀원 O, 1이 아닌 다른 값이면 팀원 X
+	    int isLeader = service.leaderChk(id, teamNo); // return값: memStatus = 1이면 팀장 O
 	    
-	    if (isLeader == 1) {
-	        return "leader";
-	    } else if (isMember == 1) {
-	        return "teamMember";
-	    } else {
-	        return "member";
-	    }
+//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isMember);
+//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isLeader);
+	    
+	    if (isMember == 1) {				// 팀 멤버일 때,
+	    	
+	    	if (isLeader == 1) {			// 팀장이면,
+	    		return "leader";
+	    	} else if (isLeader != 1) {		// 팀원이면,
+	    		return "teamMember";
+	    	} else {
+	    		return "오류입니다";
+	    	}
+	    } else {							// 일반 회원일 때
+	    	return "customer";
+	    } // if-else
+	    
 	}
 
 	@Override

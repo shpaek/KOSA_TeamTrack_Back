@@ -384,7 +384,7 @@
 	<!-- 팀 관리_과제 출제자 선정 -->
 	<insert id="insertExaminer" parameterType="hashmap" >
 	    INSERT INTO TASK_${teamNo} (TASK_NO, ID, DUEDATE1, DUEDATE2, ENDDATE)
-		VALUES (TASK_${teamNo}_NO.NEXTVAL ,#{TaskDTO.id}, #{TaskDTO.duedate1}, #{TaskDTO.duedate2}, #{TaskDTO.enddate})
+		VALUES (TASK_${teamNo}_SEQ.NEXTVAL ,#{TaskDTO.id}, #{TaskDTO.duedate1}, #{TaskDTO.duedate2}, #{TaskDTO.enddate})
 	</insert>
 
 </mapper>

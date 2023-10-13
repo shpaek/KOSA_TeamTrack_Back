@@ -43,7 +43,6 @@ public class TeamAttendanceController extends TeamController {
 	    	if ("attendChk".equals(action)) {
 	    	    String existingDate = service.selectAttendanceDate(paramsMap);
 	    	    
-	    	    System.out.println("됨ㅇㅇ");
 	    	    if (existingDate != null) {
 	    	    	statusMap.put("status", 2);
 	    	    	System.out.println("1번");
@@ -77,11 +76,9 @@ public class TeamAttendanceController extends TeamController {
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    	statusMap.put("status", 0);
-	    	System.out.println("5번");
 	    	statusMap.put("msg", "팀 출석 실패");
-	    }
+	    } // try-catch
 	    
-//	    Object status = statusMap.get("status");
 	    resultMap.put("statusMap", statusMap);
 	    resultMap.put("method", methodMap);
 	    
