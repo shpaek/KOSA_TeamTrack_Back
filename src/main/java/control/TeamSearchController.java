@@ -26,6 +26,7 @@ public class TeamSearchController extends TeamController {
 
 
 		response.setContentType("application/json;charset=UTF-8");
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
 		String table;
 		String column;

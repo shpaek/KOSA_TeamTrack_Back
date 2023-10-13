@@ -190,47 +190,47 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 	
 	
 
-	@Override
-	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException {
-		
-		SqlSession session = null;
-		
-		// 조회한 게시물 저장할 변수 생성 
-		List<QnaBoardCommentDTO> qnaCommentReplyList = new ArrayList<>();
-		
-		Map<String, Object> map = new HashMap<>();
-		
-		try {
-			
-			session = sqlSessionFactory.openSession();
-			
-			String tableName = "QNACOMMENT_"+ String.valueOf(teamNo);
-			
-			map.put("tableName", tableName);
-			map.put("qnaNo", dto.getQnaNo());
-			map.put("commentNo", dto.getCommentNo());
-			map.put("commentGroup", dto.getCommentGroup());
-			map.put("content", dto.getContent());
-			
-			// 이 teammember_id는 sessionId로 가져와야 할거같다.. 수정 필요
-			map.put("teammember_id", dto.getTeammemberId());
-			
-			qnaCommentReplyList = session.selectList("com.my.qna.QnaboardCommentMapper.selectCommentReply", map);
-			
-			return qnaCommentReplyList;
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		} finally {
-			if(session != null) {
-				session.close();
-			} // if
-		} // try-catch-finally
-		
-//		return null;
-	} // selectCommentReply
+//	@Override
+//	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException {
+//		
+//		SqlSession session = null;
+//		
+//		// 조회한 게시물 저장할 변수 생성 
+//		List<QnaBoardCommentDTO> qnaCommentReplyList = new ArrayList<>();
+//		
+//		Map<String, Object> map = new HashMap<>();
+//		
+//		try {
+//			
+//			session = sqlSessionFactory.openSession();
+//			
+//			String tableName = "QNACOMMENT_"+ String.valueOf(teamNo);
+//			
+//			map.put("tableName", tableName);
+//			map.put("qnaNo", dto.getQnaNo());
+//			map.put("commentNo", dto.getCommentNo());
+//			map.put("commentGroup", dto.getCommentGroup());
+//			map.put("content", dto.getContent());
+//			
+//			// 이 teammember_id는 sessionId로 가져와야 할거같다.. 수정 필요
+//			map.put("teammember_id", dto.getTeammemberId());
+//			
+//			qnaCommentReplyList = session.selectList("com.my.qna.QnaboardCommentMapper.selectCommentReply", map);
+//			
+//			return qnaCommentReplyList;
+//			
+//			
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			throw new FindException(e.getMessage());
+//		} finally {
+//			if(session != null) {
+//				session.close();
+//			} // if
+//		} // try-catch-finally
+//		
+////		return null;
+//	} // selectCommentReply
 
 	@Override
 	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
@@ -264,6 +264,77 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		} // try-catch-finally
 		
 	} // commentPick
+	
+	
+
+	@Override
+	public Integer update(Integer teamNo, QnaBoardCommentDTO dto) throws ModifyException {
+
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			String tableName="QNACOMMENT_" + teamNo;
+			
+			map.put("tableName",tableName);
+			map.put("content", dto.getContent());
+			map.put("qnaNo", dto.getQnaNo());
+			map.put("commentNo", dto.getCommentNo());
+
+			session = sqlSessionFactory.openSession();
+			session.update("com.my.qna.QnaboardCommentMapper.update", map);
+			
+			session.commit();
+
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+
+		return null;
+
+	} // update
+
+	@Override
+	public Integer delete(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
+
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+
+		try {
+			
+			String tableName="QNACOMMENT_" + teamNo;
+			
+			map.put("tableName", tableName);
+			map.put("qnaNo", qnaNo);
+			map.put("commentNo", commentNo);
+
+			session = sqlSessionFactory.openSession();
+			int result = session.delete("com.my.qna.QnaboardCommentMapper.delete", map);
+			
+			session.commit();
+
+			return result; // 삭제된 행 수 반환
+			
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		} // try-catch-finally
+
+	} // delete
 
 	public static void main(String[] args) {
 		
@@ -310,30 +381,30 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		
 		// ================== selectCommentReply 메서드 테스트 ======================
 		
-	    QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
-
-	    QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
-
-	    Integer teamNo = 64;
-	    dto.setQnaNo(112);
-	    dto.setCommentNo(1);
-	    dto.setCommentGroup(1);
-
-	    try {
-	        List<QnaBoardCommentDTO> commentReplyList = dao.selectCommentReply(teamNo, dto);
-
-	        System.out.println("댓글 조회 성공");
-	        
-	        for (QnaBoardCommentDTO commentList : commentReplyList) {
-	        	
-	            System.out.println("commentNo: " + commentList.getCommentNo());
-	            System.out.println("content: " + commentList.getContent());
-	            
-	        }
-	    } catch (FindException e) {
-	        e.printStackTrace();
-	        System.out.println("댓글 조회 실패");
-	    }
+//	    QnaBoardCommentDAO dao = new QnaBoardCommentDAOImpl();
+//
+//	    QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
+//
+//	    Integer teamNo = 64;
+//	    dto.setQnaNo(112);
+//	    dto.setCommentNo(1);
+//	    dto.setCommentGroup(1);
+//
+//	    try {
+//	        List<QnaBoardCommentDTO> commentReplyList = dao.selectCommentReply(teamNo, dto);
+//
+//	        System.out.println("댓글 조회 성공");
+//	        
+//	        for (QnaBoardCommentDTO commentList : commentReplyList) {
+//	        	
+//	            System.out.println("commentNo: " + commentList.getCommentNo());
+//	            System.out.println("content: " + commentList.getContent());
+//	            
+//	        }
+//	    } catch (FindException e) {
+//	        e.printStackTrace();
+//	        System.out.println("댓글 조회 실패");
+//	    }
 		
 		// ============== 해당 게시글의 전체 댓글 메서드 테스트 ==========================
 		

@@ -81,5 +81,24 @@ public interface CustomerService {
 	 * @throws ModifyException DB연결 실패 시 예외 발생한다
 	 */
 	void deleteAccount(String id) throws ModifyException;
+	
+	/**
+	 * 회원 아이디에 해당하는 비밀번호가 일치하는지 비교한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param pwd 비밀번호
+	 * @return 일치하는지 여부
+	 * @throws FindException DB연결 실패 시 예외 발생한다
+	 */
+	boolean pwdCheck(String id, String pwd) throws FindException;
+	
+	/**
+	 * 비밀번호를 변경한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @param pwd 변경할 비밀번호
+	 * @throws ModifyException DB연결 실패 시 예외 발생한다
+	 */
+	void editMyPwd(String id, String pwd) throws ModifyException;
 
 } // end class

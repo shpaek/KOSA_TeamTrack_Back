@@ -8,11 +8,12 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.exception.ModifyException;
+import com.my.qna.dto.QnaBoardCommentDTO;
 
-public class QnaBoardCommentPickController extends QnaController {
+public class QnaBoardCommentCreateReplyController extends QnaController {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -28,19 +29,28 @@ public class QnaBoardCommentPickController extends QnaController {
 		
 		// jackson 라이브러리에서 제공하는 ObjectMapper 클래스 사용하기
 		ObjectMapper mapper = new ObjectMapper(); // JSON 문자열 만드는 API
-		
 		Map<String, Object> map = new HashMap<>();
-		
+
 		// 요청 전달데이터 얻기
+		// =====================  여기 session 받아와야하니까 마지막에 수정해야함
+		HttpSession session = req.getSession();
+//		String loginedId = (String)session.getAttribute("loginedId");
+		String loginedId = "psh2023";
+		
 		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
 		Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
-		Integer commentNo = Integer.parseInt(req.getParameter("commentNo"));
+		Integer commentGroup = Integer.parseInt(req.getParameter("commentGroup"));
+//		Integer commentGroup = 11;
+		String content = req.getParameter("content");
+		String id = req.getParameter("id");
 		
-		System.out.println("pick teamNo ===================> " + teamNo);
-		System.out.println("pick qnaNo ===================> " + qnaNo);
-		System.out.println("pick commentNo =================> " + commentNo);
+		System.out.println("replyteamNo ===========" + teamNo);
+		System.out.println("reply qnaNo ============>" + qnaNo);
+		System.out.println("reply commentGroup ============> " + commentGroup);
+		System.out.println("reply id ============> " + id);
+		System.out.println("reply Content ============> " + content);
+		System.out.println("reply loginedId ============> " + loginedId);
 		
-		// teamNo 파라미터 처리
 		String teamNoStr = req.getParameter("teamNo");
 		if (teamNoStr != null && !teamNoStr.isEmpty()) {
 			try {
@@ -52,11 +62,10 @@ public class QnaBoardCommentPickController extends QnaController {
 			}
 		}
 		
-		// teamNo 파라미터 처리
 		String qnaNoStr = req.getParameter("qnaNo");
 		if (teamNoStr != null && !teamNoStr.isEmpty()) {
 			try {
-				teamNo = Integer.parseInt(teamNoStr);
+				qnaNo = Integer.parseInt(qnaNoStr);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 
@@ -64,39 +73,38 @@ public class QnaBoardCommentPickController extends QnaController {
 			}
 		}
 		
-		// teamNo 파라미터 처리
-		String commentNoStr = req.getParameter("teamNo");
-		if (teamNoStr != null && !teamNoStr.isEmpty()) {
+		String commentGroupStr = req.getParameter("commentGroup");
+		if (commentGroupStr != null && !commentGroupStr.isEmpty()) {
 			try {
-				teamNo = Integer.parseInt(teamNoStr);
+				commentGroup = Integer.parseInt(commentGroupStr);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 
 				return null;
 			}
 		}
-		
+
 		try {
-			commentService.commentPick(teamNo, qnaNo, commentNo);
-			
-			map.put("status", 1);
-			map.put("msg", "채택되었습니다.");
-			
-		} catch (ModifyException e) {
 
+			QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
+			
+			dto.setQnaNo(qnaNo);
+			dto.setCommentGroup(commentGroup);
+			dto.setContent(content);
+			dto.setTeammemberId(id);
+
+			commentService.insertReply(teamNo, dto);
+
+			} catch (Exception e) {
+				
 			e.printStackTrace();
-			map.put("status", 0);
-			map.put("msg", e.getMessage());
 			
-		} // try-catch
-
+			} // try-catch
+		
 		// JSON문자열 응답
 		String jsonStr = mapper.writeValueAsString(map);
 		out.print(jsonStr);
-		
-		
-		return null;
-		
-	} // execute   
 
-} // QnaBoardCommentPickController
+		return null;
+	} // execute
+} // end class

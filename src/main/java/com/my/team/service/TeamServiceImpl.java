@@ -1,6 +1,8 @@
 package com.my.team.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
 import com.my.team.dto.TeamHashtagDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
@@ -275,21 +278,132 @@ public class TeamServiceImpl implements TeamService {
 	
 	@Override
 	public void cancelWaiting(String id, Integer teamNo) throws RemoveException{
-		teamDAO.deleteSignupTeam(id, teamNo);
+		teamDAO.deleteSignupTeamByTeamNo(id, teamNo);
 	}
 	
 	@Override
 	public void rejectCheck(String id, Integer teamNo) throws RemoveException{
-		teamDAO.deleteSignupTeam(id, teamNo);
+		teamDAO.deleteSignupTeamByTeamNo(id, teamNo);
+	}
+	
+	@Override
+	public Map myActivity(String id, Integer teamNo) throws FindException, SQLException{
+		
+		TeamDTO team = teamDAO.selectByTeamNo(teamNo);
+		TeamMemberDTO teammember = teamDAO.selectTeamMember(id, teamNo);
+		
+		Date joinDate = teammember.getJoinDate();    
+		Date nowDate = new Date();
+		
+		long baseDay = 24 * 60 * 60 * 1000; 	// 일
+		long baseMonth = baseDay * 30;		// 월
+		
+		// from 일자와 to 일자의 시간 차이를 계산한다.
+		long calDate = nowDate.getTime() - joinDate.getTime();
+		System.out.println("calDate:"+calDate);
+		
+		if(calDate<0) {
+			calDate = 0;
+		}
+		
+		// from 일자와 to 일자의 시간 차 값을 하루기준으로 나눠 준다.
+		long diffDate = calDate / baseDay;
+		long diffMonth = calDate / baseMonth;
+		
+		//출석률
+		int getAttendance = 0; 
+		double attendanceRate = 0;
+		if(teammember.getAttendance()!=null) {
+			getAttendance = teammember.getAttendance();
+		}
+		if(diffDate !=0) {
+			attendanceRate = Math.round((double)getAttendance/(double)diffDate*100*100)/100.0;
+			teammember.setAttendanceRate(attendanceRate);
+		}
+		
+		//평균랭킹
+		int ranksum = 0;
+		int rankAvg = 0;
+		if(teammember.getRankSum()!=null) {
+			ranksum = teammember.getRankSum();
+			if(diffMonth != 0) {
+				rankAvg = ranksum/Long.valueOf(diffMonth).intValue();
+			}
+		}
+		teammember.setRankAvg(rankAvg);
+		
+		//과제완수율
+		double taskCompleteRate = 0;
+		Integer taskcnt =0;
+		try {
+			taskcnt = taskDAO.selectJoinAfterTaskCount(id, teamNo);
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		Integer mytaskcnt = taskDAO.selectCompleteTaskCount(teamNo,id);
+		
+		if(mytaskcnt!=null) {
+			if(taskcnt!=null) {
+				taskCompleteRate = Math.round((double)mytaskcnt/(double)taskcnt*100*100)/100.0;
+			}
+		}
+		teammember.setTaskCompleteRate(taskCompleteRate);
+		
+		System.out.println(teammember.getAttendanceRate());
+		System.out.println(team.getJoinMember());
+
+		Map map = new HashMap<>();
+		
+		map.put("team", team);
+		map.put("teammember", teammember);
+		
+		return map;
 	}
 	
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	@Override
+	public String determineUserRole(String id, int teamNo) throws Exception {
+		
+//		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + id);
+		
+	    int isMember = teamDAO.selectTeamMemberStatus(id, teamNo); // return값이 1이면 팀원 O, 1이 아닌 다른 값이면 팀원 X
+	    int isLeader = service.leaderChk(id, teamNo); // return값: memStatus = 1이면 팀장 O
+	    
+//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isMember);
+//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isLeader);
+	    
+	    if (isMember == 1) {				// 팀 멤버일 때,
+	    	
+	    	if (isLeader == 1) {			// 팀장이면,
+	    		return "leader";
+	    	} else if (isLeader != 1) {		// 팀원이면,
+	    		return "teamMember";
+	    	} else {
+	    		return "오류입니다";
+	    	}
+	    } else {							// 일반 회원일 때
+	    	return "customer";
+	    } // if-else
+	    
+	}
 
+	@Override
+	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
+		return teamDAO.selectTeamMemberStatus(id, teamNo);
+	}
+	
 	@Override
 	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
 		return teamDAO.selectTeamInfoByTeamNo(teamNo);
+	}
+	
+	@Override
+	public List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException {
+		return teamDAO.selectAllTeamInfo(teamNo);
 	}
 
 	@Override
@@ -332,6 +446,13 @@ public class TeamServiceImpl implements TeamService {
 		return teamDAO.selectViewCnt(teamNo);
 	}
 
+//	-------------------
+	
+	@Override
+	public String selectAttendanceDate(Map<String, Object> map) throws FindException {
+		return teamDAO.selectAttendanceDate(map);
+	}
+	
 	@Override
 	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
 		teamDAO.insertAttendanceById(teamNo, id);
@@ -341,6 +462,8 @@ public class TeamServiceImpl implements TeamService {
 	public List<AttendanceDTO> selectAttendanceById(Integer teamNo, String id) throws FindException {
 		return teamDAO.selectAttendanceById(teamNo, id);
 	}
+	
+//	-------------------
 
 	@Override
 	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException {

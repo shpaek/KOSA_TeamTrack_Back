@@ -44,7 +44,7 @@
 	<!-- 확인 필요 -->
 	<select id="selectByTeamNo" resultType="TeamDTO">
 		SELECT team_name,
-		study_type, onoffline, max_member,
+		study_type, onoffline, join_member, max_member,
 		startdate, enddate,
 		brief_info,
 		team_info,
@@ -237,16 +237,29 @@
 		WHERE a.id = #{id} AND a.status=#{status}
 	</select>
 	
-	<delete id="deleteSignupTeam" parameterType = "hashmap">
-  		DELETE FROM SIGNUP_TEAM
+	<select id="selectTeamMember" resultType = "TeamMemberDTO" parameterType="hashmap">
+		SELECT a.*, b.nickname
+		FROM ${tableName} a JOIN CUSTOMER b ON (a.id=b.id)
+		WHERE a.id = #{id} AND a.status=1
+	</select>
+	
+	<delete id="deleteSignupTeamByTeamNo" parameterType="hashmap">
+		DELETE FROM SIGNUP_TEAM
 		WHERE id = #{id} AND team_no = #{teamNo}
-  	</delete>
+	</delete>
 	
 	<!-- ###################################################################################################################### -->
 
 	<!-- 셍나 -->
 	
-	<!-- 팀 메인_팀 소개글 가져오기 --> 
+	<!-- 멤버인지 아닌지 확인 -->
+	<select id="selectTeamMemberStatus" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM TEAMMEMBER_${teamNo}
+		WHERE ID = #{id} AND STATUS <![CDATA[ = 1 ]]>
+	</select>
+	
+	<!-- 팀 메인_팀 소개글 가져오기 -->
 	<select id="selectTeamInfoByTeamNo" parameterType="int" resultType="String">
 		SELECT team_info
 		FROM TEAM
@@ -263,6 +276,13 @@
 		WHERE ROWNUM  <![CDATA[ <= 3 ]]>
 	</select>
 
+	<!-- 팀 메인_팀 정보 가져오기 -->
+	<select id="selectAllTeamInfo" parameterType="int" resultType="TeamDTO">
+			SELECT *
+			FROM TEAM
+			WHERE TEAM_NO = ${teamNo}
+	</select>
+	
 	<!-- 팀 메인_팀 가입하기 -->
 	<insert id="insertIntoSignupTeam" parameterType="SignupTeamDTO">
 		INSERT INTO SIGNUP_TEAM (team_no, id, status, introduction)
@@ -275,12 +295,12 @@
 		SET STATUS <![CDATA[ = 0 ]]>
 		WHERE ID = #{id}
 	</update>
-
+	
 	<!-- 팀 메인_팀 나가기2 -->
-	<!--<delete id="deleteSignupTeam" parameterType="String">
+	<delete id="deleteSignupTeam" parameterType="String">
 		DELETE FROM SIGNUP_TEAM
 		WHERE ID = #{id}
-	</delete>-->
+	</delete>
 	
 	<!-- 팀 메인_팀 멤버 닉네임 보여주기 -->
 	<select id="selectNicknameByTeamNo" parameterType="int" resultType="String">
@@ -302,16 +322,23 @@
 	    WHERE TEAM_NO = #{teamNo}
 	</select>
 	
+	<!-- 팀 출석부_출석여부확인 -->
+	<select id="selectAttendanceDate" parameterType="java.util.Map" resultType="String">
+		SELECT ATTENDANCE_DATE
+		FROM ATTENDANCE_${teamNo}
+		WHERE TO_CHAR(ATTENDANCE_DATE, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')AND id = #{id}
+	</select>
+	
 	<!-- 팀 출석부_출석하기 -->
 	<insert id="insertAttendanceById" parameterType="java.util.Map">
-	    INSERT INTO ATTENDENCE_${teamNo} (ATTENDENCE_DATE, ID)
+	    INSERT INTO ATTENDANCE_${teamNo} (ATTENDANCE_DATE, ID)
 	    VALUES (SYSDATE, #{id})
 	</insert>
 
 	<!-- 팀 출석부_출석부 조회 -->
 	<select id="selectAttendanceById" resultType="AttendanceDTO" parameterType="java.util.Map">
-	    SELECT ATTENDENCE_DATE, ID
-	    FROM ATTENDENCE_${teamNo}
+	    SELECT ATTENDANCE_DATE, ID
+	    FROM ATTENDANCE_${teamNo}
 	    WHERE ID = #{id}
 	</select>
 	
@@ -331,9 +358,9 @@
 	
 	<!-- 팀 관리_팀 가입 요청 확인 -->
 	<select id="selectRequestInfo" resultType="java.util.Map" parameterType="int"> 
-		SELECT ID, INTRODUCTION, STATUS
-		FROM SIGNUP_TEAM
-		WHERE STATUS = 0 AND TEAM_NO = ${teamNo}
+		SELECT st.ID, st.INTRODUCTION, st.STATUS, c.NICKNAME
+		FROM CUSTOMER c JOIN SIGNUP_TEAM st ON (c.id = st.id)
+		WHERE st.STATUS = 0 And TEAM_NO = ${teamNo}
 	</select>
 	
 	<!-- 팀 관리_팀 가입 요청 승인1 -->
@@ -361,7 +388,7 @@
 	<!-- 팀 관리_과제 출제자 선정 -->
 	<insert id="insertExaminer" parameterType="hashmap" >
 	    INSERT INTO TASK_${teamNo} (TASK_NO, ID, DUEDATE1, DUEDATE2, ENDDATE)
-		VALUES (TASK_SEQ.NEXTVAL ,#{TaskDTO.id}, #{TaskDTO.duedate1}, #{TaskDTO.duedate2}, #{TaskDTO.enddate})
+		VALUES (TASK_${teamNo}_SEQ.NEXTVAL ,#{TaskDTO.id}, #{TaskDTO.duedate1}, #{TaskDTO.duedate2}, #{TaskDTO.enddate})
 	</insert>
 
 </mapper>

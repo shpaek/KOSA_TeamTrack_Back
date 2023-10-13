@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.notice.dto.NoticeDTO;
+import com.my.team.dto.TeamDTO;
 
 public class TeamMainController extends TeamController {
 
@@ -32,18 +33,17 @@ public class TeamMainController extends TeamController {
 		Map<String, Object> statusMap = new HashMap<>();
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-//        String id = request.getParameter("id");
-        String id = "psh2023";
+        String id = request.getParameter("id");
 
         try {
         	
-        	// 팀장 체크
-        	int memStatus = service.leaderChk(id, teamNo);
-        	methodMap.put("memStatus", memStatus);
+            // 사용자 역할 판별
+            String userRole = service.determineUserRole(id, teamNo);
+            methodMap.put("userRole", userRole);
         	
-        	// 팀명 가져오기
-        	
-        	// 팀 사진 가져오기
+        	// 팀 정보 다가져오기
+        	List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
+        	methodMap.put("teamList", teamList.get(0)); // List로 가져오지 말고 그냥 TeamDTO로 가져왓어야 햇는데,,, 8ㅅ8
         	
             // 팀 소개글 가져오기
             String teamInfo = service.selectTeamInfoByTeamNo(teamNo);

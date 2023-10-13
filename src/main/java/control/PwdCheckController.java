@@ -12,45 +12,41 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
 
-public class ChkTaskIdController extends TaskController {
-
+public class PwdCheckController extends CustomerController{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-//		HttpSession session=request.getSession();
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		
+		//HttpSession session = request.getSession();
+		//String loginedId = (String)session.getAttribute("loginedId");
+		String loginedId = "nwh2023";
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
-		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
-//		String loginedId=(String)session.getAttribute("loginedId");
-		
-		//Integer teamNo=9999;
-		String loginedId="cjs1231";
-//		String loginedId="ksh0110";
-		Map<String, Object> map=new HashMap<>();
-		
+
+		Map<String, Object> map = new HashMap<>();
+
+		String pwd = request.getParameter("pwd");
+
 		try {
-			Integer taskNo=service.findTaskId(teamNo, loginedId);
-			if(taskNo!=0) {
+			if(service.pwdCheck(loginedId, pwd)) {	
 				map.put("status", 1);
-				map.put("loginedId", loginedId);
-				map.put("taskNo", taskNo);
-			} else {
+				map.put("msg", "비밀번호가 일치합니다");
+			}else {
 				map.put("status", 0);
-				map.put("msg", "권한이 없습니다");
-			}	
+				map.put("msg", "비밀번호가 일치하지 않습니다\n다시 입력하세요");
+			}
 		} catch (FindException e) {
-			//e.printStackTrace();
-			map.put("status", "0");
+			e.printStackTrace();
+			map.put("status", 0);
 			map.put("msg", e.getMessage());
-		} finally {
-			String jsonStr=mapper.writeValueAsString(map);
-			out.print(jsonStr);
 		}
-		
+		String jsonStr = mapper.writeValueAsString(map);
+		out.print(jsonStr);
+
 		return null;
 	}
-
 }

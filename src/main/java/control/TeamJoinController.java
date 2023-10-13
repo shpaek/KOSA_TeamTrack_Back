@@ -31,10 +31,11 @@ public class TeamJoinController extends TeamController {
 		try {
 
 			SignupTeamDTO signupTeamDTO = new SignupTeamDTO();
+			
+			System.out.println(Integer.parseInt(request.getParameter("teamNo")));
 
             signupTeamDTO.setTeamNo(Integer.parseInt(request.getParameter("teamNo")));
             signupTeamDTO.setId(request.getParameter("id"));
-            signupTeamDTO.setStatus(Integer.parseInt(request.getParameter("status")));
             signupTeamDTO.setIntroduction(request.getParameter("introduction"));
 
 			service.insertSignUpTeam(signupTeamDTO);

@@ -23,12 +23,12 @@ public class MainTaskListController extends TaskController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 //		HttpSession session=request.getSession();
-//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String option=request.getParameter("option");
 //		String loginedId=(String)session.getAttribute("loginedId");
 		
-		Integer teamNo=9999;
-		String loginedId="nwh2023";
+		//Integer teamNo=9999;
+		String loginedId="cjs1231";
 		
 		try {
 			List<TaskDTO> list=service.findMainTaskList(teamNo, loginedId);

@@ -2,6 +2,8 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,94 +13,78 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.exception.AddException;
-import com.my.exception.FindException;
 import com.my.team.dto.AttendanceDTO;
 
 public class TeamAttendanceController extends TeamController {
 
-    @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        String method = request.getMethod();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
-        if ("GET".equalsIgnoreCase(method)) {
-            return doGet(request, response);
-        } else if ("POST".equalsIgnoreCase(method)) {
-            return doPost(request, response);
-        } else {
-        	return null;
-        } // else-if
-    } // execute()
+		PrintWriter out = response.getWriter();
+		ObjectMapper mapper = new ObjectMapper();
 
-//  출석 내역 조회
-    private String doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        ObjectMapper mapper = new ObjectMapper();
+		Map statusMap = new HashMap<>();
+		Map methodMap = new HashMap<>();
+		Map<String, Object> paramsMap = new HashMap<>();
+		Map resultMap = new HashMap<>();
 
-        Map<String, Object> map = new HashMap<>();
+	    int teamNo = Integer.parseInt(request.getParameter("teamNo"));
+	    String id = request.getParameter("id");
+	    String action = request.getParameter("action");
+	    
+	    paramsMap.put("teamNo", teamNo);
+	    paramsMap.put("id", id);
+	    
+	    try {
+	    	if ("attendChk".equals(action)) {
+	    	    String existingDate = service.selectAttendanceDate(paramsMap);
+	    	    
+	    	    if (existingDate != null) {
+	    	    	statusMap.put("status", 2);
+	    	    	System.out.println("1번");
+	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
+	    	    } else {
+	    	    	statusMap.put("status", 1);
+	    	    	System.out.println("2번");
+	    	    	statusMap.put("msg", "오늘 출석 가능합니다.");
+	    	    } // else-if
+	    	    
+	    	} else if ("attend".equals(action)) {
+	    		String existingDate = service.selectAttendanceDate(paramsMap);
+	    		
+	    		if (existingDate != null) {
+	    	    	statusMap.put("status", 2);
+	    	    	System.out.println("3번");
+	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
+	    	    } else {
+	    	        service.insertAttendanceById(teamNo, id);
+	    	        statusMap.put("status", 1);
+	    	        System.out.println("4번");
+	    	        statusMap.put("msg", "팀 출석 성공");
+	    	    } // else-if
+	    		
+	    	} // else-if
 
-        try {
-//            String id = (String) request.getSession().getAttribute("loginedId");
-        	String id = request.getParameter("id");
-            Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+	    	// 출석내역확인
+	    	List<AttendanceDTO> attendanceList = service.selectAttendanceById(teamNo, id);
+	    	methodMap.put("attendanceList", attendanceList);
 
-            List<AttendanceDTO> attendanceList = service.selectAttendanceById(teamNo, id);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	statusMap.put("status", 0);
+	    	statusMap.put("msg", "팀 출석 실패");
+	    } // try-catch
+	    
+	    resultMap.put("statusMap", statusMap);
+	    resultMap.put("method", methodMap);
+	    
+		String jsonStr = mapper.writeValueAsString(resultMap);
+		out.print(jsonStr);
 
-            map.put("status", 1);
-            map.put("msg", "출석 내역 조회 성공");
-            map.put("attendanceList", attendanceList);
-
-        } catch (FindException e) {
-            e.printStackTrace();
-            map.put("status", 0);
-            map.put("msg", "출석 내역 조회 실패");
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", 0);
-            map.put("msg", "출석 내역 조회 실패");
-        } // try-catch
-
-        String jsonStr = mapper.writeValueAsString(map);
-        out.print(jsonStr);
-
-        return null;
-    } // 출석 내역 조회()
-
-//  출석하기
-    private String doPost(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        ObjectMapper mapper = new ObjectMapper();
-
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-//            String id = (String) request.getSession().getAttribute("loginedId");
-        	String id = request.getParameter("id");
-            Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
-
-            service.insertAttendanceById(teamNo, id);
-
-            map.put("status", 1);
-            map.put("msg", "출석 성공");
-
-        } catch (AddException e) {
-            e.printStackTrace();
-            map.put("status", 0);
-            map.put("msg", "출석 실패");
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", 0);
-            map.put("msg", "출석 실패");
-        } // try-catch
-
-        String jsonStr = mapper.writeValueAsString(map);
-        out.print(jsonStr);
-
-        return null;
-    } // 출석하기()
-    
-} // end class
+		return null;
+	} 
+}

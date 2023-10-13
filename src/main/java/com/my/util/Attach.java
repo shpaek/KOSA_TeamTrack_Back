@@ -137,7 +137,7 @@ public class Attach {
 		if(fileItem == null || fileItem.getSize() == 0){
 			throw new Exception("첨부할 파일이 없습니다");
 		}
-		//File fileName = fileItem.getName();
+		//String fileName = fileItem.getName();
 		File file = new File(attachesDir, fileName);
 		fileItem.write(file);
 	}
