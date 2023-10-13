@@ -196,4 +196,12 @@ public interface TaskDAO {
 	 * @throws ModifyException
 	 */
 	void updateReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException;
+	
+	/**
+	 * 평균평점을 업데이트한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @throws ModifyException
+	 */
+	void updateAvgReviewScore(Integer teamNo, Integer taskNo) throws ModifyException;
 }

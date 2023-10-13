@@ -23,7 +23,7 @@ public class CompleteTaskListController extends TaskController {
 		ObjectMapper mapper = new ObjectMapper();
 //		HttpSession session=request.getSession();
 
-//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String loginedId=(String)session.getAttribute("loginedId");
 //
 		String currentPage=request.getParameter("currentPage");
@@ -36,8 +36,8 @@ public class CompleteTaskListController extends TaskController {
 //		boolean desc=true;
 //		if(!option.equals("최신순")) desc=false;
 
-		Integer teamNo=9999;
-		String loginedId="nwh2023";
+		//Integer teamNo=9999;
+		String loginedId="cjs1231";
 //		int cp=1;
 		boolean desc=true;
 

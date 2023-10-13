@@ -25,11 +25,12 @@ public class SubmitTaskController extends TaskController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map=new HashMap<>();
 		
-		Integer teamNo=9999;
+		//Integer teamNo=9999;
+		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		System.out.println(taskNo);
 //		String id="khb2023";
-		String id="nwh2023";
+		String id="cjs1231";
 		String answer=request.getParameter("answerlist");
 		int answerCnt=Integer.parseInt(request.getParameter("answerCnt"));
 		System.out.println(answerCnt);
