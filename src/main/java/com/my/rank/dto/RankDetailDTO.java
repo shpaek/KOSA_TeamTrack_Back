@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RankDetailDTO {
+	private String id;
 	private Double attendanceRate;
 	private Double avgTaskScore;
 	private Double totalReviewScore;
