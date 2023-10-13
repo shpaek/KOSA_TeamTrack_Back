@@ -19,9 +19,9 @@ public class NoticeListController extends NoticeController{
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-
+		
 		PrintWriter out = response.getWriter();
-
+		
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 		String currentPage = request.getParameter("currentPage");
 		int cp = 1;
@@ -40,5 +40,5 @@ public class NoticeListController extends NoticeController{
 
 		return null;
 	}
-
+	
 }

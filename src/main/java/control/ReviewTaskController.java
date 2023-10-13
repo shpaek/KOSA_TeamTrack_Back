@@ -20,15 +20,12 @@ public class ReviewTaskController extends TaskController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map=new HashMap<>();
-		//Integer teamNo=9999;
-		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+		Integer teamNo=9999;
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		int reviewScore=Integer.parseInt(request.getParameter("reviewScore"));
 		
 		try {
-			service.setReviewScore(teamNo, taskNo, "cjs1231", reviewScore);
-			service.setAvgReviewScore(teamNo, taskNo);
-			
+			service.setReviewScore(teamNo, taskNo, "nwh2023", reviewScore);
 			map.put("status", 1);
 			map.put("msg", "평가 완료!");
 		} catch (ModifyException e) {

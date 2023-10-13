@@ -23,12 +23,12 @@ public class ChkTaskIdController extends TaskController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
-		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String loginedId=(String)session.getAttribute("loginedId");
 		
-		//Integer teamNo=9999;
-		String loginedId="cjs1231";
-//		String loginedId="ksh0110";
+		Integer teamNo=9999;
+//		String loginedId="sengna";
+		String loginedId="nwh2023";
 		Map<String, Object> map=new HashMap<>();
 		
 		try {

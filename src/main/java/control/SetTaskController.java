@@ -30,9 +30,7 @@ public class SetTaskController extends TaskController {
 			String title=attach.getParameter("title");
 			String titletest=title.trim();
 			String answer=attach.getParameter("answerlist");
-			int answerCnt=Integer.parseInt(attach.getParameter("answerCnt"));
-			//Integer teamNo=9999;
-			Integer teamNo=Integer.parseInt(attach.getParameter("teamNo"));
+			Integer teamNo=9999;
 			Integer taskNo=Integer.parseInt(attach.getParameter("taskNo"));
 			
 			if(titletest.isEmpty()) {
@@ -56,28 +54,20 @@ public class SetTaskController extends TaskController {
 				return null;
 			}
 			
-			String[] answerList=answer.split(",");
-			if(answerList.length!=answerCnt) {
-				map.put("status", 0);
-				map.put("msg", "모든 답안을 작성하세요");
-				out.print(mapper.writeValueAsString(map));
-				return null;
-			}
-			
 			service.addQuizAnswer(teamNo, taskNo, answer);
 			service.modifyTask(teamNo, title, taskNo);
 			
 			try {
-				//for(int i=0;i<attach.getFile("taskfile").size();i++) {
+				for(int i=0;i<attach.getFile("taskfile").size();i++) {
 				
-					String file=attach.getFile("taskfile").get(0).getName();
+					String file=attach.getFile("taskfile").get(i).getName();
 					System.out.println(file);
 					String[] filetype=file.split("\\.");
 					System.out.println(filetype[filetype.length-1]);
-					attach.upload("taskfile", "과제"+teamNo+"_"+taskNo+"."+filetype[filetype.length-1]);
+					attach.upload("taskfile", "과제"+taskNo+"_"+(i+1)+"."+filetype[filetype.length-1]);
 					
 					
-				//}
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				map.put("status", 0);

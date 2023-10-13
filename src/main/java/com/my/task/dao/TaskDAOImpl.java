@@ -375,27 +375,7 @@ public class TaskDAOImpl implements TaskDAO {
 		} catch(Exception e) {
 			session.rollback();
 			e.printStackTrace();
-			throw new ModifyException("평점 업데이트 실패");
-		} finally {
-			if(session!=null) session.close();
-		}
-	}
-	
-	public void updateAvgReviewScore(Integer teamNo, Integer taskNo) throws ModifyException {
-		SqlSession session=null;
-
-		try {
-			session=sqlSessionFactory.openSession();
-			Map<String, Object> map=new HashMap<>();
-			map.put("tableName1", "task_"+teamNo);
-			map.put("tableName2", "memberscore_"+teamNo);
-			map.put("taskNo", taskNo);
-			session.update("com.my.task.TaskMapper.updateAvgReviewScore", map);
-			session.commit();
-		} catch(Exception e) {
-			session.rollback();
-			e.printStackTrace();
-			throw new ModifyException("평균 평점 업데이트 실패");
+			throw new ModifyException("과제 정보 생성 실패");
 		} finally {
 			if(session!=null) session.close();
 		}

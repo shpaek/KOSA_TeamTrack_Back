@@ -20,21 +20,18 @@ public class TaskDownloadController extends TaskController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("application/octet-stream;charset=utf-8");
+		//response.setContentType("application/json;charset=utf-8");
 		
 		ServletOutputStream sos=response.getOutputStream();
 		
-		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 //		Integer taskNo=7;
 		System.out.println(taskNo);
 		
-		String dir="/Users/qqllzs/Desktop/downloadfile";
-		String fileName="과제"+teamNo+"_"+taskNo+".";
+		String dir="/Users/qqllzs/filetest";
+		String fileName="과제"+taskNo+"_1";
 		System.out.println(fileName);
 		File fileDir=new File(dir);
-		boolean exist=false;
-		
 		
 		for(File file:fileDir.listFiles()) {
 			String originName=file.getName();
@@ -42,13 +39,11 @@ public class TaskDownloadController extends TaskController {
 			System.out.println(originName);
 			if(originName.startsWith(fileName)) {
 				System.out.println(originName);
-				exist=true;
 				response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(originName, "UTF-8"));
 				FileInputStream fis=new FileInputStream(file);
 				int readValue=-1;
 				while((readValue=fis.read())!=-1) {
-					//sos.print(readValue);
-					sos.write(readValue);
+					sos.print(readValue);
 				}
 				System.out.println("test");
 				sos.close();

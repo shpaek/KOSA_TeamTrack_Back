@@ -18,23 +18,22 @@ public class AllTaskListController extends TaskController {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-
+		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-
-		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
-		String currentPage = request.getParameter("currentPage");
-//		System.out.println(currentPage);
+		
+//		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+//		String currentPage = request.getParameter("currentPage");
 //		String option=request.getParameter("option");
 //		boolean desc=true;
 //		if(!option.equals("최신순")) desc=false;
-		int cp = 1;
-		if (currentPage != null && !currentPage.equals("")) {
-			cp = Integer.parseInt(currentPage);
-		}
-
-//		Integer teamNo=9999;
-//		int cp=1;
+//		int cp = 1;
+//		if (currentPage != null && !currentPage.equals("")) {
+//			cp = Integer.parseInt(currentPage);
+//		}
+		
+		Integer teamNo=9999;
+		int cp=1;
 		boolean desc=true;
 
 		try {
@@ -44,7 +43,7 @@ public class AllTaskListController extends TaskController {
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
-
+		
 		return null;
 	}
 

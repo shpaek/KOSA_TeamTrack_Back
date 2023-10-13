@@ -21,18 +21,18 @@ public class IdDupCheckController extends CustomerController {
 //		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
 		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
-
+		
 		res.setContentType("application/json;charset=utf-8");
-
+		
 		// 응답출력스트림 얻기
 		PrintWriter out = res.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-
+		
 		// 요청전달데이터 얻기
 		String id = req.getParameter("id");
-
+		
 		System.out.println("id : " + id);
-
+		
 		Map<String, Object> map = new HashMap<>();
 
 		try {
@@ -43,10 +43,10 @@ public class IdDupCheckController extends CustomerController {
 			// 고객이 없는 경우
 			map.put("status", 1);
 		} // try-catch
-
+		
 		// JSON 응답
 		out.print( mapper.writeValueAsString(map));
-
+		
 		return null;
 	}
 
