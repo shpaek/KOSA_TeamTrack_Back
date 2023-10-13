@@ -165,24 +165,6 @@ public class TaskServiceImpl implements TaskService {
 		taskDAO.updateReviewScore(teamNo, taskNo, id, reviewScore);
 	}
 
-	@Override
-	public List<TaskDTO> findMainTaskList(Integer teamNo, boolean desc) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void ModifyTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void AddQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws AddException {
-		// TODO Auto-generated method stub
-		
-	}
-
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");

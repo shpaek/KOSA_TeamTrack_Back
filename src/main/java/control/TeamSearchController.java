@@ -2,16 +2,20 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
+import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamHashtagDTO;
+import com.my.util.MainPageGroup;
 
 
 public class TeamSearchController extends TeamController {
@@ -19,58 +23,53 @@ public class TeamSearchController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String gubun = request.getParameter("gubun");
-		System.out.println(gubun);
-		if(gubun.equals("hashtag")) {
-			System.out.println("2");
-			response.setContentType("application/json;charset=utf-8");
 
-			PrintWriter out = response.getWriter();
-			ObjectMapper mapper = new ObjectMapper();
-			//		HttpSession session = request.getSession();
-			String hashtag = request.getParameter("hashtag");
-			System.out.println(hashtag);
-			Map<String, Integer> map = new HashMap<>();
-			try {
-				service.selectByHashtag(hashtag);
-				System.out.println(service.selectByHashtag(hashtag));
-				//팀이 있는 경우
-				map.put("status", 0);
-			} catch (FindException e) {
-				//팀이 없는 경우
-				e.printStackTrace();
-				map.put("status", 1);
-			}
-			System.out.println(map);
-			out.print(mapper.writeValueAsString(map));
-			return null;
-		}else if(gubun.equals("teamName")) {
-			System.out.println("ok");
-			response.setContentType("application/json;charset=utf-8");
-			
-			PrintWriter out = response.getWriter();
-			ObjectMapper mapper = new ObjectMapper();
-//			HttpSession session = request.getSession();
-			String teamName = request.getParameter("teamName");
-			Map<String, Integer> map = new HashMap<>();
-			try {
-				service.selectByTeamName(teamName);
-				System.out.println(service.selectByTeamName(teamName));
-				//팀이 있는 경우
-				map.put("status", 0);
-			} catch (FindException e) {
-				//팀이 없는 경우
-				e.printStackTrace();
-				map.put("status", 1);
-			}
-			System.out.println(map);
-			out.print(mapper.writeValueAsString(map));
-			return null;
+
+		response.setContentType("application/json;charset=UTF-8");
+
+		String table;
+		String column;
+		String currentPage = request.getParameter("currentPage");
+		String data = request.getParameter("data");
 		
+		if(data.contains("#")) {
+			table = "team_hashtag";
+			column = "hashtag_name";
+		}else {
+			table = "team";
+			column = "team_name";
 		}
-		System.out.println("여기");
-		return null;
+		int cp = 1;
+		if(currentPage != null && !currentPage.equals("")) {
+			cp = Integer.parseInt(currentPage);
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> map = new HashMap<>();
 		
+			PrintWriter out = response.getWriter();
+			try {
+				MainPageGroup<TeamDTO> pg = service.selectByData(cp, table, column, data);
+				List<TeamHashtagDTO> hashlist = new ArrayList<>();
+				for(TeamDTO team : pg.getList()){
+					hashlist.addAll(service.selectTeamHashtag(team.getTeamNo()));
+					System.out.println(team.getTeamNo());
+					System.out.println("해시태그" + service.selectTeamHashtag(team.getTeamNo()));
+				}
+				map.put("status", 1);
+				map.put("list", pg.getList());
+				map.put("hashlist", hashlist);
+				map.put("startPage", pg.getStartPage());
+				map.put("endPage", pg.getEndPage());
+				System.out.println(map);
+			}catch (FindException e) {
+				e.printStackTrace();
+				map.put("status", 0);
+				map.put("msg", e.getMessage());
+			}out.print(mapper.writeValueAsString(map));
+		
+		
+		
+		return null;
 	}
 
 }

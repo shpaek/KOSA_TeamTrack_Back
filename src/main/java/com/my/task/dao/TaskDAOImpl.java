@@ -473,10 +473,4 @@ public class TaskDAOImpl implements TaskDAO {
 		}
 		return count;
 	}
-
-	@Override
-	public void updateTask(Integer teamNo, String title, String enddate, Integer taskNo) throws ModifyException {
-		// TODO Auto-generated method stub
-		
-	}
 }
