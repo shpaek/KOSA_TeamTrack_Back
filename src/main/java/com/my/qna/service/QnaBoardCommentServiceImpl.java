@@ -30,8 +30,6 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 		qnaBoardCommentDAO.insertComment(teamNo, dto);
 		
 	} // insert
-	
-	
 
 	@Override
 	public void insertReply(Integer teamNo, QnaBoardCommentDTO dto) throws AddException {
@@ -40,9 +38,7 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 		
 	} // insertReply
 
-
 	@Override
-//	public PageGroup<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo, int currentPage) throws FindException {
 	public List<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo) throws FindException {
 
 		System.out.println("service teamNO ============> " + teamNo);
@@ -52,15 +48,6 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 	
 	} // selectCommentByQnaNo
 	
-//	@Override
-//	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException {
-//
-//		List<QnaBoardCommentDTO> list = qnaBoardCommentDAO.selectCommentReply(teamNo, dto);
-//		
-//		return list;
-//		
-//	} // selectCommentReply
-	
 	@Override
 	public Integer commentPick(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
 
@@ -69,13 +56,24 @@ public class QnaBoardCommentServiceImpl implements QnaBoardCommentService {
 		return result;
 	
 	} // commentPick
+
+	@Override
+	public Integer update(Integer teamNo, QnaBoardCommentDTO dto) throws ModifyException {
 	
+		qnaBoardCommentDAO.update(teamNo, dto);
+		
+		return null;
+	}
 	
+	@Override
+	public Integer delete(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
 	
-	
+		qnaBoardCommentDAO.delete(teamNo, qnaNo, commentNo);
+		
+		return null;
+	}
 	
 	// ================= selectCommentByQnaNo 메서드 테스트 ===================
-	
 
 	public static void main(String[] args) {
 

@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.qna.dto.QnaBoardDTO;
-import com.my.util.Attach;
+import com.my.qna.dto.QnaBoardCommentDTO;
 
-public class QnaBoardDeleteController extends QnaController {
+public class QnaBoardCommentModifyController extends QnaController {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -32,16 +31,34 @@ public class QnaBoardDeleteController extends QnaController {
 		
 		Map<String, Object> map = new HashMap<>();
 		
+		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
+		Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
+		Integer commentNo = Integer.parseInt(req.getParameter("commentNo"));
+		String content = req.getParameter("content");
+		
+		String commentNoStr = req.getParameter("commentNo");
+		if (commentNoStr != null && !commentNoStr.isEmpty()) {
+			try {
+				commentNo = Integer.parseInt(commentNoStr);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+
+				return null;
+			}
+		}
 
 		try {
 			
-			Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
-			Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
+			QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
 
-			service.delete(teamNo, qnaNo);
+			dto.setQnaNo(qnaNo);
+			dto.setCommentNo(commentNo);
+			dto.setContent(content);
+	
+			commentService.update(teamNo, dto);
 
 			map.put("status", 1);
-			map.put("msg", "게시글이 삭제되었습니다");
+			map.put("msg", "댓글이 수정되었습니다");
 			
 		} catch (Exception e) {
 			
