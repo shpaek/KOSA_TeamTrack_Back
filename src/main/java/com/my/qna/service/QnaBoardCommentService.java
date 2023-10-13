@@ -32,7 +32,7 @@ public interface QnaBoardCommentService {
 //	public PageGroup<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo, int currentPage) throws FindException;
 	public List<QnaBoardCommentDTO> selectCommentByQnaNo(Integer teamNo, Integer qnaNo) throws FindException;
 	
-	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException;
+//	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException;
 
 	/**
 	 * 댓글을 채택한다
