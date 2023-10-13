@@ -21,8 +21,8 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public class TeamDAOImpl implements TeamDAO {
 
@@ -937,7 +937,7 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	} // selectMemberInfo()
 
-	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
+	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
 	@Override
 	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
 		SqlSession session = null;
@@ -956,6 +956,51 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // updateTeamMemberStatus()
+	
+	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#2
+	public void deleteTeamMemberInSignupTeam(Map<String, Object> map) throws RemoveException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			session.delete("com.my.team.TeamMapper.deleteTeamMemberInSignupTeam", map);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	}
+	
+	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출 트랜잭션
+	public void dismissTeamMember(Map<String, Object> map) throws Exception {
+		SqlSession session = null;
+
+	    try {
+	        session = sqlSessionFactory.openSession();
+
+	        session.update("com.my.team.TeamMapper.updateTeamMemberStatusDismiss", map);
+	        session.insert("com.my.team.TeamMapper.deleteTeamMemberInSignupTeam", map);
+
+	        // 두 작업 모두 성공하면 커밋
+	        session.commit();
+
+	    } catch (Exception e) {
+	        // 어떤 작업이든 실패하면 롤백
+	        if (session != null) {
+	            session.rollback();
+	        }
+	        throw new Exception("팀원 방출 실패" + e.getMessage());
+	    } finally {
+	        if (session != null) {
+	            session.close();
+	        } // if
+	    } // try-catch-finally
+	} // dismissTeamMember()
 
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인
 	@Override

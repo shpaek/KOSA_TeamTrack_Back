@@ -358,6 +358,13 @@
 		WHERE ID = #{id}
 	</update>
 	
+	<!-- 팀 관리_팀원 방출 이후 가입한 팀에서 제거 -->
+	<delete id="deleteTeamMemberInSignupTeam" parameterType="java.util.Map" >
+		DELETE 
+		FROM SIGNUP_TEAM
+		WHERE ID = #{id} AND TEAM_NO = #{teamNo}
+	</delete>
+	
 	<!-- 팀 관리_팀 가입 요청 확인 -->
 	<select id="selectRequestInfo" resultType="java.util.Map" parameterType="int"> 
 		SELECT st.ID, st.INTRODUCTION, st.STATUS, c.NICKNAME

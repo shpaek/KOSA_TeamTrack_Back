@@ -12,8 +12,8 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public interface TeamDAO {
 
@@ -337,11 +337,25 @@ public interface TeamDAO {
 	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException;
 	
 	/**
-	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
 	 * @param map
 	 * @throws Exception
 	 */
 	void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#2
+	 * @param map
+	 * @throws RemoveException
+	 */
+	void deleteTeamMemberInSignupTeam(Map<String, Object> map) throws RemoveException;
+	
+	/**
+	 * 팀원 방출 트랜잭션
+	 * @param map
+	 * @throws Exception
+	 */
+	void dismissTeamMember(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인

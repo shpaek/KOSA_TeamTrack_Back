@@ -473,6 +473,16 @@ public class TeamServiceImpl implements TeamService {
 	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
 		teamDAO.updateTeamMemberStatusDismiss(map);
 	}
+	
+	@Override
+	public void deleteTeamMemberInSignupTeam(Map<String, Object> map) throws RemoveException {
+		teamDAO.deleteTeamMemberInSignupTeam(map);
+	}
+	
+	@Override
+	public void dismissTeamMember(Map<String, Object> map) throws Exception {
+		teamDAO.dismissTeamMember(map);
+	}
 
 	@Override
 	public List<Map<String, Object>> selectRequestInfo(Integer teamNo) throws FindException {

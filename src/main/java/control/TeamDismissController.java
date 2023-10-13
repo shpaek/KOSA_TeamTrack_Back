@@ -46,7 +46,7 @@ public class TeamDismissController extends TeamController {
         		paramsMap.put("teamNo", teamNo);
         		paramsMap.put("id", id);
         		
-        		service.updateTeamMemberStatusDismiss(paramsMap);
+        		service.dismissTeamMember(paramsMap);
         		
         		statusMap.put("status", 1);
         		statusMap.put("msg", "방출 성공");
