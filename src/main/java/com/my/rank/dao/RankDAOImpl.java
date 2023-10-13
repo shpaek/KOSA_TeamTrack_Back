@@ -1,11 +1,7 @@
 package com.my.rank.dao;
 
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +13,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
+import com.my.qna.dto.QnaBoardCommentDTO;
 import com.my.rank.dto.RankDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
@@ -39,15 +37,15 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public List<RankDTO> selectByMonth(Integer teamNo, String rankDate) throws FindException {
+	public List<RankDTO> selectByMonth(Integer teamNo, Integer month) throws FindException {
 		SqlSession session = null;
-		List<RankDTO> list = new ArrayList<>(); 
+		List<RankDTO> list = new ArrayList<>();
 		
 		try {
 			session = sqlSessionFactory.openSession();
 			Map<String, Object> map = new HashMap<>();
 			map.put("team_no", teamNo);
-			map.put("date", rankDate);
+			map.put("month", month);
 			list = session.selectList("com.my.rank.RankMapper.selectByMonth", map);
 			return list;
 		} catch (Exception e) {
@@ -60,8 +58,31 @@ public class RankDAOImpl implements RankDAO {
 		}
 	}
 	
+
 	@Override
-	public List<TeamMemberDTO> selectAll(Integer teamNo) throws FindException {
+	public List<RankDTO> selectAllRank(Integer teamNo) throws FindException {
+		SqlSession session = null;
+		List<RankDTO> list = new ArrayList<>();
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			list = session.selectList("com.my.rank.RankMapper.selectAllRank", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	
+	@Override
+	public List<TeamMemberDTO> selectMemberId(Integer teamNo) throws FindException {
 		SqlSession session = null;
 		List<TeamMemberDTO> list = new ArrayList<>(); 
 		
@@ -69,7 +90,7 @@ public class RankDAOImpl implements RankDAO {
 			session = sqlSessionFactory.openSession();
 			Map<String, Object> map = new HashMap<>();
 			map.put("team_no", teamNo);
-			list = session.selectList("com.my.rank.RankMapper.selectById", map);
+			list = session.selectList("com.my.rank.RankMapper.selectMemberId", map);
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,6 +107,33 @@ public class RankDAOImpl implements RankDAO {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void updateRankInfo(Integer teamNo, String rankDate, Integer rank, Double totalScore, String id, Integer month) 
+			throws ModifyException {
+		SqlSession session = null;
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			map.put("rankDate", rankDate);
+			map.put("rank", rank);
+			map.put("totalScore", totalScore);
+			map.put("id", id);
+			map.put("month", month);
+			session.update("com.my.rank.RankMapper.updateRankInfo", map);
+			session.commit();
+			System.out.println("commit성공");
+		} catch (Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 
 	@Override
 	public List<AttendanceDTO> selectAttendanceDay(Integer teamNo, String attendanceDate, Integer month)
@@ -100,6 +148,8 @@ public class RankDAOImpl implements RankDAO {
 			map.put("date", attendanceDate);
 			map.put("month", month);
 			list = session.selectList("com.my.rank.RankMapper.selectAttendanceDay", map);
+			System.out.println("id");
+			System.out.println(list.get(0).getId());
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -196,21 +246,40 @@ public class RankDAOImpl implements RankDAO {
 		}
 	}
 
-//	@Override
-//	public List<QnACommentDTO> selectQnAScore(Integer teamNo, Integer month) throws FindException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public List<QnaBoardCommentDTO> selectQnAScore(Integer teamNo, Integer month) throws FindException {
+		SqlSession session = null;
+		List<QnaBoardCommentDTO> list = new ArrayList<>(); 
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			map.put("month", month);
+			list = session.selectList("com.my.rank.RankMapper.selectQnAScore", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 
+	
+	
+	//----------------------------TEST---------------------------------
 	public static void main(String[] args) {
 		RankDAOImpl dao = new RankDAOImpl();
 		
 		//rank list 가져오기 
 		try {
 			Integer teamNo = 9999;
-			String date = "2023-10-01";
+			Integer month = 10;
 			
-			List<RankDTO> list = dao.selectByMonth(teamNo, date);
+			List<RankDTO> list = dao.selectByMonth(teamNo, month);
 			System.out.println("[월별 랭킹 리스트 출력]");
 			System.out.println(list);
 			System.out.println("-------------------------------------");
@@ -265,12 +334,27 @@ public class RankDAOImpl implements RankDAO {
 			e.printStackTrace();
 		}
 		
+		//id별 게시판 댓글 채택 출력
+		try {
+			List<QnaBoardCommentDTO> list = dao.selectQnAScore(9999, 10);
+			System.out.println("[회원별 댓글 채택 점수]");
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(list.get(i).getTeammemberId()+", " + list.get(i).getPickedNum() + ", "+ list.get(i).getMonth());
+			}
+			System.out.println("-------------------------------------");
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 		
-//		List<TaskDTO> list = dao.selectAllTask();
-//		for (int i = 0; i < list.size(); i++) {
-////			System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEndDate());				
-//		}
-		
+		List<TaskDTO> list;
+		try {
+			list = dao.selectAllTask();
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEnddate());				
+			}
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
