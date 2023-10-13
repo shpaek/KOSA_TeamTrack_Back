@@ -380,11 +380,10 @@ public class TeamServiceImpl implements TeamService {
 	    	
 	    	if (isLeader == 1) {			// 팀장이면,
 	    		return "leader";
-	    	} else if (isLeader != 1) {		// 팀원이면,
-	    		return "teamMember";
-	    	} else {
-	    		return "오류입니다";
-	    	}
+	    	} 
+	    		
+	    	return "teamMember";	// 팀원이면,
+	    	
 	    } else {							// 일반 회원일 때
 	    	return "customer";
 	    } // if-else

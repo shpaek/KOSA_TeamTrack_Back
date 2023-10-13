@@ -334,6 +334,8 @@
 	    INSERT INTO ATTENDANCE_${teamNo} (ATTENDANCE_DATE, ID)
 	    VALUES (SYSDATE, #{id})
 	</insert>
+	
+	<!-- 팀 출석부_팀 멤버 테이블에 추가해주기 -->
 
 	<!-- 팀 출석부_출석부 조회 -->
 	<select id="selectAttendanceById" resultType="AttendanceDTO" parameterType="java.util.Map">

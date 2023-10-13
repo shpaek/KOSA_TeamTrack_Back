@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,12 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.ModifyException;
 
+
 public class TeamDismissController extends TeamController {
 
-    // 팀원 방출용
+    // 현재 팀원 확인 + 방출 컨트롤러
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NumberFormatException {
 
         response.setContentType("application/json;charset=utf-8");
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
@@ -25,38 +27,50 @@ public class TeamDismissController extends TeamController {
         PrintWriter out = response.getWriter();
         ObjectMapper mapper = new ObjectMapper();
 
-        Map<String, Object> responseMap = new HashMap<>();
+        Map paramsMap = new HashMap<>();
+        Map statusMap = new HashMap<>(); 
+        Map methodMap = new HashMap<>();
 
+        String id = request.getParameter("id");
+        Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+        String action = request.getParameter("action");
+        
         try {
-            Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
-            String id = request.getParameter("id");
-
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("teamNo", teamNo);
-            paramMap.put("id", id);
-
-            // 트랜잭션 메소드
-            service.updateTeamMemberStatusDismiss(paramMap);
-
-            responseMap.put("status", 1);
-            responseMap.put("msg", "팀원 방출 성공");
+        	
+        	// 현재 팀원 목록 확인
+        	List<Map<String, Object>> currMemberList = service.selectMemberInfo(teamNo);
+	    	methodMap.put("currMemberList", currMemberList);
+        	
+        	// 방출
+        	if ("memberDismiss".equals(action)) {
+        		paramsMap.put("teamNo", teamNo);
+        		paramsMap.put("id", id);
+        		
+        		service.updateTeamMemberStatusDismiss(paramsMap);
+        		
+        		statusMap.put("status", 1);
+        		statusMap.put("msg", "방출 성공");
+        	} else {
+        		statusMap.put("status", 0);
+        		statusMap.put("msg", "방출 실패");
+        	} // if-else
 
         } catch (ModifyException e) {
             e.printStackTrace();
-            responseMap.put("status", 0);
-            responseMap.put("msg", "팀원 방출 실패: " + e.getMessage());
+
+            statusMap.put("status", 0);
+            statusMap.put("msg", "ModifyException입니다.");
         } catch (Exception e) {
             e.printStackTrace();
-            responseMap.put("status", 0);
-            responseMap.put("msg", "팀원 방출 실패");
-        }
 
-        // JSON 문자열 응답
-        String jsonStr = mapper.writeValueAsString(responseMap);
+            statusMap.put("status", 0);
+            statusMap.put("msg", "방출 요청 컨트롤러에서 에러 발생");
+        } // try-catch
+
+        // JSON문자열 응답
+        String jsonStr = mapper.writeValueAsString(methodMap);
         out.print(jsonStr);
 
         return null;
-
     } // execute()
-
 } // end class

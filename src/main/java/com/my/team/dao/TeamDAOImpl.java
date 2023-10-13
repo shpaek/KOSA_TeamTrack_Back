@@ -575,7 +575,7 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 셍나
 	
-	// 팀 멤버인지 확인
+	// 팀 멤버인지 확인 1아니면 일반 회원
 	@Override
 	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
 		SqlSession session = null;
@@ -590,11 +590,8 @@ public class TeamDAOImpl implements TeamDAO {
 
 			int selectedTeamMemberStatus = session.selectOne("com.my.team.TeamMapper.selectTeamMemberStatus", map);
 
-			if(selectedTeamMemberStatus == 1) {
 				return selectedTeamMemberStatus;
-			} else {
-				throw new FindException("해당 팀의 팀원이 아닙니다.");
-			} // if-else
+			
 		} catch(Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
