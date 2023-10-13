@@ -38,6 +38,7 @@ public class LoginController extends CustomerController {
 
 		Map<String, Object> map = new HashMap<>();
 
+		
 		HttpSession session = req.getSession();
 		// attribute가 있으면 제거함 
 		session.removeAttribute("loginedId");
