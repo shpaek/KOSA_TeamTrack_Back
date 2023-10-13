@@ -264,6 +264,77 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		} // try-catch-finally
 		
 	} // commentPick
+	
+	
+
+	@Override
+	public Integer update(Integer teamNo, QnaBoardCommentDTO dto) throws ModifyException {
+
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			String tableName="QNACOMMENT_" + teamNo;
+			
+			map.put("tableName",tableName);
+			map.put("content", dto.getContent());
+			map.put("qnaNo", dto.getQnaNo());
+			map.put("commentNo", dto.getCommentNo());
+
+			session = sqlSessionFactory.openSession();
+			session.update("com.my.qna.QnaboardCommentMapper.update", map);
+			
+			session.commit();
+
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+
+		return null;
+
+	} // update
+
+	@Override
+	public Integer delete(Integer teamNo, Integer qnaNo, Integer commentNo) throws ModifyException {
+
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+
+		try {
+			
+			String tableName="QNACOMMENT_" + teamNo;
+			
+			map.put("tableName", tableName);
+			map.put("qnaNo", qnaNo);
+			map.put("commentNo", commentNo);
+
+			session = sqlSessionFactory.openSession();
+			int result = session.delete("com.my.qna.QnaboardCommentMapper.delete", map);
+			
+			session.commit();
+
+			return result; // 삭제된 행 수 반환
+			
+		} catch(Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		} // try-catch-finally
+
+	} // delete
 
 	public static void main(String[] args) {
 		
