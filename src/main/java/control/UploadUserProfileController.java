@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
@@ -16,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.notice.dto.NoticeDTO;
 import com.my.util.Attach;
 
-public class WriteNoticeController extends NoticeController {
+public class UploadUserProfileController implements Controller{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
@@ -24,35 +25,34 @@ public class WriteNoticeController extends NoticeController {
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 
 
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
+		//HttpSession session = request.getSession();
+		//String loginedId = (String)session.getAttribute("loginedId");
+		String loginedId = "psh2023";
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> map = new HashMap<>();
-		Date regDate = Date.from(Instant.now());
+		String attachesDir = "C:\\KOSA202307\\attaches";
+		String fileName = loginedId +"_userprofile_";
+		File dir = new File(attachesDir);
 
 		try {
 			Attach attach=new Attach(request);
-			Integer teamNo = Integer.parseInt(attach.getParameter("teamNo"));
-
-			String noticeTitle=attach.getParameter("title");
-			String noticeContent=attach.getParameter("content");
-			Integer mainStatus = 0;
-			if(attach.getParameter("status") != null) {
-				mainStatus = 1;
-			}
-			NoticeDTO notice = new NoticeDTO(noticeTitle, regDate, noticeContent, mainStatus);
-			service.writeNotice(teamNo, notice);
 			try {
 				String originFileName=attach.getFile("f1").get(0).getName();
-				attach.upload("f1", teamNo+"_notice_"+originFileName);
+				for(File file : dir.listFiles()) {
+					String existFileName = file.getName();
+					if(existFileName.startsWith(fileName)) {
+						file.delete();
+					}
+				}
+				attach.upload("f1", loginedId+"_userprofile_"+originFileName);
 			} catch(Exception e) {
-
+				
 			}
 			map.put("status", 1);
-			map.put("msg", "게시글이 업로드되었습니다");
+			map.put("msg", "프로필이 업로드되었습니다");
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("status", 0);

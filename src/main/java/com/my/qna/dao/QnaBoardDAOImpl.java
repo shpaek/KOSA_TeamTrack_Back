@@ -313,25 +313,25 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		
 		// =============== selectAll 메서드 테스트 ======================
 		
-//	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
-//
-//	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
-//	    int currentPage = 2; // 가져올 페이지 번호 (1페이지)
-//
-//	    try {
-//	        // selectAll 메서드 호출
-//	        List<QnaBoardDTO> qnaList = dao.selectAll(teamNo, currentPage, currentPage);
-//
-//	        // 결과 출력
-//	        for (QnaBoardDTO qna : qnaList) {
-////	            System.out.println("게시글 번호: " + qna.getQna_no());
-//	            System.out.println("게시글 제목: " + qna.getTitle());
-//	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
-//	        }
-//	    } catch (FindException e) {
-//	        System.out.println("게시글 조회 실패");
-//	        e.printStackTrace();
-//	    }
+	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
+
+	    int teamNo = 9999; // 팀 번호 (원하는 팀 번호로 설정)
+	    int currentPage = 2; // 가져올 페이지 번호 (1페이지)
+
+	    try {
+	        // selectAll 메서드 호출
+	        List<QnaBoardDTO> qnaList = dao.selectAll(teamNo, currentPage, currentPage);
+
+	        // 결과 출력
+	        for (QnaBoardDTO qna : qnaList) {
+//	            System.out.println("게시글 번호: " + qna.getQna_no());
+	            System.out.println("게시글 제목: " + qna.getTitle());
+	            // 필요한 정보들을 출력하거나 활용할 수 있습니다.
+	        }
+	    } catch (FindException e) {
+	        System.out.println("게시글 조회 실패");
+	        e.printStackTrace();
+	    }
 		
 		// =============== selectByQnaNo 메서드 테스트 ======================
         // 테스트를 위한 팀 번호와 게시글 번호 설정
@@ -351,23 +351,23 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
         
         // ============= delete 메서드 테스트 =======================
         
-	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
-		
-        Integer teamNo = 65; // 팀 번호
-        Integer qnaNo = 115; // 게시글 번호
-        
-        try {
-			int result = dao.delete(teamNo, qnaNo);
-			
-			System.out.println("result : " + result);
-			System.out.println(" 삭제 되었습니다 ");
-			
-		} catch (ModifyException e) {
-			
-			e.printStackTrace();
-			System.out.println(" 삭제 실패 ");
-			
-		}
+//	    QnaBoardDAO dao = new QnaBoardDAOImpl(); // DAO 객체 생성
+//		
+//        Integer teamNo = 65; // 팀 번호
+//        Integer qnaNo = 115; // 게시글 번호
+//        
+//        try {
+//			int result = dao.delete(teamNo, qnaNo);
+//			
+//			System.out.println("result : " + result);
+//			System.out.println(" 삭제 되었습니다 ");
+//			
+//		} catch (ModifyException e) {
+//			
+//			e.printStackTrace();
+//			System.out.println(" 삭제 실패 ");
+//			
+//		}
 		
 	} // main(test)
 

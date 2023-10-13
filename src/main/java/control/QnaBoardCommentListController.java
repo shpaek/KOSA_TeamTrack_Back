@@ -35,83 +35,17 @@ public class QnaBoardCommentListController extends QnaController {
 		Map<String, Object> methodMap = new HashMap<>();
 		
 		// 요청 전달데이터 얻기
-//		String currentPage = req.getParameter("currentPage");
 		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
 		Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
-		
-		// 추가 데이터 reply용
-//		Integer commentNo = Integer.parseInt(req.getParameter("commentNo"));
-//		Integer commentGroup = Integer.parseInt(req.getParameter("commentGroup"));
 
 		System.out.println("comment teamNo ===================> " + teamNo);
 		System.out.println("comment qnaNo ===================> " + qnaNo);
-//		System.out.println("Reply commentGroup ===============> " + commentGroup);
-		
-//		String teamNoStr = req.getParameter("teamNo");
-//		if (teamNoStr != null && !teamNoStr.isEmpty()) {
-//			try {
-//				teamNo = Integer.parseInt(teamNoStr);
-//			} catch (NumberFormatException e) {
-//				e.printStackTrace();
-//
-//				return null;
-//			}
-//		}
-//		String qnaNoStr = req.getParameter("qnaNo");
-//		if (teamNoStr != null && !teamNoStr.isEmpty()) {
-//			try {
-//				teamNo = Integer.parseInt(teamNoStr);
-//			} catch (NumberFormatException e) {
-//				e.printStackTrace();
-//
-//				return null;
-//			}
-//		}
-//		String commentNoStr = req.getParameter("commentNo");
-//		if (teamNoStr != null && !teamNoStr.isEmpty()) {
-//			try {
-//				teamNo = Integer.parseInt(teamNoStr);
-//			} catch (NumberFormatException e) {
-//				e.printStackTrace();
-//
-//				return null;
-//			}
-//		}
-//		String commentGroupStr = req.getParameter("commentGroup");
-//		if (teamNoStr != null && !teamNoStr.isEmpty()) {
-//			try {
-//				teamNo = Integer.parseInt(teamNoStr);
-//			} catch (NumberFormatException e) {
-//				e.printStackTrace();
-//
-//				return null;
-//			}
-//		}
-		
-//	    QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
-//
-//	    dto.setQnaNo(qnaNo);
-//	    dto.setCommentNo(commentNo);
-//	    dto.setCommentGroup(commentGroup);
-		
-//		int cp = 1;
-		
-//		if(currentPage != null && !currentPage.equals("")) {
-//			cp = Integer.parseInt(currentPage);
-//		} // if
+
 		
 		try {
 			
-//			PageGroup<QnaBoardCommentDTO> pg = commentService.selectCommentByQnaNo(teamNo, qnaNo, cp);
 			List<QnaBoardCommentDTO> list = commentService.selectCommentByQnaNo(teamNo, qnaNo);
-//			methodMap.put("pg", pg);
-//			
-//			List<QnaBoardCommentDTO> selectCommentReply = commentService.selectCommentReply(teamNo, dto);
-//			methodMap.put("reply", selectCommentReply);
-			
-//			String jsonStr = mapper.writeValueAsString(pg);
-			
-//			String jsonStr = mapper.writeValueAsString(list);
+
 			Map<String,Object> map = new HashMap<>();
 			map.put("list", list);
 			map.put("status", 1);
@@ -121,12 +55,14 @@ public class QnaBoardCommentListController extends QnaController {
 			System.out.println("==========> jsonStr 출력" + jsonStr);
 			
 		} catch (FindException e) {
+			
 			e.printStackTrace();	
 			Map<String,Object> map = new HashMap<>();
 			map.put("msg", "댓글조회 실패");
 			map.put("status", 0);
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
+			
 		} // try-catch
 		
 		return null;
