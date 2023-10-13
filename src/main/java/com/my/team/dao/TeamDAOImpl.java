@@ -17,6 +17,8 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.team.dto.TeamDTO;
+import com.my.team.dto.TeamMemberDTO;
+import com.my.team.dto.TeamHashtagDTO;
 
 public class TeamDAOImpl implements TeamDAO {
 
@@ -239,6 +241,458 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 
+	
+
+	@Override
+	public List<TeamDTO> selectHashtag(String hashtag, int startRow, int endRow) throws FindException {
+		SqlSession session = null;
+		List<TeamDTO> list = new ArrayList<>();
+
+		try {
+			session = sqlSessionFactory.openSession(); //Connection
+			Map<String, Object> map = new HashMap<>();
+			map.put("data", hashtag);
+			map.put("start", startRow);
+			map.put("end", endRow);
+			list = session.selectList("com.my.team.TeamMapper.selectHashtag", map);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+
+
+
+
+
+		
+
+	//	---------------------------------------------------------------------------------
+
+	//워니 침입
+
+	@Override
+	public String selectLeaderId(Integer teamNo) throws FindException{
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			String leaderId = session.selectOne("com.my.team.TeamMapper.selectLeaderId", teamNo);
+			return leaderId;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session!=null) {
+				session.close();
+			}
+		}		
+	}
+	
+	@Override
+	public List<SignupTeamDTO> selectMyTeam(int startRow, int endRow, String id) throws FindException{
+		SqlSession session = null;
+		List<SignupTeamDTO> teamList = new ArrayList<>();
+
+		try{
+			session = sqlSessionFactory.openSession();
+			Map map = new HashMap<>();
+			map.put("start", startRow);
+			map.put("end", endRow);
+			map.put("id", id);
+			teamList = session.selectList("com.my.team.TeamMapper.selectMyTeam", map);
+			return teamList;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}	
+	}
+	
+	@Override
+	public int selectMyTeamCount(String id) throws FindException{
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			int count = session.selectOne("com.my.team.TeamMapper.selectMyTeamCount", id);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public List<SignupTeamDTO> selectEndTeam(int startRow, int endRow, String id) throws FindException{
+		SqlSession session = null;
+		List<SignupTeamDTO> teamList = new ArrayList<>();
+
+		try{
+			session = sqlSessionFactory.openSession();
+			Map map = new HashMap<>();
+			map.put("start", startRow);
+			map.put("end", endRow);
+			map.put("id", id);
+			teamList = session.selectList("com.my.team.TeamMapper.selectEndTeam", map);
+			return teamList;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}	
+	}
+	
+	@Override
+	public int selectEndTeamCount(String id) throws FindException{
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			int count = session.selectOne("com.my.team.TeamMapper.selectEndTeamCount", id);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public List<SignupTeamDTO> selectWaitingTeam(int startRow, int endRow, String id, Integer status) throws FindException{
+		SqlSession session = null;
+		List<SignupTeamDTO> teamList = new ArrayList<>();
+
+		try{
+			session = sqlSessionFactory.openSession();
+			Map map = new HashMap<>();
+			map.put("start", startRow);
+			map.put("end", endRow);
+			map.put("id", id);
+			map.put("status", status);
+			teamList = session.selectList("com.my.team.TeamMapper.selectWaitingTeam", map);
+			return teamList;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}	
+	}
+	
+	@Override
+	public int selectWaitingTeamCount(String id, Integer status) throws FindException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("status", status);
+			int count = session.selectOne("com.my.team.TeamMapper.selectWaitingTeamCount", map);
+			return count;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public void deleteSignupTeamByTeamNo(String id, Integer teamNo) throws RemoveException{
+		SqlSession session = null;
+		Map map = new HashMap<>();
+
+		try {
+			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("teamNo", teamNo);
+			session.delete("com.my.team.TeamMapper.deleteSignupTeam", map);
+			session.commit();
+		}catch(Exception e) {
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		}finally {
+			if(session!=null) {
+				session.close();
+			}
+		}
+	}
+	
+	@Override
+	public TeamMemberDTO selectTeamMember(String id, Integer teamNo) throws FindException{
+		SqlSession session = null;
+		String tableName = "TEAMMEMBER_"+ String.valueOf(teamNo);
+		Map map = new HashMap<>();
+
+		try {
+			session = sqlSessionFactory.openSession(); 
+			map.put("tableName", tableName);
+			map.put("id", id);			
+			TeamMemberDTO teammember = session.selectOne("com.my.team.TeamMapper.selectTeamMember", map);
+			return teammember;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+
+	
+	//	---------------------------------------------------------------------------------
+
+	// 셍나
+	
+	// 팀 멤버인지 확인
+	@Override
+	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("id", id);
+		map.put("teamNo", teamNo);
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			int selectedTeamMemberStatus = session.selectOne("com.my.team.TeamMapper.selectTeamMemberStatus", map);
+
+			if(selectedTeamMemberStatus == 1) {
+				return selectedTeamMemberStatus;
+			} else {
+				throw new FindException("해당 팀의 팀원이 아닙니다.");
+			} // if-else
+		} catch(Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	}
+
+	// 팀 메인 페이지 - 팀 소개글 보여주기
+	@Override
+	public String selectTeamInfoByTeamNo(int teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			String selectedTeamInfo = session.selectOne("com.my.team.TeamMapper.selectTeamInfoByTeamNo", teamNo);
+
+			if(selectedTeamInfo != null) {
+				return selectedTeamInfo;
+			} else {
+				throw new FindException("선택하신 팀의 소개글이 존재하지 않습니다.");
+			} // if-else
+		} catch(Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectByTeamInfo()
+	
+	// 팀 메인 페이지 - 정보들 다 가져오기
+	@Override
+	public List<TeamDTO> selectAllTeamInfo(int teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			List<TeamDTO> teamInfoList = session.selectList("com.my.team.TeamMapper.selectAllTeamInfo", teamNo);
+
+			if(teamInfoList != null) {
+				return teamInfoList;
+			} else {
+				throw new FindException("선택하신 팀의 정보가 존재하지 않습니다.");
+			}
+		} catch(Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+
+	// 팀 메인 페이지 - 팀 공지사항 보여주기
+	@Override
+	public List<NoticeDTO> selectNoticeListByTeamNo(int teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			List<NoticeDTO> noticeList = session.selectList("com.my.team.TeamMapper.selectNoticeListByNoticeNo", teamNo);
+
+			if(noticeList != null) {
+				return noticeList;
+			} else {
+				throw new FindException("선택하신 팀의 공지사항이 존재하지 않습니다.");
+			} // if-else
+
+		} catch (Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectNoticeListByNoticeNo
+
+	// 팀 메인 페이지 - 팀 가입하기
+	@Override
+	public void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			session.insert("com.my.team.TeamMapper.insertIntoSignupTeam", signupTeamDTO);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new AddException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // insertSignUpTeam()
+
+	// 팀 메인 페이지 - 팀 나가기 #1
+	@Override
+	public void updateTeamMemberStatusResign(Integer teamNo, String id) throws ModifyException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+			
+	        Map<String, Object> map = new HashMap<>();
+	        
+	        map.put("teamNo", teamNo);
+	        map.put("id", id);
+
+			session.update("com.my.team.TeamMapper.updateTeamMemberStatusResign", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // updateTeamMemberStatus()
+
+	// 팀 메인 페이지 - 팀 나가기 #2
+	@Override
+	public void deleteSignupTeam(String id) throws RemoveException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			session.delete("com.my.team.TeamMapper.deleteSignupTeam", id);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // deleteSignupTeam()
+
+	// 팀 메인 페이지 -  팀 나가기 -> (두 작업을 하나의 트랜잭션으로 처리)
+	@Override
+	public void leaveTeam(Integer teamNo, String id) throws Exception {
+	    SqlSession session = null;
+
+	    try {
+	        session = sqlSessionFactory.openSession();
+
+	        // 팀 나가기 #1
+	        Map<String, Object> map = new HashMap<>();
+	        
+	        map.put("teamNo", teamNo);
+	        map.put("id", id);
+	        session.update("com.my.team.TeamMapper.updateTeamMemberStatusResign", map);
+
+	        // 팀 나가기 #2
+	        session.delete("com.my.team.TeamMapper.deleteSignupTeam", id);
+
+	        // 두 작업 모두 성공하면 커밋
+	        session.commit();
+
+	    } catch (Exception e) {
+	        // 어떤 작업이든 실패하면 롤백
+	        if (session != null) {
+	            session.rollback();
+	        }
+	        throw new Exception("팀 나가기 실패: " + e.getMessage());
+	    } finally {
+	        if (session != null) {
+	            session.close();
+	        } // if
+	    } // try-catch-finally
+	} // leaveTeam()
+
+
+	// 팀 메인 페이지 - 팀 멤버 출력하기
+	@Override
+	public List<String> selectNicknameByTeamNo(int teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			List<String> selectedNickname = session.selectList("com.my.team.TeamMapper.selectNicknameByTeamNo", teamNo);
+
+			if (selectedNickname != null) {
+				return selectedNickname;
+			} else {
+				throw new FindException("선택하신 팀의 팀 멤버가 존재하지 않습니다.");
+			} // if-else
+		} catch(Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectNicknameByTeamNo()
+
+	// 팀 메인 페이지 - 조회수 카운트
 	@Override
 	public void updateViewCnt(int teamNo) throws ModifyException {
 		SqlSession session = null;

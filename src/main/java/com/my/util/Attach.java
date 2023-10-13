@@ -15,11 +15,15 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 
 public class Attach {
-	
+
 	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로
 	private String attachesDir = "C:\\KOSA202307\\attaches"; //첨부경로
-	
-	private ServletFileUpload fileUpload;	
+
+	//안녕하세요 아래는 저(혜빈)의 경로입니다.. ^^ㅜ
+	//private String tempDir = "/Users/qqllzs/filetest"; //임시파일 저장경로
+	//private String attachesDir = "/Users/qqllzs/filetest"; //첨부경로
+
+	private ServletFileUpload fileUpload;
 	private Map<String, List<FileItem>> requestMap;
 	
 	public Attach(HttpServletRequest request) throws FileUploadException {
@@ -120,9 +124,10 @@ public class Attach {
 	public void upload(String name) throws Exception{
 		FileItem fileItem = requestMap.get(name).get(0);
 		if(fileItem == null || fileItem.getSize() == 0){
-			String fileName = fileItem.getName();			
-			File profileFile = new File(fileName); 
+			String fileName = fileItem.getName();
+			File profileFile = new File(fileName);
 			fileItem.write(profileFile);
+			
 		}
 	}
 	
@@ -139,7 +144,7 @@ public class Attach {
 			throw new Exception("첨부할 파일이 없습니다");
 		}
 		//String fileName = fileItem.getName();
-		File file = new File(attachesDir, fileName); 
+		File file = new File(attachesDir, fileName);
 		fileItem.write(file);
 		
 	}

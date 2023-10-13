@@ -70,5 +70,48 @@ public class CustomerServiceImpl implements CustomerService {
 //		} // try-catch
 //		
 //	} // main(test)
+	
+	// ---- 원희 ----
+	
+	@Override
+	public CustomerDTO findById(String id) throws FindException{
+		return customerDAO.selectById(id);
+	}
+	
+	@Override
+	public void nicknameDupChk(String nickname) throws FindException{
+		customerDAO.selectByNickname(nickname);
+	}
+	
+	@Override
+	public void modifyNickname(String id, String nickname) throws ModifyException{
+		customerDAO.updateNickname(id, nickname);
+	}
+	
+	@Override
+	public void modifyMyInfo(String id, CustomerDTO customer) throws ModifyException{
+		customerDAO.updateCustomerAll(id, customer);
+	}
+	
+	@Override
+	public void deleteAccount(String id) throws ModifyException{
+		customerDAO.updateCustomerStatus(id);
+	}
+	
+	@Override
+	public boolean pwdCheck(String id, String pwd) throws FindException{
+		CustomerDTO customer = customerDAO.selectById(id);
+		
+		if(customer.getPwd().equals(pwd)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	@Override
+	public void editMyPwd(String id, String pwd) throws ModifyException{
+		customerDAO.updatePwd(id, pwd);
+	}
 
 } // end class

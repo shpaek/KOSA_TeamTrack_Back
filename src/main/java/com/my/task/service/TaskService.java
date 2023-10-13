@@ -84,14 +84,36 @@ public interface TaskService {
 	 * @param answer 답
 	 * @throws ModifyException
 	 */
-	void ModifyQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo, int answer) throws ModifyException;
+	void addMemberAnswer(Integer teamNo, Integer taskNo, String id, String answer) throws AddException;
 	
 	/**
-	 * 과제 출제 : 과제 답안을 삭제한다.
+	 * 팀원 과제 정보를 생성한다.
 	 * @param teamNo 팀 번호
-	 * @param questionNo 문제 번호
 	 * @param taskNo 과제 번호
-	 * @throws RemoveException
+	 * @param id 아이디
+	 * @param hwscore 점수
+	 * @param reviewScore 평점
+	 * @throws AddException
 	 */
-	void removeQuizAnswer(Integer teamNo, Integer questionNo, Integer taskNo) throws RemoveException;
+	void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore) throws AddException;
+	
+	/**
+	 * 팀원의 과제를 채점한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @return 점수
+	 * @throws FindException
+	 */
+	int chkHwscore(Integer teamNo, Integer taskNo, String id) throws FindException;
+
+	/**
+	 * 평점을 부여한다.
+	 * @param teamNo 팀 번호
+	 * @param taskNo 과제 번호
+	 * @param id 아이디
+	 * @param reviewScore 평점
+	 * @throws ModifyException
+	 */
+	void setReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException;
 }

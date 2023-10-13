@@ -99,6 +99,77 @@ public class TaskServiceImpl implements TaskService {
 		taskDAO.deleteQuizAnswer(teamNo, questionNo, taskNo);
 	}
 	
+	@Override
+	public Integer findTaskId(Integer teamNo, String id) throws FindException {
+		List<TaskDTO> list=taskDAO.selectTaskId(teamNo);
+		if(list==null) return 0;
+		else {
+			for(int i=0;i<list.size();i++) {
+				if(id.equals(list.get(i).getId())) {
+					return list.get(i).getTaskNo();
+				}
+			}
+			return 0;
+		}
+	}
+
+	@Override
+	public TaskDTO findTaskInfo(Integer teamNo, Integer taskNo) throws FindException {
+		TaskDTO task=taskDAO.selectTaskInfo(teamNo, taskNo);
+		return task;
+	}
+
+	@Override
+	public List<Integer> findQuizAnswer(Integer teamNo, Integer taskNo) throws FindException {
+		List<Integer> list=taskDAO.selectQuizAnswer(teamNo, taskNo);
+		return list;
+	}
+
+	@Override
+	public List<Integer> findMemberAnswer(Integer teamNo, Integer taskNo, String id) throws FindException {
+		List<Integer> list=taskDAO.selectMemberAnswer(teamNo, taskNo, id);
+		return list;
+	}
+	
+	public int findAnswerCount(Integer teamNo, Integer taskNo) throws FindException {
+		int cnt=taskDAO.selectAnswerCount(teamNo, taskNo);
+		return cnt;
+	}
+
+	@Override
+	public void addMemberAnswer(Integer teamNo, Integer taskNo, String id, String answer) throws AddException {
+		String[] answerList=answer.split(",");
+		for(int i=0;i<answerList.length;i++) {
+			taskDAO.insertMemberAnswer(teamNo, i+1, taskNo, id, Integer.parseInt(answerList[i]));
+		}
+		
+	}
+
+	@Override
+	public void addMemberScore(Integer teamNo, Integer taskNo, String id, int hwscore, int reviewScore)
+			throws AddException {
+		taskDAO.insertMemberScore(teamNo, taskNo, id, hwscore, reviewScore);
+	}
+
+	@Override
+	public int chkHwscore(Integer teamNo, Integer taskNo, String id) throws FindException {
+		List<Integer> taskAnswer=taskDAO.selectQuizAnswer(teamNo, taskNo);
+		List<Integer> memberAnswer=taskDAO.selectMemberAnswer(teamNo, taskNo, id);
+		int answerCnt=taskAnswer.size();
+		double score=100/(double)answerCnt;
+		double hwscore=0.0;
+		
+		for(int i=0;i<taskAnswer.size();i++) {
+			if(taskAnswer.get(i)==memberAnswer.get(i)) hwscore+=score;
+		}
+		
+		return (int)hwscore;
+	}
+	
+	public void setReviewScore(Integer teamNo, Integer taskNo, String id, int reviewScore) throws ModifyException {
+		taskDAO.updateReviewScore(teamNo, taskNo, id, reviewScore);
+	}
+
 //	public static void main(String[] args) throws FindException, ModifyException, AddException, RemoveException {
 //		TaskServiceImpl t=new TaskServiceImpl();
 //		System.out.println("======================\n메인과제리스트");

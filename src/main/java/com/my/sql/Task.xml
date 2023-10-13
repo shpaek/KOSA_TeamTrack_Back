@@ -137,9 +137,30 @@
 		UPDATE ${tableName} SET answer=#{answer} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
 	</update>
 	
-	<!-- 과제 답안 삭제하기 -->
-	<delete id="deleteQuizAnswer" parameterType="java.util.HashMap">
-		DELETE ${tableName} WHERE task_no=#{taskNo} AND question_no=#{questionNo}
-	</delete>
+	<!-- 원희 - 가입일 지난 후 등록된 과제 개수 -->
+	<select id="selectJoinAfterTaskCount" resultType="Integer" parameterType="hashmap">
+		SELECT COUNT(*)
+		FROM ${tableName}
+		WHERE regdate > (SELECT join_date FROM ${tableName2} WHERE id=#{id})
+	</select>
+	<!-- 과제 답안 개수 가져오기 -->
+	<select id="selectAnswerCount" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT COUNT(*) FROM ${tableName} WHERE task_no=#{taskNo}
+	</select>
+	
+	<!-- 팀원 답안 생성하기 -->
+	<insert id="insertMemberAnswer" parameterType="java.util.HashMap">
+		INSERT INTO ${tableName} (question_no, task_no, id, answer) VALUES (#{questionNo}, #{taskNo}, #{id}, #{answer})
+	</insert>
+	
+	<!-- 팀원 과제 정보 생성하기 -->
+	<insert id="insertMemberScore" parameterType="java.util.HashMap">
+		INSERT INTO ${tableName} (task_no, id, hwscore, reviewscore, submitdate) VALUES (#{taskNo}, #{id}, #{hwscore}, #{reviewScore}, SYSDATE)
+	</insert>
+	
+	<!-- 평점 업데이트하기 -->
+	<update id="updateReviewScore" parameterType="java.util.HashMap">
+		UPDATE ${tableName} SET reviewscore=#{reviewScore} WHERE id=#{id} AND task_no=#{taskNo}
+	</update>
 
 </mapper>
