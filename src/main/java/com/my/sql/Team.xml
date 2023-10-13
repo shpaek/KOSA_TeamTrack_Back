@@ -179,7 +179,7 @@
 	</update>
 	 -->
 	
-	<!-- 워니 침입 -->
+	<!-- 워니 침입 : 리더 확인 쿼리 -->
 	<select id="selectLeaderId" resultType = "String" parameterType="Integer">
 		SELECT leader_id
 		FROM TEAM

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my.customer.dto.CustomerDTO;
 import com.my.exception.FindException;
 
 public class LoginController extends CustomerController {
@@ -49,6 +50,12 @@ public class LoginController extends CustomerController {
 
 			// session에 loginedId 설정
 			session.setAttribute("loginedId", id);
+			
+			//서현 추가(로그인 시 닉네임도 저장)
+			CustomerDTO customerDTO = service.selectNickName(id);
+			String nickname = customerDTO.getNickname();
+			map.put("nickname", nickname);
+			//
 
 			System.out.println(session);
 		} catch (FindException e) {

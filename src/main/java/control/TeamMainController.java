@@ -22,8 +22,9 @@ public class TeamMainController extends TeamController {
 			throws ServletException, IOException {
 		
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-
+		//response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -32,7 +33,10 @@ public class TeamMainController extends TeamController {
 		Map<String, Object> statusMap = new HashMap<>();
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-        String id = request.getParameter("id");
+        //String id = request.getParameter("id");
+//        String id="psh2023";
+//        String id="khb2023";
+        String id="cjs1231";
 
         try {
         	
