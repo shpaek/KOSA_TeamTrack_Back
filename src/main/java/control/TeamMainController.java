@@ -32,22 +32,17 @@ public class TeamMainController extends TeamController {
 		Map<String, Object> statusMap = new HashMap<>();
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-//        String id = request.getParameter("id");
-        String id = "psh2023";
+        String id = request.getParameter("id");
 
         try {
         	
-        	// 팀원 체크
-        	int isMember = service.selectTeamMemberStatus(id, teamNo);
-        	methodMap.put("isMember", isMember);
-        	
-        	// 팀장 체크
-        	int memStatus = service.leaderChk(id, teamNo);
-        	methodMap.put("memStatus", memStatus);
+            // 사용자 역할 판별
+            String userRole = service.determineUserRole(id, teamNo);
+            methodMap.put("userRole", userRole);
         	
         	// 팀 정보 다가져오기
         	List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
-        	methodMap.put("teamList", teamList);
+        	methodMap.put("teamList", teamList.get(0)); // List로 가져오지 말고 그냥 TeamDTO로 가져왓어야 햇는데,,, 8ㅅ8
         	
             // 팀 소개글 가져오기
             String teamInfo = service.selectTeamInfoByTeamNo(teamNo);

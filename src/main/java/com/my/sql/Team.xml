@@ -358,9 +358,9 @@
 	
 	<!-- 팀 관리_팀 가입 요청 확인 -->
 	<select id="selectRequestInfo" resultType="java.util.Map" parameterType="int"> 
-		SELECT ID, INTRODUCTION, STATUS
-		FROM SIGNUP_TEAM
-		WHERE STATUS = 0 AND TEAM_NO = ${teamNo}
+		SELECT st.ID, st.INTRODUCTION, st.STATUS, c.NICKNAME
+		FROM CUSTOMER c JOIN SIGNUP_TEAM st ON (c.id = st.id)
+		WHERE st.STATUS = 0 And TEAM_NO = ${teamNo}
 	</select>
 	
 	<!-- 팀 관리_팀 가입 요청 승인1 -->
@@ -388,7 +388,7 @@
 	<!-- 팀 관리_과제 출제자 선정 -->
 	<insert id="insertExaminer" parameterType="hashmap" >
 	    INSERT INTO TASK_${teamNo} (TASK_NO, ID, DUEDATE1, DUEDATE2, ENDDATE)
-		VALUES (TASK_SEQ.NEXTVAL ,#{TaskDTO.id}, #{TaskDTO.duedate1}, #{TaskDTO.duedate2}, #{TaskDTO.enddate})
+		VALUES (TASK_${teamNo}_SEQ.NEXTVAL ,#{TaskDTO.id}, #{TaskDTO.duedate1}, #{TaskDTO.duedate2}, #{TaskDTO.enddate})
 	</insert>
 
 </mapper>

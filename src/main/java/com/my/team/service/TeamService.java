@@ -14,7 +14,6 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
 import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
@@ -152,6 +151,15 @@ public interface TeamService {
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	/**
+	 * 멤버 상태 구별
+	 * @param id
+	 * @param teamNo
+	 * @return
+	 * @throws Exception
+	 */
+	String determineUserRole(String id, int teamNo) throws Exception;
 	
 	/**
 	 * 팀 메인 페이지 - 팀 멤버인지 확인하기
