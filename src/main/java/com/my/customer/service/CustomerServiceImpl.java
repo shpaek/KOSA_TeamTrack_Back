@@ -54,7 +54,17 @@ public class CustomerServiceImpl implements CustomerService {
 		customerDAO.selectById(id);
 
 	} // idDbuCheck
-	
+
+	//서현 추가
+	/**
+	 * 로그인 시 닉네임을 조회한다
+	 * @param id 로그인 아이디
+	 * @return 닉네임
+	 * @throws FindException 아이디에 해당하는 닉네임이 존재하지 않으면 FindException 발생
+	 */
+	public CustomerDTO selectNickName(String id) throws FindException{
+		return customerDAO.selectById(id);
+	}
 	
 	// ===========================  db와 연결 테스트 ========================
 
