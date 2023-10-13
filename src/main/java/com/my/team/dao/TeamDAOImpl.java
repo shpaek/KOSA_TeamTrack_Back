@@ -602,7 +602,7 @@ public class TeamDAOImpl implements TeamDAO {
 				session.close();
 			} // if
 		} // try-catch-finally
-	}
+	} // selectTeamMemberStatus()
 
 	// 팀 메인 페이지 - 팀 소개글 보여주기
 	@Override
