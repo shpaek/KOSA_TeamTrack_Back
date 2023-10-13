@@ -35,7 +35,7 @@ public interface NoticeService {
 	 * @param notice 게시글번호
 	 * @throws AddException DB연결 실패할 시 예외 발생한다
 	 */
-	void writeNotice(Integer teamNo, NoticeDTO notice) throws AddException;
+	Integer writeNotice(Integer teamNo, NoticeDTO notice) throws AddException;
 
 	/**
 	 * 해당되는 게시글을 삭제한다
