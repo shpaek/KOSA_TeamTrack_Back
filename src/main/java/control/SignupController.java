@@ -34,7 +34,6 @@ public class SignupController extends CustomerController {
 		// jackson 라이브러리에서 제공하는 ObjectMapper 클래스 사용하기
 		ObjectMapper mapper = new ObjectMapper(); // JSON 문자열 만드는 API
 
-		// map에 넣을
 		Map<String, Object> map = new HashMap<>();
 
 		try {
