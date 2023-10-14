@@ -60,6 +60,7 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 			String tableName = "QNABOARD_"+ String.valueOf(teamNo);
 			
 			map.put("tableName", tableName);
+			map.put("teamNo", teamNo);
 			map.put("id", qnaBoardDTO.getId());
 			map.put("title", qnaBoardDTO.getTitle());
 			map.put("content", qnaBoardDTO.getContent());
