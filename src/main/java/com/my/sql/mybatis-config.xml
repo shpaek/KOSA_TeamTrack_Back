@@ -11,18 +11,18 @@
 
   <typeAliases>
 
-	<typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>
-	<typeAlias type="com.my.notice.dto.NoticeDTO" alias="NoticeDTO"/>
-	<typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
-	<typeAlias type="com.my.team.dto.TeamDTO" alias="TeamDTO"/>
-	<typeAlias type="com.my.team.dto.TeamHashtagDTO" alias="TeamHashtagDTO"/>
-	<typeAlias type="com.my.team.dto.AttendanceDTO" alias="AttendanceDTO"/>
-	<typeAlias type="com.my.team.dto.SignupTeamDTO" alias="SignupTeamDTO"/>
-	<typeAlias type="com.my.team.dto.TeamMemberDTO" alias="TeamMemberDTO"/>
-	<typeAlias type="com.my.task.dto.TaskDTO" alias="TaskDTO"/>
-	<typeAlias type="com.my.task.dto.MemberTaskDTO" alias="MemberTaskDTO"/>
-	<typeAlias type="com.my.qna.dto.QnaBoardDTO" alias="QnaBoardDTO"/>
-	<typeAlias type="com.my.qna.dto.QnaBoardCommentDTO" alias="QnaBoardCommentDTO"/>
+   <typeAlias type="com.my.rank.dto.RankDTO" alias="RankDTO"/>
+   <typeAlias type="com.my.notice.dto.NoticeDTO" alias="NoticeDTO"/>
+   <typeAlias type="com.my.customer.dto.CustomerDTO" alias="CustomerDTO"/>
+   <typeAlias type="com.my.team.dto.TeamDTO" alias="TeamDTO"/>
+   <typeAlias type="com.my.team.dto.TeamHashtagDTO" alias="TeamHashtagDTO"/>
+   <typeAlias type="com.my.team.dto.AttendanceDTO" alias="AttendanceDTO"/>
+   <typeAlias type="com.my.team.dto.SignupTeamDTO" alias="SignupTeamDTO"/>
+   <typeAlias type="com.my.team.dto.TeamMemberDTO" alias="TeamMemberDTO"/>
+   <typeAlias type="com.my.task.dto.TaskDTO" alias="TaskDTO"/>
+   <typeAlias type="com.my.task.dto.MemberTaskDTO" alias="MemberTaskDTO"/>
+   <typeAlias type="com.my.qna.dto.QnaBoardDTO" alias="QnaBoardDTO"/>
+   <typeAlias type="com.my.qna.dto.QnaBoardCommentDTO" alias="QnaBoardCommentDTO"/>
   </typeAliases>
 
   <environments default="development">
@@ -44,13 +44,13 @@
 
   <mappers>
 
-	<mapper resource="com/my/sql/Rank.xml"/>
-	<mapper resource="com/my/sql/Notice.xml"/>
-	<mapper resource="com/my/sql/Customer.xml"/>
-	<mapper resource="com/my/sql/Team.xml"/>
-	<mapper resource="com/my/sql/Task.xml"/>
-	<mapper resource="com/my/sql/Qna.xml"/>
-	<mapper resource="com/my/sql/QnaComment.xml"/>
+   <mapper resource="com/my/sql/Rank.xml"/>
+   <mapper resource="com/my/sql/Notice.xml"/>
+   <mapper resource="com/my/sql/Customer.xml"/>
+   <mapper resource="com/my/sql/Team.xml"/>
+   <mapper resource="com/my/sql/Task.xml"/>
+   <mapper resource="com/my/sql/Qna.xml"/>
+   <mapper resource="com/my/sql/QnaComment.xml"/>
   </mappers>
 
 </configuration>
