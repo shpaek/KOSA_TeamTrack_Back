@@ -93,6 +93,7 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 			String tableName = "QNACOMMENT_"+ String.valueOf(teamNo);
 		
 			map.put("tableName", tableName);
+			map.put("teamNo", teamNo);
 			map.put("commentGroup", dto.getCommentGroup());
 			map.put("qna_no", dto.getQnaNo());
 			map.put("content", dto.getContent());
