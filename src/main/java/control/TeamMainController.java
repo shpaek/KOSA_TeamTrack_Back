@@ -31,18 +31,13 @@ public class TeamMainController extends TeamController {
 		// 메인에서 실행하는 모든 서비스 메소드들의 결과값을 map에 넣어서 리턴하기
 		Map<String, Object> methodMap = new HashMap<>();
 		Map<String, Object> statusMap = new HashMap<>();
-
-//		if (session != null) {
-//		    String loginedId = (String) session.getAttribute("loginedId");
-//		} else {
-//		    System.out.println("로그인 상태가 아닙니다."); 
-//		} // if-else
 		
-//		HttpSession session = request.getSession(false);
-//	    String id = (String) session.getAttribute("loginedId");
-	    		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
+//		HttpSession session = request.getSession();
+//		String id = (String) session.getAttribute("loginedId");
         String id = request.getParameter("id");
+        
+        System.out.println("**************************************************" + id);
 
         try {
         	
