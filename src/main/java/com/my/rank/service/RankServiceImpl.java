@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.qna.dto.QnaBoardCommentDTO;
@@ -59,8 +60,6 @@ public class RankServiceImpl implements RankService {
 		Map<String, Double> attmap = new HashMap<>();
 		for (AttendanceDTO attdto : attlist) {
 			String id = attdto.getId();
-			System.out.println("오류ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ");
-			System.out.println(id);
 			
 			// 출석률 = 출석인증일수 / 월별 총 일수 * 100
 			Integer attendanceday = attdto.getAttendanceday();
@@ -114,6 +113,11 @@ public class RankServiceImpl implements RankService {
 			totalScoreMap.put(id, totalscore);
 		}
 		return totalScoreMap;
+	}
+
+	@Override
+	public void insertRankInfo(Integer teamNo, String id) throws AddException {
+		rankDao.insertRankInfo(teamNo, id);
 	}
 	
 	@Override

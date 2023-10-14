@@ -44,10 +44,10 @@ public interface RankDAO {
 	/**
 	 * 팀별 Rank 정보를 저장한다
 	 * @param teamNo 팀 번호
-	 * @param rankDto rank 객체 
+	 * @param id 팀 멤버 id
 	 * @throws AddException DB와 연결이 실패하거나 제약조건위배일 경우 예외 발생
 	 */
-	void insert(Integer teamNo, RankDTO rankDto) throws AddException;
+	void insertRankInfo(Integer teamNo, String id) throws AddException;
 	
 	/**
 	 * 팀별 Rank Info를 업데이트한다

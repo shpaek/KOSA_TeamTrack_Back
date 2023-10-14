@@ -40,7 +40,7 @@ public class RankSelectMonthController extends RankController {
 			
 			//정상 처리되지 못했을 때 메세지 띄우기
 			Map<String, String> map = new HashMap<>();
-			map.put("msg", e.getMessage());
+			map.put("msg", "등록된 월이 없습니다");
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
 		}

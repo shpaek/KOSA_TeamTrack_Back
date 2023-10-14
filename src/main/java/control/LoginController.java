@@ -19,11 +19,11 @@ public class LoginController extends CustomerController {
    @Override
    public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-      // CORS 문제 해결
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-//      res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-//      res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
-      res.setHeader("Access-Control-Allow-Credentials", "true");
+		// CORS 문제 해결
+		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
+		res.setHeader("Access-Control-Allow-Credentials", "true");
 
       res.setContentType("application/json; charset=utf-8");
 
@@ -44,25 +44,25 @@ public class LoginController extends CustomerController {
       // attribute가 있으면 제거함 
       session.removeAttribute("loginedId");
 
-      try {
-         service.login(id, pwd);
-         
-         System.out.println("===============> id : "+ id);
-         map.put("id", id);
+		try {
+			service.login(id, pwd);
+			
+			System.out.println("===============> id : "+ id);
+			map.put("id", id);
 
-         map.put("status", 0);
-         map.put("msg", "로그인 되었습니다");
+			map.put("status", 0);
+			map.put("msg", "로그인 되었습니다");
 
-         // session에 loginedId 설정
-         session.setAttribute("loginedId", id);
-         
-         System.out.println("Session ID: " + session.getId());
-         
-         //서현 추가(로그인 시 닉네임도 저장)
-         CustomerDTO customerDTO = service.selectNickName(id);
-         String nickname = customerDTO.getNickname();
-         map.put("nickname", nickname);
-         //
+			// session에 loginedId 설정
+			session.setAttribute("loginedId", id);
+			
+			System.out.println("Session ID: " + session.getId());
+			
+			//서현 추가(로그인 시 닉네임도 저장)
+			CustomerDTO customerDTO = service.selectNickName(id);
+			String nickname = customerDTO.getNickname();
+			map.put("nickname", nickname);
+			//
 
          System.out.println(session);
       } catch (FindException e) {
@@ -71,10 +71,10 @@ public class LoginController extends CustomerController {
          map.put("msg", "다시 로그인해주세요.");
       }
 
-      String jsonStr = mapper.writeValueAsString(map);
-      out.print(jsonStr);
-      
-      System.out.println(jsonStr);
+		String jsonStr = mapper.writeValueAsString(map);
+		out.print(jsonStr);
+		
+		System.out.println(jsonStr);
 
       return null;
 
