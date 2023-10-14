@@ -21,8 +21,8 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public class TeamDAOImpl implements TeamDAO {
 
@@ -569,13 +569,28 @@ public class TeamDAOImpl implements TeamDAO {
 		}
 	}
 	
+	@Override
+	public List selectSignupTeam(String id) throws FindException{
+		SqlSession session = null;
 
+		try {
+			session = sqlSessionFactory.openSession(); 	
+			List<Integer> list = session.selectOne("com.my.team.TeamMapper.selectSignupTeam", id);
+			return list;
+		}catch(Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
 	
 	//	---------------------------------------------------------------------------------
 
 	// 셍나
 	
-	// 팀 멤버인지 확인
+	// 팀 멤버인지 확인 1 아니면 일반 회원
 	@Override
 	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
 		SqlSession session = null;
@@ -590,11 +605,8 @@ public class TeamDAOImpl implements TeamDAO {
 
 			int selectedTeamMemberStatus = session.selectOne("com.my.team.TeamMapper.selectTeamMemberStatus", map);
 
-			if(selectedTeamMemberStatus == 1) {
 				return selectedTeamMemberStatus;
-			} else {
-				throw new FindException("해당 팀의 팀원이 아닙니다.");
-			} // if-else
+			
 		} catch(Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
@@ -862,19 +874,14 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	} // selectAttendanceDate()
 
-	// 팀 출석부 페이지 - 출석하기
+	// 팀 출석부 페이지 - 출석하기#1
 	@Override
-	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
+	public void insertAttendanceById(Map<String, Object> map) throws AddException {
 		SqlSession session = null;
 
 		try {
 			session = sqlSessionFactory.openSession();
-
-			Map<String, Object> map = new HashMap<>();
-
-			map.put("teamNo", teamNo);
-			map.put("id", id);
-
+			
 			session.update("com.my.team.TeamMapper.insertAttendanceById", map);
 			session.commit();
 		} catch(Exception e) {
@@ -885,7 +892,48 @@ public class TeamDAOImpl implements TeamDAO {
 				session.close();
 			} // if
 		} // try-catch-finally
-	} // insertAttendance
+	} // insertAttendance 
+	
+	// 팀 출석부 페이지 - 출석하기#2
+	public void updateAttendanceCnt(Map<String, Object> map) throws ModifyException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			session.update("com.my.team.TeamMapper.updateAttendanceCnt", map);
+			session.commit();
+		} catch(Exception e) {
+			session.rollback();
+			throw new ModifyException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // updateAttendanceCnt()
+	
+	// 팀 출석부 페이지 - 출석하기(트랜잭션)
+	public void increaseAttendanceCnt(Map<String, Object> map) throws Exception {
+		SqlSession session = null;
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			
+			session.insert("com.my.team.TeamMapper.insertAttendanceById", map);
+	        session.update("com.my.team.TeamMapper.updateAttendanceCnt", map);
+	        
+	        session.commit();
+
+		} catch (Exception e) {
+			session.rollback();
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+		
+	} // increaseAttendanceCnt()
 
 	// 팀 출석부 페이지 - 출석 내역 조회
 	@Override
@@ -940,7 +988,7 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	} // selectMemberInfo()
 
-	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
+	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
 	@Override
 	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
 		SqlSession session = null;
@@ -959,6 +1007,51 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // updateTeamMemberStatus()
+	
+	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#2
+	public void deleteTeamMemberInSignupTeam(Map<String, Object> map) throws RemoveException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			session.delete("com.my.team.TeamMapper.deleteTeamMemberInSignupTeam", map);
+			session.commit();
+		} catch(Exception e){
+			session.rollback();
+			throw new RemoveException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	}
+	
+	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출 트랜잭션
+	public void dismissTeamMember(Map<String, Object> map) throws Exception {
+		SqlSession session = null;
+
+	    try {
+	        session = sqlSessionFactory.openSession();
+
+	        session.update("com.my.team.TeamMapper.updateTeamMemberStatusDismiss", map);
+	        session.insert("com.my.team.TeamMapper.deleteTeamMemberInSignupTeam", map);
+
+	        // 두 작업 모두 성공하면 커밋
+	        session.commit();
+
+	    } catch (Exception e) {
+	        // 어떤 작업이든 실패하면 롤백
+	        if (session != null) {
+	            session.rollback();
+	        }
+	        throw new Exception("팀원 방출 실패" + e.getMessage());
+	    } finally {
+	        if (session != null) {
+	            session.close();
+	        } // if
+	    } // try-catch-finally
+	} // dismissTeamMember()
 
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인
 	@Override

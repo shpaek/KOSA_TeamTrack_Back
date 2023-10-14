@@ -49,8 +49,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public void writeNotice(Integer teamNo, NoticeDTO notice) throws AddException{
-		noticeDAO.insertNotice(teamNo, notice);
+	public Integer writeNotice(Integer teamNo, NoticeDTO notice) throws AddException{
+		return noticeDAO.insertNotice(teamNo, notice);
 	}
 
 	@Override
