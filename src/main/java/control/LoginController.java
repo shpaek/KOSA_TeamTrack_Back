@@ -52,6 +52,8 @@ public class LoginController extends CustomerController {
 			// session에 loginedId 설정
 			session.setAttribute("loginedId", id);
 			
+			map.put("id", id);
+			
 			//서현 추가(로그인 시 닉네임도 저장)
 			CustomerDTO customerDTO = service.selectNickName(id);
 			String nickname = customerDTO.getNickname();

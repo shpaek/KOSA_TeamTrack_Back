@@ -33,17 +33,16 @@ public class TeamMainController extends TeamController {
 		Map<String, Object> statusMap = new HashMap<>();
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-//		HttpSession session = request.getSession();
-//		String id = (String) session.getAttribute("loginedId");
-        String id = request.getParameter("id");
-        
-        System.out.println("**************************************************" + id);
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("loginedId");
+//        String id = request.getParameter("id");
+		System.out.println("************************************************************************************"+id);
 
         try {
         	
             // 사용자 역할 판별
-            String userRole = service.determineUserRole(id, teamNo);
-            methodMap.put("userRole", userRole);
+//            String userRole = service.determineUserRole(id, teamNo);
+//            methodMap.put("userRole", userRole);
         	
             // 팀 정보 다가져오기
             List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
