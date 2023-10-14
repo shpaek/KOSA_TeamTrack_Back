@@ -14,9 +14,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.ModifyException;
 
 
-public class TeamDismissController extends TeamController {
+public class TeamReqAcceptController extends TeamController {
 
-    // 현재 팀원 확인 + 방출 컨트롤러
+    // 가입 승인&거절용 컨트롤러
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NumberFormatException {
@@ -37,22 +37,36 @@ public class TeamDismissController extends TeamController {
         
         try {
         	
-        	// 현재 팀원 목록 확인
-        	List<Map<String, Object>> currMemberList = service.selectMemberInfo(teamNo);
-	    	methodMap.put("currMemberList", currMemberList);
+        	// 가입 요청자 확인
+        	List<Map<String, Object>> reqList = service.selectRequestInfo(teamNo);
+	    	methodMap.put("reqList", reqList);
         	
-        	// 방출
-        	if ("memberDismiss".equals(action)) {
+        	// 가입 승인
+        	if ("reqApprove".equals(action)) {
         		paramsMap.put("teamNo", teamNo);
         		paramsMap.put("id", id);
         		
-        		service.dismissTeamMember(paramsMap);
+        		service.approveRequest(paramsMap);
         		
         		statusMap.put("status", 1);
-        		statusMap.put("msg", "방출 성공");
+        		statusMap.put("msg", "가입 요청 승인 성공");
         	} else {
         		statusMap.put("status", 0);
-        		statusMap.put("msg", "방출 실패");
+        		statusMap.put("msg", "가입 요청 승인 실패");
+        	} // if-else
+        	
+        	// 가입 거절
+        	if ("reqReject".equals(action)) {
+	            paramsMap.put("teamNo", teamNo);
+	            paramsMap.put("id", id);
+	
+	            service.updateRequestInfoReject(paramsMap);
+	            
+	            statusMap.put("status", 1);
+	            statusMap.put("msg", "가입 요청 거절 성공");
+        	} else {
+        		statusMap.put("status", 0);
+        		statusMap.put("msg", "가입 요청 거절 실패");
         	} // if-else
 
         } catch (ModifyException e) {
@@ -64,7 +78,7 @@ public class TeamDismissController extends TeamController {
             e.printStackTrace();
 
             statusMap.put("status", 0);
-            statusMap.put("msg", "방출 요청 컨트롤러에서 에러 발생");
+            statusMap.put("msg", "가입 요청 컨트롤러에서 에러 발생");
         } // try-catch
 
         // JSON문자열 응답

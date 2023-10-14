@@ -18,11 +18,13 @@ public class TeamNameDupChkController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setContentType("application/json;charset=utf-8");
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-//		HttpSession session = request.getSession();
+
 		String teamName = request.getParameter("teamName");
 		Map<String, Integer> map = new HashMap<>();
 		try {

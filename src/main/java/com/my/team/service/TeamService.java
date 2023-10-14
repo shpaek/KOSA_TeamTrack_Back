@@ -14,7 +14,6 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
 import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
@@ -23,67 +22,112 @@ public interface TeamService {
 
 	// 서현 웅니
 	/**
-	 *
-	 * @param t
-	 * @throws AddException
+	 * 전체 팀을 조회한다
+	 * @param currentPage 현재 페이지
+	 * @param column 조회수, 팀 생성일
+	 * @return 팀 객체 그룹
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException;
+	
+	/**
+	 * 해당 검색어를 포함하는 팀들을 조회한다
+	 * @param currentPage 현재 페이지
+	 * @param table 팀 해시태그, 팀 테이블
+	 * @param column 해시태그, 팀명
+	 * @param data 해시태그, 팀명
+	 * @return 팀 객체 그룹
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	MainPageGroup<TeamDTO> selectByData(int currentPage, String table, String column, String data) throws FindException;
+	
+	/**
+	 * 선택한 해시태그에 해당하는 팀들을 조회한다
+	 * @param currentPage 현재 페이지
+	 * @param hashtag 해시태그
+	 * @return 팀 객체 그룹
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException;
+	
+	/**
+	 * 선택한 스터디 날짜에 해당하는 팀들을 조회한다
+	 * @param currentPage 현재 페이지
+	 * @param column 인기순, 최신순
+	 * @param startDate 시작날짜
+	 * @param endDate 종룔날짜
+	 * @return 팀 객체 그룹
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException;
+	
+	/**
+	 * 팀을 생성한다
+	 * @param params 팀, 팀 해시태그 객체 맵
+	 * @throws AddException DB와의 연결 실패 시 예외 발생한다
 	 */
 	void createTeam(HashMap<String, Object> params) throws AddException;
 
 	/**
-	 *
-	 * @param teamName
-	 * @throws FindException
+	 * 팀명 중복확인을한다
+	 * @param teamName 팀명
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
 	 */
 	int teamNameDupChk(String teamName) throws FindException;
 	
 	/**
-	 *
-	 * @param t
-	 * @throws ModifyException
+	 * 팀정보를 수정한다
+	 * @param t 팀객체
+	 * @throws ModifyException DB와의 연결 실패 시 예외 발생한다
 	 */
 	void updateTeam(TeamDTO t) throws ModifyException;
-	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
+	
 	/**
-	 *
+	 * 팀 해시태그를 조회한다
+	 * @param teamNo 팀번호
+	 * @return 팀해시태그 객체
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
+
+	/**
+	 * 팀 해시태그를 수정한다
+	 * @param params 해시태그 객체 맵
+	 * @throws ModifyException DB와의 연결 실패 시 예외 발생한다
 	 */
 	void updateHashtag(HashMap<String, Object> params) throws ModifyException;
 
-	void deleteHashtag(int teamNo) throws RemoveException;
 	/**
-	 *
-	 * @param teamNo
-	 * @throws RemoveException
+	 * 팀 해시태그를 삭제한다
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB와의 연결 실패 시 예외 발생한다
+	 */
+	void deleteHashtag(int teamNo) throws RemoveException;
+	
+	/**
+	 * 팀을 삭제한다
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB와의 연결 실패 시 예외 발생한다
 	 */
 	void deleteTeam(int teamNo) throws RemoveException;
 
 	/**
-	 *
-	 * @throws FindException
-	 */
-	List<TeamDTO> selectTopThreeTeams() throws FindException;
-
-	/**
-	 *
-	 * @throws FindException
+	 * 인기순/최신순 팀 리스트를 조회한다
+	 * @param column 조회수, 팀생성일
+	 * @return 팀 리스트
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
 	 */
 	List<TeamDTO> selectByCondition(String column) throws FindException;
 		
-	
-
-	TeamDTO selectByTeamNo(int teamNo) throws FindException;
-	// void updateViewCnt(int teamNo) throws ModifyException;
-
-
 	/**
-	 *
-	 * @param currentPage
-	 * @return
-	 * @throws FindException
+	 * 팀번호에 해당하는 팀정보를 조회한다
+	 * @param teamNo 팀번호
+	 * @return 팀객체
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
 	 */
-	MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException;
-	MainPageGroup<TeamDTO> selectByData(int currentPage, String table, String column, String data) throws FindException;
-	MainPageGroup<TeamDTO> selectHashtag(int currentPage, String hashtag) throws FindException;
-	MainPageGroup<TeamDTO> selectByDate(int currentPage, String column, String startDate, String endDate) throws FindException;
+	TeamDTO selectByTeamNo(int teamNo) throws FindException;
+	
+	// void updateViewCnt(int teamNo) throws ModifyException;
 
 	// ------------------------------------------------------------------------
 	
@@ -152,6 +196,15 @@ public interface TeamService {
 	// ------------------------------------------------------------------------
 
 	// 셍나
+	
+	/**
+	 * 멤버 상태 구별
+	 * @param id
+	 * @param teamNo
+	 * @return
+	 * @throws Exception
+	 */
+	String determineUserRole(String id, int teamNo) throws Exception;
 	
 	/**
 	 * 팀 메인 페이지 - 팀 멤버인지 확인하기
@@ -247,13 +300,28 @@ public interface TeamService {
 	String selectAttendanceDate(Map<String, Object> map) throws FindException;
 	
 	/**
-	 * 팀 출석부 페이지 - 출석하기
+	 * 팀 출석부 페이지 - 출석하기#1 (attendance 테이블)
 	 * @param teamNo
 	 * @param id
 	 * @throws AddException
 	 */
-	void insertAttendanceById(Integer teamNo, String id) throws AddException;
+	void insertAttendanceById(Map<String, Object> map) throws AddException;
 
+	/**
+	 * 팀 출석부 페이지 - 출석하기#2 (teammember 테이블)
+	 * @param map
+	 * @throws ModifyException
+	 */
+	void updateAttendanceCnt(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 트랜잭션
+	 * @param map
+	 * @throws Exception
+	 */
+	void increaseAttendanceCnt(Map<String, Object> map) throws Exception;
+	
+	
 	/**
 	 * 팀 출석부 페이지 - 조회하기
 	 * @param teamNo
@@ -274,11 +342,25 @@ public interface TeamService {
 	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException;
 	
 	/**
-	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
+	 * @param map
+	 * @throws ModifyException
+	 */
+	void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#2
+	 * @param map
+	 * @throws RemoveException
+	 */
+	void deleteTeamMemberInSignupTeam(Map<String, Object> map) throws RemoveException;
+	
+	/**
+	 * 팀원 방출 트랜잭션
 	 * @param map
 	 * @throws Exception
 	 */
-	void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException;
+	void dismissTeamMember(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인

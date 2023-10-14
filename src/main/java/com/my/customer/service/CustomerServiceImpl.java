@@ -1,20 +1,28 @@
 package com.my.customer.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.my.customer.dao.CustomerDAO;
 import com.my.customer.dao.CustomerDAOImpl;
 import com.my.customer.dto.CustomerDTO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
+import com.my.exception.RemoveException;
+import com.my.team.dao.TeamDAO;
+import com.my.team.dao.TeamDAOImpl;
 
 public class CustomerServiceImpl implements CustomerService {
 
 	private CustomerDAO customerDAO;
+	private TeamDAO teamDAO;
 
 	private static CustomerServiceImpl  service = new CustomerServiceImpl();
 
 	private CustomerServiceImpl() {
 		customerDAO = new CustomerDAOImpl();
+		teamDAO = new TeamDAOImpl();
 	}
 
 	public static CustomerService getInstance() {
@@ -54,26 +62,21 @@ public class CustomerServiceImpl implements CustomerService {
 		customerDAO.selectById(id);
 
 	} // idDbuCheck
-	
-	
-	// ===========================  db와 연결 테스트 ========================
 
-//	public static void main(String[] args) {
-//
-//		CustomerService servcie = new CustomerServiceImpl();
-//
-//		try {
-//			servcie.login("test01", "test01");
-//			System.out.println(" 로그인 성공 ^-^b ");
-//
-//		} catch (FindException e) {
-//			System.out.println(" 로그인 실패 ㅠㅠ ");
-//
-//		} // try-catch
-//
-//	} // main(test)
+	//서현 추가
+	/**
+	 * 로그인 시 닉네임을 조회한다
+	 * @param id 로그인 아이디
+	 * @return 닉네임
+	 * @throws FindException 아이디에 해당하는 닉네임이 존재하지 않으면 FindException 발생
+	 */
+	public CustomerDTO selectNickName(String id) throws FindException{
+		return customerDAO.selectById(id);
+	}
 	
-	// ---- 원희 ----
+
+	
+	// ---------- 원희 -----------------
 	
 	@Override
 	public CustomerDTO findById(String id) throws FindException{
@@ -96,8 +99,17 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
-	public void deleteAccount(String id) throws ModifyException{
+	public void deleteAccount(String id) throws ModifyException, FindException, RemoveException{
 		customerDAO.updateCustomerStatus(id);
+		
+		List<Integer> teamNoList = new ArrayList<>();
+		teamNoList = teamDAO.selectSignupTeam(id);
+		
+		for(int i=0;i<teamNoList.size();i++) {
+			teamDAO.updateTeamMemberStatusResign(teamNoList.get(i), id);
+		}
+		
+		teamDAO.deleteSignupTeam(id);
 	}
 	
 	@Override

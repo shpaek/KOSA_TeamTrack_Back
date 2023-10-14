@@ -29,33 +29,25 @@ public class TeamAttendanceController extends TeamController {
 
 		Map statusMap = new HashMap<>();
 		Map methodMap = new HashMap<>();
-		Map<String, Object> paramsMap = new HashMap<>();
+		Map paramsMap = new HashMap<>();
 		Map resultMap = new HashMap<>();
 
 	    int teamNo = Integer.parseInt(request.getParameter("teamNo"));
 	    String id = request.getParameter("id");
 	    String action = request.getParameter("action");
-//	    Integer action = Integer.parseInt(request.getParameter("action"));
-	    
-	    System.out.println(action);
 	    
 	    paramsMap.put("teamNo", teamNo);
 	    paramsMap.put("id", id);
 	    
-//	    System.out.println(teamNo+":"+id);
-
 	    try {
 	    	if ("attendChk".equals(action)) {
 	    	    String existingDate = service.selectAttendanceDate(paramsMap);
 	    	    
-	    	    System.out.println("됨ㅇㅇ");
 	    	    if (existingDate != null) {
 	    	    	statusMap.put("status", 2);
-	    	    	System.out.println("1번");
-	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
+//	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
 	    	    } else {
 	    	    	statusMap.put("status", 1);
-	    	    	System.out.println("2번");
 	    	    	statusMap.put("msg", "오늘 출석 가능합니다.");
 	    	    } // else-if
 	    	    
@@ -64,12 +56,10 @@ public class TeamAttendanceController extends TeamController {
 	    		
 	    		if (existingDate != null) {
 	    	    	statusMap.put("status", 2);
-	    	    	System.out.println("3번");
-	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
+//	    	    	statusMap.put("msg", "이미 오늘 출석했습니다.");
 	    	    } else {
-	    	        service.insertAttendanceById(teamNo, id);
+	    	        service.increaseAttendanceCnt(paramsMap);
 	    	        statusMap.put("status", 1);
-	    	        System.out.println("4번");
 	    	        statusMap.put("msg", "팀 출석 성공");
 	    	    } // else-if
 	    		
@@ -82,11 +72,9 @@ public class TeamAttendanceController extends TeamController {
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    	statusMap.put("status", 0);
-	    	System.out.println("5번");
 	    	statusMap.put("msg", "팀 출석 실패");
-	    }
+	    } // try-catch
 	    
-	    Object status = statusMap.get("status");
 	    resultMap.put("statusMap", statusMap);
 	    resultMap.put("method", methodMap);
 	    

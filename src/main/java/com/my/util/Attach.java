@@ -16,13 +16,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class Attach {
 
-//	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로
-//	private String attachesDir = "C:\\KOSA202307\\attaches"; //첨부경로
+	private String tempDir = "C:\\KOSA202307\\temp"; //임시파일 저장경로
+	private String attachesDir = "C:\\KOSA202307\\attaches"; //첨부경로
 
-	//안녕하세요 아래는 저(혜빈)의 경로입니다.. ^^ㅜ
-
-	private String tempDir = "/Users/qqllzs/Desktop/downloadfile"; //임시파일 저장경로
-	private String attachesDir = "/Users/qqllzs/Desktop/downloadfile"; //첨부경로
+//	//안녕하세요 아래는 저(혜빈)의 경로입니다.. ^^ㅜ
+//	private String tempDir = "/Users/qqllzs/filetest"; //임시파일 저장경로
+//	private String attachesDir = "/Users/qqllzs/filetest"; //첨부경로
 
 	private ServletFileUpload fileUpload;
 	private Map<String, List<FileItem>> requestMap;
@@ -142,5 +141,7 @@ public class Attach {
 		File file = new File(attachesDir, fileName);
 		fileItem.write(file);
 	}
+	
+
 	
 } //end class

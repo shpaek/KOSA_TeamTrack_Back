@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.notice.dto.NoticeDTO;
@@ -23,31 +24,35 @@ public class TeamMainController extends TeamController {
 		
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-
+		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
+				
 		// 메인에서 실행하는 모든 서비스 메소드들의 결과값을 map에 넣어서 리턴하기
 		Map<String, Object> methodMap = new HashMap<>();
 		Map<String, Object> statusMap = new HashMap<>();
+
+//		if (session != null) {
+//		    String loginedId = (String) session.getAttribute("loginedId");
+//		} else {
+//		    System.out.println("로그인 상태가 아닙니다."); 
+//		} // if-else
 		
+//		HttpSession session = request.getSession(false);
+//	    String id = (String) session.getAttribute("loginedId");
+	    		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-//        String id = request.getParameter("id");
-        String id = "psh2023";
+        String id = request.getParameter("id");
 
         try {
         	
-        	// 팀원 체크
-        	int isMember = service.selectTeamMemberStatus(id, teamNo);
-        	methodMap.put("isMember", isMember);
+            // 사용자 역할 판별
+            String userRole = service.determineUserRole(id, teamNo);
+            methodMap.put("userRole", userRole);
         	
-        	// 팀장 체크
-        	int memStatus = service.leaderChk(id, teamNo);
-        	methodMap.put("memStatus", memStatus);
-        	
-        	// 팀 정보 다가져오기
-        	List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
-        	methodMap.put("teamList", teamList);
+            // 팀 정보 다가져오기
+            List<TeamDTO> teamList = service.selectAllTeamInfo(teamNo);
+            methodMap.put("teamList", teamList.get(0)); // List로 가져오지 말고 그냥 TeamDTO로 가져왓어야 햇는데,,, 8ㅅ8
         	
             // 팀 소개글 가져오기
             String teamInfo = service.selectTeamInfoByTeamNo(teamNo);
