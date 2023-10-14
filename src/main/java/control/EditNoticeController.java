@@ -45,7 +45,21 @@ public class EditNoticeController extends NoticeController{
 			
 			if(attach.getParameter("status") != null) {
 				mainStatus = 1;
+				map.put("mainstatus", 1);
+				NoticeDTO mainNotice = service.findMainNotice(teamNo);
+				if(mainNotice!=null) {
+					if(mainNotice.getNoticeNo()==noticeNo) {
+						map.put("mainstatus", 0);
+						map.put("mainmsg", "이미 메인공지로 등록된 게시글입니다");
+						mainStatus=0;
+					}else {
+						map.put("mainstatus", 0);
+						map.put("mainmsg", "이미 메인공지가 존재합니다\n기존 메인공지를 내린 후 시도해주세요");
+						mainStatus=0;
+					}
+				}
 			}
+			
 			NoticeDTO notice = new NoticeDTO(noticeNo, noticeTitle, noticeContent, mainStatus);
 			service.modifyNotice(teamNo, notice);
 			String findName = teamNo+"_"+noticeNo+"_notice_";

@@ -36,6 +36,7 @@ public class WriteNoticeController extends NoticeController {
 		try {
 			Attach attach=new Attach(request);
 			Integer teamNo = Integer.parseInt(attach.getParameter("teamNo"));
+			System.out.println(teamNo);
 
 			String noticeTitle=attach.getParameter("title");
 			String noticeContent=attach.getParameter("content");
@@ -44,6 +45,13 @@ public class WriteNoticeController extends NoticeController {
 			
 			if(attach.getParameter("status") != null) {
 				mainStatus = 1;
+				map.put("mainstatus", 1);
+				NoticeDTO mainNotice = service.findMainNotice(teamNo);
+				if(mainNotice!=null) {
+					map.put("mainstatus", 0);
+					map.put("mainmsg", "이미 메인공지가 존재합니다\n기존 메인공지를 내린 후 시도해주세요");
+					mainStatus=0;
+				}
 			}
 			NoticeDTO notice = new NoticeDTO(noticeTitle, regDate, noticeContent, mainStatus);
 			noticeNo = service.writeNotice(teamNo, notice);

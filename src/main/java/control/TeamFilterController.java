@@ -2,9 +2,9 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,8 @@ public class TeamFilterController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setContentType("application/json;charset=UTF-8");
 		
 		String column = request.getParameter("column");
@@ -32,6 +33,10 @@ public class TeamFilterController extends TeamController {
 		String endDate = request.getParameter("endDate");
 		String currentPage = request.getParameter("currentPage");
 
+		String curTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		if(startDate == "") {
+			startDate = curTime;
+		}
 		if(endDate =="") {
 			endDate = "2050-12-31";
 		}
