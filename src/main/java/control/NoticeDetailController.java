@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -34,13 +35,33 @@ public class NoticeDetailController extends NoticeController{
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 		Integer noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		Integer memStatus = 0;
+		String fileName = "null";
+		
+		String attachesDir = "C:\\KOSA202307\\attaches";
+		File dir = new File(attachesDir);
 		
 		try {
 			memStatus = teamService.leaderChk(loginedId, teamNo);
 			NoticeDTO notice = service.findByNoticeNo(teamNo, noticeNo);
 			
+			String findName = teamNo+"_"+noticeNo+"_notice_";
+			
+			try {
+				for(File file : dir.listFiles()) {
+					String existFileName = file.getName();
+					if(existFileName.startsWith(findName)) {
+						fileName = existFileName;
+						break;
+					}
+				}
+				map.put("fileName", fileName);
+			} catch(Exception e) {
+				
+			}
+			
 			map.put("memStatus", memStatus);
 			map.put("notice", notice);
+			System.out.println(notice.getNoticeTitle());
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
 		} catch (FindException e) {

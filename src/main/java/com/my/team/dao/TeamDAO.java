@@ -12,8 +12,8 @@ import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
-import com.my.team.dto.TeamMemberDTO;
 import com.my.team.dto.TeamHashtagDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public interface TeamDAO {
 
@@ -212,6 +212,15 @@ public interface TeamDAO {
 	 */
 	TeamMemberDTO selectTeamMember(String id, Integer teamNo) throws FindException;
 	
+	/**
+	 * 해당되는 회원이 가입한 팀 번호를 모두 조회한다
+	 * @author 나원희
+	 * @param id 사용자 아이디
+	 * @return 팀번호
+	 * @throws FindException DB와의 연결 실패 시 예외 발생한다
+	 */
+	List selectSignupTeam(String id) throws FindException;
+	
 	
 	
 	// ------------------------------------------------------------------------
@@ -310,12 +319,26 @@ public interface TeamDAO {
 	String selectAttendanceDate(Map<String, Object> map) throws FindException;
 
 	/**
-	 * 팀 출석부 페이지 - 출석하기
+	 * 팀 출석부 페이지 - 출석하기#1
 	 * @param teamNo
 	 * @param id
 	 * @throws AddException
 	 */
-	void insertAttendanceById(Integer teamNo, String id) throws AddException;
+	void insertAttendanceById(Map<String, Object> map) throws AddException;
+	
+	/**
+	 * 팀 출석부 페이지 - 출석하기#2
+	 * @param map
+	 * @throws ModifyException
+	 */
+	void updateAttendanceCnt(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 출석부 페이지 - 출석 트랜잭션
+	 * @param map
+	 * @throws Exception
+	 */
+	void increaseAttendanceCnt(Map<String, Object> map) throws Exception;
 
 	/**
 	 * 팀 출석부 페이지 - 조회하기
@@ -337,11 +360,25 @@ public interface TeamDAO {
 	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException;
 	
 	/**
-	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
 	 * @param map
 	 * @throws Exception
 	 */
 	void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException;
+	
+	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#2
+	 * @param map
+	 * @throws RemoveException
+	 */
+	void deleteTeamMemberInSignupTeam(Map<String, Object> map) throws RemoveException;
+	
+	/**
+	 * 팀원 방출 트랜잭션
+	 * @param map
+	 * @throws Exception
+	 */
+	void dismissTeamMember(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 확인

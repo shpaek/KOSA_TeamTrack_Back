@@ -38,7 +38,7 @@ public class DeleteAccountController extends CustomerController{
 				map.put("status", 0);
 				map.put("msg", "동의가 필요합니다");
 			}
-		} catch (ModifyException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", e.getMessage());

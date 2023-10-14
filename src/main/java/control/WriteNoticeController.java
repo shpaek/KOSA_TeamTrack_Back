@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
@@ -22,34 +23,53 @@ public class WriteNoticeController extends NoticeController {
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-
-
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-
+		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> map = new HashMap<>();
 		Date regDate = Date.from(Instant.now());
+		Integer noticeNo;
+		String attachesDir = "C:\\KOSA202307\\attaches";
+		File dir = new File(attachesDir);
 
 		try {
 			Attach attach=new Attach(request);
 			Integer teamNo = Integer.parseInt(attach.getParameter("teamNo"));
+			System.out.println(teamNo);
 
 			String noticeTitle=attach.getParameter("title");
 			String noticeContent=attach.getParameter("content");
 			Integer mainStatus = 0;
+			String fileName ="";
+			
 			if(attach.getParameter("status") != null) {
 				mainStatus = 1;
+				map.put("mainstatus", 1);
+				NoticeDTO mainNotice = service.findMainNotice(teamNo);
+				if(mainNotice!=null) {
+					map.put("mainstatus", 0);
+					map.put("mainmsg", "이미 메인공지가 존재합니다\n기존 메인공지를 내린 후 시도해주세요");
+					mainStatus=0;
+				}
 			}
 			NoticeDTO notice = new NoticeDTO(noticeTitle, regDate, noticeContent, mainStatus);
-			service.writeNotice(teamNo, notice);
+			noticeNo = service.writeNotice(teamNo, notice);
+			String findName = teamNo+"_"+noticeNo+"_notice_";
+			
 			try {
-				String originFileName=attach.getFile("f1").get(0).getName();
-				attach.upload("f1", teamNo+"_notice_"+originFileName);
+				if(attach.getFile("f1")!=null){
+					String originFileName=attach.getFile("f1").get(0).getName();
+					for(File file : dir.listFiles()) {
+						String existFileName = file.getName();
+						if(existFileName.startsWith(findName)) {
+							file.delete();
+						}
+					}
+					attach.upload("f1", teamNo+"_"+noticeNo+"_notice_"+originFileName);
+				}
 			} catch(Exception e) {
-
+				
 			}
 			map.put("status", 1);
 			map.put("msg", "게시글이 업로드되었습니다");

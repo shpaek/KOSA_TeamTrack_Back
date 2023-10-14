@@ -248,6 +248,12 @@
 		WHERE id = #{id} AND team_no = #{teamNo}
 	</delete>
 	
+	<select id="selectSignupTeam" resultType = "list" parameterType="String">
+		SELECT team_no
+		FROM SIGNUP_TEAM
+		WHERE id=#{id}
+	</select>
+	
 	<!-- ###################################################################################################################### -->
 
 	<!-- 셍나 -->
@@ -304,8 +310,9 @@
 	
 	<!-- 팀 메인_팀 멤버 닉네임 보여주기 -->
 	<select id="selectNicknameByTeamNo" parameterType="int" resultType="String">
-        SELECT nickname
+        SELECT NICKNAME
         FROM TEAMMEMBER_${teamNo}
+        WHERE STATUS <![CDATA[ = 1 ]]>
     </select>
     
     <!-- 팀 메인_조회수 증가 -->
@@ -334,6 +341,13 @@
 	    INSERT INTO ATTENDANCE_${teamNo} (ATTENDANCE_DATE, ID)
 	    VALUES (SYSDATE, #{id})
 	</insert>
+	
+	<!-- 팀 출석부_팀 멤버 테이블에도 출석수 추가해주기 -->
+	<update id="updateAttendanceCnt" parameterType="java.util.Map">
+		UPDATE TEAMMEMBER_${teamNo}
+		SET ATTENDANCE = NVL(ATTENDANCE, 0) <![CDATA[ + 1 ]]>
+		WHERE ID = #{id}
+	</update>
 
 	<!-- 팀 출석부_출석부 조회 -->
 	<select id="selectAttendanceById" resultType="AttendanceDTO" parameterType="java.util.Map">
@@ -355,6 +369,13 @@
 		SET STATUS = 2
 		WHERE ID = #{id}
 	</update>
+	
+	<!-- 팀 관리_팀원 방출 이후 가입한 팀에서 제거 -->
+	<delete id="deleteTeamMemberInSignupTeam" parameterType="java.util.Map" >
+		DELETE 
+		FROM SIGNUP_TEAM
+		WHERE ID = #{id} AND TEAM_NO = #{teamNo}
+	</delete>
 	
 	<!-- 팀 관리_팀 가입 요청 확인 -->
 	<select id="selectRequestInfo" resultType="java.util.Map" parameterType="int"> 
