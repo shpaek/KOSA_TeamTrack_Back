@@ -51,6 +51,8 @@ public class RankListController extends RankController {
 		
 		//개인 랭킹을 실시간으로 계산하여 반환해준다
 		List<Map<String, Object>> ranklist = new ArrayList<>();		
+		Map<String, Object> map=new HashMap<>();
+		
 		try {
 			List<RankDTO> list = service.findByMonth(teamNo, month);
 			System.out.println(list);
@@ -71,8 +73,6 @@ public class RankListController extends RankController {
 					}
 				}
 				Collections.sort(dtolist, new ValueComparator());
-				System.out.println(dtolist);
-				System.out.println(dtolist.size());
 			}
 			
 			// Rank 순위를 TotalScore 기준으로 새롭게 부여
@@ -93,24 +93,30 @@ public class RankListController extends RankController {
 			Integer rank = null;
 			Double totalScore = null;
 			String id = null;
+			
 			for (RankDTO dto : dtolist) {
 				rank = dto.getRank();
 				totalScore = dto.getTotalScore();
-				id = dto.getId();				
+				id = dto.getId();
 				service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
 			}
 			System.out.println("modify 성공");
+			String jsonStr = mapper.writeValueAsString(ranklist);
+			out.print(jsonStr);
 			
 		} catch (FindException e) {
-				e.printStackTrace();
+			e.printStackTrace();
+			map.put("status", 0);
+			map.put("msg", "랭킹 정보 조회에 실패하였습니다");
+			String jsonStr = mapper.writeValueAsString(map);
+			out.print(jsonStr);
 		} catch (ModifyException e) {
 			e.printStackTrace();
+			map.put("status", 0);
+			map.put("msg", "랭킹 정보 업데이트에 실패하였습니다");
+			String jsonStr = mapper.writeValueAsString(map);
+			out.print(jsonStr);
 		}
-		String jsonStr = mapper.writeValueAsString(ranklist);
-		out.print(jsonStr);
-		
-		// Teammember의 id를 저장한다 (Insert)
-		// 새롭게 등록되는 멤버는 Trigger로 만들기
 		
 		return null;
 	}
