@@ -21,6 +21,7 @@ public class LoginController extends CustomerController {
 
 		// CORS 문제 해결
 		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 //		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 
@@ -45,12 +46,17 @@ public class LoginController extends CustomerController {
 
 		try {
 			service.login(id, pwd);
+			
+			System.out.println("===============> id : "+ id);
+			map.put("id", id);
 
-			map.put("status", 1);
+			map.put("status", 0);
 			map.put("msg", "로그인 되었습니다");
 
 			// session에 loginedId 설정
 			session.setAttribute("loginedId", id);
+			
+			System.out.println("Session ID: " + session.getId());
 			
 			//서현 추가(로그인 시 닉네임도 저장)
 			CustomerDTO customerDTO = service.selectNickName(id);
@@ -67,6 +73,8 @@ public class LoginController extends CustomerController {
 
 		String jsonStr = mapper.writeValueAsString(map);
 		out.print(jsonStr);
+		
+		System.out.println(jsonStr);
 
 		return null;
 
