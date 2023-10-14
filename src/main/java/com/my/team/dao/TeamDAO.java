@@ -20,93 +20,133 @@ public interface TeamDAO {
 	// 서현 웅니
 
 	/**
-	 *
-	 * @return
+	 * 전체 팀 수를 조회한다
+	 * @return 팀 수
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	int selectCount() throws FindException;
+	
+	/**
+	 * 선택한 해시태그를 가진 팀 수를 조회한다
+	 * @param hashtag 해시태그
+	 * @return 팀 수
+	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
+	 */
 	int selectCountOfSelectHashtag(String hashtag) throws FindException;
+	
+	/**
+	 * 선택한 스터디 날짜에 해당하는 팀 수를 조회한다
+	 * @param column 인기순, 최신순
+	 * @param startDate 시작날짜
+	 * @param endDate 종료날짜
+	 * @return 팀 수
+	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
+	 */
 	int selectCountOfSelectDate(String column, String startDate, String endDate) throws FindException;
+	
+	/**
+	 * 해당 검색어를 포함하는 팀 수를 조회한다
+	 * @param table 팀 해시태그, 팀 테이블
+	 * @param column 해시태그, 팀명
+	 * @param data 해시태그, 팀명
+	 * @return 팀 수
+	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
+	 */
 	int selectCountOfSelectData(String table, String column, String data) throws FindException;
- 	/**
-	 * 팀번호에 해당하는 팀정보를 검색한다
+ 	
+	/**
+	 * 팀번호에 해당하는 팀정보를 조회한다
 	 * @param teamNo 팀번호
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	TeamDTO selectByTeamNo(int teamNo) throws FindException;
 
-	
 	/**
 	 * 팀이름에 해당하는 팀번호를 검색한다
-	 * @param teamName 팀이름
+	 * @param teamName 팀명
 	 * @return 팀객체
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	int selectByTeamName(String teamName) throws FindException;
 	
+	/**
+	 * 선택한 해시태그에 해당하는 팀 리스트를 반환한다
+	 * @param hashtag 해시태그
+	 * @param startRow 시작행번호
+	 * @param endRow 끝행번호
+	 * @return 팀 리스트
+	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
+	 */
 	List<TeamDTO> selectHashtag(String hashtag, int startRow, int endRow) throws FindException;
 	
-	
 	/**
-	 * 해시태그에 해당하는 팀을 검색한다
-	 * @param hashtag 해시태그
-	 * @return 팀객체
+	 * 해당 검색어를 포함하는 팀 리스트를 반환한다
+	 * @param table 팀 해시태그, 팀 테이블
+	 * @param column 해시태그, 팀명
+	 * @param data 해시태그, 팀명
+	 * @param startRow 시작행번호
+	 * @param endRow 끝행번호
+	 * @return 팀 리스트
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	List<TeamDTO> selectByData(String table, String column, String data, int startRow, int endRow) throws FindException;
 	
 	/**
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @param startRow
-	 * @param endRow
-	 * @return
-	 * @throws FindException
+	 * 선택한 스터디 날짜에 해당하는 팀 리스트를 반환한다
+	 * @param column 인기순, 최신순
+	 * @param startDate 시작날짜
+	 * @param endDate 종료날짜
+	 * @param startRow 시작행번호
+	 * @param endRow 끝행번호
+	 * @return 팀 리스트
+	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	List<TeamDTO> selectByDate(String column, String startDate, String endDate, int startRow, int endRow) throws FindException;
 
 	/**
-	 * 조건에 맞는 팀을 조회한다
-	 * @return 팀객체
+	 * 인기순/최신순 전체 팀 리스트를 반환한다
+	 * @param column 조회수, 팀 생성일
+	 * @param startRow 시작행번호
+	 * @param endRow 끝행번호
+	 * @return 팀 리스트
 	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	List<TeamDTO> selectByCondition(String column, int startRow, int endRow) throws FindException;
 
 	/**
-	 * 팀을 추가한다
-	 * @param c 팀객체
+	 * 팀을 생성한다
+	 * @param params 팀 객체, 팀 해시태그 객체
 	 * @throws AddException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	void createTeam(Map<String, Object> params) throws AddException;
 
 	/**
-	 * 팀정보를 수정한다
-	 * @param teamNo 팀번호
+	 * 팀 정보를 수정한다
+	 * @param team 팀 객체
 	 * @throws ModifyException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	void updateTeam(TeamDTO team) throws ModifyException;
 
 	/**
-	 * 
-	 * @param teamNo
-	 * @return
-	 * @throws FindException
+	 * 팀의 해시태그를 조회한다
+	 * @param teamNo 팀번호
+	 * @return 팀 해시태그 객체
+	 * @throws FindException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	List<TeamHashtagDTO> selectTeamHashtag(int teamNo) throws FindException;
 	
 	/**
-	 * 
-	 * @param hashtag
-	 * @throws RemoveException
+	 * 팀 해시태그를 삭제한다
+	 * @param teamNo 팀번호
+	 * @throws RemoveException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	void deleteHashtag(int teamNo) throws RemoveException;
 
 	/**
-	 *
-	 * @param hashtag
-	 * @throws ModifyException
+	 * 팀 해시태그를 수정한다
+	 * @param params 팀 해시태그 객체
+	 * @throws ModifyException DB와의 연결실패 또는 제약조건위배일 경우 예외발생한다
 	 */
 	void updateHashtag(Map<String, Object> params) throws ModifyException;
 
