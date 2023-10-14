@@ -37,15 +37,6 @@ public class SignupController extends CustomerController {
 		// map에 넣을
 		Map<String, Object> map = new HashMap<>();
 
-//		// 요청 전달데이터 얻기
-//		String id = req.getParameter("id");
-//		String pwd = req.getParameter("pwd");
-//		String nickname = req.getParameter("nickname");
-//		String name = req.getParameter("name");
-//		String birthday = req.getParameter("birthday");
-//		String phone = req.getParameter("phone");
-//		String email = req.getParameter("email");
-
 		try {
 
 			Attach attach = new Attach(req);
