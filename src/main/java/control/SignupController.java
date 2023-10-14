@@ -22,7 +22,7 @@ public class SignupController extends CustomerController {
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// CORS 문제 해결
-		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 //		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 
@@ -34,17 +34,7 @@ public class SignupController extends CustomerController {
 		// jackson 라이브러리에서 제공하는 ObjectMapper 클래스 사용하기
 		ObjectMapper mapper = new ObjectMapper(); // JSON 문자열 만드는 API
 
-		// map에 넣을
 		Map<String, Object> map = new HashMap<>();
-
-//		// 요청 전달데이터 얻기
-//		String id = req.getParameter("id");
-//		String pwd = req.getParameter("pwd");
-//		String nickname = req.getParameter("nickname");
-//		String name = req.getParameter("name");
-//		String birthday = req.getParameter("birthday");
-//		String phone = req.getParameter("phone");
-//		String email = req.getParameter("email");
 
 		try {
 
