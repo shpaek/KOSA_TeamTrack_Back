@@ -108,14 +108,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 		// ================ create 메서드 테스트 =========================
 		CustomerDTO dto = new CustomerDTO();
 
-		dto.setId("test99");
+//		dto.getId("test99");
 		dto.setPwd("test99");
 		dto.setNickname("test99");
 		dto.setName("test99");
 		dto.setBirthday("1993-05-04");
 		dto.setPhone("01011112222");
 		dto.setEmail("dd@naver.com");
-//		dto.setStatus(1);
+		dto.setStatus(1);
 
 		try {
 			customerDAOImpl.create(dto);

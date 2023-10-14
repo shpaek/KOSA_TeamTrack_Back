@@ -42,7 +42,7 @@ public class RankListJsonController extends RankController {
 			
 			//정상 처리되지 못했을 때 메세지 띄우기
 			Map<String, String> map = new HashMap<>();
-			map.put("msg", e.getMessage());
+			map.put("msg", "랭킹 정보 조회에 실패하였습니다");
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
 		}
