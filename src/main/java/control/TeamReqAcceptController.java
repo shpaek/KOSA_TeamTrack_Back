@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.ModifyException;
 
+
 public class TeamReqAcceptController extends TeamController {
 
     // 가입 승인&거절용 컨트롤러
