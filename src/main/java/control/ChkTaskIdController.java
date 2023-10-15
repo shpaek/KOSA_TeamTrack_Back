@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
@@ -24,10 +25,11 @@ public class ChkTaskIdController extends TaskController {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
+		String loginedId=request.getParameter("id");
 //		String loginedId=(String)session.getAttribute("loginedId");
 		
 		//Integer teamNo=9999;
-		String loginedId="cjs1231";
+//		String loginedId="cjs1231";
 //		String loginedId="ksh0110";
 		Map<String, Object> map=new HashMap<>();
 		
