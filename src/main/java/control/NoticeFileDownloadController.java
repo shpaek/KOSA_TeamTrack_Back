@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class NoticeFileDownloadController implements Controller {
 	@Override
@@ -19,9 +20,9 @@ public class NoticeFileDownloadController implements Controller {
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setContentType("application/octet-stream;charset=UTF-8");
 		
-		//HttpSession session = request.getSession();
-		//String loginedId = (String)session.getAttribute("loginedId");
-		String loginedId = "psh2023";
+		HttpSession session = request.getSession();
+		String loginedId = (String)session.getAttribute("loginedId");
+		//String loginedId = "psh2023";
 
 		ServletOutputStream sos = response.getOutputStream();
 
