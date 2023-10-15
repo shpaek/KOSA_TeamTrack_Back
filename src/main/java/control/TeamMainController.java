@@ -64,7 +64,6 @@ public class TeamMainController extends TeamController {
             Cookie[] cookies = request.getCookies(); // 쿠키 가져와서 배열에 저장해줌
             Cookie isViewCookie = null; // 특정 쿠키 존재 확인용
 
-            System.out.println("Checking cookies...1");
             // 쿠키 배열 안비어있으면 특정 쿠키 잇는지 확인!
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
@@ -75,13 +74,10 @@ public class TeamMainController extends TeamController {
                 } // for
             } // outer-if
 
-            System.out.println("Checking cookies...2");
             // 방문 안함
             if (isViewCookie == null) {
                 // 쿠키가 없다면 조회수를 증가
-            	System.out.println("No cookie found for this team. Increasing view count...");
                 service.updateViewCnt(teamNo);
-                System.out.println("Creating new cookie...");
 
                 // 쿠키 생성 및 설정
                 Cookie newCookie = new Cookie(viewedCookie, "viewed");	// 방문했다고 나타내줌
