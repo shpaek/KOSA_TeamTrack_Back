@@ -8,17 +8,17 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
 import com.my.qna.dto.QnaBoardDTO;
 import com.my.util.PageGroup;
 
-public class QnaBoardListController extends QnaController {
+public class QnaBoardMemberChkController extends QnaController {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
 		
 		// CORS 문제 해결
 		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
@@ -33,27 +33,36 @@ public class QnaBoardListController extends QnaController {
 		ObjectMapper mapper = new ObjectMapper(); // JSON 문자열 만드는 API
 		
 		// 요청 전달데이터 얻기
-		String currentPage = req.getParameter("currentPage");
-		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
+		HttpSession session=req.getSession();
+		String loginedId=(String)session.getAttribute("loginedId");
+		Integer teamNo=Integer.parseInt(req.getParameter("teamNo"));
+		
+		System.out.println("member  = " + loginedId);
+		System.out.println("teamNo  = " + teamNo);
 
-		System.out.println("teamNo =================> " + teamNo);
-		
-		int cp = 1;
-		
-		if(currentPage != null && !currentPage.equals("")) {
-			cp = Integer.parseInt(currentPage);
-		} // if
+		Map<String, Object> map=new HashMap<>();
 		
 		try {
 			
-			PageGroup<QnaBoardDTO> pg = service.selectAll(teamNo, cp);
-			
-			String jsonStr = mapper.writeValueAsString(pg);
-			out.print(jsonStr);
-			
+			Integer memberInfo = service.selectTeamMemberStatus(loginedId, teamNo);
+
+			if(memberInfo != 0) {
+				map.put("status", 1);
+				map.put("memberInfo", memberInfo);
+			} else {
+				map.put("status", 0);
+				map.put("msg", "회원만 게시글 작성 가능합니다");
+			}
+
 		} catch (FindException e) {
 			e.printStackTrace();	
+			map.put("status", "0");
+			map.put("msg", e.getMessage());
 		} // try-catch
+		
+		String jsonStr = mapper.writeValueAsString(map);
+		out.print(jsonStr);
+		
 		
 		return null;
 		

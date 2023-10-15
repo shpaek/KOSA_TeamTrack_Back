@@ -29,11 +29,10 @@ public class TaskDownloadController extends TaskController {
 //		Integer taskNo=7;
 		System.out.println(taskNo);
 		
-		String dir="/Users/qqllzs/Desktop/downloadfile";
+		String dir="/Users/qqllzs/filetest";
 		String fileName="과제"+teamNo+"_"+taskNo+".";
 		System.out.println(fileName);
 		File fileDir=new File(dir);
-		boolean exist=false;
 		
 		
 		for(File file:fileDir.listFiles()) {
@@ -42,7 +41,6 @@ public class TaskDownloadController extends TaskController {
 			System.out.println(originName);
 			if(originName.startsWith(fileName)) {
 				System.out.println(originName);
-				exist=true;
 				response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(originName, "UTF-8"));
 				FileInputStream fis=new FileInputStream(file);
 				int readValue=-1;
