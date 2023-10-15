@@ -175,11 +175,7 @@ public class TeamManageController extends TeamController {
 						//attach.upload("f1", teamNo + "_profile"+originFileName);
 						String format = originFileName.substring(originFileName.lastIndexOf(".")+1);
 						System.out.println(format);
-						if(format.equals("jpg")){
-							attach.upload("f1", teamNo + "_profile.jpg");
-						}else {
-							attach.upload("f1", teamNo + "_profile.png");
-						}
+						attach.upload("f1", teamNo + "_profile.png");
 					} catch(Exception e) {
 
 					}
