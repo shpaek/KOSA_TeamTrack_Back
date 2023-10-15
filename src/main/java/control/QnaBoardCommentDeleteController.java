@@ -62,7 +62,11 @@ public class QnaBoardCommentDeleteController extends QnaController {
 			
 		} // try-catch
 
-		out.print(mapper.writeValueAsString(map));
+		String jsonStr = mapper.writeValueAsString(map);
+		out.print(jsonStr);
+		
+		System.out.println(jsonStr);
+
 
 		return null;
 	} // execute

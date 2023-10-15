@@ -25,9 +25,10 @@ public class AllTaskListController extends TaskController {
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		String currentPage = request.getParameter("currentPage");
 //		System.out.println(currentPage);
-//		String option=request.getParameter("option");
+		//int option=Integer.parseInt(request.getParameter("desc"));
+		//System.out.println(option);
 //		boolean desc=true;
-//		if(!option.equals("최신순")) desc=false;
+//		if(option==2) desc=false;
 		int cp = 1;
 		if (currentPage != null && !currentPage.equals("")) {
 			cp = Integer.parseInt(currentPage);
@@ -35,10 +36,10 @@ public class AllTaskListController extends TaskController {
 
 //		Integer teamNo=9999;
 //		int cp=1;
-		boolean desc=true;
+		//boolean desc=true;
 
 		try {
-			PageGroup<TaskDTO> pg = service.findAllTaskList(teamNo, cp, desc);
+			PageGroup<TaskDTO> pg = service.findAllTaskList(teamNo, cp, true);
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
 		} catch (FindException e) {

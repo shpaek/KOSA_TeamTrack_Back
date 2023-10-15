@@ -33,7 +33,7 @@ public class QnaBoardListController extends QnaController {
 		String currentPage = req.getParameter("currentPage");
 		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
 
-		System.out.println("teamNo ===================> " + teamNo);
+		System.out.println("teamNo =================> " + teamNo);
 		
 		int cp = 1;
 		
