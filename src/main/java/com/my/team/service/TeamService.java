@@ -342,6 +342,14 @@ public interface TeamService {
 	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException;
 	
 	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 현재 팀원들 정보 확인 (아이디, 닉네임, 자기소개) 팀장뺴고!!!!!!
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<Map<String, Object>> selectTeamMemberInfo(Integer teamNo) throws FindException;
+	
+	/**
 	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
 	 * @param map
 	 * @throws ModifyException
