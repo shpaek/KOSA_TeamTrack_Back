@@ -34,8 +34,6 @@ public class QnaBoardCommentCreateController extends QnaController {
 		// 요청 전달데이터 얻기
 		// =====================  여기 session 받아와야하니까 마지막에 수정해야함
 		HttpSession session = req.getSession();
-//		String loginedId = (String)session.getAttribute("loginedId");
-//		String loginedId = "psh2023";
 		
 		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
 		Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
@@ -77,10 +75,15 @@ public class QnaBoardCommentCreateController extends QnaController {
 			dto.setTeammemberId(teammemberId);
 
 			commentService.insert(teamNo, dto);
+			
+			map.put("status", 1);
+			map.put("msg", "댓글이 작성되었습니다.");
 
 			} catch (Exception e) {
 				
 			e.printStackTrace();
+			map.put("status", 0);
+			map.put("msg", "회원만 댓글을 작성할 수 있습니다");
 			
 			}
 		

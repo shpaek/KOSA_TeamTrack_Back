@@ -42,6 +42,13 @@ public class SetTaskController extends TaskController {
 				return null;
 			}
 			
+			if(titletest.length()>30) {
+				map.put("status", 0);
+				map.put("msg", "타이틀을 30자 이내로 입력하세요");
+				out.print(mapper.writeValueAsString(map));
+				return null;
+			}
+			
 			if(answer.isEmpty()) {
 				map.put("status", 0);
 				map.put("msg", "답안을 올바르게 입력하세요");

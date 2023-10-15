@@ -27,10 +27,10 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	@Override
 	public void create(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws AddException {
 		
-		System.out.println( " =================== service ==================== " + qnaBoardDTO.getId());
-		System.out.println( " =================== service ==================== " + qnaBoardDTO.getTitle());
-		System.out.println( " =================== service ==================== " + qnaBoardDTO.getContent());
-		
+//		System.out.println( " =================== service ==================== " + qnaBoardDTO.getId());
+//		System.out.println( " =================== service ==================== " + qnaBoardDTO.getTitle());
+//		System.out.println( " =================== service ==================== " + qnaBoardDTO.getContent());
+//		
 		qnaBoardDAO.create(teamNo, qnaBoardDTO);
 
 	} // create
@@ -50,7 +50,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		startRow = (currentPage -1)*cntPerPage +1;
 		endRow = currentPage*cntPerPage;
 		
-		System.out.println("service teamNO ============> " + teamNo);
+//		System.out.println("service teamNO ============> " + teamNo);
 		
 		List<QnaBoardDTO> list = qnaBoardDAO.selectAll(teamNo, startRow, endRow);
 		
@@ -77,8 +77,8 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	@Override
 	public Integer update(Integer teamNo, QnaBoardDTO qnaBoardDTO) throws ModifyException {
 
-		System.out.println( " =================== service ==================== " + qnaBoardDTO.getTitle());
-		System.out.println( " =================== service ==================== " + qnaBoardDTO.getContent());
+//		System.out.println( " =================== service ==================== " + qnaBoardDTO.getTitle());
+//		System.out.println( " =================== service ==================== " + qnaBoardDTO.getContent());
 
 		qnaBoardDAO.update(teamNo, qnaBoardDTO);
 
@@ -93,9 +93,18 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		return null;
 	} // delete
 	
+	@Override
+	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
+		
+		return qnaBoardDAO.selectTeamMemberStatus(id, teamNo);
+		
+	} // selectTeamMemberStatus
+	
+	
 	// ------------ 테스트 -------------
 	
-	 public static void main(String[] args) {
+
+	public static void main(String[] args) {
 		 
 	        QnaBoardServiceImpl service = new QnaBoardServiceImpl();
 
