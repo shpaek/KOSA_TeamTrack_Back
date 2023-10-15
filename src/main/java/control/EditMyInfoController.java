@@ -24,10 +24,11 @@ public class EditMyInfoController extends CustomerController{
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		request.setCharacterEncoding("UTF-8");
 		
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
+//		HttpSession session = request.getSession();
+//		String loginedId = (String)session.getAttribute("loginedId");
 		
 		//String loginedId = "psh2023";
+		String id = URLDecoder.decode(request.getParameter("id"), "UTF-8");
 		String name =  URLDecoder.decode(request.getParameter("username"), "UTF-8");
 		String birthday =  request.getParameter("birthday");
 		String phone =  request.getParameter("phone");
@@ -41,7 +42,7 @@ public class EditMyInfoController extends CustomerController{
 		try {
 			
 			CustomerDTO customer = new CustomerDTO(name, birthday, phone, email);
-			service.modifyMyInfo(loginedId, customer);
+			service.modifyMyInfo(id, customer);
 			map.put("status", 1);
 			map.put("msg", "정보가 수정되었습니다");
 		} catch (Exception e) {
