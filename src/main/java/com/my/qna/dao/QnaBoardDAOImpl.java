@@ -256,6 +256,33 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 		} // try-catch-finally
 
 	} // delete
+	
+	@Override
+	public Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException {
+		
+		SqlSession session = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("id", id);
+		map.put("teamNo", teamNo);
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			int selectedTeamMemberStatus = session.selectOne("com.my.qna.QnaBoardMapper.selectTeamMemberStatus", map);
+
+				return selectedTeamMemberStatus;
+			
+		} catch(Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+
+	}
 
 	// ===================  메서드 테스트 =======================
 	public static void main(String[] args) {

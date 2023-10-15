@@ -40,8 +40,13 @@ public class RankServiceImpl implements RankService {
 	}
 	
 	@Override
+	public List<TeamMemberDTO> findMemberId(Integer teamNo, Integer month) throws FindException {
+		return rankDao.selectMemberId(teamNo, month);
+	}
+	
+	@Override
 	public Map<String, Object> calculateTotalScore(Integer teamNo, String rankDate, Integer month) throws FindException {
-		List<TeamMemberDTO> tmlist = rankDao.selectMemberId(teamNo);
+		List<TeamMemberDTO> tmlist = rankDao.selectMemberId(teamNo, month);
 		List<AttendanceDTO> attlist = rankDao.selectAttendanceDay(teamNo, rankDate, month);
 		List<TaskDTO> tasknumlist = rankDao.countMonthlyTask(teamNo, month);
 		List<MemberTaskDTO> mtlist = rankDao.selectTaskScore(teamNo, month);
@@ -116,7 +121,7 @@ public class RankServiceImpl implements RankService {
 	}
 
 	@Override
-	public void insertRankInfo(Integer teamNo, String id) throws AddException {
+	public void addRankInfo(Integer teamNo, String id) throws AddException {
 		rankDao.insertRankInfo(teamNo, id);
 	}
 	

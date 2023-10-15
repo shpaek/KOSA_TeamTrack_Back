@@ -47,16 +47,32 @@ public class LoginController extends CustomerController {
 		try {
 			service.login(id, pwd);
 			
-			System.out.println("===============> id : "+ id);
-			map.put("id", id);
-
-			map.put("status", 0);
-			map.put("msg", "로그인 되었습니다");
+			CustomerDTO dto = service.selectNickName(id);
+	        int memberstatus = dto.getStatus();
+	        
+	        if (memberstatus == 1) {
+	            map.put("id", id);
+	            map.put("status", 0);
+	            map.put("msg", "로그인 되었습니다");
+	            session.setAttribute("loginedId", id);
+	        } else {
+	            map.put("status", 2); // 탈퇴된 회원 상태
+	            map.put("msg", "탈퇴된 회원입니다");
+	        }
+	        if (memberstatus == 1) {
+	            map.put("id", id);
+	            session.setAttribute("loginedId", id);
+	        }
+//			map.put("id", id);
+//			map.put("status", 0);
+//			map.put("msg", "로그인 되었습니다");
 
 			// session에 loginedId 설정
-			session.setAttribute("loginedId", id);
+//			session.setAttribute("loginedId", id);
 			
 			System.out.println("Session ID: " + session.getId());
+			
+			
 			
 			//서현 추가(로그인 시 닉네임도 저장)
 			CustomerDTO customerDTO = service.selectNickName(id);
