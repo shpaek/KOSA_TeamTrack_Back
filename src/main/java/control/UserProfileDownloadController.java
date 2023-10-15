@@ -20,7 +20,7 @@ public class UserProfileDownloadController implements Controller {
 		
 		HttpSession session = request.getSession();
 		String loginedId = (String)session.getAttribute("loginedId");
-//		String loginedId = "psh2023";
+		//String loginedId = "psh2023";
 
 		ServletOutputStream sos = response.getOutputStream();
 		
