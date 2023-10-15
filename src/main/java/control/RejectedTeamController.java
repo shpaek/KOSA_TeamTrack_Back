@@ -21,10 +21,8 @@ public class RejectedTeamController extends TeamController {
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-		//String loginedId = "nwh2023";
-		
+		String loginedId = request.getParameter("loginedId");
+				
 		ObjectMapper mapper = new ObjectMapper();
 		PrintWriter out = response.getWriter();
 		

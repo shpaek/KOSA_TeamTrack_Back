@@ -24,12 +24,9 @@ public class MainNoticeController extends NoticeController{
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
-		
-		//HttpSession session = request.getSession();
-		//String loginedId = (String)session.getAttribute("loginedId");
+
 		String loginedId = request.getParameter("loginedId");
-		System.out.println(loginedId);
-		//String loginedId = "nwh2023";
+
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
