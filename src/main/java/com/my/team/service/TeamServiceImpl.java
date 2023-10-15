@@ -355,7 +355,6 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public String determineUserRole(String id, int teamNo) throws Exception {
 		
-		
 	    int isMember = teamDAO.selectTeamMemberStatus(id, teamNo); // return값이 1이면 팀원 O, 1이 아닌 다른 값이면 팀원 X
 	    int isLeader = service.leaderChk(id, teamNo); // return값: memStatus = 1이면 팀장 O
 	     
@@ -459,6 +458,11 @@ public class TeamServiceImpl implements TeamService {
 	public List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException {
 		return teamDAO.selectMemberInfo(teamNo);
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectTeamMemberInfo(Integer teamNo) throws FindException {
+		return teamDAO.selectTeamMemberInfo(teamNo);
+	}
 
 	@Override
 	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
@@ -503,6 +507,11 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException {
 		teamDAO.insertExaminer(taskDTO, teamNo);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectExaminer(Integer teamNo) throws FindException {
+		return teamDAO.selectExaminer(teamNo);
 	}
 
 } // end class

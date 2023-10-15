@@ -24,6 +24,8 @@ public class NoticeDetailController extends NoticeController{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 
+		String loginedId=request.getParameter("loginedId");	
+
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		

@@ -30,13 +30,13 @@ import com.my.rank.dto.RankDTO;
 import com.my.team.dto.TeamMemberDTO;
 import com.my.util.ValueComparator;
 
-public class RankListController extends RankController {
+public class RankListController_copy extends RankController {
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json; charset=utf-8");
-//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500"); //http://127.0.0.1:5500
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500"); //http://127.0.0.1:5500
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		//응답 출력 스트림 얻기
@@ -63,21 +63,25 @@ public class RankListController extends RankController {
 
 			//랭킹 DB에 담겨져 있지 않았던 id는 추가해준다
 			List<RankDTO> rankall = service.findAllRank(teamNo);
-
+			Set<RankDTO> rankSet = new HashSet<>(rankall);
+			
 			for (RankDTO dto : list) {
-				boolean add = true;
-				for (RankDTO dto1 : rankall) {
-					if (dto.getId().equals(dto1.getId()) && dto.getMonth().equals(dto1.getMonth())) {
-						add = false;
-						break;
-					}
-				}
-				if (add) {
+				if (!rankSet.contains(dto)) {
 					service.addRankInfo(teamNo, dto.getId());
-					service.modifyRankInfo(teamNo, rankDate, dto.getRank(), dto.getTotalScore(), dto.getId(), month);
 					System.out.println("추가 성공");
 				}
 			}
+			
+//			String id = null;
+//			for (RankDTO dto1 : rankall) {
+//				id = dto1.getId();
+//				for(RankDTO dto : list) {
+//					if (!(dto.getId().equals(id) && dto.getMonth().equals(month))) {
+//						service.addRankInfo(teamNo, dto.getId());
+//						System.out.println("추가 성공");
+//					}
+//				}		
+//			}
 			
 			//id별 총점 가져오기
 			Map<String, Object> scoremap = service.calculateTotalScore(teamNo, rankDate, month);
@@ -113,11 +117,50 @@ public class RankListController extends RankController {
 			ranklist.add(rankmap);
 			System.out.println("ranklist" + ranklist);
 			
-			// 기존에 있는 멤버에는 업데이트한 정보를 Rank DB에 저장한다
+			// 정보가 없으면 새로 추가해주고, 기존에 있는 멤버에는 업데이트한 정보를 Rank DB에 저장한다
 			Integer rank = null;
 			Double totalScore = null;
 			String rankid = null;
+//			Integer rankmonth = null;
+//			List<TeamMemberDTO> tmlist = service.findMemberId(teamNo, month);
+//			
+//			for (TeamMemberDTO tmdto : tmlist) {
+//				String memberid = tmdto.getId();
+//				Integer newmonth = tmdto.getMonth();
+//				
+//				RankDTO matchingRank = null;
+//				for (RankDTO dto : dtolist) {
+//					rank = dto.getRank();
+//					totalScore = dto.getTotalScore();
+//					id = dto.getId();
+//					rankmonth = dto.getMonth();
+//					
+//					if (memberid.equals(id) && newmonth.equals(rankmonth)) {
+//						matchingRank = dto;
+//						break;
+//					}
+//				}
+//				
+//				if (matchingRank != null) {
+//					service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+//				} else {
+//					service.addRankInfo(teamNo, memberid);
+//					service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+//				}
+//			}		
 			
+//			List<RankDTO> allrank = service.findAllRank(teamNo);
+//			for (RankDTO dto1 : list) {
+//				for (RankDTO dto : allrank) {
+//					if ((!dto1.getId().equals(dto.getId())) && (!dto1.getMonth().equals(dto.getMonth()))) {
+//						service.addRankInfo(teamNo, dto1.getId());
+//					} else {
+//						service.modifyRankInfo(teamNo, rankDate, rank, totalScore, rankid, month);
+//					}
+//				}
+//			}
+			
+			// 기존에 있던 id에는 정보를 업데이트 해준다
 			for (RankDTO dto : dtolist) {
 				rank = dto.getRank();
 				totalScore = dto.getTotalScore();
@@ -140,7 +183,8 @@ public class RankListController extends RankController {
 			map.put("msg", "랭킹 정보 업데이트에 실패하였습니다");
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
-		} catch (AddException e) {
+		} 
+		catch (AddException e) {
 			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", "랭킹 정보 추가에 실패하였습니다");

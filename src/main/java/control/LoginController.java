@@ -20,11 +20,11 @@ public class LoginController extends CustomerController {
    public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// CORS 문제 해결
-		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 //		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-//		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-
+////		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+////		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.105:5500");
+//		res.setHeader("Access-Control-Allow-Credentials", "true");
+//
       res.setContentType("application/json; charset=utf-8");
 
       // 응답 출력스트림 얻기
@@ -46,42 +46,44 @@ public class LoginController extends CustomerController {
 
 		try {
 			service.login(id, pwd);
-			
+
 			CustomerDTO dto = service.selectNickName(id);
-	        int memberstatus = dto.getStatus();
+			
+			if(dto != null ) {
+				String dbPwd = dto.getPwd();
+
+				if(pwd.equals(dbPwd)) {
+					int memberstatus = dto.getStatus();
+					
+					if (memberstatus == 1) {
+						map.put("id", id);
+						map.put("status", 0);
+						map.put("msg", "로그인 되었습니다");
+						session.setAttribute("loginedId", id);
+					} else {
+						map.put("status", 2); // 탈퇴된 회원 상태
+						map.put("msg", "탈퇴된 회원입니다");
+					}
+					if (memberstatus == 1) {
+						map.put("id", id);
+						session.setAttribute("loginedId", id);
+					}
+					
+					System.out.println("Session ID: " + session.getId());
+					
+					//서현 추가(로그인 시 닉네임도 저장)
+					CustomerDTO customerDTO = service.selectNickName(id);
+					String nickname = customerDTO.getNickname();
+					map.put("nickname", nickname);
+					//
+				} else {
+					map.put("status", 1);
+					map.put("msg", "다시 로그인 해주세요.");
+				}
+			} // if	
 	        
-	        if (memberstatus == 1) {
-	            map.put("id", id);
-	            map.put("status", 0);
-	            map.put("msg", "로그인 되었습니다");
-	            session.setAttribute("loginedId", id);
-	        } else {
-	            map.put("status", 2); // 탈퇴된 회원 상태
-	            map.put("msg", "탈퇴된 회원입니다");
-	        }
-	        if (memberstatus == 1) {
-	            map.put("id", id);
-	            session.setAttribute("loginedId", id);
-	        }
-//			map.put("id", id);
-//			map.put("status", 0);
-//			map.put("msg", "로그인 되었습니다");
-
-			// session에 loginedId 설정
-//			session.setAttribute("loginedId", id);
-			
-			System.out.println("Session ID: " + session.getId());
-			
-			
-			
-			//서현 추가(로그인 시 닉네임도 저장)
-			CustomerDTO customerDTO = service.selectNickName(id);
-			String nickname = customerDTO.getNickname();
-			map.put("nickname", nickname);
-			//
-
-         System.out.println(session);
-      } catch (FindException e) {
+				System.out.println(session);
+			} catch (FindException e) {
          e.printStackTrace();
          map.put("status", 1);
          map.put("msg", "다시 로그인해주세요.");

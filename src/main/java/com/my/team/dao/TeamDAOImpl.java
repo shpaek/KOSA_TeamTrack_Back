@@ -987,6 +987,29 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // selectMemberInfo()
+	
+	@Override
+	public List<Map<String, Object>> selectTeamMemberInfo(Integer teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			// map 객체에 teamNo 값을 넣어서 전달
+			Map<String, Object> map = new HashMap<>();
+			map.put("teamNo", teamNo);
+
+			List<Map<String, Object>> selectedMemberInfo = session.selectList("com.my.team.TeamMapper.selectTeamMemberInfo", map);
+
+			return selectedMemberInfo;
+		} catch (Exception e) {
+			throw new FindException("선택하신 팀에 팀원 내역이 존재하지 않습니다.");
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectTeamMemberInfo()
 
 	// 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
 	@Override
@@ -1121,14 +1144,26 @@ public class TeamDAOImpl implements TeamDAO {
 	    try {
 	        session = sqlSessionFactory.openSession();
 
-	        session.update("com.my.team.TeamMapper.updateRequestInfoApprove", map);
-	        session.insert("com.my.team.TeamMapper.insertRequestInfoApprove", map);
+	        // 얘가 탈퇴했는지 안했는지 먼저 확인
+	        Integer status = session.selectOne("com.my.team.TeamMapper.selectLeaveTeamMemberStatus", map);
 
-	        // 두 작업 모두 성공하면 커밋
+	        // 사용자의 데이터가 없거나 status가 0 또는 3인 경우에만 삽입을 진행
+	        if (status == null || status == 0 || status == 3) {
+	            session.update("com.my.team.TeamMapper.updateRequestInfoApprove", map);
+
+	            if (status != null && (status == 0 || status == 3)) {
+	                // 이미 데이터가 있는데 status가 0 또는 3인 경우, 데이터를 업데이트!
+	                session.update("com.my.team.TeamMapper.updateMemberStatus", map);
+	            } else {
+	                session.insert("com.my.team.TeamMapper.insertRequestInfoApprove", map);
+	            } // if-else
+	        } else {
+	            // 사용자의 데이터가 이미 있고 status가 1이나 2인 경우
+	            throw new Exception("이미 팀에 가입 중이거나 탈퇴 상태가 아닌 사용자입니다.");
+	        } // if-else
+
 	        session.commit();
-
 	    } catch (Exception e) {
-	        // 어떤 작업이든 실패하면 롤백
 	        if (session != null) {
 	            session.rollback();
 	        }
@@ -1137,7 +1172,7 @@ public class TeamDAOImpl implements TeamDAO {
 	        if (session != null) {
 	            session.close();
 	        }
-	    } // try-catch-finally
+	    }
 	} // approveRequest()
 
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 거절
@@ -1183,6 +1218,25 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // insertExaminer()
+	
+	@Override
+	public List<Map<String, Object>> selectExaminer(Integer teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			List<Map<String, Object>> examinerInfo = session.selectList("com.my.team.TeamMapper.selectExaminer", teamNo);
+
+			return examinerInfo;
+		} catch (Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectExaminer
 
 //	################ Test ################
 	

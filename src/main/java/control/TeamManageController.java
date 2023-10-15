@@ -25,8 +25,6 @@ public class TeamManageController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setContentType("application/json;charset=UTF-8");
 
 
@@ -175,11 +173,7 @@ public class TeamManageController extends TeamController {
 						//attach.upload("f1", teamNo + "_profile"+originFileName);
 						String format = originFileName.substring(originFileName.lastIndexOf(".")+1);
 						System.out.println(format);
-						if(format.equals("jpg")){
-							attach.upload("f1", teamNo + "_profile.jpg");
-						}else {
-							attach.upload("f1", teamNo + "_profile.png");
-						}
+						attach.upload("f1", teamNo + "_profile.png");
 					} catch(Exception e) {
 
 					}

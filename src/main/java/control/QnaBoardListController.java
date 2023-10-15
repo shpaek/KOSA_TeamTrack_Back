@@ -21,8 +21,8 @@ public class QnaBoardListController extends QnaController {
 		
 		
 		// CORS 문제 해결
-		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		res.setHeader("Access-Control-Allow-Credentials", "true");
+//		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		res.setContentType("application/json;charset=utf-8");
 		

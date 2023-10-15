@@ -21,7 +21,7 @@ public class TeamJoinController extends TeamController {
 			throws ServletException, IOException {
 
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -40,7 +40,10 @@ public class TeamJoinController extends TeamController {
 
 			service.insertSignUpTeam(signupTeamDTO);
 			
-			//팀 가입시 랭킹 정보도 업데이트하게 만들기 
+			//팀 가입시 랭킹 정보도 업데이트하게 만들기
+			Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+			String id = request.getParameter("id");
+			rankservice.addRankInfo(teamNo, id);
 
 			map.put("status", 1);
 			map.put("msg", "팀 가입 요청 성공");

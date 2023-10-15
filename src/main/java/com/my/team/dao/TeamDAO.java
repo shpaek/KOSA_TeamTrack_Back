@@ -400,6 +400,14 @@ public interface TeamDAO {
 	List<Map<String, Object>> selectMemberInfo(Integer teamNo) throws FindException;
 	
 	/**
+	 * 팀 관리 페이지(현재 팀원 관리) - 현재 팀원들 정보 확인(팀장 빼고!!!)
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<Map<String, Object>> selectTeamMemberInfo(Integer teamNo) throws FindException;
+	
+	/**
 	 * 팀 관리 페이지(현재 팀원 관리) - 팀원 방출#1
 	 * @param map
 	 * @throws Exception
@@ -463,5 +471,13 @@ public interface TeamDAO {
 	 * @throws ModifyException
 	 */
 	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
+	
+	/**
+	 * 출제자 조회
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<Map<String, Object>> selectExaminer(Integer teamNo) throws FindException;
 
 } // end interface

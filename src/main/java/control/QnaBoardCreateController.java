@@ -20,8 +20,8 @@ public class QnaBoardCreateController extends QnaController {
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// CORS 문제 해결
-		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		res.setHeader("Access-Control-Allow-Credentials", "true");
+//		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		res.setContentType("application/json;charset=utf-8");
 		
@@ -73,7 +73,7 @@ public class QnaBoardCreateController extends QnaController {
 			map.put("status", 0);
 			map.put("msg", e.getMessage());
 			
-		}
+		} // try-catch
 		
 		// JSON문자열 응답
 		String jsonStr = mapper.writeValueAsString(map);
