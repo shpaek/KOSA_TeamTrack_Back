@@ -36,7 +36,7 @@ public class DispatcherServlet extends HttpServlet {
 //		String realPath = sc.getRealPath("WEB-INF\\classes\\com\\my\\env\\" + envFileName); //window
 		String realPath = sc.getRealPath("WEB-INF/classes/com/my/env/" + envFileName); //mac
 
-		System.out.println("in DispathcerServlet의 init:() realPath = " + realPath);
+		System.out.println("in DispathcerServlet의 init:() realPath = " + realPath+"\n/Users/yoon/Documents/java_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/KOSA_TeamTrack_Back/WEB-INF/classes/com/my/env/control.properties");
 		// control.properties파일의 내용을 Properties객체에 넣기
 
 		try {

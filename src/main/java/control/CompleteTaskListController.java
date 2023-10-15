@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
@@ -22,7 +23,8 @@ public class CompleteTaskListController extends TaskController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 //		HttpSession session=request.getSession();
-
+		HttpSession session=request.getSession();
+		String loginedId=(String)session.getAttribute("loginedId");
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String loginedId=(String)session.getAttribute("loginedId");
 //
@@ -37,7 +39,8 @@ public class CompleteTaskListController extends TaskController {
 //		if(!option.equals("최신순")) desc=false;
 
 		//Integer teamNo=9999;
-		String loginedId="cjs1231";
+		//String loginedId=request.getParameter("id");
+		//String loginedId="cjs1231";
 //		int cp=1;
 		boolean desc=true;
 
