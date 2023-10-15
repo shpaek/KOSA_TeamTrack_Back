@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.notice.dto.NoticeDTO;
@@ -59,8 +59,40 @@ public class TeamMainController extends TeamController {
             methodMap.put("nicknameList", nicknameList);
 
             // 팀 조회수 카운트 업데이트
-            service.updateViewCnt(teamNo);
+            String viewedCookie = "viewedTeam_" + teamNo; // 팀 별로 고유한 쿠키 만들어줌
             
+            Cookie[] cookies = request.getCookies(); // 쿠키 가져와서 배열에 저장해줌
+            Cookie isViewCookie = null; // 특정 쿠키 존재 확인용
+
+            System.out.println("Checking cookies...1");
+            // 쿠키 배열 안비어있으면 특정 쿠키 잇는지 확인!
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals(viewedCookie)) {
+                    	isViewCookie = cookie;
+                        break;
+                    } // if
+                } // for
+            } // outer-if
+
+            System.out.println("Checking cookies...2");
+            // 방문 안함
+            if (isViewCookie == null) {
+                // 쿠키가 없다면 조회수를 증가
+            	System.out.println("No cookie found for this team. Increasing view count...");
+                service.updateViewCnt(teamNo);
+                System.out.println("Creating new cookie...");
+
+                // 쿠키 생성 및 설정
+                Cookie newCookie = new Cookie(viewedCookie, "viewed");	// 방문했다고 나타내줌
+                newCookie.setMaxAge(24 * 60 * 60); // 유효시간 하루
+                newCookie.setPath("/HTML/");
+//                newCookie.setPath("/");	// 쿠키 경로 = 웹사이트 경로
+                response.addCookie(newCookie); // 사용자 웹 브라우저에 저장
+            } // if
+            
+            System.out.println(viewedCookie);
+
             // 팀 조회수 가져오기
             int teamViewCnt = service.selectViewCnt(teamNo);
             methodMap.put("teamViewCnt", teamViewCnt);
