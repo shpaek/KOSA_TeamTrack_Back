@@ -48,11 +48,14 @@ public class WriteNoticeController extends NoticeController {
 				mainStatus = 1;
 				NoticeDTO mainNotice = service.findMainNotice(teamNo);
 				if(mainNotice!=null) {
-					map.put("mainmsg", "이미 메인공지가 존재합니다\n기존 메인공지를 내린 후 등록하세요");
+					map.put("mainmsg", "이미 메인공지 등록에는 실패하였습니다. 기존 메인공지를 내린 후 등록하세요!");
 					mainStatus=0;
+					mainChk=0;
 				}else {
 					mainChk=1;
 				}
+			}else {
+				mainChk=1;
 			}
 			NoticeDTO notice = new NoticeDTO(noticeTitle, regDate, noticeContent, mainStatus);
 			noticeNo = service.writeNotice(teamNo, notice);

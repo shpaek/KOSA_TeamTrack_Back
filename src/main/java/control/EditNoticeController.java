@@ -58,6 +58,8 @@ public class EditNoticeController extends NoticeController{
 				}else {
 					mainChk = 1;
 				}
+			}else {
+				mainChk=1;
 			}
 			
 			NoticeDTO notice = new NoticeDTO(noticeNo, noticeTitle, noticeContent, mainStatus);
