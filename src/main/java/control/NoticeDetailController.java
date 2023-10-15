@@ -50,7 +50,7 @@ public class NoticeDetailController extends NoticeController{
 				for(File file : dir.listFiles()) {
 					String existFileName = file.getName();
 					if(existFileName.startsWith(findName)) {
-						fileName = existFileName;
+						fileName = existFileName.replaceFirst(findName,"");
 						break;
 					}
 				}
