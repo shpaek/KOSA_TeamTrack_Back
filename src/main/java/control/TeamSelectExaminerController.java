@@ -67,7 +67,7 @@ public class TeamSelectExaminerController extends TeamController {
 				statusMap.put("msg", "출제자 조회 실패");
 			} // if-else
 
-			// 출제자 선정 !!!!!!!
+			// 출제자 선정 !!!!
 			if ("selectExaminer".equals(action)) {
 
 				TaskDTO taskDTO = new TaskDTO();
