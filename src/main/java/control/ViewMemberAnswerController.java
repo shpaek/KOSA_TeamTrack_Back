@@ -31,7 +31,8 @@ public class ViewMemberAnswerController extends TaskController {
 		
 		//Integer teamNo=9999;
 //		Integer taskNo=1;
-		String loginedId="cjs1231";
+		//String loginedId="cjs1231";
+		String loginedId=request.getParameter("id");
 		Map<String, Object> map=new HashMap<>();
 		
 		try {

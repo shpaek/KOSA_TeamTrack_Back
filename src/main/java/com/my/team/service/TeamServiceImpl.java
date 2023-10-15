@@ -355,26 +355,19 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public String determineUserRole(String id, int teamNo) throws Exception {
 		
-//		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + id);
 		
 	    int isMember = teamDAO.selectTeamMemberStatus(id, teamNo); // return값이 1이면 팀원 O, 1이 아닌 다른 값이면 팀원 X
 	    int isLeader = service.leaderChk(id, teamNo); // return값: memStatus = 1이면 팀장 O
-	    
-//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isMember);
-//	    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + isLeader);
-	    
+	     
 	    if (isMember == 1) {				// 팀 멤버일 때,
 	    	
 	    	if (isLeader == 1) {			// 팀장이면,
-	    		return "leader";
+	    		return "teamLeader";
 	    	} 
-	    		
 	    	return "teamMember";	// 팀원이면,
-	    	
 	    } else {							// 일반 회원일 때
 	    	return "customer";
-	    } // if-else
-	    
+	    } // if-else 
 	}
 
 	@Override
@@ -443,6 +436,7 @@ public class TeamServiceImpl implements TeamService {
 	public void insertAttendanceById(Map<String, Object> map) throws AddException {
 		teamDAO.insertAttendanceById(map);
 	}
+	
 	
 	@Override
 	public void updateAttendanceCnt(Map<String, Object> map) throws ModifyException {

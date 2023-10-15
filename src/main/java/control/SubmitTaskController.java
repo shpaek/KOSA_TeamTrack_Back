@@ -30,7 +30,8 @@ public class SubmitTaskController extends TaskController {
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		System.out.println(taskNo);
 //		String id="khb2023";
-		String id="cjs1231";
+		//String id="cjs1231";
+		String id=request.getParameter("id");
 		String answer=request.getParameter("answerlist");
 		int answerCnt=Integer.parseInt(request.getParameter("answerCnt"));
 		System.out.println(answerCnt);
