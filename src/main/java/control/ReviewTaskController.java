@@ -24,9 +24,9 @@ public class ReviewTaskController extends TaskController {
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		int reviewScore=Integer.parseInt(request.getParameter("reviewScore"));
-		
+		String loginedId=request.getParameter("id");
 		try {
-			service.setReviewScore(teamNo, taskNo, "cjs1231", reviewScore);
+			service.setReviewScore(teamNo, taskNo, loginedId, reviewScore);
 			service.setAvgReviewScore(teamNo, taskNo);
 			
 			map.put("status", 1);
