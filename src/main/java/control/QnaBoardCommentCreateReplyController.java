@@ -35,21 +35,21 @@ public class QnaBoardCommentCreateReplyController extends QnaController {
 		// =====================  여기 session 받아와야하니까 마지막에 수정해야함
 		HttpSession session = req.getSession();
 //		String loginedId = (String)session.getAttribute("loginedId");
-		String loginedId = "psh2023";
+//		String loginedId = "psh2023";
 		
 		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
 		Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
 		Integer commentGroup = Integer.parseInt(req.getParameter("commentGroup"));
 //		Integer commentGroup = 11;
 		String content = req.getParameter("content");
-		String id = req.getParameter("id");
+		String teammemberId = req.getParameter("teammemberId");
 		
 		System.out.println("replyteamNo ===========" + teamNo);
 		System.out.println("reply qnaNo ============>" + qnaNo);
 		System.out.println("reply commentGroup ============> " + commentGroup);
-		System.out.println("reply id ============> " + id);
+		System.out.println("reply teammemberId ============> " + teammemberId);
 		System.out.println("reply Content ============> " + content);
-		System.out.println("reply loginedId ============> " + loginedId);
+
 		
 		String teamNoStr = req.getParameter("teamNo");
 		if (teamNoStr != null && !teamNoStr.isEmpty()) {
@@ -91,7 +91,7 @@ public class QnaBoardCommentCreateReplyController extends QnaController {
 			dto.setQnaNo(qnaNo);
 			dto.setCommentGroup(commentGroup);
 			dto.setContent(content);
-			dto.setTeammemberId(id);
+			dto.setTeammemberId(teammemberId);
 
 			commentService.insertReply(teamNo, dto);
 

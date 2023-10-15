@@ -46,8 +46,10 @@ public class QnaBoardDetailController extends QnaController {
 		// qnaNo 파라미터 처리
 		String qnaNoStr = req.getParameter("qnaNo");
 		if (qnaNoStr != null && !qnaNoStr.isEmpty()) {
+			System.out.println("qnaNoStr ========================> " + qnaNoStr);
 			try {
 				qnaNo = Integer.parseInt(qnaNoStr);
+				System.out.println(qnaNo);
 			} catch (NumberFormatException e) {
 
 				e.printStackTrace();
