@@ -17,7 +17,7 @@ public class QnaBoardDetailController extends QnaController {
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// CORS 문제 해결
-		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		res.setContentType("application/json;charset=utf-8");
@@ -46,8 +46,10 @@ public class QnaBoardDetailController extends QnaController {
 		// qnaNo 파라미터 처리
 		String qnaNoStr = req.getParameter("qnaNo");
 		if (qnaNoStr != null && !qnaNoStr.isEmpty()) {
+			System.out.println("qnaNoStr ========================> " + qnaNoStr);
 			try {
 				qnaNo = Integer.parseInt(qnaNoStr);
+				System.out.println(qnaNo);
 			} catch (NumberFormatException e) {
 
 				e.printStackTrace();

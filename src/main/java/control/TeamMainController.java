@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.notice.dto.NoticeDTO;
@@ -22,20 +23,18 @@ public class TeamMainController extends TeamController {
 			throws ServletException, IOException {
 		
 		response.setContentType("application/json;charset=utf-8");
-		//response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		response.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-		
+				
 		// 메인에서 실행하는 모든 서비스 메소드들의 결과값을 map에 넣어서 리턴하기
 		Map<String, Object> methodMap = new HashMap<>();
 		Map<String, Object> statusMap = new HashMap<>();
 		
         int teamNo = Integer.parseInt(request.getParameter("teamNo"));
-//        String id = request.getParameter("id");
-//        String id = "psh2023";
-        String id = "sengna";
+        String id = request.getParameter("id");
 
         try {
         	

@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") // 일단 보류
+
 @Getter @Setter @ToString
 public class TeamDTO {
 
@@ -21,6 +21,7 @@ public class TeamDTO {
 	private String onOffLine;
 	private Integer joinMember;
 	private int maxMember;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date createDate;
 	private String startDate;
 	private String endDate;

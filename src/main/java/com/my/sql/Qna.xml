@@ -9,7 +9,7 @@
 	<!-- INSERT INTO qnaboard_${teamNo}(id, title, content) -->
 	<insert id="create" parameterType = "hashmap">
 		INSERT INTO ${tableName}(qna_no, id, title, content, regdate)
-		VALUES (ADMIN.QNA_NO_SEQ.NEXTVAL, #{id, jdbcType=VARCHAR}, #{title, jdbcType=VARCHAR}, #{content, jdbcType=VARCHAR}, sysdate)
+		VALUES (ADMIN.QNA_NO${teamNo}_SEQ.NEXTVAL, #{id, jdbcType=VARCHAR}, #{title, jdbcType=VARCHAR}, #{content, jdbcType=VARCHAR}, sysdate)
 	</insert>
 
 	<!-- FROM ${tableName} -->

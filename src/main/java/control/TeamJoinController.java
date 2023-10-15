@@ -39,6 +39,8 @@ public class TeamJoinController extends TeamController {
             signupTeamDTO.setIntroduction(request.getParameter("introduction"));
 
 			service.insertSignUpTeam(signupTeamDTO);
+			
+			//팀 가입시 랭킹 정보도 업데이트하게 만들기 
 
 			map.put("status", 1);
 			map.put("msg", "팀 가입 요청 성공");
