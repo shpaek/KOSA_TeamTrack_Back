@@ -27,10 +27,11 @@ public class MainTaskListController extends TaskController {
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String option=request.getParameter("option");
 		String loginedId=(String)session.getAttribute("loginedId");
+
 		
 		//Integer teamNo=9999;
 		//String loginedId="cjs1231";
-		
+
 		try {
 			List<TaskDTO> list=service.findMainTaskList(teamNo, loginedId);
 			String jsonStr = mapper.writeValueAsString(list);
