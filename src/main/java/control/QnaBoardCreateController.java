@@ -73,7 +73,7 @@ public class QnaBoardCreateController extends QnaController {
 			map.put("status", 0);
 			map.put("msg", e.getMessage());
 			
-		}
+		} // try-catch
 		
 		// JSON문자열 응답
 		String jsonStr = mapper.writeValueAsString(map);

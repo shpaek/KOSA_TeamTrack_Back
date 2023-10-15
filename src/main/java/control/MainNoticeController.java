@@ -27,6 +27,7 @@ public class MainNoticeController extends NoticeController{
 		
 		HttpSession session = request.getSession();
 		String loginedId = (String)session.getAttribute("loginedId");
+		System.out.println(loginedId);
 		//String loginedId = "nwh2023";
 		
 		

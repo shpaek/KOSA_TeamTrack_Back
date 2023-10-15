@@ -28,7 +28,7 @@ import com.my.rank.dto.RankDTO;
 import com.my.team.dto.TeamMemberDTO;
 import com.my.util.ValueComparator;
 
-public class RankListController extends RankController {
+public class RankListController_copy extends RankController {
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -106,11 +106,50 @@ public class RankListController extends RankController {
 			ranklist.add(rankmap);
 			System.out.println("ranklist" + ranklist);
 			
-			// 기존에 있는 멤버에는 업데이트한 정보를 Rank DB에 저장한다
+			// 정보가 없으면 새로 추가해주고, 기존에 있는 멤버에는 업데이트한 정보를 Rank DB에 저장한다
 			Integer rank = null;
 			Double totalScore = null;
 			String rankid = null;
+//			Integer rankmonth = null;
+//			List<TeamMemberDTO> tmlist = service.findMemberId(teamNo, month);
+//			
+//			for (TeamMemberDTO tmdto : tmlist) {
+//				String memberid = tmdto.getId();
+//				Integer newmonth = tmdto.getMonth();
+//				
+//				RankDTO matchingRank = null;
+//				for (RankDTO dto : dtolist) {
+//					rank = dto.getRank();
+//					totalScore = dto.getTotalScore();
+//					id = dto.getId();
+//					rankmonth = dto.getMonth();
+//					
+//					if (memberid.equals(id) && newmonth.equals(rankmonth)) {
+//						matchingRank = dto;
+//						break;
+//					}
+//				}
+//				
+//				if (matchingRank != null) {
+//					service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+//				} else {
+//					service.addRankInfo(teamNo, memberid);
+//					service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+//				}
+//			}		
 			
+//			List<RankDTO> allrank = service.findAllRank(teamNo);
+//			for (RankDTO dto1 : list) {
+//				for (RankDTO dto : allrank) {
+//					if ((!dto1.getId().equals(dto.getId())) && (!dto1.getMonth().equals(dto.getMonth()))) {
+//						service.addRankInfo(teamNo, dto1.getId());
+//					} else {
+//						service.modifyRankInfo(teamNo, rankDate, rank, totalScore, rankid, month);
+//					}
+//				}
+//			}
+			
+			// 기존에 있던 id에는 정보를 업데이트 해준다
 			for (RankDTO dto : dtolist) {
 				rank = dto.getRank();
 				totalScore = dto.getTotalScore();
@@ -133,7 +172,8 @@ public class RankListController extends RankController {
 			map.put("msg", "랭킹 정보 업데이트에 실패하였습니다");
 			String jsonStr = mapper.writeValueAsString(map);
 			out.print(jsonStr);
-		} catch (AddException e) {
+		} 
+		catch (AddException e) {
 			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", "랭킹 정보 추가에 실패하였습니다");
