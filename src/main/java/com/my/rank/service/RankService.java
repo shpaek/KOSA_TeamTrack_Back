@@ -11,6 +11,7 @@ import com.my.rank.dto.RankDetailDTO;
 import com.my.task.dto.MemberTaskDTO;
 import com.my.task.dto.TaskDTO;
 import com.my.team.dto.AttendanceDTO;
+import com.my.team.dto.TeamMemberDTO;
 
 public interface RankService {
 	
@@ -32,6 +33,14 @@ public interface RankService {
 	public List<RankDTO> findAllRank(Integer teamNo) throws FindException;
 	
 	/**
+	 * 팀별 멤버 id를 조회한다. 팀 멤버가 없으면 FindException이 발생한다 
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	public List<TeamMemberDTO> findMemberId(Integer teamNo, Integer month) throws FindException;
+	
+	/**
 	 * 각 팀 멤버의 총 점수를 계산한다. 멤버의 점수가 없으면 FindException 발생한다 
 	 * @param teamNo
 	 * @param month
@@ -46,7 +55,7 @@ public interface RankService {
 	 * @param id
 	 * @throws AddException
 	 */
-	public void insertRankInfo(Integer teamNo, String id) throws AddException;
+	public void addRankInfo(Integer teamNo, String id) throws AddException;
 	
 	/**
 	 * 팀별 랭킹 정보를 실시간 업데이트 한다. 업데이트가 불가하면 ModifyException이 발생한다
