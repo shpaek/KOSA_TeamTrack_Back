@@ -27,6 +27,11 @@
 	SELECT id FROM teammember_${team_no}
   </select>
   
+  <insert id="insertRankInfo" parameterType="java.util.HashMap">
+  	INSERT INTO MEMBER_RANK_${team_no}(rank_no, rank_date, rank, totalscore, id)
+	VALUES (rank_no_seq.nextval, sysdate, NULL, NULL, #{id})
+  </insert>
+  
   <update id="updateRankInfo" parameterType="java.util.HashMap">
   	UPDATE member_rank_${team_no}
 	SET rank_date=#{rankDate}, rank=#{rank}, totalscore=#{totalScore} 

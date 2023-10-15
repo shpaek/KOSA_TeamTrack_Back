@@ -49,8 +49,8 @@ public class RankDAOImpl implements RankDAO {
 			list = session.selectList("com.my.rank.RankMapper.selectByMonth", map);
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
+//			e.printStackTrace();
+			throw new FindException("랭킹 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -71,8 +71,7 @@ public class RankDAOImpl implements RankDAO {
 			list = session.selectList("com.my.rank.RankMapper.selectAllRank", map);
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("전체 랭킹 정보 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -93,8 +92,7 @@ public class RankDAOImpl implements RankDAO {
 			list = session.selectList("com.my.rank.RankMapper.selectMemberId", map);
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("팀 멤버ID 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -103,8 +101,24 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public void insert(Integer teamNo, RankDTO rank) throws AddException {
-		// TODO Auto-generated method stub
+	public void insertRankInfo(Integer teamNo, String id) throws AddException {
+		SqlSession session = null;
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			map.put("id", id);
+			session.insert("com.my.rank.RankMapper.insertRankInfo", map);
+			session.commit();
+			System.out.println("commit성공");
+		} catch (Exception e) {
+			throw new AddException("랭킹 정보 추가 실패");
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 		
 	}
 	
@@ -126,8 +140,7 @@ public class RankDAOImpl implements RankDAO {
 			session.commit();
 			System.out.println("commit성공");
 		} catch (Exception e) {
-			session.rollback();
-			throw new ModifyException(e.getMessage());
+			throw new ModifyException("랭킹 정보 업데이트 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -152,8 +165,7 @@ public class RankDAOImpl implements RankDAO {
 			System.out.println(list.get(0).getId());
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("출석수 관련 정보 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -172,7 +184,7 @@ public class RankDAOImpl implements RankDAO {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("과제에 대한 모든 정보 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -194,7 +206,7 @@ public class RankDAOImpl implements RankDAO {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("월별 과제 갯수 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -216,7 +228,7 @@ public class RankDAOImpl implements RankDAO {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("과제 점수 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -238,7 +250,7 @@ public class RankDAOImpl implements RankDAO {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("과제 리뷰 점수 조회 실패");
 		} finally {
 			if (session != null) {
 				session.close();
@@ -260,7 +272,7 @@ public class RankDAOImpl implements RankDAO {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("QNA 채택 점수 조회 실패 ");
 		} finally {
 			if (session != null) {
 				session.close();
