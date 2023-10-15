@@ -11,9 +11,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -61,16 +63,25 @@ public class RankListController_copy extends RankController {
 
 			//랭킹 DB에 담겨져 있지 않았던 id는 추가해준다
 			List<RankDTO> rankall = service.findAllRank(teamNo);
-			String id = null;
-			for (RankDTO dto1 : rankall) {
-				id = dto1.getId();
-				for(RankDTO dto : list) {
-					if ((!dto.getId().equals(id)) && (!dto.getMonth().equals(month))) {
-						service.addRankInfo(teamNo, dto.getId());
-						System.out.println("추가 성공");
-					}
-				}		
+			Set<RankDTO> rankSet = new HashSet<>(rankall);
+			
+			for (RankDTO dto : list) {
+				if (!rankSet.contains(dto)) {
+					service.addRankInfo(teamNo, dto.getId());
+					System.out.println("추가 성공");
+				}
 			}
+			
+//			String id = null;
+//			for (RankDTO dto1 : rankall) {
+//				id = dto1.getId();
+//				for(RankDTO dto : list) {
+//					if (!(dto.getId().equals(id) && dto.getMonth().equals(month))) {
+//						service.addRankInfo(teamNo, dto.getId());
+//						System.out.println("추가 성공");
+//					}
+//				}		
+//			}
 			
 			//id별 총점 가져오기
 			Map<String, Object> scoremap = service.calculateTotalScore(teamNo, rankDate, month);

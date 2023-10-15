@@ -11,9 +11,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +36,7 @@ public class RankListController extends RankController {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json; charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500"); //http://127.0.0.1:5500
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500"); //http://127.0.0.1:5500
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		//응답 출력 스트림 얻기
@@ -61,15 +63,20 @@ public class RankListController extends RankController {
 
 			//랭킹 DB에 담겨져 있지 않았던 id는 추가해준다
 			List<RankDTO> rankall = service.findAllRank(teamNo);
-			String id = null;
-			for (RankDTO dto1 : rankall) {
-				id = dto1.getId();
-				for(RankDTO dto : list) {
-					if ((!dto.getId().equals(id)) && (!dto.getMonth().equals(month))) {
-						service.addRankInfo(teamNo, dto.getId());
-						System.out.println("추가 성공");
+
+			for (RankDTO dto : list) {
+				boolean add = true;
+				for (RankDTO dto1 : rankall) {
+					if (dto.getId().equals(dto1.getId()) && dto.getMonth().equals(dto1.getMonth())) {
+						add = false;
+						break;
 					}
-				}		
+				}
+				if (add) {
+					service.addRankInfo(teamNo, dto.getId());
+					service.modifyRankInfo(teamNo, rankDate, dto.getRank(), dto.getTotalScore(), dto.getId(), month);
+					System.out.println("추가 성공");
+				}
 			}
 			
 			//id별 총점 가져오기
