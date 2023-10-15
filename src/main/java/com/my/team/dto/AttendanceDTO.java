@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") // 일단 보류
+@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 @Getter @Setter @ToString
 public class AttendanceDTO {
 
