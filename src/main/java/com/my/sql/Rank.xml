@@ -18,7 +18,7 @@
   </select>
   
   <select id="selectAllRank" resultType="RankDTO" parameterType="java.util.HashMap">
-  	SELECT DISTINCT extract(month from rank_date) as month 
+	SELECT rank_no, rank_date, rank, totalscore, id, extract(month from rank_date) as month 
   	FROM member_rank_${team_no}
   	ORDER BY month DESC
   </select>
