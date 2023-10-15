@@ -382,6 +382,16 @@
 		WHERE st.TEAM_NO
 		= ${teamNo} AND (st.STATUS = 3 OR st.STATUS = 1)
 	</select>
+	
+	<!-- 팀 관리_현재 팀원 조회(팀장은 안보이게) -->
+	<!-- 
+	<select id="selectMemberInfo" resultType="java.util.Map"
+		parameterType="int">
+		SELECT c.NICKNAME, st.ID, st.status
+		FROM CUSTOMER c JOIN SIGNUP_TEAM st ON (c.id = st.id)
+		WHERE st.TEAM_NO = ${teamNo} AND (st.STATUS = 3 OR st.STATUS = 1)
+	</select>
+	 -->
 
 	<!-- 팀 관리_팀원 방출 -->
 	<update id="updateTeamMemberStatusDismiss"

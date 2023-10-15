@@ -40,18 +40,13 @@ public class TeamDismissController extends TeamController {
         	// 현재 팀원 목록 확인
         	List<Map<String, Object>> currMemberList = service.selectMemberInfo(teamNo);
 	    	methodMap.put("currMemberList", currMemberList);
-        	
-	    	System.out.println(id);
-	    	System.out.println(teamNo);
 	    	
         	// 방출
         	if ("memberDismiss".equals(action)) {
         		paramsMap.put("teamNo", teamNo);
         		paramsMap.put("id", id);
         		
-        		System.out.println("1111111111111111111111111111111111111111111111111111111111");
         		service.dismissTeamMember(paramsMap);
-        		System.out.println("2222222222222222222222222222222222222222222222222222222222");
         		
         		statusMap.put("status", 1);
         		statusMap.put("msg", "방출 성공");
