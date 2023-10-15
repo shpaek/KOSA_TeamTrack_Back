@@ -19,14 +19,14 @@ public class ChkTaskIdController extends TaskController {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-//		HttpSession session=request.getSession();
-
+		HttpSession session=request.getSession();
+		String loginedId=(String)session.getAttribute("loginedId");
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
-		String loginedId=request.getParameter("id");
-//		String loginedId=(String)session.getAttribute("loginedId");
+//		String loginedId=request.getParameter("id");
+		
 		
 		//Integer teamNo=9999;
 //		String loginedId="cjs1231";

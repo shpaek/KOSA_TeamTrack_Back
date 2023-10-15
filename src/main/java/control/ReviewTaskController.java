@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.ModifyException;
@@ -20,13 +21,15 @@ public class ReviewTaskController extends TaskController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map=new HashMap<>();
+		HttpSession session=request.getSession();
+		String loginedId=(String)session.getAttribute("loginedId");
 		//Integer teamNo=9999;
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		int reviewScore=Integer.parseInt(request.getParameter("reviewScore"));
-		
+		//String loginedId=request.getParameter("id");
 		try {
-			service.setReviewScore(teamNo, taskNo, "cjs1231", reviewScore);
+			service.setReviewScore(teamNo, taskNo, loginedId, reviewScore);
 			service.setAvgReviewScore(teamNo, taskNo);
 			
 			map.put("status", 1);
