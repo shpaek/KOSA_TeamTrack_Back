@@ -40,18 +40,22 @@ public class WriteNoticeController extends NoticeController {
 
 			String noticeTitle=attach.getParameter("title");
 			String noticeContent=attach.getParameter("content");
-			Integer mainStatus = 0;
+			Integer mainStatus = 0; //메인공지 체크여부
+			Integer mainChk = 0; //메인공지 등록 정상 여부
 			String fileName ="";
 			
 			if(attach.getParameter("status") != null) {
 				mainStatus = 1;
-				map.put("mainstatus", 1);
 				NoticeDTO mainNotice = service.findMainNotice(teamNo);
 				if(mainNotice!=null) {
-					map.put("mainstatus", 0);
-					map.put("mainmsg", "이미 메인공지가 존재합니다\n기존 메인공지를 내린 후 시도해주세요");
+					map.put("mainmsg", "이미 메인공지 등록에는 실패하였습니다. 기존 메인공지를 내린 후 등록하세요!");
 					mainStatus=0;
+					mainChk=0;
+				}else {
+					mainChk=1;
 				}
+			}else {
+				mainChk=1;
 			}
 			NoticeDTO notice = new NoticeDTO(noticeTitle, regDate, noticeContent, mainStatus);
 			noticeNo = service.writeNotice(teamNo, notice);
@@ -71,6 +75,7 @@ public class WriteNoticeController extends NoticeController {
 			} catch(Exception e) {
 				
 			}
+			map.put("mainstatus",mainChk);
 			map.put("status", 1);
 			map.put("msg", "게시글이 업로드되었습니다");
 		} catch (Exception e) {

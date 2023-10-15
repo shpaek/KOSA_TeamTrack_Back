@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,15 +22,16 @@ public class EditMyInfoController extends CustomerController{
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
+		request.setCharacterEncoding("UTF-8");
 		
-//		HttpSession session = request.getSession();
-//		String loginedId = (String)session.getAttribute("loginedId");
+		HttpSession session = request.getSession();
+		String loginedId = (String)session.getAttribute("loginedId");
 		
-		String loginedId = "psh2023";
-		String name = request.getParameter("name");
+		//String loginedId = "psh2023";
+		String name =  URLDecoder.decode(request.getParameter("username"), "UTF-8");
 		String birthday =  request.getParameter("birthday");
 		String phone =  request.getParameter("phone");
-		String email = request.getParameter("email");
+		String email = URLDecoder.decode(request.getParameter("email"));
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
