@@ -36,20 +36,22 @@ public class QnaBoardCreateController extends QnaController {
 		// 요청 전달데이터 얻기
 		// =====================  여기 session 받아와야하니까 마지막에 수정해야함
 		HttpSession session = req.getSession();
-//		String loginedId = (String)session.getAttribute("loginedId");
-		String loginedId = "test01";
+//		HttpSession session = req.getSession();
+		String loginedId = (String) session.getAttribute("loginedId");
 
 		try {
 			
 			Attach attach=new Attach(req);
 			Integer teamNo = Integer.parseInt(attach.getParameter("teamNo"));
 			
+			System.out.println("teamNo =============> " + teamNo);
 			String qnaTitle=attach.getParameter("title");
 			String qnaContent=attach.getParameter("content");
+//			String loginedId =attach.getParameter("loginedId");
 			
 			System.out.println("qnaTitle ============> " + qnaTitle);
 			System.out.println("qnaContent ============> " + qnaContent);
-			System.out.println("loginedId ============> " + loginedId);
+			System.out.println("logindedId ============> " + loginedId);
 			
 			QnaBoardDTO dto = new QnaBoardDTO(loginedId, qnaTitle, qnaContent);
 			
