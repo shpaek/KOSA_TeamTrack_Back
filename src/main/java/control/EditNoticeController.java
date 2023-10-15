@@ -41,6 +41,7 @@ public class EditNoticeController extends NoticeController{
 			String noticeTitle = attach.getParameter("title");
 			String noticeContent=attach.getParameter("content");
 			Integer mainStatus = 0;
+			Integer mainChk = 0;
 			String fileName ="";
 			
 			if(attach.getParameter("status") != null) {
@@ -48,16 +49,14 @@ public class EditNoticeController extends NoticeController{
 				NoticeDTO mainNotice = service.findMainNotice(teamNo);
 				if(mainNotice!=null) {
 					if(mainNotice.getNoticeNo()==noticeNo) {
-						map.put("mainstatus", 0);
 						map.put("mainmsg", "이미 메인공지로 등록된 게시글입니다");
 						mainStatus=0;
 					}else {
-						map.put("mainstatus", 0);
 						map.put("mainmsg", "이미 메인공지가 존재합니다\n기존 메인공지를 내린 후 시도해주세요");
 						mainStatus=0;
 					}
 				}else {
-					map.put("mainstatus", 1);
+					mainChk = 1;
 				}
 			}
 			
@@ -79,6 +78,7 @@ public class EditNoticeController extends NoticeController{
 			} catch(Exception e) {
 
 			}
+			map.put("mainstatus", mainChk);
 			map.put("status", 1);
 			map.put("msg", "게시글이 수정되었습니다");
 		} catch (Exception e) {
