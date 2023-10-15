@@ -1137,6 +1137,7 @@ public class TeamDAOImpl implements TeamDAO {
 	} // updateRequestInfoApprove()
 	
 	// 팀 관리 페이지(가입 요청 관리) - 팀 가입 요청 승인 -> (두 작업을 하나의 트랜잭션으로 처리)
+	/*
 	@Override
 	public void approveRequest(Map<String, Object> map) throws Exception {
 	    SqlSession session = null;
@@ -1153,6 +1154,44 @@ public class TeamDAOImpl implements TeamDAO {
 
 	            if (status == 0) {
 	                // 이미 데이터가 있는데 status가 0인 경우, 데이터를 업데이트!
+	                session.update("com.my.team.TeamMapper.updateMemberStatus", map);
+	            } else {
+	                session.insert("com.my.team.TeamMapper.insertRequestInfoApprove", map);
+	            } // if-else
+	        } else {
+	            // 사용자의 데이터가 이미 있고 status가 1이나 2인 경우
+	            throw new Exception("이미 팀에 가입 중이거나 탈퇴 상태가 아닌 사용자입니다.");
+	        } // if-else
+
+	        session.commit();
+	    } catch (Exception e) {
+	        if (session != null) {
+	            session.rollback();
+	        }
+	        throw new Exception("팀 가입 요청 승인 실패: " + e.getMessage());
+	    } finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    }
+	} // approveRequest()
+	*/
+	@Override
+	public void approveRequest(Map<String, Object> map) throws Exception {
+	    SqlSession session = null;
+
+	    try {
+	        session = sqlSessionFactory.openSession();
+
+	        // 얘가 탈퇴했는지 안했는지 먼저 확인
+	        Integer status = session.selectOne("com.my.team.TeamMapper.selectLeaveTeamMemberStatus", map);
+
+	        // 사용자의 데이터가 없거나 status가 0 또는 3인 경우에만 삽입을 진행
+	        if (status == null || status == 0 || status == 3) {
+	            session.update("com.my.team.TeamMapper.updateRequestInfoApprove", map);
+
+	            if (status != null && (status == 0 || status == 3)) {
+	                // 이미 데이터가 있는데 status가 0 또는 3인 경우, 데이터를 업데이트!
 	                session.update("com.my.team.TeamMapper.updateMemberStatus", map);
 	            } else {
 	                session.insert("com.my.team.TeamMapper.insertRequestInfoApprove", map);
