@@ -21,9 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.rank.dto.RankDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.util.ValueComparator;
 
 public class RankListController extends RankController {
@@ -89,16 +91,39 @@ public class RankListController extends RankController {
 			ranklist.add(rankmap);
 			System.out.println("ranklist" + ranklist);
 			
-			// 업데이트한 정보를 Rank DB에 저장한다
+			// 정보가 없으면 새로 추가해주고, 기존에 있는 멤버에는 업데이트한 정보를 Rank DB에 저장한다
 			Integer rank = null;
 			Double totalScore = null;
 			String id = null;
+			Integer rankmonth = null;
+			List<TeamMemberDTO> tmlist = service.findMemberId(teamNo, month);
 			
 			for (RankDTO dto : dtolist) {
 				rank = dto.getRank();
 				totalScore = dto.getTotalScore();
 				id = dto.getId();
-				service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+				rankmonth = dto.getMonth();
+				
+				for (TeamMemberDTO tmdto : tmlist) {
+					String memberid = tmdto.getId();
+					Integer newmonth = tmdto.getMonth();
+					
+					try {
+						if ((!memberid.equals(id)) && (!newmonth.equals(rankmonth))) {
+							service.addRankInfo(teamNo, memberid);
+							service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+							System.out.println("정보 추가 성공!!!!!! ");
+						} else {
+							service.modifyRankInfo(teamNo, rankDate, rank, totalScore, id, month);
+							System.out.println("정보 업데이트 성공!!!!!! ");
+						}
+					} catch (AddException e){
+						e.printStackTrace();
+						map.put("status", 0);
+						map.put("msg", "랭킹 정보 추가에 실패하였습니다");
+						String jsonStr = mapper.writeValueAsString(map);
+					}
+				}
 			}
 			System.out.println("modify 성공");
 			String jsonStr = mapper.writeValueAsString(ranklist);

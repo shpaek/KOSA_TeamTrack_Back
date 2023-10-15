@@ -23,13 +23,15 @@
   	ORDER BY month DESC
   </select>
   
-  <select id="selectMemberId" resultType="TeamMemberDTO">
-	SELECT id FROM teammember_${team_no}
+  <select id="selectMemberId" resultType="TeamMemberDTO" parameterType="java.util.HashMap">
+	SELECT id, extract(month from join_date) as month 
+	FROM teammember_${team_no}
+	WHERE extract(month from join_date) &lt;= #{month}
   </select>
   
   <insert id="insertRankInfo" parameterType="java.util.HashMap">
   	INSERT INTO MEMBER_RANK_${team_no}(rank_no, rank_date, rank, totalscore, id)
-	VALUES (rank_no_seq.nextval, sysdate, NULL, NULL, #{id})
+	VALUES (rank_no${team_no}_seq.nextval, sysdate, 0, 0, #{id})
   </insert>
   
   <update id="updateRankInfo" parameterType="java.util.HashMap">
@@ -40,7 +42,7 @@
   
   
   <select id="selectAttendanceDay" resultType="AttendanceDTO" parameterType="java.util.HashMap">
-	SELECT count(a.ATTENDANCE_DATE) as attendanceday
+	SELECT NVL(count(a.ATTENDANCE_DATE),0) as attendanceday
      , (LAST_DAY(#{date})-TRUNC(TO_DATE(#{date}, 'yyyy-MM-DD'), 'MM')+1) as monthday
      , (CASE WHEN extract (month from a.attendance_date) IS NULL THEN #{month}
      	ELSE extract (month from a.attendance_date) END) as MONTH
@@ -58,7 +60,7 @@
   
   
   <select id="countMonthlyTask" resultType="TaskDTO" parameterType="java.util.HashMap">
-	SELECT COUNT(task_no) AS monthlytasknum, extract (month from enddate) AS month
+	SELECT NVL(COUNT(task_no),0) AS monthlytasknum, extract (month from enddate) AS month
 	FROM TASK_${team_no}
 	GROUP BY extract (month from enddate)
 	HAVING extract (month from enddate)=#{month}
@@ -67,8 +69,8 @@
   
   <select id="selectTaskScore" resultType="MemberTaskDTO" parameterType="java.util.HashMap">
 	SELECT ms.id as id
-	  , SUM(ms.hwscore) as totalscore
-	  , COUNT(ms.task_no) as tasknum
+	  , NVL(SUM(ms.hwscore),0) as totalscore
+	  , NVL(COUNT(ms.task_no),0) as tasknum
 	  , extract (month from t.enddate) as month
 	FROM MEMBERSCORE_${team_no} ms JOIN TASK_${team_no} t ON (ms.task_no = t.task_no)
 	WHERE extract (month from t.enddate) = #{month}
