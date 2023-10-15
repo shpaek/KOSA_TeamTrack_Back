@@ -25,5 +25,6 @@ public class TeamMemberDTO {
 	private int rankAvg;
 	private double attendanceRate;
 	private double taskCompleteRate;
+	private Integer month;				//랭킹을 위한 월
 
 } // end class

@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.AddException;
@@ -29,9 +30,11 @@ public class SubmitTaskController extends TaskController {
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		System.out.println(taskNo);
+		HttpSession session=request.getSession();
+		String id=(String)session.getAttribute("loginedId");
 //		String id="khb2023";
 		//String id="cjs1231";
-		String id=request.getParameter("id");
+		//String id=request.getParameter("id");
 		String answer=request.getParameter("answerlist");
 		int answerCnt=Integer.parseInt(request.getParameter("answerCnt"));
 		System.out.println(answerCnt);

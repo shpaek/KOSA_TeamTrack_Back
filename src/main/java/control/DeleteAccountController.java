@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.ModifyException;
@@ -20,9 +21,9 @@ public class DeleteAccountController extends CustomerController{
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
-		//HttpSession session = request.getSession();
-		//String loginedId = (String)session.getAttribute("loginedId");
-		String loginedId = "test36";
+		HttpSession session = request.getSession();
+		String loginedId = (String)session.getAttribute("loginedId");
+		//String loginedId = "test36";
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();

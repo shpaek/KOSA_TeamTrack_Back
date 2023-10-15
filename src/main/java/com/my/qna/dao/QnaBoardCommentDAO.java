@@ -81,5 +81,4 @@ public interface QnaBoardCommentDAO {
 	 */
 	public Integer delete(Integer teamNo, Integer qnaNo, Integer commetNo) throws ModifyException;
 
-	
 } // end class

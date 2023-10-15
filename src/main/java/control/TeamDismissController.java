@@ -40,7 +40,8 @@ public class TeamDismissController extends TeamController {
         	// 현재 팀원 목록 확인
         	List<Map<String, Object>> currMemberList = service.selectMemberInfo(teamNo);
 	    	methodMap.put("currMemberList", currMemberList);
-        	
+
+	    	
         	// 방출
         	if ("memberDismiss".equals(action)) {
         		paramsMap.put("teamNo", teamNo);
