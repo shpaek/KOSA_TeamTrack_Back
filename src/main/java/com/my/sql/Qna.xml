@@ -51,5 +51,13 @@
 			SET status = 0
 			WHERE qna_no = #{qnaNo}
 	</update>
-  
+	
+	<!-- 멤버인지 아닌지 확인 -->
+  	<select id="selectTeamMemberStatus" parameterType="hashmap" resultType="int">
+  	
+		SELECT COUNT(*)
+		FROM TEAMMEMBER_${teamNo}
+		WHERE ID = #{id} AND STATUS <![CDATA[ = 1 ]]>
+		
+  	</select>
 </mapper>
