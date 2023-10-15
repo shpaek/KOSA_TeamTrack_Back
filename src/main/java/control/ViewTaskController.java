@@ -3,24 +3,30 @@ package control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
 import com.my.task.dto.TaskDTO;
+import com.my.team.service.TeamServiceImpl;
 
 public class ViewTaskController extends TaskController {
+	protected TeamServiceImpl teamService;
+
+	public ViewTaskController() {
+		teamService = TeamServiceImpl.getInstance();
+	}
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-		//		HttpSession session=request.getSession();
+		HttpSession session=request.getSession();
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -28,13 +34,18 @@ public class ViewTaskController extends TaskController {
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 		Integer taskNo=Integer.parseInt(request.getParameter("taskNo"));
 		System.out.println(taskNo);
-		//		String loginedId=(String)session.getAttribute("loginedId");
-
-		//Integer teamNo=9999;
-		//		Integer taskNo=1;
-		//		String loginedId="nwh2023";
+		String loginedId=(String)session.getAttribute("loginedId");
 		Map<String, Object> map=new HashMap<>();
-
+		
+		try {
+			String role=teamService.determineUserRole(loginedId, teamNo);
+			if(role.equals("customer")) throw new Exception();
+			map.put("role", "member");
+		} catch (Exception e) {
+			map.put("role", "customer");
+			e.printStackTrace();
+		}
+		
 		try {
 			int answerCnt=service.findAnswerCount(teamNo, taskNo);
 			map.put("answerCnt", answerCnt);
