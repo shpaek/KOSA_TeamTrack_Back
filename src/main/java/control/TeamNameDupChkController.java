@@ -25,17 +25,22 @@ public class TeamNameDupChkController extends TeamController {
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
-		String teamName = request.getParameter("teamName");
+		String teamName = request.getParameter("teamName").trim();
 		Map<String, Integer> map = new HashMap<>();
 		try {
-			int teamNo = service.teamNameDupChk(teamName);
-			//팀이 있는 경우
-			map.put("status", 0);
-			map.put("teamNo", teamNo);
+
+				int teamNo = service.teamNameDupChk(teamName);
+				//팀이 있는 경우
+				map.put("status", 0);
+				map.put("teamNo", teamNo);
+
 		} catch (FindException e) {
 			//팀이 없는 경우
-			e.printStackTrace();
-			map.put("status", 1);
+			if(teamName == "") {
+				map.put("status", 2);
+			}else {
+				map.put("status", 1);				
+			}
 		}
 		System.out.println(map);
 		out.print(mapper.writeValueAsString(map));

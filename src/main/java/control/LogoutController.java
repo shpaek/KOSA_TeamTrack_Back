@@ -14,8 +14,12 @@ public class LogoutController extends CustomerController {
 			throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
+//		System.out.println("in logout:" + session.getId());
 		session.removeAttribute("loginedId");
 		session.invalidate();
+		
+		response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write("{}");
 		return null;
 	}
 
