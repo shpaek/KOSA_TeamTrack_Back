@@ -195,6 +195,8 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 	} // selectAllCount
 	
 	
+	
+	
 
 //	@Override
 //	public List<QnaBoardCommentDTO> selectCommentReply(Integer teamNo, QnaBoardCommentDTO dto) throws FindException {
@@ -341,6 +343,7 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 		} // try-catch-finally
 
 	} // delete
+	
 
 	public static void main(String[] args) {
 		

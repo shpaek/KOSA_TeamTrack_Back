@@ -27,18 +27,12 @@ public class TeamSearchController extends TeamController {
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setContentType("application/json;charset=UTF-8");
 
-		String table;
-		String column;
+		String table = request.getParameter("table");
+		String column = request.getParameter("column");
 		String currentPage = request.getParameter("currentPage");
 		String data = request.getParameter("data");
-		
-		if(data.contains("#")) {
-			table = "team_hashtag";
-			column = "hashtag_name";
-		}else {
-			table = "team";
-			column = "team_name";
-		}
+		System.out.println("파라미터"+data);
+
 		int cp = 1;
 		if(currentPage != null && !currentPage.equals("")) {
 			cp = Integer.parseInt(currentPage);

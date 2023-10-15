@@ -51,5 +51,14 @@ public interface QnaBoardService {
 	 * @throws ModifyException  DB와의 연결 실패 또는 게시물이 없을 경우 예외 발생
 	 */
 	public Integer delete(Integer teamNo, Integer qna_no) throws ModifyException;
+	
+	/**
+	 * qna게시판 - 팀 멤버인지 확인하기
+	 * @param teamMemberDTO
+	 * @return
+	 * @throws FindException
+	 */
+	Integer selectTeamMemberStatus(String id, Integer teamNo) throws FindException;
+	
 
 } // end interface
