@@ -25,9 +25,9 @@ public class UploadUserProfileController implements Controller{
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 
 
-		//HttpSession session = request.getSession();
-		//String loginedId = (String)session.getAttribute("loginedId");
-		String loginedId = "psh2023";
+		HttpSession session = request.getSession();
+		String loginedId = (String)session.getAttribute("loginedId");
+		//String loginedId = "psh2023";
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();

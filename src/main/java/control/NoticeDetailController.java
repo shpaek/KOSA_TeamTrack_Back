@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
@@ -24,9 +25,9 @@ public class NoticeDetailController extends NoticeController{
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		
-		//HttpSession session = request.getSession();
-		//String loginedId = (String)session.getAttribute("loginedId");
-		String loginedId = "psh2023";
+		HttpSession session = request.getSession();
+		String loginedId = (String)session.getAttribute("loginedId");
+		//String loginedId = "psh2023";
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
