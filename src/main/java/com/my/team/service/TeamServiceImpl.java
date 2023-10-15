@@ -52,20 +52,18 @@ public class TeamServiceImpl implements TeamService {
 	// ------------------------------------------------------------------------
 
 	// 서현 웅니
+	@Override
 	public MainPageGroup<TeamDTO> findAll(int currentPage, String column) throws FindException{
 		if(currentPage < 1) {
 			currentPage = 1;
 		}
 		
 		int cntPerPage = 9; //한페이지당 보여줄 목록 수 
-		                    
-		//currentPage        //1  2  3  4
-		int startRow;        //1  4  7  10
-		int endRow;          //3  6  9  12
-		//TODO
+		
+		int startRow;       
+		int endRow;
 		endRow = currentPage * cntPerPage;
 		startRow = ( currentPage -1 ) *cntPerPage + 1;
-		//return repository.selectAll(startRow, endRow);
 		
 		List<TeamDTO> list = teamDAO.selectByCondition(column, startRow, endRow);
 		int totalCnt = teamDAO.selectCount();		
@@ -81,13 +79,10 @@ public class TeamServiceImpl implements TeamService {
 		
 		int cntPerPage = 9; //한페이지당 보여줄 목록 수 
 		                    
-		//currentPage        //1  2  3  4
-		int startRow;        //1  4  7  10
-		int endRow;          //3  6  9  12 
-		//TODO
+		int startRow;
+		int endRow;
 		endRow = currentPage * cntPerPage;
 		startRow = ( currentPage -1 ) *cntPerPage + 1;
-		//return repository.selectAll(startRow, endRow);
 		
 		List<TeamDTO> list = teamDAO.selectByData(table, column, data, startRow, endRow);
 		int totalCnt = teamDAO.selectCountOfSelectData(table, column, data);
@@ -103,13 +98,10 @@ public class TeamServiceImpl implements TeamService {
 		
 		int cntPerPage = 9; //한페이지당 보여줄 목록 수 
 		                    
-		//currentPage        //1  2  3  4
-		int startRow;        //1  4  7  10
-		int endRow;          //3  6  9  12 
-		//TODO
+		int startRow;
+		int endRow;
 		endRow = currentPage * cntPerPage;
 		startRow = ( currentPage -1 ) *cntPerPage + 1;
-		//return repository.selectAll(startRow, endRow);
 		
 		List<TeamDTO> list = teamDAO.selectByDate(column, startDate, endDate, startRow, endRow);
 		int totalCnt = teamDAO.selectCountOfSelectDate(column, startDate, endDate);
@@ -188,11 +180,6 @@ public class TeamServiceImpl implements TeamService {
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public List<TeamDTO> selectTopThreeTeams() throws FindException {
-		return teamDAO.selectByCondition("viewcnt", 1, 9);
 	}
 
 	@Override
@@ -380,11 +367,10 @@ public class TeamServiceImpl implements TeamService {
 	    	
 	    	if (isLeader == 1) {			// 팀장이면,
 	    		return "leader";
-	    	} else if (isLeader != 1) {		// 팀원이면,
-	    		return "teamMember";
-	    	} else {
-	    		return "오류입니다";
-	    	}
+	    	} 
+	    		
+	    	return "teamMember";	// 팀원이면,
+	    	
 	    } else {							// 일반 회원일 때
 	    	return "customer";
 	    } // if-else
@@ -454,8 +440,18 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public void insertAttendanceById(Integer teamNo, String id) throws AddException {
-		teamDAO.insertAttendanceById(teamNo, id);
+	public void insertAttendanceById(Map<String, Object> map) throws AddException {
+		teamDAO.insertAttendanceById(map);
+	}
+	
+	@Override
+	public void updateAttendanceCnt(Map<String, Object> map) throws ModifyException {
+		teamDAO.updateAttendanceCnt(map);
+	}
+	
+	@Override
+	public void increaseAttendanceCnt(Map<String, Object> map) throws Exception {
+		teamDAO.increaseAttendanceCnt(map);
 	}
 
 	@Override
@@ -473,6 +469,16 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public void updateTeamMemberStatusDismiss(Map<String, Object> map) throws ModifyException {
 		teamDAO.updateTeamMemberStatusDismiss(map);
+	}
+	
+	@Override
+	public void deleteTeamMemberInSignupTeam(Map<String, Object> map) throws RemoveException {
+		teamDAO.deleteTeamMemberInSignupTeam(map);
+	}
+	
+	@Override
+	public void dismissTeamMember(Map<String, Object> map) throws Exception {
+		teamDAO.dismissTeamMember(map);
 	}
 
 	@Override

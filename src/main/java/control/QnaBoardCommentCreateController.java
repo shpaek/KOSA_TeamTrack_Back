@@ -19,7 +19,7 @@ public class QnaBoardCommentCreateController extends QnaController {
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// CORS 문제 해결
-		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		res.setContentType("application/json;charset=utf-8");
@@ -35,12 +35,12 @@ public class QnaBoardCommentCreateController extends QnaController {
 		// =====================  여기 session 받아와야하니까 마지막에 수정해야함
 		HttpSession session = req.getSession();
 //		String loginedId = (String)session.getAttribute("loginedId");
-		String loginedId = "psh2023";
+//		String loginedId = "psh2023";
 		
 		Integer teamNo = Integer.parseInt(req.getParameter("teamNo"));
 		Integer qnaNo = Integer.parseInt(req.getParameter("qnaNo"));
 		String content = req.getParameter("content");
-		String id = req.getParameter("id");
+		String teammemberId = req.getParameter("teammemberId");
 		
 		String teamNoStr = req.getParameter("teamNo");
 		if (teamNoStr != null && !teamNoStr.isEmpty()) {
@@ -66,15 +66,15 @@ public class QnaBoardCommentCreateController extends QnaController {
 
 		try {
 
-			System.out.println("id ============> " + id);
+			System.out.println("teammemberId ============> " + teammemberId);
 			System.out.println("Content ============> " + content);
-			System.out.println("loginedId ============> " + loginedId);
+//			System.out.println("loginedId ============> " + loginedId);
 			
 			QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
 			
 			dto.setQnaNo(qnaNo);
 			dto.setContent(content);
-			dto.setTeammemberId(id);
+			dto.setTeammemberId(teammemberId);
 
 			commentService.insert(teamNo, dto);
 

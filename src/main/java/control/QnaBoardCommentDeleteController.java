@@ -21,7 +21,7 @@ public class QnaBoardCommentDeleteController extends QnaController {
 
 		res.setContentType("application/json;charset=utf-8");
 		
-		res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		HttpSession session = req.getSession();
@@ -62,7 +62,11 @@ public class QnaBoardCommentDeleteController extends QnaController {
 			
 		} // try-catch
 
-		out.print(mapper.writeValueAsString(map));
+		String jsonStr = mapper.writeValueAsString(map);
+		out.print(jsonStr);
+		
+		System.out.println(jsonStr);
+
 
 		return null;
 	} // execute

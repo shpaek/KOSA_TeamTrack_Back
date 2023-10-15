@@ -3,6 +3,7 @@ package com.my.rank.service;
 import java.util.List;
 import java.util.Map;
 
+import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.rank.dto.RankDTO;
@@ -39,6 +40,14 @@ public interface RankService {
 	 */
 	public Map<String, Object> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException;
 
+	/**
+	 * 새롭게 가입한 멤버의 랭킹 정보를 저장한다. 저장이 불가하면 AddException이 발생한다 
+	 * @param teamNo
+	 * @param id
+	 * @throws AddException
+	 */
+	public void insertRankInfo(Integer teamNo, String id) throws AddException;
+	
 	/**
 	 * 팀별 랭킹 정보를 실시간 업데이트 한다. 업데이트가 불가하면 ModifyException이 발생한다
 	 * @param teamNo

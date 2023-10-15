@@ -8,13 +8,13 @@
 	<!-- 댓글 작성 -->
 	<insert id="insertComment" parameterType="QnaBoardCommentDTO">
 		INSERT INTO ${tableName}(comment_no, qna_no, content, teammember_id)
-		VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{content}, #{teammember_id})
+		VALUES (ADMIN.QNACOMMENT_NO${teamNo}_SEQ.NEXTVAL, #{qna_no}, #{content}, #{teammember_id})
   	</insert>
   
   	<!-- 대댓글 작성 -->
   	<insert id="insertReplyComment" parameterType="QnaBoardCommentDTO">
 		INSERT INTO ${tableName}(comment_no, qna_no, comment_group, content, teammember_id)
-		VALUES (ADMIN.QNACOMMENT_NO_SEQ.NEXTVAL, #{qna_no}, #{commentGroup}, #{content}, #{teammember_id})
+		VALUES (ADMIN.QNACOMMENT_NO${teamNo}_SEQ.NEXTVAL, #{qna_no}, #{commentGroup}, #{content}, #{teammember_id})
   	</insert>
 
 	<!-- 댓글과 대댓글 모두 조회 -->

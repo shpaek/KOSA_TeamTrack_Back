@@ -22,8 +22,8 @@ public class TeamHashtagController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setContentType("application/json;charset=UTF-8");
 
 		String currentPage = request.getParameter("currentPage");
