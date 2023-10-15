@@ -36,7 +36,8 @@ public class MyTaskListController extends TaskController {
 //		if(!option.equals("최신순")) desc=false;
 
 //		Integer teamNo=9999;
-		String loginedId="cjs1231";
+		//String loginedId="cjs1231";
+		String loginedId=request.getParameter("id");
 		//int cp=1;
 		boolean desc=true;
 
