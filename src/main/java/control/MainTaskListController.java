@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
@@ -22,14 +23,15 @@ public class MainTaskListController extends TaskController {
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
-//		HttpSession session=request.getSession();
+		HttpSession session=request.getSession();
 		Integer teamNo=Integer.parseInt(request.getParameter("teamNo"));
 //		String option=request.getParameter("option");
-//		String loginedId=(String)session.getAttribute("loginedId");
+		String loginedId=(String)session.getAttribute("loginedId");
+
 		
 		//Integer teamNo=9999;
-		String loginedId="cjs1231";
-		
+		//String loginedId="cjs1231";
+
 		try {
 			List<TaskDTO> list=service.findMainTaskList(teamNo, loginedId);
 			String jsonStr = mapper.writeValueAsString(list);

@@ -45,7 +45,7 @@ public class CompleteTaskListController extends TaskController {
 		boolean desc=true;
 
 		try {
-			if(loginedId==null) throw new FindException("로그인 필요");
+			if(loginedId==null) throw new FindException("로그인이 필요합니다");
 			PageGroup<MemberTaskDTO> pg = service.findCompleteTaskList(teamNo, loginedId, cp, desc);
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
