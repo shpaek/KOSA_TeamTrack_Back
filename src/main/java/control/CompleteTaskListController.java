@@ -37,7 +37,8 @@ public class CompleteTaskListController extends TaskController {
 //		if(!option.equals("최신순")) desc=false;
 
 		//Integer teamNo=9999;
-		String loginedId="cjs1231";
+		String loginedId=request.getParameter("id");
+		//String loginedId="cjs1231";
 //		int cp=1;
 		boolean desc=true;
 
