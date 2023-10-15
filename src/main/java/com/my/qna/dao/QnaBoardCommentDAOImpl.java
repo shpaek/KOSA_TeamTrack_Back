@@ -101,6 +101,9 @@ public class QnaBoardCommentDAOImpl implements QnaBoardCommentDAO {
 			// 이 teammember_id는 sessionId로 가져와야 할거같다.. 수정 필요
 			map.put("teammember_id", dto.getTeammemberId());
 			
+			String teammemberId = (String) map.get("teammember_id");
+			System.out.println("dao teammember_id: " + teammemberId);
+			
 			session = sqlSessionFactory.openSession();
 			session.insert("com.my.qna.QnaboardCommentMapper.insertReplyComment", map);
 			
