@@ -20,7 +20,6 @@
   	WHERE id=#{id}
   </select>
   
-  
   <!-- 원희 -->
   <select id="selectByNickname" resultType="CustomerDTO">
   	SELECT *
