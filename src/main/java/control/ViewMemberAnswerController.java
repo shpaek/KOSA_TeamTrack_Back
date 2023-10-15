@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.FindException;
@@ -20,7 +21,8 @@ public class ViewMemberAnswerController extends TaskController {
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 //		HttpSession session=request.getSession();
-		
+		HttpSession session=request.getSession();
+		String loginedId=(String)session.getAttribute("loginedId");
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -32,7 +34,7 @@ public class ViewMemberAnswerController extends TaskController {
 		//Integer teamNo=9999;
 //		Integer taskNo=1;
 		//String loginedId="cjs1231";
-		String loginedId=request.getParameter("id");
+		//String loginedId=request.getParameter("id");
 		Map<String, Object> map=new HashMap<>();
 		
 		try {
