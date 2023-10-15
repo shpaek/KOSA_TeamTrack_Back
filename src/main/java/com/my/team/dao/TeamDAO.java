@@ -471,5 +471,13 @@ public interface TeamDAO {
 	 * @throws ModifyException
 	 */
 	void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException;
+	
+	/**
+	 * 출제자 조회
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	List<Map<String, Object>> selectExaminer(Integer teamNo) throws FindException;
 
 } // end interface
