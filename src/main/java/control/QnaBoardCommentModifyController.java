@@ -46,7 +46,6 @@ public class QnaBoardCommentModifyController extends QnaController {
 				return null;
 			}
 		}
-
 		try {
 			
 			QnaBoardCommentDTO dto = new QnaBoardCommentDTO();
