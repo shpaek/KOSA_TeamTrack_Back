@@ -18,9 +18,9 @@ public class UserProfileDownloadController implements Controller {
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setContentType("application/octet-stream;charset=UTF-8");
 		
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-//		String loginedId = "psh2023";
+		//HttpSession session = request.getSession();
+		//String loginedId = (String)session.getAttribute("loginedId");
+		String loginedId = "psh2023";
 
 		ServletOutputStream sos = response.getOutputStream();
 		

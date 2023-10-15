@@ -21,15 +21,16 @@ public class EditNicknameController extends CustomerController{
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
-//		HttpSession session = request.getSession();
-//		String loginedId = (String)session.getAttribute("loginedId");
-		
-		String loginedId = "psh2023";
+		HttpSession session = request.getSession();
+		String loginedId = (String)session.getAttribute("loginedId");
+		System.out.println(loginedId);
+		//String loginedId = "psh2023";
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
 		String nickname = request.getParameter("nickname");
+		System.out.println(nickname);
 		
 		Map<String, Object> map = new HashMap<>();; 
 		
