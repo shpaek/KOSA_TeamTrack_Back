@@ -382,6 +382,14 @@
 		WHERE st.TEAM_NO
 		= ${teamNo} AND (st.STATUS = 3 OR st.STATUS = 1)
 	</select>
+	
+	<!-- 팀 관리_현재 팀원 조회(팀장은 안보이게) -->
+	<select id="selectTeamMemberInfo" resultType="java.util.Map"
+		parameterType="int">
+		SELECT c.NICKNAME, st.ID, st.status
+		FROM CUSTOMER c JOIN SIGNUP_TEAM st ON (c.id = st.id)
+		WHERE st.TEAM_NO = ${teamNo} AND st.STATUS = 1
+	</select>
 
 	<!-- 팀 관리_팀원 방출 -->
 	<update id="updateTeamMemberStatusDismiss"
@@ -407,6 +415,20 @@
 		WHERE st.STATUS = 0 And TEAM_NO =
 		${teamNo}
 	</select>
+	
+	<!-- 가입 요청 전에 방출/탈퇴/가입중 판별 -->
+	<select id="selectLeaveTeamMemberStatus" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT STATUS
+	    FROM TEAMMEMBER_${teamNo}
+	    WHERE ID = #{id}
+	</select>
+	
+	<!-- 탈퇴 멤버용 업데이트 -->
+	<update id="updateMemberStatus" parameterType="java.util.Map">
+	    UPDATE TEAMMEMBER_${teamNo}
+	    SET STATUS = 1
+	    WHERE ID = #{id}
+	</update>
 
 	<!-- 팀 관리_팀 가입 요청 승인1 -->
 	<update id="updateRequestInfoApprove"
