@@ -97,6 +97,15 @@ public interface RankDAO {
 	List<MemberTaskDTO> selectTaskScore(Integer teamNo, Integer month) throws FindException;
 	
 	/**
+	 * 과제 출제자 입장에서의 과제 점수를 계산하기 위해 id별 과제 출제 내역을 조회한다 
+	 * @param teamNo 팀 번호 
+	 * @param month 과제 마감 기한의 월
+	 * @return TaskDTO 객체 
+	 * @throws FindException DB와 연결이 실패하거나 조회한 월에 출제 내역이 없는 경우 예외 발생
+	 */
+	List<TaskDTO> selectTaskSubmitScore(Integer teamNo, Integer month) throws FindException;
+	
+	/**
 	 * 출제 점수를 계산하기 위해 과제별 리뷰 점수 평균을 조회한다
 	 * @param teamNo 팀 번호 
 	 * @param month 과제 제출 마감 일자의 월  
