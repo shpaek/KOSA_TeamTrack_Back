@@ -22,19 +22,16 @@ public class MainNoticeController extends NoticeController{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		//response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
-		
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-		System.out.println(loginedId);
-		//String loginedId = "nwh2023";
-		
-		
+
+		String loginedId = request.getParameter("loginedId");
+
+
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		
-		Map map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		Integer memStatus = 0;
 		
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
@@ -45,11 +42,13 @@ public class MainNoticeController extends NoticeController{
 			
 			map.put("memStatus", memStatus);
 			map.put("notice", notice);
-			String jsonStr = mapper.writeValueAsString(map);
-			out.print(jsonStr);
+			
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
+		
+		String jsonStr = mapper.writeValueAsString(map);
+		out.print(jsonStr);
 
 		return null;
 	}

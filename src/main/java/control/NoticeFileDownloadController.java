@@ -15,12 +15,8 @@ public class NoticeFileDownloadController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setContentType("application/octet-stream;charset=UTF-8");
-		
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-		//String loginedId = "psh2023";
 
 		ServletOutputStream sos = response.getOutputStream();
 
@@ -48,7 +44,7 @@ public class NoticeFileDownloadController implements Controller {
 				return null;
 			}
 		}
-		System.out.println(loginedId+"의 프로필 파일이 없습니다");
+		System.out.println(teamNo+"의 프로필 파일이 없습니다");
 		return null;
 	}
 }

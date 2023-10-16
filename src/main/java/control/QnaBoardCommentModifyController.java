@@ -20,8 +20,8 @@ public class QnaBoardCommentModifyController extends QnaController {
 
 		res.setContentType("application/json;charset=utf-8");
 		
-		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		res.setHeader("Access-Control-Allow-Credentials", "true");
+//		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		HttpSession session = req.getSession();
 		String loginedId = (String)session.getAttribute("loginedId");
@@ -46,7 +46,6 @@ public class QnaBoardCommentModifyController extends QnaController {
 				return null;
 			}
 		}
-
 		try {
 			
 			QnaBoardCommentDTO dto = new QnaBoardCommentDTO();

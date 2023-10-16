@@ -1218,6 +1218,25 @@ public class TeamDAOImpl implements TeamDAO {
 			} // if
 		} // try-catch-finally
 	} // insertExaminer()
+	
+	@Override
+	public List<Map<String, Object>> selectExaminer(Integer teamNo) throws FindException {
+		SqlSession session = null;
+
+		try {
+			session = sqlSessionFactory.openSession();
+
+			List<Map<String, Object>> examinerInfo = session.selectList("com.my.team.TeamMapper.selectExaminer", teamNo);
+
+			return examinerInfo;
+		} catch (Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	} // selectExaminer
 
 //	################ Test ################
 	

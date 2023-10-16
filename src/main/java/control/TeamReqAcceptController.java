@@ -22,7 +22,7 @@ public class TeamReqAcceptController extends TeamController {
             throws ServletException, IOException, NumberFormatException {
 
         response.setContentType("application/json;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
         PrintWriter out = response.getWriter();
         ObjectMapper mapper = new ObjectMapper();

@@ -508,5 +508,10 @@ public class TeamServiceImpl implements TeamService {
 	public void insertExaminer(TaskDTO taskDTO, Integer teamNo) throws ModifyException {
 		teamDAO.insertExaminer(taskDTO, teamNo);
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectExaminer(Integer teamNo) throws FindException {
+		return teamDAO.selectExaminer(teamNo);
+	}
 
 } // end class

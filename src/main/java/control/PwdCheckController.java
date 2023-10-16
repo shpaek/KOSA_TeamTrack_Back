@@ -18,12 +18,10 @@ public class PwdCheckController extends CustomerController{
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		response.setHeader("Access-Control-Allow-Credentials", "true");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-		//String loginedId = "nwh2023";
+		String loginedId = request.getParameter("loginedId");
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();

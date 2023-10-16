@@ -18,9 +18,9 @@ public class QnaBoardCommentPickController extends QnaController {
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// CORS 문제 해결
-		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-		
+//		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Credentials", "true");
+//		
 		res.setContentType("application/json;charset=utf-8");
 		
 		// 응답출력스트림 얻기
