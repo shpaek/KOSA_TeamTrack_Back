@@ -55,7 +55,7 @@ public class SignupController extends CustomerController {
 
 			try {
 				String originProfileFileName = attach.getFile("file1").get(0).getName();
-				attach.upload("file1", id + "_profile_" + originProfileFileName);
+				attach.upload("file1", id + "_userprofile_" + originProfileFileName);
 			}catch(Exception e) {
 
 			} // try-catch
