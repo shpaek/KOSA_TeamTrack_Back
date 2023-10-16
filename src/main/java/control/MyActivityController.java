@@ -18,7 +18,7 @@ public class MyActivityController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		
 		HttpSession session = request.getSession();
 		String loginedId = (String)session.getAttribute("loginedId");

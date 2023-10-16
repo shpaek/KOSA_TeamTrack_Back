@@ -36,6 +36,7 @@ public class NoticeDetailController extends NoticeController{
 		Map map = new HashMap<>();
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 		Integer noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		//String loginedId = request.getParameter("loginedId");
 		Integer memStatus = 0;
 		String fileName = "null";
 		

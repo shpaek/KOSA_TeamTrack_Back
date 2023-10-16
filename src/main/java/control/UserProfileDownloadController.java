@@ -15,7 +15,7 @@ public class UserProfileDownloadController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setContentType("application/octet-stream;charset=UTF-8");
 		
 		HttpSession session = request.getSession();
