@@ -84,7 +84,8 @@ public class SetTaskController extends TaskController {
 					System.out.println(filetype[filetype.length-1]);
 					attach.upload("taskfile", "과제"+teamNo+"_"+taskNo+"."+filetype[filetype.length-1]);
 					
-					
+					map.put("status", 1);
+					map.put("msg", "출제에 성공하였습니다");
 				//}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -92,8 +93,7 @@ public class SetTaskController extends TaskController {
 				map.put("msg", "출제에 실패하였습니다");
 			} 
 			
-			map.put("status", 1);
-			map.put("msg", "출제에 성공하였습니다");
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
