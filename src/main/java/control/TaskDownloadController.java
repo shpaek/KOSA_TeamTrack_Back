@@ -29,7 +29,7 @@ public class TaskDownloadController extends TaskController {
 //		Integer taskNo=7;
 		System.out.println(taskNo);
 		
-		String dir="/Users/qqllzs/filetest";
+		String dir="C:\\KOSA202307\\attaches";
 		String fileName="과제"+teamNo+"_"+taskNo+".";
 		System.out.println(fileName);
 		File fileDir=new File(dir);
