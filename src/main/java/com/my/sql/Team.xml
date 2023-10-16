@@ -462,5 +462,23 @@
 		(TASK_${teamNo}_SEQ.NEXTVAL ,#{TaskDTO.id}, #{TaskDTO.duedate1},
 		#{TaskDTO.duedate2}, #{TaskDTO.enddate})
 	</insert>
+	
+	<!-- 팀 관리_과제 출제자 조회 -->
+	<select id="selectExaminer" parameterType="hashmap" resultType="java.util.Map">
+	    SELECT TASK_NO, ID, DUEDATE1, DUEDATE2
+	    FROM TASK_${teamNo}
+	</select>
+	
+	<!-- 과제 출제자 조회 (20개 리밋) -->
+	<!-- 
+	<select id="selectExaminer" parameterType="hashmap" resultType="yourResultType">
+	    SELECT TASK_NO, ID, DUEDATE1, DUEDATE2
+	    FROM (
+	        SELECT TASK_NO, ID, DUEDATE1, DUEDATE2
+	        FROM TASK_${teamNo}
+	        ORDER BY TASK_NO DESC
+	    ) WHERE ROWNUM <= 20
+	</select>
+	 -->
 
 </mapper>

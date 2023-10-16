@@ -54,8 +54,20 @@ public class TeamSelectExaminerController extends TeamController {
 				statusMap.put("status", 0);
 				statusMap.put("msg", "팀원 목록 조회 실패");
 			} // if-else
+			
+			// 출제자 조회 목록
+			if ("getExaminer".equals(action)) {
+				List<Map<String, Object>> examinerInfo = service.selectExaminer(teamNo);
+				methodMap.put("examinerInfo", examinerInfo);
 
-			// 출제자 선정 !!!!!!!
+				statusMap.put("status", 1);
+				statusMap.put("msg", "출제자 조회 성공");
+			} else {
+				statusMap.put("status", 0);
+				statusMap.put("msg", "출제자 조회 실패");
+			} // if-else
+
+			// 출제자 선정 !!!!
 			if ("selectExaminer".equals(action)) {
 
 				TaskDTO taskDTO = new TaskDTO();

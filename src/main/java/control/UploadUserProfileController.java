@@ -25,20 +25,17 @@ public class UploadUserProfileController implements Controller{
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 
 
-		HttpSession session = request.getSession();
-		String loginedId = (String)session.getAttribute("loginedId");
-		//String loginedId = "psh2023";
-
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, Object> map = new HashMap<>();
 		String attachesDir = "C:\\KOSA202307\\attaches";
-		String fileName = loginedId +"_userprofile_";
 		File dir = new File(attachesDir);
 
 		try {
 			Attach attach=new Attach(request);
+			String loginedId = attach.getParameter("loginedId");
+			String fileName = loginedId +"_userprofile_";
 			try {
 				String originFileName=attach.getFile("f1").get(0).getName();
 				for(File file : dir.listFiles()) {
