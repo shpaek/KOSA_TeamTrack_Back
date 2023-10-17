@@ -50,7 +50,7 @@ public class DispatcherServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// 헤더 설정
-		//res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.20:5500");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setContentType("application/json;charset=utf-8");

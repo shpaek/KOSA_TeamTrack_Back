@@ -43,20 +43,17 @@ public class SetMainNoticeController extends NoticeController {
 					map.put("msg", "이미 메인공지가 존재합니다\n기존 메인공지를 내린 후 시도해주세요");
 				}
 				out.print(mapper.writeValueAsString(map));
-				return null;
 			}else if(mainStatus==0){
 				service.setMainNotice(teamNo, noticeNo, mainStatus);
 				map.put("status", 1);
 				map.put("msg", "메인공지가 취소되었습니다");
+				out.print(mapper.writeValueAsString(map));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("status", 0);
 			map.put("msg", e.getMessage());
 		}
-
-		out.print(mapper.writeValueAsString(map));
-
 		return null;
 	}
 }

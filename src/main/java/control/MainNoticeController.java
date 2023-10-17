@@ -25,7 +25,7 @@ public class MainNoticeController extends NoticeController{
 		//response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
 
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("loginedId");
 
 
 		PrintWriter out = response.getWriter();
@@ -37,7 +37,7 @@ public class MainNoticeController extends NoticeController{
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 		
 		try {
-			memStatus = teamService.leaderChk(loginedId, teamNo);
+			memStatus = teamService.leaderChk(id, teamNo);
 			NoticeDTO notice = service.findMainNotice(teamNo);
 			
 			map.put("memStatus", memStatus);

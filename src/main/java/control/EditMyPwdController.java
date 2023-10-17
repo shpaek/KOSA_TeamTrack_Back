@@ -18,7 +18,7 @@ public class EditMyPwdController extends CustomerController{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 		
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 		
 		String pwd = request.getParameter("pwd");
 		
@@ -28,7 +28,7 @@ public class EditMyPwdController extends CustomerController{
 		Map<String, Object> map = new HashMap<>();; 
 		
 		try {
-			service.editMyPwd(loginedId, pwd);
+			service.editMyPwd(id, pwd);
 			map.put("status", 1);
 			map.put("msg", "비밀번호가 변경되었습니다");
 		} catch (Exception e) {

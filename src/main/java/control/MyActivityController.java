@@ -20,7 +20,7 @@ public class MyActivityController extends TeamController {
 		response.setContentType("application/json;charset=utf-8");
 //		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -30,7 +30,7 @@ public class MyActivityController extends TeamController {
 		System.out.println(teamNo);
 		
 		try {
-			map = service.myActivity(loginedId, teamNo);
+			map = service.myActivity(id, teamNo);
 			System.out.println(map.get("team"));
 			System.out.println(map.get("teammember"));
 			String jsonStr = mapper.writeValueAsString(map);

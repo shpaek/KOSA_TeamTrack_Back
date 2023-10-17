@@ -21,8 +21,8 @@ public class UploadUserProfileController implements Controller{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
-		response.setHeader("Access-Control-Allow-Credentials", "true");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Credentials", "true");
 
 
 		PrintWriter out = response.getWriter();
@@ -34,8 +34,8 @@ public class UploadUserProfileController implements Controller{
 
 		try {
 			Attach attach=new Attach(request);
-			String loginedId = attach.getParameter("loginedId");
-			String fileName = loginedId +"_userprofile_";
+			String id = attach.getParameter("id");
+			String fileName = id +"_userprofile_";
 			try {
 				String originFileName=attach.getFile("f1").get(0).getName();
 				for(File file : dir.listFiles()) {
@@ -44,7 +44,7 @@ public class UploadUserProfileController implements Controller{
 						file.delete();
 					}
 				}
-				attach.upload("f1", loginedId+"_userprofile_"+originFileName);
+				attach.upload("f1", id+"_userprofile_"+originFileName);
 			} catch(Exception e) {
 				
 			}

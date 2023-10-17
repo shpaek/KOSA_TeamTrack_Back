@@ -17,9 +17,9 @@ public class CancelWaitingController extends TeamController{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -29,7 +29,7 @@ public class CancelWaitingController extends TeamController{
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 
 		try {
-			service.cancelWaiting(loginedId, teamNo);
+			service.cancelWaiting(id, teamNo);
 			map.put("status", 1);
 			map.put("msg", "승인대기 취소되었습니다");
 		} catch (RemoveException e) {

@@ -18,8 +18,9 @@ public class DeleteAccountController extends CustomerController{
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
+		HttpSession session = request.getSession();
 		
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -28,9 +29,11 @@ public class DeleteAccountController extends CustomerController{
 
 		try {
 			if(request.getParameter("status")!=null) {
-				service.deleteAccount(loginedId);
+				service.deleteAccount(id);
 				map.put("status", 1);
 				map.put("msg", "탈퇴되었습니다");
+				session.removeAttribute("loginedId");
+				session.invalidate();
 			}else {
 				map.put("status", 0);
 				map.put("msg", "동의가 필요합니다");

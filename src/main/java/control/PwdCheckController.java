@@ -21,7 +21,7 @@ public class PwdCheckController extends CustomerController{
 //		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 //		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -31,7 +31,7 @@ public class PwdCheckController extends CustomerController{
 		String pwd = request.getParameter("pwd");
 
 		try {
-			if(service.pwdCheck(loginedId, pwd)) {	
+			if(service.pwdCheck(id, pwd)) {	
 				map.put("status", 1);
 				map.put("msg", "비밀번호가 일치합니다");
 			}else {

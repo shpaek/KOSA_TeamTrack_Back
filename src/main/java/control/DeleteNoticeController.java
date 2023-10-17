@@ -23,7 +23,7 @@ public class DeleteNoticeController extends NoticeController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();

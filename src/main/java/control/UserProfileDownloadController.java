@@ -18,12 +18,12 @@ public class UserProfileDownloadController implements Controller {
 //		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		response.setContentType("application/octet-stream;charset=UTF-8");
 		
-		String loginedId=request.getParameter("loginedId");
+		String id=request.getParameter("id");
 
 		ServletOutputStream sos = response.getOutputStream();
 		
 		String attachesDir = "C:\\KOSA202307\\attaches";
-		String fileName = loginedId +"_userprofile_";
+		String fileName = id +"_userprofile_";
 		File dir = new File(attachesDir);
 		
 		
@@ -43,7 +43,7 @@ public class UserProfileDownloadController implements Controller {
 				return null;
 			}
 		}
-		System.out.println(loginedId+"의 프로필 파일이 없습니다");
+		System.out.println(id+"의 프로필 파일이 없습니다");
 		return null;
 	}
 }

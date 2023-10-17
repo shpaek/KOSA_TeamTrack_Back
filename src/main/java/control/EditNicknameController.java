@@ -21,7 +21,7 @@ public class EditNicknameController extends CustomerController{
 		
 		HttpSession session = request.getSession();
 		
-		String loginedId = request.getParameter("loginedId");		
+		String id = request.getParameter("id");		
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -32,7 +32,7 @@ public class EditNicknameController extends CustomerController{
 		Map<String, Object> map = new HashMap<>();; 
 		
 		try {
-			service.modifyNickname(loginedId, nickname);
+			service.modifyNickname(id, nickname);
 			map.put("status", 1);
 			map.put("msg", "닉네임이 수정되었습니다");
 			session.setAttribute("nickname",nickname);

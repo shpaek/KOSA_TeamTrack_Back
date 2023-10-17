@@ -24,7 +24,7 @@ public class NoticeDetailController extends NoticeController{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 
-		String loginedId=request.getParameter("loginedId");	
+		String id=request.getParameter("id");	
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -41,7 +41,7 @@ public class NoticeDetailController extends NoticeController{
 		File dir = new File(attachesDir);
 		
 		try {
-			memStatus = teamService.leaderChk(loginedId, teamNo);
+			memStatus = teamService.leaderChk(id, teamNo);
 			NoticeDTO notice = service.findByNoticeNo(teamNo, noticeNo);
 			
 			String findName = teamNo+"_"+noticeNo+"_notice_";

@@ -21,14 +21,14 @@ public class MyInfoController extends CustomerController{
 		response.setContentType("application/json;charset=utf-8");
 //		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		
-		String loginedId=request.getParameter("loginedId");
+		String id=request.getParameter("id");
 
 		
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			CustomerDTO customer = service.findById(loginedId);
+			CustomerDTO customer = service.findById(id);
 			String jsonStr = mapper.writeValueAsString(customer);
 			out.print(jsonStr);
 		} catch (FindException e) {
