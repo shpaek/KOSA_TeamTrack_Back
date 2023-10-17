@@ -12,6 +12,7 @@ import com.my.exception.ModifyException;
 import com.my.exception.RemoveException;
 import com.my.team.dao.TeamDAO;
 import com.my.team.dao.TeamDAOImpl;
+import com.my.team.dto.SignupTeamDTO;
 
 public class CustomerServiceImpl implements CustomerService {
 
@@ -100,16 +101,17 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public void deleteAccount(String id) throws ModifyException, FindException, RemoveException{
-		customerDAO.updateCustomerStatus(id);
 		
-		List<Integer> teamNoList = new ArrayList<>();
+		List<SignupTeamDTO> teamNoList = new ArrayList<>();
 		teamNoList = teamDAO.selectSignupTeam(id);
 		
 		for(int i=0;i<teamNoList.size();i++) {
-			teamDAO.updateTeamMemberStatusResign(teamNoList.get(i), id);
+			Integer teamNo = teamNoList.get(i).getTeamNo();
+			teamDAO.updateTeamMemberStatusResign(teamNo, id);
+			teamDAO.deleteSignupTeam(id, teamNo);
 		}
 		
-		teamDAO.deleteSignupTeam(id);
+		customerDAO.updateCustomerStatus(id);
 	}
 	
 	@Override

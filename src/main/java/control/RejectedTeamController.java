@@ -19,9 +19,9 @@ public class RejectedTeamController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 				
 		ObjectMapper mapper = new ObjectMapper();
 		PrintWriter out = response.getWriter();
@@ -35,7 +35,7 @@ public class RejectedTeamController extends TeamController {
 		}
 
 		try {
-			PageGroup<SignupTeamDTO> pg = service.findRejectedTeam(cp, loginedId);
+			PageGroup<SignupTeamDTO> pg = service.findRejectedTeam(cp, id);
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
 		} catch (FindException e) {
