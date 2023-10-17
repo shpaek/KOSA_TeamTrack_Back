@@ -66,7 +66,7 @@
 	HAVING extract (month from enddate)=#{month}
   </select>
   
-  
+  <!-- 과제 푸는 사람 기준의 과제 점수 -->
   <select id="selectTaskScore" resultType="MemberTaskDTO" parameterType="java.util.HashMap">
 	SELECT ms.id as id
 	  , NVL(SUM(ms.hwscore),0) as totalscore
@@ -77,6 +77,13 @@
 	GROUP BY ms.id, extract (month from t.enddate)
   </select>
   
+  <!-- 과제 제출하는 사람 기준의 과제 점수 -->
+  <select id="selectTaskSubmitScore" resultType="TaskDTO" parameterType="java.util.HashMap">
+  	SELECT id, COUNT(*) AS taskSubmitNum
+	FROM task_${team_no}
+	WHERE (duedate2-regdate) &gt; 0 AND EXTRACT(MONTH FROM ENDDATE)=#{month}
+	GROUP BY id
+  </select>
   
   <select id="selectReviewScore" resultType="TaskDTO" parameterType="java.util.HashMap">	
 	SELECT id, NVL(sum(avg_reviewscore), 0) as totalreviewscore, extract (month from enddate) as month

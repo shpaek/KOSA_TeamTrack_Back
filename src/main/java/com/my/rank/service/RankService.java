@@ -41,14 +41,23 @@ public interface RankService {
 	public List<TeamMemberDTO> findMemberId(Integer teamNo, Integer month) throws FindException;
 	
 	/**
-	 * 각 팀 멤버의 총 점수를 계산한다. 멤버의 점수가 없으면 FindException 발생한다 
+	 * 각 팀 멤버의 총 점수를 계산한다. 멤버의 점수가 없으면 FindException이 발생한다 
 	 * @param teamNo
 	 * @param month
 	 * @return
 	 * @throws FindException
 	 */
 	public Map<String, Object> calculateTotalScore(Integer teamNo, String attendanceDate, Integer month) throws FindException;
-
+	
+//	/**
+//	 * 출제자의 과제 점수를 계산한다. 출제 내역이 없으면 FindException이 발생한다 
+//	 * @param teamNo
+//	 * @param month
+//	 * @return
+//	 * @throws FindException
+//	 */
+//	public Map<String, Integer> calculateSubmitScore(Integer teamNo, Integer month) throws FindException;
+	
 	/**
 	 * 새롭게 가입한 멤버의 랭킹 정보를 저장한다. 저장이 불가하면 AddException이 발생한다 
 	 * @param teamNo
