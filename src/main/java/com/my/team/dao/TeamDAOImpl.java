@@ -575,7 +575,7 @@ public class TeamDAOImpl implements TeamDAO {
 
 		try {
 			session = sqlSessionFactory.openSession(); 	
-			List<Integer> list = session.selectOne("com.my.team.TeamMapper.selectSignupTeam", id);
+			List<SignupTeamDTO> list = session.selectList("com.my.team.TeamMapper.selectSignupTeam", id);
 			return list;
 		}catch(Exception e) {
 			throw new FindException(e.getMessage());
@@ -736,13 +736,16 @@ public class TeamDAOImpl implements TeamDAO {
 
 	// 팀 메인 페이지 - 팀 나가기 #2
 	@Override
-	public void deleteSignupTeam(String id) throws RemoveException {
+	public void deleteSignupTeam(String id, Integer teamNo) throws RemoveException {
 		SqlSession session = null;
+		Map map = new HashMap<>();
 
 		try {
 			session = sqlSessionFactory.openSession();
+			map.put("id", id);
+			map.put("teamNo", teamNo);
 
-			session.delete("com.my.team.TeamMapper.deleteSignupTeam", id);
+			session.delete("com.my.team.TeamMapper.deleteSignupTeam", map);
 			session.commit();
 		} catch(Exception e){
 			session.rollback();
@@ -770,7 +773,7 @@ public class TeamDAOImpl implements TeamDAO {
 	        session.update("com.my.team.TeamMapper.updateTeamMemberStatusResign", map);
 
 	        // 팀 나가기 #2
-	        session.delete("com.my.team.TeamMapper.deleteSignupTeam", id);
+	        session.delete("com.my.team.TeamMapper.deleteSignupTeam", map);
 
 	        // 두 작업 모두 성공하면 커밋
 	        session.commit();

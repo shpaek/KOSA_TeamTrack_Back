@@ -17,9 +17,9 @@ public class RejectCheckController extends TeamController {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -29,7 +29,7 @@ public class RejectCheckController extends TeamController {
 		Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
 
 		try {
-			service.rejectCheck(loginedId, teamNo);
+			service.rejectCheck(id, teamNo);
 			map.put("status", 1);
 		} catch (RemoveException e) {
 			e.printStackTrace();

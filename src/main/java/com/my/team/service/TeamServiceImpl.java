@@ -296,6 +296,7 @@ public class TeamServiceImpl implements TeamService {
 		// from 일자와 to 일자의 시간 차 값을 하루기준으로 나눠 준다.
 		long diffDate = calDate / baseDay;
 		long diffMonth = calDate / baseMonth;
+		System.out.println("dffdate:"+diffDate);
 		
 		//출석률
 		int getAttendance = 0; 
@@ -400,8 +401,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void deleteSignupTeam(String id) throws RemoveException {
-		teamDAO.deleteSignupTeam(id);
+	public void deleteSignupTeam(String id, Integer teamNo) throws RemoveException {
+		teamDAO.deleteSignupTeam(id, teamNo);
 	}
 
 	@Override

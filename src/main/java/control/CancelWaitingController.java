@@ -17,9 +17,9 @@ public class CancelWaitingController extends TeamController{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 		
-		String loginedId = request.getParameter("loginedId");
+		String loginedId = request.getParameter("id");
 
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();

@@ -24,7 +24,7 @@ public class MyTeamListController extends TeamController {
 		response.setContentType("application/json;charset=utf-8");
 //		response.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
 
-		String loginedId = request.getParameter("loginedId");
+		String id = request.getParameter("id");
 		
 		ObjectMapper mapper = new ObjectMapper();
 		PrintWriter out = response.getWriter();
@@ -39,7 +39,7 @@ public class MyTeamListController extends TeamController {
 		}
 
 		try {
-			PageGroup<SignupTeamDTO> pg = service.findMyTeam(cp, loginedId, menuStatus);
+			PageGroup<SignupTeamDTO> pg = service.findMyTeam(cp, id, menuStatus);
 			String jsonStr = mapper.writeValueAsString(pg);
 			out.print(jsonStr);
 		} catch (FindException e) {

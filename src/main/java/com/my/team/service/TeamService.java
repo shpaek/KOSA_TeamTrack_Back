@@ -258,7 +258,7 @@ public interface TeamService {
 	 * @param id
 	 * @throws RemoveException
 	 */
-	void deleteSignupTeam(String id) throws RemoveException;
+	void deleteSignupTeam(String id, Integer teamNo) throws RemoveException;
 
 	/**
 	 * 팀 메인 페이지 - 팀 나가기(트랜잭션)
