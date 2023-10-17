@@ -18,14 +18,14 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 @WebServlet("/upload")
 public class UploadServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		// CORS 문제 해결
-//		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.20:5500");
-//		res.setHeader("Access-Control-Allow-Credentials", "true");
+		res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.20:5500");
+		res.setHeader("Access-Control-Allow-Credentials", "true");
 
 		String tempDir = "C:\\KOSA202307\\temp"; 			// 임시 파일 저장 경로
 		String attachesDir = "C:\\KOSA202307\\attaches";    // 첨부 파일이 실제로 저장될 경로
