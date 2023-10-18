@@ -689,6 +689,38 @@ public class TeamDAOImpl implements TeamDAO {
 		} // try-catch-finally
 	} // selectNoticeListByNoticeNo
 
+	// 팀 메인 페이지 - 팀 가입 전 방출회원 판단
+	@Override
+	public Integer selectAllTeammember(int teamNo, String id) throws FindException {
+		SqlSession session = null;
+
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("id", id);
+		map.put("teamNo", teamNo);
+		
+		try {
+			session = sqlSessionFactory.openSession();
+
+			Integer teamMemberStatus = session.selectOne("com.my.team.TeamMapper.selectAllTeammember", map);
+			
+			System.out.println(teamMemberStatus);
+
+			if(teamMemberStatus != null) {
+				return teamMemberStatus;
+			} else {
+				throw new FindException("선택하신 팀의 멤버가 없습니다.");
+			} // if-else
+
+		} catch (Exception e) {
+			throw new FindException(e.getMessage());
+		} finally {
+			if(session != null) {
+				session.close();
+			} // if
+		} // try-catch-finally
+	}
+	
 	// 팀 메인 페이지 - 팀 가입하기
 	@Override
 	public void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException {

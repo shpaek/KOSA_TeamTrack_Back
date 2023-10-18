@@ -27,7 +27,6 @@ public class MainNoticeController extends NoticeController{
 
 		String loginedId = request.getParameter("loginedId");
 
-
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		

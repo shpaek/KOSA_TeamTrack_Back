@@ -15,6 +15,7 @@ import com.my.team.dto.AttendanceDTO;
 import com.my.team.dto.SignupTeamDTO;
 import com.my.team.dto.TeamDTO;
 import com.my.team.dto.TeamHashtagDTO;
+import com.my.team.dto.TeamMemberDTO;
 import com.my.util.MainPageGroup;
 import com.my.util.PageGroup;
 
@@ -238,6 +239,15 @@ public interface TeamService {
 	 */
 	List<NoticeDTO> selectNoticeListByTeamNo(int teamNo) throws FindException;
 
+	
+	/**
+	 * 팀 메인 페이지 - 팀 가입 전 방출 회원인지 판단
+	 * @param teamNo
+	 * @return
+	 * @throws FindException
+	 */
+	Integer selectAllTeammember(int teamNo, String id) throws FindException;
+	
 	/**
 	 * 팀 메인 페이지 - 팀에 가입하기
 	 * @param SignupTeamDTO

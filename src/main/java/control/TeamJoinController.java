@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.exception.AddException;
+import com.my.exception.FindException;
 import com.my.team.dto.SignupTeamDTO;
 
 public class TeamJoinController extends TeamController {
@@ -32,23 +33,28 @@ public class TeamJoinController extends TeamController {
 
 			SignupTeamDTO signupTeamDTO = new SignupTeamDTO();
 			
-			System.out.println(Integer.parseInt(request.getParameter("teamNo")));
-
             signupTeamDTO.setTeamNo(Integer.parseInt(request.getParameter("teamNo")));
             signupTeamDTO.setId(request.getParameter("id"));
             signupTeamDTO.setIntroduction(request.getParameter("introduction"));
 
-			service.insertSignUpTeam(signupTeamDTO);
-			
-			//팀 가입시 랭킹 정보도 업데이트하게 만들기
-			Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
-			String id = request.getParameter("id");
-			rankservice.addRankInfo(teamNo, id);
+            Integer teamMemberStatus = service.selectAllTeammember(Integer.parseInt(request.getParameter("teamNo")), request.getParameter("id"));
+            
+            if (teamMemberStatus == 2) {
+            	map.put("status", 2);
+            	map.put("msg", "해당 팀에서 방출되셨습니다. 팀 재가입이 불가능합니다.");
+            } else {
+            	
+            	service.insertSignUpTeam(signupTeamDTO);            	
+            	//팀 가입시 랭킹 정보도 업데이트하게 만들기
+            	Integer teamNo = Integer.parseInt(request.getParameter("teamNo"));
+            	String id = request.getParameter("id");
+            	rankservice.addRankInfo(teamNo, id);
+            	
+            	map.put("status", 1);
+            	map.put("msg", "팀 가입 요청 성공");
+            } // if-else
 
-			map.put("status", 1);
-			map.put("msg", "팀 가입 요청 성공");
-
-		} catch (AddException e) {
+		} catch (AddException | NumberFormatException | FindException e) {
 			e.printStackTrace();
 			
 			map.put("status", 0);
@@ -58,6 +64,8 @@ public class TeamJoinController extends TeamController {
 		// JSON문자열 응답
 		String jsonStr = mapper.writeValueAsString(map);
 		out.print(jsonStr);
+		
+		System.out.println(map);
 
 		return null;
 

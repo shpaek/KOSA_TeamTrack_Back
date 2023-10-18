@@ -299,6 +299,14 @@ public interface TeamDAO {
 	List<NoticeDTO> selectNoticeListByTeamNo(int teamNo) throws FindException;
 
 	/**
+	 * 팀 메인 페이지 - 가입하기 버튼 클릭 시 방출 회원인지 아닌지 판단
+	 * @param teamNo
+	 * @return TeamMemberDTO
+	 * @throws FindException
+	 */
+	Integer selectAllTeammember(int teamNo, String id) throws FindException;
+	
+	/**
 	 * 팀 메인 페이지 - 팀에 가입하기
 	 * @param SignupTeamDTO
 	 * @throws AddException
