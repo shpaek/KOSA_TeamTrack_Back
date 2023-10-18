@@ -73,17 +73,48 @@ public class RankServiceImpl implements RankService {
 			attmap.put(id, attendancerate);
 		}
 		
-		// id별 평균 task score 계산 
+		// id별 평균 task score 계산
 		Map<String, Double> tsmap = new HashMap<>();
+		List<TaskDTO> submitlist = rankDao.selectTaskSubmitScore(teamNo, month);
 		Integer monthlytasknum = tasknumlist.get(0).getMonthlyTaskNum();
+		Double totaltaskscore = 0.0;
+		
+		//1) 과제 푸는 사람의 task score 계산
 		for (MemberTaskDTO mtdto : mtlist) {
 			String id = mtdto.getId();
-			
-			// 과제점수평균 = 과제 점수 총합/월에 출제된 과제 총 개수
-			Double totaltaskscore = mtdto.getTotalScore();
-			Double avgtaskscore = (double)(totaltaskscore/monthlytasknum);
-			tsmap.put(id, avgtaskscore);
+			// 과제점수총합
+			totaltaskscore = mtdto.getTotalScore();
+			tsmap.put(id, totaltaskscore);
+			System.out.println("첫번째!!!" + id + " : " + totaltaskscore);
 		}
+		
+		//2) 과제 출제하는 사람의 task score 계산 
+		for (TaskDTO tdto : submitlist) {
+			System.out.println(tdto);
+			String id = tdto.getId();
+			// 과제출제점수 
+			Double tmp=tsmap.get(id);
+			Double submitscore = (double)tdto.getTaskSubmitNum()*100;
+			totaltaskscore+=submitscore;
+			tsmap.put(id, totaltaskscore);
+			System.out.println("두번째!!!!" + id + " : " + totaltaskscore);
+		}
+		
+		System.out.println(monthlytasknum);
+		for (TeamMemberDTO tmdto : tmlist) {
+			String id = tmdto.getId();
+			Double tmp = 0.0;
+			if (tsmap.get(id) == null) {
+				tmp = 0.0;
+				System.out.println(id + tmp);
+			} else {
+				tmp = tsmap.get(id);
+				System.out.println(id + tmp);
+			}
+			Double avgtaskscore = (double)(tmp/monthlytasknum);
+			tsmap.put(id, avgtaskscore);
+			System.out.println(id + " : " + avgtaskscore);
+		}		
 		
 		//id별 평균 리뷰점수 누적합 계산 
 		Map<String, Double> rsmap = new HashMap<>();
@@ -136,8 +167,9 @@ public class RankServiceImpl implements RankService {
 	public static void main(String[] args) {
 		RankServiceImpl service = new RankServiceImpl();
 		try {
-			System.out.println(service.findByMonth(9999, 10));
-			System.out.println(service.calculateTotalScore(9999, "2023-10-01", 10));
+			
+			System.out.println(service.findByMonth(7, 10));
+			System.out.println(service.calculateTotalScore(7, "2023-10-01", 10));
 		} catch (FindException e) {
 			e.printStackTrace();
 		}

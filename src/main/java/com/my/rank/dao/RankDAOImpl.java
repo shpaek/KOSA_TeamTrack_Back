@@ -236,6 +236,30 @@ public class RankDAOImpl implements RankDAO {
 			}
 		}
 	}
+	
+	
+	@Override
+	public List<TaskDTO> selectTaskSubmitScore(Integer teamNo, Integer month) throws FindException {
+		SqlSession session = null;
+		List<TaskDTO> list = new ArrayList<>(); 
+		
+		try {
+			session = sqlSessionFactory.openSession();
+			Map<String, Object> map = new HashMap<>();
+			map.put("team_no", teamNo);
+			map.put("month", month);
+			list = session.selectList("com.my.rank.RankMapper.selectTaskSubmitScore", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FindException("과제 출제 내역 조회 실패");
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
 
 	@Override
 	public List<TaskDTO> selectReviewScore(Integer teamNo, Integer month) throws FindException {
@@ -286,84 +310,95 @@ public class RankDAOImpl implements RankDAO {
 	//----------------------------TEST---------------------------------
 	public static void main(String[] args) {
 		RankDAOImpl dao = new RankDAOImpl();
-		
-		//rank list 가져오기 
+//		
+//		//rank list 가져오기 
+//		try {
+//			Integer teamNo = 9999;
+//			Integer month = 10;
+//			
+//			List<RankDTO> list = dao.selectByMonth(teamNo, month);
+//			System.out.println("[월별 랭킹 리스트 출력]");
+//			System.out.println(list);
+//			System.out.println("-------------------------------------");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//attendance 조회하기
+//		try {
+//			List<AttendanceDTO> list = dao.selectAttendanceDay(9999, "2023-10-23", 10);
+//			System.out.println("[id별 월별 출석 수]");
+//			System.out.println(list);
+//			System.out.println("-------------------------------------");
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//월별 과제 갯수 조회하기
+//		try {
+//			List<TaskDTO> list = dao.countMonthlyTask(9999, 10);
+//			System.out.println("[월별 과제 갯수]");
+//			for (int i = 0; i < list.size(); i++) {
+//				System.out.println(list.get(i).getMonth()+"월 - " + list.get(i).getMonthlyTaskNum() + "개");				
+//			}
+//			System.out.println("-------------------------------------");
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//회원별 과제점수 
+//		try {
+//			List<MemberTaskDTO> list = dao.selectTaskScore(9999, 10);
+//			System.out.println("[회원별 과제 점수]");
+//			for (int i = 0; i < list.size(); i++) {
+//				System.out.println(list.get(i).getId() +", "+ list.get(i).getTotalScore() + ", " 
+//						+ list.get(i).getTaskNum() + ", " + list.get(i).getMonth());				
+//			}
+//			System.out.println("-------------------------------------");
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//id별 리뷰 점수 출력
+//		try {
+//			List<TaskDTO> list = dao.selectReviewScore(9999, 10);
+//			System.out.println("[과제별 리뷰 점수]");
+//			for (int i = 0; i < list.size(); i++) {
+//				System.out.println(list.get(i).getId()+", "+list.get(i).getTotalReviewscore()+", "+list.get(i).getMonth());				
+//			}
+//			System.out.println("-------------------------------------");
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//id별 게시판 댓글 채택 출력
+//		try {
+//			List<QnaBoardCommentDTO> list = dao.selectQnAScore(9999, 10);
+//			System.out.println("[회원별 댓글 채택 점수]");
+//			for (int i = 0; i < list.size(); i++) {
+//				System.out.println(list.get(i).getTeammemberId()+", " + list.get(i).getPickedNum() + ", "+ list.get(i).getMonth());
+//			}
+//			System.out.println("-------------------------------------");
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		List<TaskDTO> list;
+//		try {
+//			list = dao.selectAllTask();
+//			for (int i = 0; i < list.size(); i++) {
+//				System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEnddate());				
+//			}
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//		
+		List<TaskDTO> list1;
 		try {
-			Integer teamNo = 9999;
-			Integer month = 10;
-			
-			List<RankDTO> list = dao.selectByMonth(teamNo, month);
-			System.out.println("[월별 랭킹 리스트 출력]");
-			System.out.println(list);
-			System.out.println("-------------------------------------");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		//attendance 조회하기
-		try {
-			List<AttendanceDTO> list = dao.selectAttendanceDay(9999, "2023-10-23", 10);
-			System.out.println("[id별 월별 출석 수]");
-			System.out.println(list);
-			System.out.println("-------------------------------------");
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
-		
-		//월별 과제 갯수 조회하기
-		try {
-			List<TaskDTO> list = dao.countMonthlyTask(9999, 10);
-			System.out.println("[월별 과제 갯수]");
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i).getMonth()+"월 - " + list.get(i).getMonthlyTaskNum() + "개");				
-			}
-			System.out.println("-------------------------------------");
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
-		
-		//회원별 과제점수 
-		try {
-			List<MemberTaskDTO> list = dao.selectTaskScore(9999, 10);
-			System.out.println("[회원별 과제 점수]");
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i).getId() +", "+ list.get(i).getTotalScore() + ", " 
-						+ list.get(i).getTaskNum() + ", " + list.get(i).getMonth());				
-			}
-			System.out.println("-------------------------------------");
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
-		
-		//id별 리뷰 점수 출력
-		try {
-			List<TaskDTO> list = dao.selectReviewScore(9999, 10);
-			System.out.println("[과제별 리뷰 점수]");
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i).getId()+", "+list.get(i).getTotalReviewscore()+", "+list.get(i).getMonth());				
-			}
-			System.out.println("-------------------------------------");
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
-		
-		//id별 게시판 댓글 채택 출력
-		try {
-			List<QnaBoardCommentDTO> list = dao.selectQnAScore(9999, 10);
-			System.out.println("[회원별 댓글 채택 점수]");
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i).getTeammemberId()+", " + list.get(i).getPickedNum() + ", "+ list.get(i).getMonth());
-			}
-			System.out.println("-------------------------------------");
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
-		
-		List<TaskDTO> list;
-		try {
-			list = dao.selectAllTask();
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i).getTaskNo() +", " + list.get(i).getEnddate());				
+			list1 = dao.selectTaskSubmitScore(7, 10);
+			System.out.println(list1.size());
+			for (int i = 0; i < list1.size(); i++) {
+				System.out.println("나와야지" + list1.get(i).getTaskSubmitNum() + list1.get(i).getId());				
 			}
 		} catch (FindException e) {
 			e.printStackTrace();
