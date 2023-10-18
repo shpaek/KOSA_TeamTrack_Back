@@ -391,6 +391,11 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
+	public Integer selectAllTeammember(int teamNo, String id) throws FindException {
+		return teamDAO.selectAllTeammember(teamNo, id);
+	}
+	
+	@Override
 	public void insertSignUpTeam(SignupTeamDTO signupTeamDTO) throws AddException {
 		teamDAO.insertSignUpTeam(signupTeamDTO);
 	}

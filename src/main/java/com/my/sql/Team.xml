@@ -299,6 +299,13 @@
 		WHERE TEAM_NO = ${teamNo}
 	</select>
 
+	<!-- 팀 관리_팀 가입 버튼 누를 때 방출 회원인지 아닌지 판단 -->
+	<select id="selectAllTeammember" resultType="Integer" parameterType="java.util.Map">
+		SELECT STATUS
+		FROM TEAMMEMBER_${teamNo}
+		WHERE ID = #{id}
+	</select>
+
 	<!-- 팀 메인_팀 가입하기 -->
 	<insert id="insertIntoSignupTeam" parameterType="SignupTeamDTO">
 		INSERT INTO
@@ -371,7 +378,8 @@
 		parameterType="java.util.Map">
 		SELECT ATTENDANCE_DATE, ID
 		FROM ATTENDANCE_${teamNo}
-		WHERE ID = #{id}
+		WHERE ID = #{id} AND ROWNUM <![CDATA[ <= 20 ]]>
+		ORDER BY ATTENDANCE_DATE DESC
 	</select>
 
 	<!-- 팀 관리_현재 팀원 조회 -->
