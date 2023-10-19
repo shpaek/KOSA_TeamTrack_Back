@@ -12,14 +12,14 @@
 <br><br>
 <br><br>
 
-## 👩🏻‍💻KH_Final Project Moya Moga에 참여한 사람들👨🏻‍💻
+## 👩🏻‍💻KOSA_TeamTrack_Back Project TeamTrack!!에 참여한 사람들👨🏻‍💻
 
 - <a href="https://github.com/jeonsein" target="_blank">셍나🐹 님</a> 
-- <a href="https://github.com/choibyul2" target="_blank">⭐별e 님</a> 
-- <a href="https://github.com/yoounggg" target="_blank">채영👸🏻 님</a> 
-- <a href="https://github.com/CHANOH5" target="_blank">찬돌🪨 님</a>
-- <a href="https://github.com/hyeokgyukwon" target="_blank">혁🕊️ 님</a>
-- <a href="https://github.com/jj03202" target="_blank">장진호 님</a>
+- <a href="https://github.com/shpaek" target="_blank">서현👻 님</a> 
+- <a href="https://github.com/qbobl5" target="_blank">종수🏀 님</a> 
+- <a href="https://github.com/CHANOH5" target="_blank">찬돌🌲 님</a>
+- <a href="https://github.com/nawonhee" target="_blank">마죠리카🐸 님</a>
+- <a href="https://github.com/ykchoi7" target="_blank">나의신부👰 님</a>
 
 <br>
 
@@ -38,10 +38,18 @@
 <br>
 
 |기간|설명|
-|:---|:---|
-|2023.01.04 ~ 2023.02.28|기획, 설계, 퍼블리싱|
-|2023.04.03 ~ 2023.05.08|백엔드 구현|
-
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|2023.09.12 ~ 2023.09.29|프로젝트 주제 선정, 아이디어 선정|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
+|2023.09.25 ~ 2023.10.13|백엔드 구현|
 
 <br><br><br>
 
