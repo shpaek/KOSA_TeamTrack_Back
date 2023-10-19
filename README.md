@@ -1,22 +1,15 @@
-# KOSA_TeamTrack_Back
-&amp;
-
 # KOSA_TeamTrack_Back Project_Team.팀명뭐하지
 ##### [클릭 시,  KOSA_TeamTrack_Back Project용 Notion으로 연결됩니다.](https://www.notion.so/2-0cee2381aced4e63a1ac220155f80e8f?pvs=4)
 
-
 <br><br>
 
-## 🍅 Moya Moga_모야모과 : Spring 기반의 농산물 판매 사이트
-
+## 🍅 TeamTrack!!_팀트랙!! : Front Controller 패턴의 Java Servlet을 사용한 프로젝트
 <br>
 
 <div align="left">
    <img src="https://user-images.githubusercontent.com/73880564/228806177-d8c51013-57e4-4fa9-9e4b-87e722eb1374.png" width="60%"></img>
 </div>
 <br><br>
-
-
 <br><br>
 
 ## 👩🏻‍💻KH_Final Project Moya Moga에 참여한 사람들👨🏻‍💻
